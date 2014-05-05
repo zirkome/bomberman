@@ -5,7 +5,7 @@
 ## Login   <moriss_h@epitech.net>
 ##
 ## Started on  Sun Jun  9 03:35:24 2013 Hugues
-## Last update Mon May  5 11:10:01 2014 Maxime
+## Last update Mon May  5 11:11:15 2014 Maxime
 ##
 
 SRC		=	main.cpp \
@@ -45,7 +45,6 @@ $(NAME):	$(OBJ)
 		@echo -e "Linking $@ { $(LDFLAGS) }" | sed 's/^-e //' \
 		| sed 's/[-a-zA-Z]\+/\x1B[34m&\x1B[0m/g'
 		@$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
-		cp -f $(NAME) ../$(NAME)
 
 all:	$(NAME)
 
