@@ -5,7 +5,7 @@
 ## Login   <moriss_h@epitech.net>
 ##
 ## Started on  Sun Jun  9 03:35:24 2013 Hugues
-## Last update Mon May  5 11:07:05 2014 Maxime
+## Last update Mon May  5 11:10:01 2014 Maxime
 ##
 
 SRC		=	main.cpp \
@@ -14,7 +14,7 @@ CC		=	g++
 
 RM		=	rm -f
 
-NAME		=	nibbler
+NAME		=	bomberman
 
 OBJDIR		=	obj/
 SRCDIR		=	src/
