@@ -1,10 +1,7 @@
-##
-## Makefile for plazza
-##
-
 SRC		=	main.cpp \
 
 CC		=	g++
+
 FILETYPE	=	.cpp
 
 RM		=	rm -f
