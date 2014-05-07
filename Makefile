@@ -7,6 +7,7 @@ SRC		=	main.cpp \
 			Map.cpp \
 			Menu.cpp \
 			PThread.cpp \
+			PMutex.cpp \
 			Player.cpp
 
 CC		=	g++
