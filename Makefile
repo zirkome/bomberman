@@ -1,5 +1,6 @@
 SRC		=	main.cpp \
-
+			Game.cpp \
+			Fault.cpp
 CC		=	g++
 
 FILETYPE	=	.cpp
