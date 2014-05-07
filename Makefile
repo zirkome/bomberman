@@ -6,6 +6,7 @@ SRC		=	main.cpp \
 			Intro.cpp \
 			Map.cpp \
 			Menu.cpp \
+			PThread.cpp \
 			Player.cpp
 
 CC		=	g++
