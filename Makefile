@@ -1,6 +1,13 @@
 SRC		=	main.cpp \
 			Game.cpp \
-			Fault.cpp
+			Fault.cpp \
+			Graphics.cpp \
+			Ia.cpp \
+			Intro.cpp \
+			Map.cpp \
+			Menu.cpp \
+			Player.cpp
+
 CC		=	g++
 
 FILETYPE	=	.cpp
