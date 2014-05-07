@@ -20,12 +20,13 @@ OBJDIR		=	obj/
 SRCDIR		=	src/
 INCDIR		=	include/
 
-CFLAGS		+=	-I$(INCDIR)
+CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe -Winit-self
+CFLAGS		+=	-Wunused-function -pipe -Winit-self -fPIC
 
 LDFLAGS		+=	-Wl,-O1
-LDFLAGS		+=	-pthread
+LDFLAGS		+=	-lpthread
+LDFLAGS		+=	-LLibBomberman_linux_x64/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
 
 OBJ		=	$(patsubst %${FILETYPE},${OBJDIR}%.o, $(SRC))
 
