@@ -8,6 +8,7 @@ SRC		=	main.cpp \
 			Menu.cpp \
 			PThread.cpp \
 			PMutex.cpp \
+			PCondVar.cpp \
 			Player.cpp
 
 CC		=	g++
