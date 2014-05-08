@@ -6,6 +6,9 @@
 # include "Singleton.hpp"
 # include "ISerializable.hpp"
 
+/**
+ * SaveManager iterators typedef
+ */
 typedef std::list<ISerializable*>::const_iterator SMListConstIterator;
 typedef std::list<ISerializable*>::iterator SMListIterator;
 
@@ -19,14 +22,16 @@ class SaveManager : public Singleton<SaveManager>
   friend void Singleton<SaveManager>::kill();
 
 public:
-  static void save(const std::list<ISerializable*>& data);
-  static void load(std::list<ISerializable*>& data);
+  static void save(const std::list<ISerializable*>& data,
+		   const std::string& filename);
+  static void load(std::list<ISerializable*>& data,
+		   const std::string& filename);
 
 private:
   SaveManager();
   virtual ~SaveManager() {}
 
-  SaveManager (const SaveManager&) {}
+  SaveManager(const SaveManager&) {}
 };
 
 #endif /* _SAVEMANAGER_H_ */
