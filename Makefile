@@ -9,6 +9,7 @@ SRC		=	main.cpp \
 			PThread.cpp \
 			PMutex.cpp \
 			PCondVar.cpp \
+			ScopeLock.cpp \
 			Player.cpp
 
 CC		=	g++
