@@ -1,6 +1,5 @@
 #include "Game.hpp"
 
-
 Game::Game(std::string const &saveGame)
 {
   if (saveGame == "")
@@ -8,18 +7,18 @@ Game::Game(std::string const &saveGame)
   /* TODO : load the saved game in saveGame file and load 3d models */
 }
 
-Game::Game(int NumberPlayer, int NumberIA, std::vector<std::string> const &algoFileName, std::string const &mapName = "")
+Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoFileName, std::string const &mapName = "")
 {
   int i, size;
 
-  if (NumberIA < 0 || NumberPlayer < 0 || (NumberPlayer + NumberIA <= 1))
+  if (numberIA < 0 || numberPlayer < 0 || (numberPlayer + numberIA <= 1))
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
 
   i = 0;
   size = algoFileName.size();
-  while (i < NumberIA)
+  while (i < numberIA)
     {
       if (size != 0)
 	_listIA.push_back(new Ia(algoFileName[i % size], _currentMap));
@@ -29,7 +28,7 @@ Game::Game(int NumberPlayer, int NumberIA, std::vector<std::string> const &algoF
     }
 
   i = 0;
-  while (i < NumberPlayer)
+  while (i < numberPlayer)
     _players.push_back(new Player(_currentMap));
   /* TODO : init game and load 3d models */
 }

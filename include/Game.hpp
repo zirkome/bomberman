@@ -17,7 +17,7 @@ private:
   Map *_currentMap;
 public:
   Game(std::string const &saveGame);
-  Game(int NumberPlayer, int NumberIA, std::vector<std::string> const &algoFileName, std::string const &mapName);
+  Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoFileName, std::string const &mapName);
   ~Game();
   bool updateGame(Graphics &interface);
   void drawGame(Graphics &interface);
