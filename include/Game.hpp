@@ -15,10 +15,16 @@ private:
   std::vector<Ia *> _listIA;
   std::vector<Player *> _players;
   Map *_currentMap;
+
 public:
   Game(std::string const &saveGame);
-  Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoFileName, std::string const &mapName);
+  Game(int numberPlayer,
+       int numberIA,
+       std::vector<std::string> const &algoFileName,
+       std::string const &mapName);
   ~Game();
+
+public:
   bool updateGame(Graphics &interface);
   void drawGame(Graphics &interface);
 };
