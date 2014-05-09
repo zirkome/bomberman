@@ -9,7 +9,7 @@ void SaveManager::save(const std::list<ISerializable*>& data,
 
   for (SMListConstIterator it = data.begin(), end = data.end(); it != end; ++it)
     {
-      (*it)->writeObject(file);
+      file << (*it);
     }
 
   file.close();
@@ -22,7 +22,7 @@ void SaveManager::load(std::list<ISerializable*>& data,
 
   for (SMListConstIterator it = data.begin(), end = data.end(); it != end; ++it)
     {
-      (*it)->readObject(file);
+      file >> (*it);
     }
 
   file.close();
