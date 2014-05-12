@@ -10,7 +10,7 @@
 class ACamera
 {
 public:
-  ACamera(const glm::vec3& pos = glm::vec3(0.0, 0.0, -100.0), const glm::vec3& forward = glm::vec3(0.0, 0.0, 0.0));
+  ACamera(const glm::vec3& pos = glm::vec3(0.0, 0.0, -10.0), const glm::vec3& forward = glm::vec3(0.0, 0.0, 0.0));
   virtual ~ACamera();
 
   virtual void update(gdl::Input& input, const gdl::Clock& clock) = 0;

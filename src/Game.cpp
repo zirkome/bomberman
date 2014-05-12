@@ -41,11 +41,38 @@ Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const & algo
   init();
 }
 
+AObject* _cube2;
+AObject* _cube3;
+AObject* _cube4;
+AObject* _cube5;
+AObject* _cube6;
+
 void Game::init()
 {
   /* TODO : init game and load 3d models */
   _cube = new Cube;
   _cube->initialize();
+
+  _cube2 = new Cube;
+  _cube2->initialize();
+
+  _cube3 = new Cube;
+  _cube3->initialize();
+
+  _cube4 = new Cube;
+  _cube4->initialize();
+
+  _cube5 = new Cube;
+  _cube5->initialize();
+
+  _cube6 = new Cube;
+  _cube6->initialize();
+
+  _cube2->translate(glm::vec3(0, 0, -15));
+  _cube3->translate(glm::vec3(-5, 0, -10));
+  _cube4->translate(glm::vec3(5, 0, -10));
+  _cube5->translate(glm::vec3(0, 5, -10));
+  _cube6->translate(glm::vec3(0, -5, -10));
   _cam = new FreeCam();
 }
 
@@ -55,8 +82,10 @@ Game::~Game()
   delete _cam;
 }
 
-bool Game::updateGame(gdl::Input & input, const gdl::Clock & clock)
+bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
+  _cam->update(input, clock);
+
   /* TODO : move players, explose bomb, ... */
   _cube->update(clock, input);
   return true;
@@ -69,4 +98,9 @@ void Game::drawGame(Graphics & ogl)
   ogl.startFrame();
   shader->setUniform("view", _cam->project());
   _cube->draw(ogl.getShader());
+  _cube2->draw(ogl.getShader());
+  _cube3->draw(ogl.getShader());
+  _cube4->draw(ogl.getShader());
+  _cube5->draw(ogl.getShader());
+  _cube6->draw(ogl.getShader());
 }

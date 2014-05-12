@@ -4,9 +4,9 @@
 
 FreeCam::FreeCam()
 {
-  _speed = 0.025;
+  _speed = 2.5;
   _phi = 0;
-  _theta = 0;
+  _theta = 88;
   _sensivity = 0.4;
   _target = _forward;
   vectorsFromAngles();
@@ -25,7 +25,6 @@ void FreeCam::update(gdl::Input& input, const gdl::Clock& clock)
   glm::ivec2 motion = input.getMouseDelta();
   _theta += (_sensivity * static_cast<float>(motion.x));
   _phi -= (_sensivity * static_cast<float>(motion.y));
-
   vectorsFromAngles();
 
   moveCam(input, delta);
@@ -33,7 +32,6 @@ void FreeCam::update(gdl::Input& input, const gdl::Clock& clock)
 
 void FreeCam::moveCam(gdl::Input & input, float delta)
 {
-
   if (input.getKey(SDLK_UP))
     translate(_target * (_speed * delta));
   if (input.getKey(SDLK_DOWN))
