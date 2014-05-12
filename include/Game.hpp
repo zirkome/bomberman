@@ -13,13 +13,15 @@
 #include "Player.hpp"
 #include "Fault.hpp"
 
+#include "Cube.hpp"
+
 class Game
 {
 private:
   std::vector<Ia *> _listIA;
   std::vector<Player *> _players;
   Map *_currentMap;
-
+  Cube	*_cube;
 public:
   Game(const std::string &saveGame);
   Game(int numberPlayer,

@@ -14,6 +14,8 @@ SRC		=	main.cpp \
 			Wall.cpp \
 			Box.cpp \
 			Bomb.cpp \
+			AObject.cpp \
+			Cube.cpp
 
 CC		=	g++
 

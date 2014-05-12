@@ -20,7 +20,7 @@ public:
   ~Graphics();
 
   bool init();
-
+  gdl::AShader *getShader() const;
 private:
   gdl::AShader *_shader;
 };

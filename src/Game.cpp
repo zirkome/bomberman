@@ -1,4 +1,6 @@
 #include "Game.hpp"
+#include "AShader.hh"
+#include <Geometry.hh>
 
 Game::Game(std::string const &saveGame)
 {
@@ -34,22 +36,35 @@ Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoF
       i++;
     }
   /* TODO : init game and load 3d models */
+  _cube = new Cube;
+  _cube->initialize();
 }
 
 Game::~Game()
 {
+  delete _cube;
 }
 
 bool Game::updateGame(gdl::Input &input, gdl::Clock &clock)
 {
-  (void) input;
-  (void) clock;
+  // (void) input;
+  // (void) clock;
   /* TODO : move players, explose bomb, ... */
+  _cube->update(clock, input);
   return true;
 }
 
 void Game::drawGame(Graphics &ogl)
 {
-  (void) ogl;
-  /* TODO : draw the curent game */
+  // (void) ogl;
+  gdl::AShader *shader = ogl.getShader();
+
+  shader->bind();
+
+  _cube->translate(glm::vec3(1,0,1));
+  shader->setUniform("view", glm::lookAt(glm::vec3(0, 0, -2.0f),
+					 glm::vec3(0, 0, 0),
+					 glm::vec3(0, 1, 0)));
+  shader->setUniform("projection", glm::perspective(60.0f, 1024.0f / 900.0f, 0.01f, 500.0f));
+  _cube->draw(ogl.getShader());
 }
