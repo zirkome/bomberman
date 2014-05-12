@@ -25,19 +25,17 @@ public:
        const std::string &mapName);
   ~Game();
 
-public:
-  bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(Graphics &ogl);
-
 private:
   void init();
 
-private:
+public:
   std::vector<Ia *> _listIA;
   std::vector<Player *> _players;
   Map *_currentMap;
   Cube	*_cube;
   ACamera* _cam;
+  bool updateGame(gdl::Input &input, const gdl::Clock &clock);
+  void drawGame(Graphics &ogl, gdl::Clock const &clock);
 };
 
 #endif

@@ -91,8 +91,9 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(Graphics & ogl)
+void Game::drawGame(Graphics &ogl, gdl::Clock const &clock)
 {
+  (void)clock;
   gdl::AShader *shader = ogl.getShader();
 
   ogl.startFrame();
