@@ -7,16 +7,19 @@
 
 class Intro : public gdl::Game
 {
-private:
-  bool _show;
-  Menu *_menu;
-  Graphics _interface;
 public:
   Intro();
   ~Intro();
-  bool initialize();
-  bool update();
-  void draw();
+  virtual bool initialize();
+  virtual bool update();
+  virtual void draw();
+
+private:
+  bool _show;
+  Menu *_menu;
+  Graphics _ogl;
+  gdl::Clock _clock;
+  gdl::Input _input;
 };
 
 #endif

@@ -10,17 +10,19 @@
 #include <BasicShader.hh>
 #include <Model.hh>
 
-/* Stock all the information needed to display */
+/*
+** Stock all the information needed to display
+*/
+
 class Graphics
 {
-public:/* TODO : Do something better */
-  gdl::SdlContext context;
-  gdl::Clock clock;
-  gdl::Input input;
-  gdl::BasicShader shader;
 public:
   Graphics();
   ~Graphics();
+
+public:
+  gdl::SdlContext context;
+  gdl::BasicShader shader;
 };
 
 #endif
