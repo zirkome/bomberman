@@ -9,7 +9,8 @@ Game::Game(std::string const &saveGame)
   /* TODO : load the saved game in saveGame file and load 3d models */
 }
 
-Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoFileName, std::string const &mapName = "")
+Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoFileName,
+	   std::string const &mapName = "")
 {
   int i, size;
 
