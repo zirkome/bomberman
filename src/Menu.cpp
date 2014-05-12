@@ -9,9 +9,10 @@ Menu::~Menu()
 {
 }
 
-bool Menu::updateMenu(gdl::Input &input)
+bool Menu::updateMenu(gdl::Input &input, gdl::Clock &clock)
 {
   (void) input;
+  (void) clock;
   /* TODO : move in menu, ... */
   return true;
 }

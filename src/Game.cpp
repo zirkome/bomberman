@@ -29,7 +29,10 @@ Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoF
 
   i = 0;
   while (i < numberPlayer)
-    _players.push_back(new Player(_currentMap));
+    {
+      _players.push_back(new Player(_currentMap));
+      i++;
+    }
   /* TODO : init game and load 3d models */
 }
 
@@ -37,9 +40,10 @@ Game::~Game()
 {
 }
 
-bool Game::updateGame(gdl::Input &input)
+bool Game::updateGame(gdl::Input &input, gdl::Clock &clock)
 {
   (void) input;
+  (void) clock;
   /* TODO : move players, explose bomb, ... */
   return true;
 }

@@ -5,6 +5,7 @@
 #include <string>
 
 #include <Input.hh>
+#include <Clock.hh>
 
 #include "Graphics.hpp"
 #include "Map.hpp"
@@ -28,7 +29,7 @@ public:
   ~Game();
 
 public:
-  bool updateGame(gdl::Input &input);
+  bool updateGame(gdl::Input &input, gdl::Clock &clock);
   void drawGame(Graphics &ogl);
 };
 

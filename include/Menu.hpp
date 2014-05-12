@@ -12,7 +12,7 @@ private:
 public:
   Menu();
   ~Menu();
-  bool updateMenu(gdl::Input &input);
+  bool updateMenu(gdl::Input &input, gdl::Clock &clock);
   void drawMenu(Graphics &ogl);
 };
 

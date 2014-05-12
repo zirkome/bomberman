@@ -39,9 +39,9 @@ bool Intro::update()
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
   if (_show)
-    return _menu->updateMenu(_input);
+    return _menu->updateMenu(_input, _clock);
   else
-    _game->updateGame(_input);
+    _game->updateGame(_input, _clock);
   return true;
 }
 
