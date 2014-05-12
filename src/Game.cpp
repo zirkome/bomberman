@@ -48,8 +48,9 @@ bool Game::updateGame(gdl::Input &input, gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(Graphics &ogl)
+void Game::drawGame(Graphics &ogl, gdl::Clock const &clock)
 {
   (void) ogl;
+  (void) clock;
   /* TODO : draw the curent game */
 }

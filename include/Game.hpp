@@ -30,7 +30,7 @@ public:
 
 public:
   bool updateGame(gdl::Input &input, gdl::Clock &clock);
-  void drawGame(Graphics &ogl);
+  void drawGame(Graphics &ogl, gdl::Clock const &clock);
 };
 
 #endif
