@@ -10,7 +10,10 @@ SRC		=	main.cpp \
 			PMutex.cpp \
 			PCondVar.cpp \
 			ScopeLock.cpp \
-			Player.cpp
+			Player.cpp \
+			Wall.cpp \
+			Box.cpp \
+			Bomb.cpp \
 
 CC		=	g++
 
