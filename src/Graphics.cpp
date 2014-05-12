@@ -10,8 +10,6 @@ Graphics::~Graphics()
 
 bool Graphics::init()
 {
-  if (_context.start(800, 600, "Bomberman!") == false)
-    return false;
   // pour creer un shader :
   // (un shader est un programe exectue par la carte graphique pour dessiner les pixels a l'ecan
   if (!_shader.load("./shaders/basic.fp", GL_FRAGMENT_SHADER) // le fragment shader se charge de dessiner les pixels

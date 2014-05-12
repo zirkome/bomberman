@@ -4,7 +4,6 @@
 #include <iostream>
 #include <exception>
 
-#include <SdlContext.hh>
 #include <Geometry.hh>
 #include <Texture.hh>
 #include <BasicShader.hh>
@@ -23,7 +22,6 @@ public:
   bool init();
 
 private:
-  gdl::SdlContext _context;
   gdl::BasicShader _shader;
 };
 

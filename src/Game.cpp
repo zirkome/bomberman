@@ -3,7 +3,7 @@
 Game::Game(std::string const &saveGame)
 {
   if (saveGame == "")
-    throw nFault("The name of the saved game is too short");
+    throw nFault("The file name of the game is too short");
   /* TODO : load the saved game in saveGame file and load 3d models */
 }
 
@@ -21,9 +21,9 @@ Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoF
   while (i < numberIA)
     {
       if (size != 0)
-	_listIA.push_back(new Ia(algoFileName[i % size], _currentMap));
+        _listIA.push_back(new Ia(algoFileName[i % size], _currentMap));
       else
-	_listIA.push_back(new Ia(_currentMap));
+        _listIA.push_back(new Ia(_currentMap));
       i++;
     }
 
@@ -37,15 +37,15 @@ Game::~Game()
 {
 }
 
-bool Game::updateGame(Graphics &interface)
+bool Game::updateGame(gdl::Input &input)
 {
-  (void) interface;
+  (void) input;
   /* TODO : move players, explose bomb, ... */
   return true;
 }
 
-void Game::drawGame(Graphics &interface)
+void Game::drawGame(Graphics &ogl)
 {
-  (void) interface;
+  (void) ogl;
   /* TODO : draw the curent game */
 }

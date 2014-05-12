@@ -8,12 +8,12 @@ int main()
 {
   try
     {
-      Intro  intro;
+      Intro intro;
 
       if (intro.initialize() == false)
         throw std::runtime_error("Game initialization failed.");
-        while (intro.update() == true)
-          intro.draw();
+      while (intro.update() == true)
+        intro.draw();
     }
   catch (std::exception& e)
     {

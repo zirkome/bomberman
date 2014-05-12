@@ -9,17 +9,15 @@ Menu::~Menu()
 {
 }
 
-bool Menu::updateMenu(Graphics &interface)
+bool Menu::updateMenu(gdl::Input &input)
 {
-  if (!_show)
-    return _game->updateGame(interface);
+  (void) input;
   /* TODO : move in menu, ... */
   return true;
 }
 
-void Menu::drawMenu(Graphics &interface)
+void Menu::drawMenu(Graphics &ogl)
 {
-  if (!_show)
-    return _game->drawGame(interface);
+  (void) ogl;
   /* TODO : draw the curent menu */
 }
