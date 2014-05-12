@@ -10,12 +10,13 @@
 #include <IRenderContext.hh>
 
 #include "Menu.hpp"
+#include "Game.hpp"
 
-class Intro : public gdl::Game
+class GameEngine : public gdl::Game
 {
 public:
-  Intro();
-  ~Intro();
+  GameEngine();
+  ~GameEngine();
   virtual bool initialize();
   virtual bool update();
   virtual void draw();

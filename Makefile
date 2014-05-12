@@ -3,7 +3,7 @@ SRC		=	main.cpp \
 			Fault.cpp \
 			Graphics.cpp \
 			Ia.cpp \
-			Intro.cpp \
+			GameEngine.cpp \
 			Map.cpp \
 			Menu.cpp \
 			PThread.cpp \

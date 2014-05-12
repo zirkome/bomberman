@@ -1,14 +1,14 @@
-#include "Intro.hpp"
+#include "GameEngine.hpp"
 
-Intro::Intro()
+GameEngine::GameEngine()
 {
   _context = new gdl::SdlContext;
-  _show = true;
+  _show = false;
   _init = false;
   _game = NULL;
 }
 
-Intro::~Intro()
+GameEngine::~GameEngine()
 {
   if (_init)
     {
@@ -19,7 +19,7 @@ Intro::~Intro()
     }
 }
 
-bool Intro::initialize()
+bool GameEngine::initialize()
 {
   if (!_context->start(1024, 900, "Bomberman"))
     return false;
@@ -32,7 +32,7 @@ bool Intro::initialize()
   return true;
 }
 
-bool Intro::update()
+bool GameEngine::update()
 {
   _context->updateClock(_clock);
   _context->updateInputs(_input);
@@ -45,7 +45,7 @@ bool Intro::update()
   return true;
 }
 
-void Intro::draw()
+void GameEngine::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   if (_show)

@@ -2,13 +2,13 @@
 #include <exception>
 #include <stdexcept>
 
-#include "Intro.hpp"
+#include "GameEngine.hpp"
 
 int main()
 {
   try
     {
-      Intro intro;
+      GameEngine intro;
 
       if (intro.initialize() == false)
         throw std::runtime_error("Game initialization failed.");
