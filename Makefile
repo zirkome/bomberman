@@ -15,7 +15,9 @@ SRC		=	main.cpp \
 			Box.cpp \
 			Bomb.cpp \
 			AObject.cpp \
-			Cube.cpp
+			Cube.cpp \
+			ACamera.cpp \
+			FreeCam.cpp
 
 CC		=	g++
 

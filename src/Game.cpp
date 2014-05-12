@@ -1,15 +1,18 @@
 #include "Game.hpp"
 #include "AShader.hh"
+#include "FreeCam.hpp"
 #include <Geometry.hh>
 
 Game::Game(std::string const &saveGame)
 {
   if (saveGame == "")
     throw nFault("The file name of the game is too short");
-  /* TODO : load the saved game in saveGame file and load 3d models */
+  /* TODO : load the saved game in saveGame*/
+
+  init();
 }
 
-Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoFileName, std::string const &mapName = "")
+Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const & algoFileName, std::string const &mapName = "")
 {
   int i, size;
 
@@ -35,35 +38,35 @@ Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const &algoF
       _players.push_back(new Player(_currentMap));
       i++;
     }
+  init();
+}
+
+void Game::init()
+{
   /* TODO : init game and load 3d models */
   _cube = new Cube;
   _cube->initialize();
+  _cam = new FreeCam();
 }
 
 Game::~Game()
 {
   delete _cube;
+  delete _cam;
 }
 
-bool Game::updateGame(gdl::Input &input, gdl::Clock &clock)
+bool Game::updateGame(gdl::Input & input, const gdl::Clock & clock)
 {
-  // (void) input;
-  // (void) clock;
   /* TODO : move players, explose bomb, ... */
   _cube->update(clock, input);
   return true;
 }
 
-void Game::drawGame(Graphics &ogl)
+void Game::drawGame(Graphics & ogl)
 {
-  // (void) ogl;
   gdl::AShader *shader = ogl.getShader();
 
-  shader->bind();
-
-  shader->setUniform("view", glm::lookAt(glm::vec3(0, 0, -2.0f),
-					 glm::vec3(0, 0, 0),
-					 glm::vec3(0, 1, 0)));
-  shader->setUniform("projection", glm::perspective(60.0f, 1024.0f / 900.0f, 0.01f, 500.0f));
+  ogl.startFrame();
+  shader->setUniform("view", _cam->project());
   _cube->draw(ogl.getShader());
 }

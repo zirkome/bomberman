@@ -17,11 +17,6 @@
 
 class Game
 {
-private:
-  std::vector<Ia *> _listIA;
-  std::vector<Player *> _players;
-  Map *_currentMap;
-  Cube	*_cube;
 public:
   Game(const std::string &saveGame);
   Game(int numberPlayer,
@@ -31,8 +26,18 @@ public:
   ~Game();
 
 public:
-  bool updateGame(gdl::Input &input, gdl::Clock &clock);
+  bool updateGame(gdl::Input &input, const gdl::Clock &clock);
   void drawGame(Graphics &ogl);
+
+private:
+  void init();
+
+private:
+  std::vector<Ia *> _listIA;
+  std::vector<Player *> _players;
+  Map *_currentMap;
+  Cube	*_cube;
+  ACamera* _cam;
 };
 
 #endif
