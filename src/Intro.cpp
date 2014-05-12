@@ -12,7 +12,7 @@ Intro::~Intro()
 
 bool Intro::initialize()
 {
-  if (!_interface.context.start(800, 600, "BOMberman!"))
+  if (!_interface.context.start(800, 600, "Bomberman!"))
     return false;
   glEnable(GL_DEPTH_TEST);
   return true;
