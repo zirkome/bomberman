@@ -22,10 +22,10 @@ class SaveManager : public Singleton<SaveManager>
   friend void Singleton<SaveManager>::kill();
 
 public:
-  static void save(const std::list<ISerializable*>& data,
-		   const std::string& filename);
-  static void load(std::list<ISerializable*>& data,
-		   const std::string& filename);
+  void save(const std::list<ISerializable*>& data,
+	    const std::string& filename);
+  void load(std::list<ISerializable*>& data,
+	    const std::string& filename);
 
 private:
   SaveManager();
