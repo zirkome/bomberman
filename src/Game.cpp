@@ -61,7 +61,6 @@ void Game::drawGame(Graphics &ogl)
 
   shader->bind();
 
-  _cube->translate(glm::vec3(1,0,1));
   shader->setUniform("view", glm::lookAt(glm::vec3(0, 0, -2.0f),
 					 glm::vec3(0, 0, 0),
 					 glm::vec3(0, 1, 0)));

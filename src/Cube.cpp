@@ -9,9 +9,10 @@ Cube::~Cube()
 {
 
 }
-
+#include <iostream>
 bool Cube::initialize()
 {
+
   _speed = 10.0f;
   // On charge la texture qui sera affichee sur chaque face du cube
   // if (_texture.load("./assets/texture.tga") == false)
@@ -33,7 +34,7 @@ bool Cube::initialize()
   _geometry.pushUv(glm::vec2(1.0f, 1.0f));
   _geometry.pushUv(glm::vec2(0.0f, 1.0f));
   // ETC ETC
-  _geometry.setColor(glm::vec4(1, 1, 0, 1));_geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
+  _geometry.setColor(glm::vec4(1, 1, 0, 1)); _geometry.pushVertex(glm::vec3(0.5, -0.5, -0.5));
   _geometry.pushVertex(glm::vec3(0.5, 0.5, -0.5));
   _geometry.pushVertex(glm::vec3(-0.5, 0.5, -0.5));
   _geometry.pushVertex(glm::vec3(-0.5, -0.5, -0.5));
@@ -103,6 +104,5 @@ void Cube::draw(gdl::AShader *shader)
   // On bind la texture pour dire que l'on veux l'utiliser
   // _texture.bind();
   // Et on dessine notre cube
-
   _geometry.draw(*shader, getTransformation(), GL_QUADS);
 }
