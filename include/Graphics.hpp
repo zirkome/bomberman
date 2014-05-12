@@ -22,7 +22,7 @@ public:
   bool init();
 
 private:
-  gdl::BasicShader _shader;
+  gdl::AShader *_shader;
 };
 
 #endif
