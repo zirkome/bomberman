@@ -1,7 +1,11 @@
 #ifndef INTRO_HPP_
 #define INTRO_HPP_
 
+#include <iostream>
+
 #include <Game.hh>
+#include <Clock.hh>
+#include <Input.hh>
 
 #include "Menu.hpp"
 

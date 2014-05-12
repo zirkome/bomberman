@@ -1,9 +1,9 @@
 #ifndef GRAPHICS_HPP
 #define GRAPHICS_HPP
 
-#include <Game.hh>
-#include <Clock.hh>
-#include <Input.hh>
+#include <iostream>
+#include <exception>
+
 #include <SdlContext.hh>
 #include <Geometry.hh>
 #include <Texture.hh>
@@ -20,9 +20,11 @@ public:
   Graphics();
   ~Graphics();
 
-public:
-  gdl::SdlContext context;
-  gdl::BasicShader shader;
+  bool init();
+
+private:
+  gdl::SdlContext _context;
+  gdl::BasicShader _shader;
 };
 
 #endif
