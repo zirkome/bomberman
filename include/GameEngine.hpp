@@ -16,7 +16,7 @@ class GameEngine : public gdl::Game
 {
 public:
   GameEngine();
-  ~GameEngine();
+  virtual ~GameEngine();
   virtual bool initialize();
   virtual bool update();
   virtual void draw();
