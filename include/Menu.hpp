@@ -12,8 +12,8 @@ private:
 public:
   Menu();
   ~Menu();
-  bool updateMenu(Graphics &interface);
-  void drawMenu(Graphics &interface);
+  bool updateMenu(gdl::Input &input, gdl::Clock &clock);
+  void drawMenu(Graphics &ogl);
 };
 
 #endif

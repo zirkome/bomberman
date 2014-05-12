@@ -3,10 +3,14 @@
 
 #include <vector>
 #include <string>
+
+#include <Input.hh>
+#include <Clock.hh>
+
+#include "Graphics.hpp"
 #include "Map.hpp"
 #include "Ia.hpp"
 #include "Player.hpp"
-#include "Graphics.hpp"
 #include "Fault.hpp"
 
 class Game
@@ -17,16 +21,16 @@ private:
   Map *_currentMap;
 
 public:
-  Game(std::string const &saveGame);
+  Game(const std::string &saveGame);
   Game(int numberPlayer,
        int numberIA,
-       std::vector<std::string> const &algoFileName,
-       std::string const &mapName);
+       const std::vector<std::string> &algoFileName,
+       const std::string &mapName);
   ~Game();
 
 public:
-  bool updateGame(Graphics &interface);
-  void drawGame(Graphics &interface);
+  bool updateGame(gdl::Input &input, gdl::Clock &clock);
+  void drawGame(Graphics &ogl);
 };
 
 #endif

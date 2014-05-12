@@ -26,7 +26,7 @@ INCDIR		=	include/
 
 CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe -Winit-self -fPIC
+CFLAGS		+=	-Wunused-function -pipe
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread
