@@ -21,7 +21,7 @@ GameEngine::~GameEngine()
 
 bool GameEngine::initialize()
 {
-  if (!_context->start(1024, 900, "Bomberman"))
+  if (!_context->start(1024, 900, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
     return false;
   _init = true;
   if (!_ogl.init())
