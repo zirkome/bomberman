@@ -37,7 +37,7 @@ CFLAGS		+=	-Wunused-function -pipe
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread
-LDFLAGS		+=	-Wl,-rpath=LibBomberman_linux_x64/libs/
+LDFLAGS		+=	-Wl,-rpath="`pwd`/LibBomberman_linux_x64/libs/"
 LDFLAGS		+=	-LLibBomberman_linux_x64/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
 
 
