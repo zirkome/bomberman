@@ -35,7 +35,7 @@ private:
 
 private:
   std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?
-  std::vector<Player *> _players;
+  std::vector<Player *> _players; //Those are IEntity
   Map *_currentMap;
   Cube *_cube;
   ACamera* _cam;

@@ -38,6 +38,7 @@ public:
   gdl::AShader *getShader() {return _shader;};
 
 private:
+  glm::mat4 _ortho;
   gdl::AShader *_shader;
 };
 

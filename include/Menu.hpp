@@ -8,7 +8,7 @@
 class Menu
 {
 public:
-  Menu();
+  Menu(const glm::ivec2& win);
   ~Menu();
   bool updateMenu(gdl::Input &input, gdl::Clock &clock);
   void drawMenu(const gdl::Clock &clock);
@@ -16,6 +16,7 @@ public:
 private:
   bool _show;
   Game *_game;
+  MenuGraphics _ogl;
 };
 
 #endif

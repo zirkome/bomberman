@@ -1,8 +1,10 @@
 #include "Menu.hpp"
 
-Menu::Menu()
+Menu::Menu(const glm::ivec2& win)
 {
   _show = true;
+
+  _ogl.init(win);
 }
 
 Menu::~Menu()
