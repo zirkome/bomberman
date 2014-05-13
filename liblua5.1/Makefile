@@ -1,13 +1,3 @@
-##
-## Makefile for Makefile in /home/remi/Projet/PSU_2013_malloc
-## 
-## Made by remi
-## Login   <remi@epitech.net>
-## 
-## Started on  Mon Feb  3 14:05:27 2014 remi
-## Last update Tue May 13 14:22:37 2014 Maxime
-##
-
 SRC		=	test.c		\
 
 OBJ		=	$(SRC:.c=.o)
