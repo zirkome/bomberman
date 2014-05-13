@@ -21,10 +21,13 @@ GameEngine::~GameEngine()
 
 bool GameEngine::initialize()
 {
-  if (!_context->start(1024, 900, "Bomberman"))
+  const int width = 1024;
+  const int heigth = 900;
+
+  if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
     return false;
   _init = true;
-  if (!_ogl.init())
+  if (!_ogl.init(glm::vec2(width, heigth)))
     return false;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
@@ -49,8 +52,8 @@ void GameEngine::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   if (_show)
-    _menu->drawMenu(_ogl);
+    _menu->drawMenu(_ogl, _clock);
   else
-    _game->drawGame(_ogl);
+    _game->drawGame(_ogl, _clock);
   _context->flush();
 }

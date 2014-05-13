@@ -10,8 +10,9 @@ Graphics::~Graphics()
   delete _shader;
 }
 
-bool Graphics::init()
+bool Graphics::init(const glm::vec2& win, float fov)
 {
+  _proj = glm::perspective(fov, win.x / win.y, 0.01f, 500.0f);
   _shader = new gdl::BasicShader;
   // pour creer un shader :
   // (un shader est un programe exectue par la carte graphique pour dessiner les pixels a l'ecan
@@ -31,4 +32,15 @@ bool Graphics::init()
   glClearDepth(1.0f);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   return true;
+}
+
+gdl::AShader	*Graphics::getShader()
+{
+  return _shader;
+}
+
+void Graphics::startFrame()
+{
+  _shader->bind();
+  _shader->setUniform("projection", _proj);
 }
