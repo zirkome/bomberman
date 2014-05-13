@@ -17,9 +17,8 @@ bool Menu::updateMenu(gdl::Input &input, gdl::Clock &clock)
   return true;
 }
 
-void Menu::drawMenu(Graphics &ogl, gdl::Clock const &clock)
+void Menu::drawMenu(gdl::Clock const &clock)
 {
-  (void) ogl;
   (void) clock;
   /* TODO : draw the curent menu */
 }

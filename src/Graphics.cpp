@@ -1,32 +1,30 @@
 #include "Graphics.hpp"
 
-Graphics::Graphics()
+GameGraphics::GameGraphics()
 {
-  _shader = NULL;
+  _fov = 60.0;
 }
 
-Graphics::~Graphics()
+GameGraphics::~GameGraphics()
 {
-  delete _shader;
+
 }
 
-bool Graphics::init(const glm::vec2& win, float fov)
+bool GameGraphics::init(const glm::ivec2& win)
 {
-  _proj = glm::perspective(fov, win.x / win.y, 0.01f, 500.0f);
+  _proj = glm::perspective(_fov, static_cast<float>(win.x) / static_cast<float>(win.y),
+                           0.01f, 500.0f);
   _shader = new gdl::BasicShader;
-  // pour creer un shader :
-  // (un shader est un programe exectue par la carte graphique pour dessiner les pixels a l'ecan
-  if (!_shader->load("./shaders/basic.fp", GL_FRAGMENT_SHADER) // le fragment shader se charge de dessiner les pixels
-      || !_shader->load("./shaders/basic.vp", GL_VERTEX_SHADER) // le vertex shader s'occupe de projeter les points sur l'ecran
-      || !_shader->build()) // il faut ensuite builder son shader
+
+  if (!_shader->load("./shaders/basic.fp", GL_FRAGMENT_SHADER)
+      || !_shader->load("./shaders/basic.vp", GL_VERTEX_SHADER)
+      || !_shader->build())
     {
-      std::cout << "load shader fail" << std::endl;
+      std::cerr << "Load shader fail" << std::endl;
       return false;
     }
-  // pour utiliser un shader (pour que ce soit ce dernier qui dessine la geometrie) il faut le binder.
-  // Un seul shader peut etre actif en mm temps
-  _shader->bind();
 
+  _shader->bind();
 
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0f);
@@ -34,12 +32,7 @@ bool Graphics::init(const glm::vec2& win, float fov)
   return true;
 }
 
-gdl::AShader	*Graphics::getShader()
-{
-  return _shader;
-}
-
-void Graphics::startFrame()
+void GameGraphics::startFrame()
 {
   _shader->bind();
   _shader->setUniform("projection", _proj);

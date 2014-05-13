@@ -7,14 +7,15 @@
 
 class Menu
 {
-private:
-  bool _show;
-  Game *_game;
 public:
   Menu();
   ~Menu();
   bool updateMenu(gdl::Input &input, gdl::Clock &clock);
-  void drawMenu(Graphics &ogl, gdl::Clock const &clock);
+  void drawMenu(const gdl::Clock &clock);
+
+private:
+  bool _show;
+  Game *_game;
 };
 
 #endif
