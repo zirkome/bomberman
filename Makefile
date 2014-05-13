@@ -19,17 +19,18 @@ SRC		=	main.cpp \
 			ACamera.cpp \
 			FreeCam.cpp
 
-CC		=	g++
+MAKEDEPEND	=	-MD
+CC			=	g++
+FILETYPE		=	.cpp
 
-FILETYPE	=	.cpp
+RM			=	rm -f
 
-RM		=	rm -f
-
-NAME		=	bomberman
+NAME			=	bomberman
 
 OBJDIR		=	obj/
 SRCDIR		=	src/
 INCDIR		=	include/
+DEPEND		=	.depend
 
 CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/
 CFLAGS		+=	-Wall -Wextra -Winit-self
@@ -49,6 +50,8 @@ dummy		:=	$(shell test -d $(OBJDIR) || mkdir -p $(OBJDIR))
 dummy		:=	$(shell test -d $(SRCDIR) || mkdir -p $(SRCDIR))
 dummy		:=	$(shell test -d $(INCDIR) || mkdir -p $(INCDIR))
 
+-include .depend
+
 $(OBJDIR)%.o:		$(patsubst %${FILETYPE},${SRCDIR}%${FILETYPE}, %${FILETYPE})
 			@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 ifneq ("$(shell tty)", "not a tty")
@@ -61,10 +64,11 @@ ifneq ("$(shell tty)", "not a tty")
 			@echo -e "Compiling $<" | sed 's/^-e //' \
 			| sed 's/[-a-zA-Z]\+/\x1B[31m&\x1B[0m/g' \
 			| sed 's/[A-Z]\+/\x1B[32m&\x1B[0m/g'
-			@$(CC) $(CFLAGS) -c $< -o $@
+			@$(CC) $(CFLAGS) $(MAKEDEPEND) -c $< -o $@
 else
-			$(CC) $(CFLAGS) -c $< -o $@
+			$(CC) $(CFLAGS) $(MAKEDEPEND) -c $< -o $@
 endif
+			sed 's/\\\n/@/' < $(patsubst %.o,%.d, $@) >> $(DEPEND)
 
 $(NAME):	$(OBJ)
 ifneq ("$(shell tty)", "not a tty")
