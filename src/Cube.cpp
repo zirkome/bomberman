@@ -1,8 +1,8 @@
 #include "Cube.hpp"
 
-Cube::Cube()
+Cube::Cube(IEntity::Type assetsType)
 {
-
+  // _texture = AssetsManager::getInstance()->getAssets<Texture>(assetsType);
 }
 
 Cube::~Cube()

@@ -11,7 +11,7 @@ private:
   int		_y;
   AObject	*_obj;
 public:
-  Wall(const int, const int y, AObject *obj);
+  Wall(const int, const int y);
   virtual ~Wall();
   int	getPosX() const;
   int	getPosY() const;

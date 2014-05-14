@@ -1,6 +1,7 @@
 #ifndef _CUBE_H_
 #define _CUBE_H_
 
+#include "IEntity.hpp"
 #include "AObject.hpp"
 #include <Texture.hh>
 #include <Geometry.hh>
@@ -16,7 +17,7 @@ private:
   // La vitesse de deplacement du cube
   float _speed;
 public:
-  Cube();
+  Cube(IEntity::Type assetsType);
   virtual ~Cube();
   virtual bool	initialize();
   // La fonction update sert a gerer le comportement de l'objet

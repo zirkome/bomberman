@@ -57,9 +57,9 @@ IEntity		*Map::getEntityForMap(const int x, const int y) const
   int		i = ((rand() % 10) - 3) % 10;
 
   if (i == IEntity::BOX)
-    entity = EntitiesFactory::getInstance()->create(IEntity::BOX, x, y);
+    entity = EntitiesFactory::getInstance()->create<Box>(x, y);
   else if (i == IEntity::WALL)
-    entity = EntitiesFactory::getInstance()->create(IEntity::WALL, x, y);
+    entity = EntitiesFactory::getInstance()->create<Wall>(x, y);
   return entity;
 }
 
