@@ -17,7 +17,8 @@ SRC		=	main.cpp \
 			AObject.cpp \
 			Cube.cpp \
 			ACamera.cpp \
-			FreeCam.cpp
+			FreeCam.cpp \
+			FontText.cpp
 
 CC		=	g++
 

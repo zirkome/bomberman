@@ -1,20 +1,15 @@
 #include "AObject.hpp"
-#include <Texture.hh>
-#include <Geometry.hh>
-#include <iostream>
+#include <string>
 
-class Cube : public AObject
+class GraphicPlayer : public AObject
 {
 private:
-  // La texture utilisee pour le cube
-  gdl::Texture _texture;
-  // La geometrie du cube
-  gdl::Geometry _geometry;
-  // La vitesse de deplacement du cube
-  float _speed;
+  gdl::Model	_player;
+  float		_speed;
+  std::string	_model_path;
 public:
-  Cube();
-  virtual ~Cube();
+  GraphicPlayer(std::string const &path);
+  virtual ~GraphicPlayer();
   virtual bool	initialize();
   // La fonction update sert a gerer le comportement de l'objet
   virtual void	update(gdl::Clock const &clock, gdl::Input &input);

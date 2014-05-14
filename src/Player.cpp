@@ -1,8 +1,7 @@
 #include "Player.hpp"
 
-Player::Player(Map *currentMap)
+Player::Player(Map *map) : _map(map)
 {
-  (void) currentMap;
   /* TODO : random position  */
 }
 

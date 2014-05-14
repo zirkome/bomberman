@@ -74,6 +74,11 @@ void Game::init()
   _cube5->translate(glm::vec3(0, 5, -10));
   _cube6->translate(glm::vec3(0, -5, -10));
   _cam = new FreeCam();
+  if (!_text_texture.load("font.tga"))
+    {
+      std::cout << "failded to load tewture" << std::endl;
+    }
+  _font = new FontText(_text_texture, 19, 29);
 }
 
 Game::~Game()
@@ -104,4 +109,6 @@ void Game::drawGame(Graphics &ogl, gdl::Clock const &clock)
   _cube4->draw(ogl.getShader());
   _cube5->draw(ogl.getShader());
   _cube6->draw(ogl.getShader());
+  // glColor4f(1.0f, 0.0f, 0.0f, 1.0f); //make the text red
+  // _font->drawText(10, 10, 10, 10, "HELLO");
 }

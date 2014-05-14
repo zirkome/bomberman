@@ -1,16 +1,18 @@
 #ifndef PLAYER_HPP_
-#define PLAYER_HPP_
+# define PLAYER_HPP_
 
-#include "Map.hpp"
+# include "Map.hpp"
 
 class Player
 {
 private:
-  int x;
-  int y;
+  int _x;
+  int _y;
+  Map *_map;
+
 public:
-  Player(Map *currentMap);
+  Player(Map *map);
   ~Player();
 };
 
-#endif
+#endif /* !PLAYER_HPP_ */
