@@ -1,6 +1,7 @@
 #include "AObject.hpp"
 #include <Texture.hh>
 #include <Geometry.hh>
+#include <iostream>
 
 class Cube : public AObject
 {

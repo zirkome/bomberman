@@ -6,13 +6,13 @@
 
 #include <Input.hh>
 #include <Clock.hh>
-
+#include <Texture.hh>
 #include "Graphics.hpp"
 #include "Map.hpp"
 #include "Ia.hpp"
 #include "Player.hpp"
 #include "Fault.hpp"
-
+#include "FontText.hpp"
 #include "Cube.hpp"
 
 class Game
@@ -36,6 +36,8 @@ public:
   ACamera* _cam;
   bool updateGame(gdl::Input &input, const gdl::Clock &clock);
   void drawGame(Graphics &ogl, gdl::Clock const &clock);
+  FontText *_font;
+  gdl::Texture	_text_texture;
 };
 
 #endif
