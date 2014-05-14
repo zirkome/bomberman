@@ -3,6 +3,7 @@
 
 #include "IEntity.hpp"
 #include "AObject.hpp"
+#include "AssetsManager.hpp"
 #include <Texture.hh>
 #include <Geometry.hh>
 #include <iostream>
@@ -11,7 +12,7 @@ class Cube : public AObject
 {
 private:
   // La texture utilisee pour le cube
-  gdl::Texture _texture;
+  gdl::Texture *_texture;
   // La geometrie du cube
   gdl::Geometry _geometry;
   // La vitesse de deplacement du cube

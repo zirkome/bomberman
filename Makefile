@@ -20,7 +20,8 @@ SRC		=	main.cpp \
 			ACamera.cpp \
 			FreeCam.cpp \
 			FontText.cpp \
-			EntitiesFactory.cpp
+			EntitiesFactory.cpp \
+			AssetsManager.cpp
 
 CC		=	g++
 
