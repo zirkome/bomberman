@@ -8,7 +8,7 @@ int main()
 {
   try
     {
-      GameEngine intro;
+      GameEngine game;
 
       if (game.initialize() == false)
         throw std::runtime_error("Game initialization failed.");
