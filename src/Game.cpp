@@ -3,16 +3,17 @@
 #include "FreeCam.hpp"
 #include <Geometry.hh>
 
-Game::Game(std::string const &saveGame)
+Game::Game(const glm::ivec2& win, std::string const &saveGame)
 {
   if (saveGame == "")
     throw nFault("The file name of the game is too short");
   /* TODO : load the saved game in saveGame*/
 
-  init();
+  init(win);
 }
 
-Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const & algoFileName, std::string const &mapName = "")
+Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<std::string> const & algoFileName,
+           std::string const &mapName)
 {
   int i, size;
 
@@ -38,7 +39,7 @@ Game::Game(int numberPlayer, int numberIA, std::vector<std::string> const & algo
       _players.push_back(new Player(_currentMap));
       i++;
     }
-  init();
+  init(win);
 }
 
 AObject* _cube2;
@@ -47,7 +48,7 @@ AObject* _cube4;
 AObject* _cube5;
 AObject* _cube6;
 
-void Game::init()
+void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
   _cube = new Cube;
@@ -76,9 +77,10 @@ void Game::init()
   _cam = new FreeCam();
   if (!_text_texture.load("font.tga"))
     {
-      std::cout << "failded to load tewture" << std::endl;
+      std::cout << "Failded to load texture" << std::endl;
     }
   _font = new FontText(_text_texture, 19, 29);
+  _ogl.init(win);
 }
 
 Game::~Game()
@@ -96,19 +98,20 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(Graphics &ogl, gdl::Clock const &clock)
+void Game::drawGame(gdl::Clock const &clock)
 {
   (void)clock;
-  gdl::AShader *shader = ogl.getShader();
+  gdl::AShader *shader = _ogl.getShader();
 
-  ogl.startFrame();
+  _ogl.startFrame();
   shader->setUniform("view", _cam->project());
-  _cube->draw(ogl.getShader());
-  _cube2->draw(ogl.getShader());
-  _cube3->draw(ogl.getShader());
-  _cube4->draw(ogl.getShader());
-  _cube5->draw(ogl.getShader());
-  _cube6->draw(ogl.getShader());
   // glColor4f(1.0f, 0.0f, 0.0f, 1.0f); //make the text red
   // _font->drawText(10, 10, 10, 10, "HELLO");
+  _cube->draw(shader);
+  _cube2->draw(shader);
+  _cube3->draw(shader);
+  _cube4->draw(shader);
+  _cube5->draw(shader);
+  _cube6->draw(shader);
+// Menu and Game have they own Graphics class
 }

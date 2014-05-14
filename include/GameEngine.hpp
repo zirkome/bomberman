@@ -27,7 +27,6 @@ private:
   bool _init;
   Menu *_menu;
   ::Game *_game;
-  Graphics _ogl;
   gdl::Clock _clock;
   gdl::Input _input;
   gdl::IRenderContext *_context;
