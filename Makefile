@@ -1,3 +1,4 @@
+
 SRC		=	main.cpp \
 			Game.cpp \
 			Fault.cpp \
@@ -19,7 +20,6 @@ SRC		=	main.cpp \
 			ACamera.cpp \
 			FreeCam.cpp
 
-MAKEDEPEND	=	-MD
 CC			=	g++
 FILETYPE		=	.cpp
 
@@ -30,7 +30,6 @@ NAME			=	bomberman
 OBJDIR		=	obj/
 SRCDIR		=	src/
 INCDIR		=	include/
-DEPEND		=	.depend
 
 CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/
 CFLAGS		+=	-Wall -Wextra -Winit-self
@@ -42,7 +41,8 @@ LDFLAGS		+=	-Wl,-rpath="`pwd`/LibBomberman_linux_x64/libs/"
 LDFLAGS		+=	-LLibBomberman_linux_x64/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
 
 
-OBJ		=	$(patsubst %${FILETYPE},${OBJDIR}%.o, $(SRC))
+OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
+DEPS		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.d, $(SRC))
 
 PRINTFLAGS	=	0
 
@@ -50,9 +50,7 @@ dummy		:=	$(shell test -d $(OBJDIR) || mkdir -p $(OBJDIR))
 dummy		:=	$(shell test -d $(SRCDIR) || mkdir -p $(SRCDIR))
 dummy		:=	$(shell test -d $(INCDIR) || mkdir -p $(INCDIR))
 
--include .depend
-
-$(OBJDIR)%.o:		$(patsubst %${FILETYPE},${SRCDIR}%${FILETYPE}, %${FILETYPE})
+$(OBJDIR)%.o:		$(patsubst %${FILETYPE}, ${SRCDIR}%${FILETYPE}, %${FILETYPE})
 			@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 ifneq ("$(shell tty)", "not a tty")
 			@if [ $(PRINTFLAGS) = "0" ]; then \
@@ -61,14 +59,15 @@ ifneq ("$(shell tty)", "not a tty")
 			| sed 's/[A-Z]\+/\x1B[32m&\x1B[0m/g' \
 			| sed 's/[{}]/\x1B[34m&\x1B[0m/g'; fi
 			$(eval PRINTFLAGS = 1)
-			@echo -e "Compiling $<" | sed 's/^-e //' \
+			@echo -e "Compiling $< $(patsubst %.o, %.d, $@)" | sed 's/^-e //' \
 			| sed 's/[-a-zA-Z]\+/\x1B[31m&\x1B[0m/g' \
-			| sed 's/[A-Z]\+/\x1B[32m&\x1B[0m/g'
-			@$(CC) $(CFLAGS) $(MAKEDEPEND) -c $< -o $@
+			| sed 's/[A-Z]\+/\x1B[32m&\x1B[0m/g' | sed 's/d/\x1B[35m&\x1B[0m/'
+			@$(CC) $(CFLAGS) -c $< -o $@
+			@$(CC) $(CFLAGS) -MM -MF $(patsubst %.o, %.d, $@) -MT $@ -MT $(patsubst %.o, %.d, $@) -c $<
 else
-			$(CC) $(CFLAGS) $(MAKEDEPEND) -c $< -o $@
+			$(CC) $(CFLAGS) -c $< -o $@
+			$(CC) $(CFLAGS) -MM -MF $(patsubst %.o, %.d, $@) -MT $@ -MT $(patsubst %.o, %.d, $@) -c $<
 endif
-			sed 's/\\\n/@/' < $(patsubst %.o,%.d, $@) >> $(DEPEND)
 
 $(NAME):	$(OBJ)
 ifneq ("$(shell tty)", "not a tty")
@@ -79,15 +78,17 @@ else
 		$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 endif
 
+-include $(DEPS)
+
 all:	$(NAME)
 
 clean:
 ifneq ("$(shell tty)", "not a tty")
 	@echo -e "Removing object !" | sed 's/^-e //' \
 	| sed 's/[-a-zA-Z]\+/\x1B[35m&\x1B[0m/g'
-	@$(RM) $(OBJ)
+	@$(RM) $(OBJ) $(DEPS)
 else
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(DEPS)
 endif
 
 fclean:	clean
