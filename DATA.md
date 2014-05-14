@@ -5,7 +5,7 @@ Data to save
 
 * Mode (1P or 2P)
 
-* Level
+* Level => Map
 
 * Player 1's data :
   * x
