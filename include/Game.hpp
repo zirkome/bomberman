@@ -18,26 +18,30 @@
 class Game
 {
 public:
-  Game(const std::string &saveGame);
-  Game(int numberPlayer,
+  Game(const glm::ivec2& win, const std::string &saveGame);
+  Game(const glm::ivec2& win,
+       int numberPlayer,
        int numberIA,
        const std::vector<std::string> &algoFileName,
-       const std::string &mapName);
+       const std::string &mapName = "");
   ~Game();
 
-private:
-  void init();
-
 public:
-  std::vector<Ia *> _listIA;
-  std::vector<Player *> _players;
-  Map *_currentMap;
-  Cube	*_cube;
-  ACamera* _cam;
   bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(Graphics &ogl, gdl::Clock const &clock);
+  void drawGame(gdl::Clock const &clock);
+
+private:
+  void init(glm::ivec2 win);
+
+private:
+  std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?
+  std::vector<Player *> _players; //Those are IEntity
+  Map *_currentMap;
+  Cube *_cube;
+  ACamera* _cam;
   FontText *_font;
   gdl::Texture	_text_texture;
+  GameGraphics _ogl;
 };
 
 #endif

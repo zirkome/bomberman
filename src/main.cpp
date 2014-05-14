@@ -8,16 +8,19 @@ int main()
 {
   try
     {
-      GameEngine intro;
+      GameEngine game;
 
-      if (intro.initialize() == false)
+      if (game.initialize() == false)
         throw std::runtime_error("Game initialization failed.");
-      while (intro.update() == true)
-        intro.draw();
+      while (game.update() == true)
+        game.draw();
     }
   catch (std::exception& e)
     {
       std::cerr << e.what() << std::endl;
       return (1);
     }
+  Map	map(20, 20);
+
+  map.displayDebugMap();
 }
