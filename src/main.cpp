@@ -1,13 +1,26 @@
 #include <iostream>
-#include "Intro.hpp"
+#include <exception>
+#include <stdexcept>
+
+#include "GameEngine.hpp"
 
 int main()
 {
-  Intro  intro;
+  try
+    {
+      GameEngine game;
 
-  if (intro.initialize() == false)
-    return (EXIT_FAILURE);
-  while (intro.update() == true)
-    intro.draw();
-  return (0);
+      if (game.initialize() == false)
+        throw std::runtime_error("Game initialization failed.");
+      while (game.update() == true)
+        game.draw();
+    }
+  catch (std::exception& e)
+    {
+      std::cerr << e.what() << std::endl;
+      return (1);
+    }
+  Map	map(20, 20);
+
+  map.displayDebugMap();
 }

@@ -1,25 +1,26 @@
 #include "Menu.hpp"
 
-Menu::Menu()
+Menu::Menu(const glm::ivec2& win)
 {
   _show = true;
+
+  _ogl.init(win);
 }
 
 Menu::~Menu()
 {
 }
 
-bool Menu::updateMenu(Graphics &interface)
+bool Menu::updateMenu(gdl::Input &input, gdl::Clock &clock)
 {
-  if (!_show)
-    return _game->updateGame(interface);
+  (void) input;
+  (void) clock;
   /* TODO : move in menu, ... */
   return true;
 }
 
-void Menu::drawMenu(Graphics &interface)
+void Menu::drawMenu(gdl::Clock const &clock)
 {
-  if (!_show)
-    return _game->drawGame(interface);
+  (void) clock;
   /* TODO : draw the curent menu */
 }

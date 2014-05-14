@@ -3,30 +3,45 @@
 
 #include <vector>
 #include <string>
+
+#include <Input.hh>
+#include <Clock.hh>
+#include <Texture.hh>
+#include "Graphics.hpp"
 #include "Map.hpp"
 #include "Ia.hpp"
 #include "Player.hpp"
-#include "Graphics.hpp"
 #include "Fault.hpp"
+#include "FontText.hpp"
+#include "Cube.hpp"
 
 class Game
 {
-private:
-  std::vector<Ia *> _listIA;
-  std::vector<Player *> _players;
-  Map *_currentMap;
-
 public:
-  Game(std::string const &saveGame);
-  Game(int numberPlayer,
+  Game(const glm::ivec2& win, const std::string &saveGame);
+  Game(const glm::ivec2& win,
+       int numberPlayer,
        int numberIA,
-       std::vector<std::string> const &algoFileName,
-       std::string const &mapName);
+       const std::vector<std::string> &algoFileName,
+       const std::string &mapName = "");
   ~Game();
 
 public:
-  bool updateGame(Graphics &interface);
-  void drawGame(Graphics &interface);
+  bool updateGame(gdl::Input &input, const gdl::Clock &clock);
+  void drawGame(gdl::Clock const &clock);
+
+private:
+  void init(glm::ivec2 win);
+
+private:
+  std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?
+  std::vector<Player *> _players; //Those are IEntity
+  Map *_currentMap;
+  Cube *_cube;
+  ACamera* _cam;
+  FontText *_font;
+  gdl::Texture	_text_texture;
+  GameGraphics _ogl;
 };
 
 #endif
