@@ -30,6 +30,10 @@ public:
   Map(const int x, const int y);
   Map(std::string const &mapFileName);
   ~Map();
+  int		getWidth() const;
+  int		getLength() const;
+  IEntity	*getEntityAt(const int x, const int y) const;
+  bool		addEntity(IEntity *entity);
 
 private:
   bool		loadMapFromFile(std::string const &fileName);

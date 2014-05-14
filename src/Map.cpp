@@ -63,7 +63,7 @@ IEntity		*Map::getEntityForMap(const int x, const int y) const
 }
 
 /*
-** Public methods
+** Debug methods
 */
 
 void	Map::displayDebugMap() const
@@ -91,3 +91,42 @@ void	Map::displayDebugMap() const
   }
 }
 
+/*
+** Public methods
+*/
+
+int	Map::getWidth() const
+{
+  return _x;
+}
+
+int	Map::getLength() const
+{
+  return _y;
+}
+
+/*
+** Return a pointer, or not, on an IEntity if there is one at coord(x, y)
+*/
+
+IEntity	*Map::getEntityAt(const int x, const int y) const
+{
+  for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it)
+    if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y)
+      return *it;
+  return NULL;
+}
+
+/*
+** Add an entity in the map if it's possible, else return false
+*/
+
+bool	Map::addEntity(IEntity *entity)
+{
+  for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it)
+    if ((*(*it)).getPosX() == (*entity).getPosX() &&
+	(*(*it)).getPosY() == (*entity).getPosY())
+      return false;
+  _map.push_back(entity);
+  return true;
+}
