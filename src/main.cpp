@@ -20,11 +20,4 @@ int main()
       std::cerr << e.what() << std::endl;
       return (1);
     }
-  // Map	map(20, 20);
-  // IEntity	*entity = new Bomb(2, 2);
-
-  // map.addEntity(entity);
-  // map.displayDebugMap();
-  // if (map.getEntityAt(2, 2))
-  //   std::cout << "There is an obstacle" << std::endl;
 }
