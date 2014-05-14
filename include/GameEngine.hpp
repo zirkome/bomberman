@@ -11,6 +11,7 @@
 
 #include "Menu.hpp"
 #include "Game.hpp"
+#include "Map.hpp"
 
 class GameEngine : public gdl::Game
 {
