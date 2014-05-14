@@ -4,9 +4,9 @@
 class IEntity
 {
 public:
-  ~IEntity() {}
+  virtual ~IEntity() {}
   virtual int getPosX() const = 0;
-  virtual int getPosy() const = 0;
+  virtual int getPosY() const = 0;
   virtual void setPosX(const int) = 0;
   virtual void setPosY(const int) = 0;
 };
