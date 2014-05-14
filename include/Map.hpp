@@ -16,12 +16,6 @@ class Map
   typedef std::vector<IEntity *> Line;
   typedef std::vector<Line> VMap;
 
-  enum Type
-    {
-      BOX = 0,
-      WALL = 1
-    };
-
 private:
   VMap	_map;
 

@@ -1,3 +1,6 @@
+#ifndef _CUBE_H_
+#define _CUBE_H_
+
 #include "AObject.hpp"
 #include <Texture.hh>
 #include <Geometry.hh>
@@ -21,3 +24,5 @@ public:
   // La fonction draw sert a dessiner l'objet
   virtual void	draw(gdl::AShader *shader);
 };
+
+#endif /* _CUBE_H_ */

@@ -4,6 +4,12 @@
 class IEntity
 {
 public:
+  enum Type
+    {
+      BOX = 0,
+      WALL = 1
+    };
+
   virtual ~IEntity() {}
   virtual int getPosX() const = 0;
   virtual int getPosY() const = 0;

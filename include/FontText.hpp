@@ -1,3 +1,6 @@
+#ifndef _FONTTEXT_H_
+#define _FONTTEXT_H_
+
 #include <Texture.hh>
 #include <iostream>
 #include <string>
@@ -16,3 +19,5 @@ public:
   virtual ~FontText() {}
   void drawText(int x, int y, int w, int h, std::string const &text);
 };
+
+#endif /* _FONTTEXT_H_ */
