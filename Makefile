@@ -31,7 +31,7 @@ OBJDIR		=	obj/
 SRCDIR		=	src/
 INCDIR		=	include/
 
-CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/
+CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/ -I./liblua5.1/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
 CFLAGS		+=	-Wunused-function -pipe
 
@@ -39,7 +39,7 @@ LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread
 LDFLAGS		+=	-Wl,-rpath="`pwd`/LibBomberman_linux_x64/libs/"
 LDFLAGS		+=	-LLibBomberman_linux_x64/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
-
+LDFLAGS		+=	-L./liblua5.1/lib/ -llua5.1
 
 OBJ		=	$(patsubst %${FILETYPE},${OBJDIR}%.o, $(SRC))
 
