@@ -39,8 +39,6 @@ private:
   Map *_currentMap;
   Cube *_cube;
   ACamera* _cam;
-  bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(Graphics &ogl, gdl::Clock const &clock);
   FontText *_font;
   gdl::Texture	_text_texture;
   GameGraphics _ogl;
