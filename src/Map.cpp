@@ -1,3 +1,4 @@
+#include "EntitiesFactory.hpp"
 #include "Map.hpp"
 
 /*
@@ -59,10 +60,10 @@ IEntity		*Map::getEntityForMap(const int x, const int y) const
   IEntity	*entity = NULL;
   int		i = ((rand() % 10) - 3) % 10;
 
-  if (i == BOX)
-    entity = new Box(x, y);
-  else if (i == WALL)
-    entity = new Wall(x, y);
+  if (i == IEntity::BOX)
+    entity = EntitiesFactory::getInstance()->create(IEntity::BOX, x, y);
+  else if (i == IEntity::WALL)
+    entity = EntitiesFactory::getInstance()->create(IEntity::WALL, x, y);
   return entity;
 }
 
@@ -90,4 +91,3 @@ void	Map::displayDebugMap() const
     std::cout << std::endl;
   }
 }
-

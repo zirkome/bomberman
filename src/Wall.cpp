@@ -1,31 +1,31 @@
-#include "Box.hpp"
+#include "Wall.hpp"
 
-Box::Box(const int x, const int y) : _x(x), _y(y)
+Wall::Wall(const int x, const int y, AObject *obj) : _x(x), _y(y), _obj(obj)
 {
 
 }
 
-Box::~Box()
+Wall::~Wall()
 {
 
 }
 
-int	Box::getPosX() const
+int	Wall::getPosX() const
 {
   return _x;
 }
 
-int	Box::getPosY() const
+int	Wall::getPosY() const
 {
   return _y;
 }
 
-void	Box::setPosX(const int x)
+void	Wall::setPosX(const int x)
 {
   _x = x;
 }
 
-void	Box::setPosY(const int y)
+void	Wall::setPosY(const int y)
 {
   _y = y;
 }
