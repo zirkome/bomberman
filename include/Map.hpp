@@ -36,7 +36,8 @@ public:
 private:
   bool		loadMapFromFile(std::string const &fileName);
   void		loadRandomMap();
-  IEntity	*getEntityForMap(const int x, const int y) const;
+  IEntity::Type	getType(const std::string::const_iterator &it) const;
+  IEntity	*getEntityForMap(const int x, const int y, const int i) const;
 
   //Debug methods
 public:

@@ -22,14 +22,28 @@ Map::Map(std::string const &mapFileName)
 
 Map::~Map()
 {
-  for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it)
-    delete *it;
-  delete _mutex;
+  IEntity	*entity;
+
+  while (!_map.empty()) {
+    entity = *(_map.begin());
+    delete entity;
+    _map.pop_front();
+  }
+  //delete _mutex;
 }
 
 /*
 ** Private Methods
 */
+
+IEntity::Type	Map::getType(const std::string::const_iterator &it) const
+{
+  if (*it == 'o')
+    return IEntity::BOX;
+  if (*it == '#')
+    return IEntity::WALL;
+  return IEntity::NONE;
+}
 
 /* TODO : Load map in file mapFileName */
 bool		Map::loadMapFromFile(std::string const &fileName)
@@ -46,7 +60,7 @@ bool		Map::loadMapFromFile(std::string const &fileName)
   while (std::getline(file, line)) {
     y = 0;
     for (std::string::const_iterator it = line.begin(); it != line.end(); ++it) {
-      if ((entity = this->getEntityForMap(x, y)))
+      if ((entity = this->getEntityForMap(x, y, this->getType(it))))
 	_map.push_back(entity);
       ++y;
     }
@@ -66,7 +80,7 @@ void		Map::loadRandomMap()
     if (i && (i != _x - 1))
       for (int j = 0; j < _y; ++j) {
 	if (j && (j != _y - 1)) {
-	  entity = this->getEntityForMap(i, j);
+	  entity = this->getEntityForMap(i, j, ((rand() % 10) - 3) % 10);
 	  if (entity)
 	    _map.push_back(entity);
 	}
@@ -74,10 +88,9 @@ void		Map::loadRandomMap()
   }
 }
 
-IEntity		*Map::getEntityForMap(const int x, const int y) const
+IEntity		*Map::getEntityForMap(const int x, const int y, const int i) const
 {
   IEntity	*entity = NULL;
-  int		i = ((rand() % 10) - 3) % 10;
 
   if (i == IEntity::BOX)
     entity = EntitiesFactory::getInstance()->create<Box>(x, y);
