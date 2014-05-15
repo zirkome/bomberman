@@ -2,7 +2,7 @@
 # define MAP_HPP_
 
 # include <string>
-# include <vector>
+# include <list>
 # include <iostream>
 # include <cstdlib>
 # include <ctime>
@@ -13,8 +13,7 @@
 
 class Map
 {
-  typedef std::vector<IEntity *> Line;
-  typedef std::vector<Line> VMap;
+  typedef std::list<IEntity *> LMap;
 
   enum Type
     {
@@ -23,16 +22,22 @@ class Map
     };
 
 private:
-  VMap	_map;
+  int	_x;
+  int	_y;
+  LMap	_map;
 
 public:
   Map(const int x, const int y);
   Map(std::string const &mapFileName);
   ~Map();
+  int		getWidth() const;
+  int		getLength() const;
+  IEntity	*getEntityAt(const int x, const int y) const;
+  bool		addEntity(IEntity *entity);
 
 private:
   bool		loadMapFromFile(std::string const &fileName);
-  void		loadRandomMap(const int x, const int y);
+  void		loadRandomMap();
   IEntity	*getEntityForMap(const int x, const int y) const;
 
   //Debug methods
