@@ -1,4 +1,9 @@
+#ifndef _CUBE_H_
+#define _CUBE_H_
+
+#include "IEntity.hpp"
 #include "AObject.hpp"
+#include "AssetsManager.hpp"
 #include <Texture.hh>
 #include <Geometry.hh>
 #include <iostream>
@@ -7,13 +12,13 @@ class Cube : public AObject
 {
 private:
   // La texture utilisee pour le cube
-  gdl::Texture _texture;
+  gdl::Texture *_texture;
   // La geometrie du cube
   gdl::Geometry _geometry;
   // La vitesse de deplacement du cube
   float _speed;
 public:
-  Cube();
+  Cube(IEntity::Type assetsType);
   virtual ~Cube();
   virtual bool	initialize();
   // La fonction update sert a gerer le comportement de l'objet
@@ -21,3 +26,5 @@ public:
   // La fonction draw sert a dessiner l'objet
   virtual void	draw(gdl::AShader *shader);
 };
+
+#endif /* _CUBE_H_ */

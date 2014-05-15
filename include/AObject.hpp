@@ -1,3 +1,6 @@
+#ifndef _AOBJECT_H_
+#define _AOBJECT_H_
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <SdlContext.hh>
@@ -31,3 +34,5 @@ public:
   void		scale(glm::vec3 const &scale);
   glm::mat4	getTransformation();
 };
+
+#endif /* _AOBJECT_H_ */

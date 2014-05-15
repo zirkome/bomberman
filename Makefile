@@ -19,10 +19,13 @@ SRC		=	main.cpp \
 			Cube.cpp \
 			ACamera.cpp \
 			FreeCam.cpp \
-			FontText.cpp
+			FontText.cpp \
+			EntitiesFactory.cpp \
+			AssetsManager.cpp
 
-CC			=	g++
-FILETYPE		=	.cpp
+CC		=	g++
+
+FILETYPE	=	.cpp
 
 RM			=	rm -f
 

@@ -1,8 +1,9 @@
 #include "Wall.hpp"
+#include "Cube.hpp"
 
 Wall::Wall(const int x, const int y) : _x(x), _y(y)
 {
-
+  _obj = new Cube(IEntity::WALL);
 }
 
 Wall::~Wall()

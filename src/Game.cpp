@@ -51,22 +51,22 @@ AObject* _cube6;
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  _cube = new Cube;
+  _cube = new Cube(IEntity::WALL);
   _cube->initialize();
 
-  _cube2 = new Cube;
+  _cube2 = new Cube(IEntity::WALL);
   _cube2->initialize();
 
-  _cube3 = new Cube;
+  _cube3 = new Cube(IEntity::WALL);
   _cube3->initialize();
 
-  _cube4 = new Cube;
+  _cube4 = new Cube(IEntity::BOX);
   _cube4->initialize();
 
-  _cube5 = new Cube;
+  _cube5 = new Cube(IEntity::BOX);
   _cube5->initialize();
 
-  _cube6 = new Cube;
+  _cube6 = new Cube(IEntity::BOX);
   _cube6->initialize();
 
   _cube2->translate(glm::vec3(0, 0, -15));
@@ -75,11 +75,7 @@ void Game::init(glm::ivec2 win)
   _cube5->translate(glm::vec3(0, 5, -10));
   _cube6->translate(glm::vec3(0, -5, -10));
   _cam = new FreeCam();
-  if (!_text_texture.load("font.tga"))
-    {
-      std::cout << "Failded to load texture" << std::endl;
-    }
-  _font = new FontText(_text_texture, 19, 29);
+  // _font = new FontText(_text_texture, 19, 29);
   _ogl.init(win);
 }
 
