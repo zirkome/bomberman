@@ -3,6 +3,8 @@
 
 #include <Texture.hh>
 #include <map>
+#include "Box.hpp"
+#include "Wall.hpp"
 #include "IEntity.hpp"
 
 class			EntitiesFactory
@@ -10,11 +12,7 @@ class			EntitiesFactory
 public:
   static EntitiesFactory	*_instance;
   static EntitiesFactory	*getInstance();
-  template <class T>
-  IEntity			*create(int x, int y)
-  {
-    return new T(x, y);
-  }
+  IEntity			*create(IEntity::Type type, int x, int y);
 };
 
 #endif /* _OBJECTFACTORY_H_ */

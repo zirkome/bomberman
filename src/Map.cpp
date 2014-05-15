@@ -92,10 +92,7 @@ IEntity		*Map::getEntityForMap(const int x, const int y, const int i) const
 {
   IEntity	*entity = NULL;
 
-  if (i == IEntity::BOX)
-    entity = EntitiesFactory::getInstance()->create<Box>(x, y);
-  else if (i == IEntity::WALL)
-    entity = EntitiesFactory::getInstance()->create<Wall>(x, y);
+  entity = EntitiesFactory::getInstance()->create(static_cast<IEntity::Type>(i), x, y);
   return entity;
 }
 
