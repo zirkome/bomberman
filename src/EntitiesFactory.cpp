@@ -8,3 +8,16 @@ EntitiesFactory *EntitiesFactory::getInstance()
     _instance = new EntitiesFactory;
   return _instance;
 }
+
+IEntity		*EntitiesFactory::create(IEntity::Type type, int x, int y)
+{
+  switch (type)
+    {
+    case IEntity::BOX:
+      return new Box(x, y);
+    case IEntity::WALL:
+      return new Wall(x, y);
+    default:
+      return NULL;
+    }
+}
