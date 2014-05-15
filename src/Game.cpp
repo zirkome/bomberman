@@ -75,11 +75,7 @@ void Game::init(glm::ivec2 win)
   _cube5->translate(glm::vec3(0, 5, -10));
   _cube6->translate(glm::vec3(0, -5, -10));
   _cam = new FreeCam();
-  if (!_text_texture.load("font.tga"))
-    {
-      std::cout << "Failded to load texture" << std::endl;
-    }
-  _font = new FontText(_text_texture, 19, 29);
+  // _font = new FontText(_text_texture, 19, 29);
   _ogl.init(win);
 }
 

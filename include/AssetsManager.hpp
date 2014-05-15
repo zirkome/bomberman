@@ -1,6 +1,7 @@
 #ifndef _ASSETSMANAGER_H_
 #define _ASSETSMANAGER_H_
 
+#include <iostream>
 #include <exception>
 #include <stdexcept>
 #include <map>

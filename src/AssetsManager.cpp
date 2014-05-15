@@ -18,6 +18,7 @@ void AssetsManager::loadAssets<gdl::Texture>(const std::string &path, IEntity::T
       throw std::runtime_error("Can't load texture : " + path);
     }
   _textures[assetsType] = ptr;
+  std::cout << path + " has been loaded" << std::endl;
 }
 
 template <>
