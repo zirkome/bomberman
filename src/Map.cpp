@@ -59,7 +59,8 @@ bool		Map::loadMapFromFile(std::string const &fileName)
 
   while (std::getline(file, line)) {
     y = 0;
-    for (std::string::const_iterator it = line.begin(); it != line.end(); ++it) {
+    for (std::string::const_iterator it = line.begin(), end = line.end();
+	 it != end; ++it) {
       if ((entity = this->getEntityForMap(x, y, this->getType(it))))
 	_map.push_back(entity);
       ++y;
