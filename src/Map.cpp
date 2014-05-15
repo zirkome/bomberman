@@ -15,7 +15,7 @@ Map::Map(const int x, const int y) : _x(x), _y(y), _mutex(new PMutex)
 ** constructor map with fileName
 */
 
-Map::Map(std::string const &mapFileName)
+Map::Map(std::string const &mapFileName) : _x(0), _y(0), _mutex(new PMutex)
 {
   this->loadMapFromFile(mapFileName);
 }
@@ -29,7 +29,7 @@ Map::~Map()
     delete entity;
     _map.pop_front();
   }
-  //delete _mutex;
+  delete _mutex;
 }
 
 /*
@@ -129,6 +129,11 @@ void	Map::displayDebugMap() const
 ** Public methods
 */
 
+Map::LMap	&Map::getMap()
+{
+  return _map;
+}
+
 int	Map::getWidth() const
 {
   return _x;
@@ -145,7 +150,7 @@ int	Map::getLength() const
 
 IEntity		*Map::getEntityAt(const int x, const int y) const
 {
-  ScopeLock	lock(*_mutex);
+  ScopeLock	lk(*_mutex);
 
   for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it)
     if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y)
@@ -159,7 +164,7 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
 
 bool		Map::addEntity(IEntity *entity)
 {
-  ScopeLock	lock(*_mutex);
+  ScopeLock	lk(*_mutex);
 
   for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it)
     if ((*(*it)).getPosX() == (*entity).getPosX() &&
@@ -167,4 +172,23 @@ bool		Map::addEntity(IEntity *entity)
       return false;
   _map.push_back(entity);
   return true;
+}
+
+/*
+** Delete an entity in the map at coord(x, y) if it's possible, else return false
+*/
+
+bool	Map::deleteEntityAt(const int x, const int y)
+{
+  ScopeLock	lk(*_mutex);
+  IEntity	*entity;
+
+  for (LMap::iterator it = _map.begin(); it != _map.end(); ++it)
+    if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y) {
+      entity = *it;
+      delete entity;
+      _map.erase(it);
+      return true;
+    }
+  return false;
 }

@@ -8,6 +8,7 @@ class Bomb : public IEntity
 private:
   int	_x;
   int	_y;
+  glm::vec2	_vec;
 
 public:
   Bomb(const int, const int y);

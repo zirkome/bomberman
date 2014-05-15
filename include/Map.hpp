@@ -28,10 +28,12 @@ public:
   Map(const int x, const int y);
   Map(std::string const &mapFileName);
   ~Map();
+  Map::LMap	&getMap();
   int		getWidth() const;
   int		getLength() const;
   IEntity	*getEntityAt(const int x, const int y) const;
   bool		addEntity(IEntity *entity);
+  bool		deleteEntityAt(const int x, const int y);
 
 private:
   bool		loadMapFromFile(std::string const &fileName);

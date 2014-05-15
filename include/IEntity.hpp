@@ -1,6 +1,8 @@
 #ifndef IENTITY_HPP_
 #define IENTITY_HPP_
 
+# include "glm/glm.hpp"
+
 class IEntity
 {
 public:
