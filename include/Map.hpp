@@ -6,10 +6,13 @@
 # include <iostream>
 # include <cstdlib>
 # include <ctime>
+# include <fstream>
 # include "IEntity.hpp"
 # include "Wall.hpp"
 # include "Box.hpp"
 # include "Bomb.hpp"
+# include "PMutex.hpp"
+# include "ScopeLock.hpp"
 
 class Map
 {
@@ -22,9 +25,10 @@ class Map
     };
 
 private:
-  int	_x;
-  int	_y;
-  LMap	_map;
+  int		_x;
+  int		_y;
+  IMutex	*_mutex;
+  LMap		_map;
 
 public:
   Map(const int x, const int y);
