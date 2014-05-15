@@ -1,8 +1,9 @@
 #include "Cube.hpp"
 
-Cube::Cube()
+Cube::Cube(IEntity::Type assetsType)
 {
-
+  // on load la texture depuis le singleton
+  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(assetsType);
 }
 
 Cube::~Cube()
@@ -14,12 +15,6 @@ bool Cube::initialize()
 {
 
   _speed = 10.0f;
-  // On charge la texture qui sera affichee sur chaque face du cube
-  if (_texture.load("./LibBomberman_linux_x64/assets/wall_texture.tga") == false)
-    {
-      std::cerr << "Cannot load the cube texture" << std::endl;
-      return (false);
-    }
   // on set la color d'une premiere face
   // _geometry.setColor(glm::vec4(1, 0, 0, 1));
 
@@ -95,7 +90,7 @@ void Cube::update(gdl::Clock const &clock, gdl::Input &input)
 void Cube::draw(gdl::AShader *shader)
 {
   // On bind la texture pour dire que l'on veux l'utiliser
-  _texture.bind();
+  _texture->bind();
   // Et on dessine notre cube
   _geometry.draw(*shader, getTransformation(), GL_QUADS);
 }

@@ -18,12 +18,6 @@ class Map
 {
   typedef std::list<IEntity *> LMap;
 
-  enum Type
-    {
-      BOX = 0,
-      WALL = 1
-    };
-
 private:
   int		_x;
   int		_y;
