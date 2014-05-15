@@ -59,7 +59,8 @@ bool		Map::loadMapFromFile(std::string const &fileName)
 
   while (std::getline(file, line)) {
     y = 0;
-    for (std::string::const_iterator it = line.begin(); it != line.end(); ++it) {
+    for (std::string::const_iterator it = line.begin(), end = line.end();
+	 it != end; ++it) {
       if ((entity = this->getEntityForMap(x, y, this->getType(it))))
 	_map.push_back(entity);
       ++y;
@@ -104,24 +105,26 @@ void	Map::displayDebugMap() const
 {
   bool	check;
 
-  for (int i = 0; i < _x; ++i) {
-    for (int j = 0; j < _y; ++j) {
-      check = false;
-      for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
-	if ((*(*it)).getPosX() == i && (*(*it)).getPosY() == j) {
-	  if (dynamic_cast<Box *>(*it) != NULL)
-	    std::cout << "o";
-	  else if (dynamic_cast<Wall *>(*it) != NULL)
-	    std::cout << "#";
-	  else
-	    std::cout << "*";
-	  check = true;
+  if (_map.size() > 0) {
+    for (int i = 0; i < _x; ++i) {
+      for (int j = 0; j < _y; ++j) {
+	check = false;
+	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
+	  if ((*(*it)).getPosX() == i && (*(*it)).getPosY() == j) {
+	    if (dynamic_cast<Box *>(*it) != NULL)
+	      std::cout << "o";
+	    else if (dynamic_cast<Wall *>(*it) != NULL)
+	      std::cout << "#";
+	    else
+	      std::cout << "*";
+	    check = true;
+	  }
 	}
+	if (check == false)
+	  std::cout << " ";
       }
-      if (check == false)
-	std::cout << " ";
+      std::cout << std::endl;
     }
-    std::cout << std::endl;
   }
 }
 
