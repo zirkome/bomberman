@@ -68,4 +68,5 @@ void		AssetsManager::createAssets()
   if (_instance == NULL)
     _instance = new AssetsManager;
   _instance->loadAssets<gdl::Texture>("./LibBomberman_linux_x64/assets/wall_texture.tga", IEntity::WALL);
+  _instance->loadAssets<gdl::Texture>("./LibBomberman_linux_x64/assets/box_texture.tga", IEntity::BOX);
 }

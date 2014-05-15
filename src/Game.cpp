@@ -60,13 +60,13 @@ void Game::init(glm::ivec2 win)
   _cube3 = new Cube(IEntity::WALL);
   _cube3->initialize();
 
-  _cube4 = new Cube(IEntity::WALL);
+  _cube4 = new Cube(IEntity::BOX);
   _cube4->initialize();
 
-  _cube5 = new Cube(IEntity::WALL);
+  _cube5 = new Cube(IEntity::BOX);
   _cube5->initialize();
 
-  _cube6 = new Cube(IEntity::WALL);
+  _cube6 = new Cube(IEntity::BOX);
   _cube6->initialize();
 
   _cube2->translate(glm::vec3(0, 0, -15));
