@@ -1,3 +1,4 @@
+#include "EntitiesFactory.hpp"
 #include "Game.hpp"
 #include "AShader.hh"
 #include "FreeCam.hpp"
@@ -39,6 +40,8 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
       _players.push_back(new Player(_currentMap));
       i++;
     }
+  // _currentMap->getMap().push_back(EntitiesFactory::getInstance()->create(static_cast<IEntity::Type>(IEntity::BOX), 0, 0));
+  // _currentMap->getMap().push_back(EntitiesFactory::getInstance()->create(static_cast<IEntity::Type>(IEntity::BOX), 0, 1));
   init(win);
 }
 
@@ -79,7 +82,6 @@ void Game::init(glm::ivec2 win)
 
   for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
     {
-      std::cout << "hello" << std::endl;
       if (*it != NULL)
 	(*it)->getObj()->initialize();
     }
