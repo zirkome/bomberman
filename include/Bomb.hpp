@@ -13,11 +13,11 @@ private:
 public:
   Bomb(const float x, const float y);
   virtual ~Bomb();
-  float	getPosX() const;
-  float	getPosY() const;
-  void	setPosX(const float);
-  void	setPosY(const float);
-  AObject *getObj();
+  virtual float	getPosX() const;
+  virtual float	getPosY() const;
+  virtual void	setPosX(const float);
+  virtual void	setPosY(const float);
+  virtual AObject *getObj();
   virtual void	update(gdl::Input &input, gdl::Clock const &clock);
 };
 
