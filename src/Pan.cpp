@@ -1,17 +1,17 @@
-#include "Plan.hpp"
+#include "Pan.hpp"
 
-Plan::Plan(IEntity::Type assetsType)
+Pan::Pan(IEntity::Type assetsType)
 {
   // on load la texture depuis le singleton
   _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(assetsType);
 }
 
-Plan::~Plan()
+Pan::~Pan()
 {
 
 }
 
-bool Plan::initialize()
+bool Pan::initialize()
 {
 
   _speed = 10.0f;
@@ -35,13 +35,13 @@ bool Plan::initialize()
   return (true);
 }
 
-void Plan::update(gdl::Clock const &clock, gdl::Input &input)
+void Pan::update(gdl::Clock const &clock, gdl::Input &input)
 {
 	(void) clock;
 	(void) input;
 }
 
-void Plan::draw(gdl::AShader *shader)
+void Pan::draw(gdl::AShader *shader)
 {
   // On bind la texture pour dire que l'on veux l'utiliser
   _texture->bind();

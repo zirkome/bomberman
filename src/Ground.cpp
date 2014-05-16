@@ -1,9 +1,9 @@
 #include "Ground.hpp"
-#include "Plan.hpp"
+#include "Pan.hpp"
 
 Ground::Ground(const int x, const int y) : _x(x), _y(y)
 {
-  _obj = new Plan(IEntity::GROUND);
+  _obj = new Pan(IEntity::GROUND);
   _obj->translate(glm::vec3(x, 0, y));
 }
 

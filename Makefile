@@ -22,7 +22,7 @@ SRC		=	main.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
 			AssetsManager.cpp \
-			Plan.cpp \
+			Pan.cpp \
 			Ground.cpp
 
 CC		=	g++
