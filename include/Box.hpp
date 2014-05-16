@@ -18,6 +18,7 @@ public:
   void	setPosX(const float);
   void	setPosY(const float);
   AObject *getObj();
+  virtual void update(gdl::Input &input, gdl::Clock const &clock);
 };
 
 #endif /* !BOX_HPP_ */

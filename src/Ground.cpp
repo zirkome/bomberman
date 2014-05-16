@@ -36,3 +36,8 @@ AObject	*Ground::getObj()
 {
   return _obj;
 }
+
+void Ground::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
+{
+
+}

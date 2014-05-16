@@ -36,3 +36,8 @@ AObject *Bomb::getObj()
 {
   return _obj;
 }
+
+void Bomb::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
+{
+
+}
