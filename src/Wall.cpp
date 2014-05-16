@@ -36,3 +36,8 @@ AObject	*Wall::getObj()
 {
   return _obj;
 }
+
+void Wall::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
+{
+
+}

@@ -66,6 +66,7 @@ bool MenuGraphics::init(const glm::ivec2& win)
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0f);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
   return true;
 }
 

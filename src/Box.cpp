@@ -35,3 +35,8 @@ AObject	*Box::getObj()
 {
   return _obj;
 }
+
+void Box::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
+{
+
+}

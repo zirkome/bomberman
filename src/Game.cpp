@@ -52,7 +52,7 @@ void Game::init(glm::ivec2 win)
   for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
     {
       if (*it != NULL)
-	(*it)->getObj()->initialize();
+        (*it)->getObj()->initialize();
     }
   // _font = new FontText(_text_texture, 19, 29);
   _ogl.init(win);
@@ -74,7 +74,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
     {
       if (*it != NULL)
-	(*it)->getObj()->update(clock, input);
+        (*it)->update(input, clock);
     }
   return true;
 }
@@ -90,7 +90,7 @@ void Game::drawGame(gdl::Clock const &clock)
   for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
     {
       if (*it != NULL)
-	(*it)->getObj()->draw(shader);
+        (*it)->getObj()->draw(shader);
     }
   // Menu and Game have they own Graphics class
 }

@@ -42,7 +42,7 @@ IEntity::Type	Map::getType(const std::string::const_iterator &it) const
     return IEntity::BOX;
   if (*it == '#')
     return IEntity::WALL;
-  return IEntity::NONE;
+  return IEntity::GROUND;
 }
 
 /* TODO : Load map in file mapFileName */
@@ -117,6 +117,8 @@ void	Map::displayDebugMap() const
 	    if (dynamic_cast<Box *>(*it) != NULL)
 	      std::cout << "o";
 	    else if (dynamic_cast<Wall *>(*it) != NULL)
+	      std::cout << "#";
+	    else if (dynamic_cast<Ground *>(*it) != NULL)
 	      std::cout << "#";
 	    else
 	      std::cout << "*";

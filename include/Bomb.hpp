@@ -12,13 +12,15 @@ private:
   glm::vec2	_vec;
   AObject *_obj;
 public:
-  Bomb(const int, const int y);
+  Bomb(const int x, const int y);
   virtual ~Bomb();
-  int	getPosX() const;
-  int	getPosY() const;
-  void	setPosX(const int);
-  void	setPosY(const int);
-  AObject *getObj();
+
+  virtual void	update(gdl::Input &input, gdl::Clock const &clock);
+  virtual int	getPosX() const;
+  virtual int	getPosY() const;
+  virtual void	setPosX(const int);
+  virtual void	setPosY(const int);
+  virtual AObject *getObj();
 };
 
 #endif /* !BOMB_HPP_ */

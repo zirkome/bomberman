@@ -1,18 +1,19 @@
-#ifndef WALL_HPP_
-# define WALL_HPP_
+#ifndef _GROUND_H_
+#define _GROUND_H_
+
 
 # include "IEntity.hpp"
 # include "AObject.hpp"
 
-class Wall : public IEntity
+class Ground : public IEntity
 {
 private:
   int		_x;
   int		_y;
   AObject	*_obj;
 public:
-  Wall(const int, const int y);
-  virtual ~Wall();
+  Ground(const int, const int y);
+  virtual ~Ground();
 
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
   virtual int	getPosX() const;
@@ -22,4 +23,5 @@ public:
   virtual AObject	*getObj();
 };
 
-#endif /* !WALL_HPP_ */
+
+#endif /* _GROUND_H_ */
