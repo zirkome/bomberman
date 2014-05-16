@@ -1,7 +1,8 @@
 #ifndef IENTITY_HPP_
 #define IENTITY_HPP_
 
-# include "glm/glm.hpp"
+# include <Clock.hh>
+# include <Input.hh>
 
 class	AObject;
 
@@ -16,6 +17,9 @@ public:
     };
 
   virtual ~IEntity() {}
+
+  virtual void update(gdl::Input &input, gdl::Clock const &clock) = 0;
+
   virtual int getPosX() const = 0;
   virtual int getPosY() const = 0;
   virtual void setPosX(const int) = 0;

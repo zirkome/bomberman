@@ -13,11 +13,13 @@ private:
 public:
   Wall(const int, const int y);
   virtual ~Wall();
-  int	getPosX() const;
-  int	getPosY() const;
-  void	setPosX(const int);
-  void	setPosY(const int);
-  AObject	*getObj();
+
+  virtual void update(gdl::Input &input, gdl::Clock const &clock);
+  virtual int	getPosX() const;
+  virtual int	getPosY() const;
+  virtual void	setPosX(const int);
+  virtual void	setPosY(const int);
+  virtual AObject	*getObj();
 };
 
 #endif /* !WALL_HPP_ */
