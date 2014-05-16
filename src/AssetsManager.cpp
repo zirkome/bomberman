@@ -69,4 +69,5 @@ void		AssetsManager::createAssets()
     _instance = new AssetsManager;
   _instance->loadAssets<gdl::Texture>(RES_ASSETS "wall_texture.tga", IEntity::WALL);
   _instance->loadAssets<gdl::Texture>(RES_ASSETS "box_texture.tga", IEntity::BOX);
+  _instance->loadAssets<gdl::Texture>(RES_ASSETS "ground_texture.tga", IEntity::GROUND);
 }

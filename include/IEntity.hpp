@@ -11,8 +11,9 @@ public:
   enum Type
     {
       BOX = 0,
-      WALL = 1,
-      NONE = 2
+      WALL,
+      GROUND,
+      NONE
     };
 
   virtual ~IEntity() {}
