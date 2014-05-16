@@ -1,16 +1,17 @@
 #ifndef GRAPHICS_HPP
-#define GRAPHICS_HPP
+# define GRAPHICS_HPP
 
-#include <iostream>
-#include <exception>
+# include <iostream>
+# include <exception>
 
-#include <glm/glm.hpp>
-#include <Geometry.hh>
-#include <Texture.hh>
-#include <BasicShader.hh>
-#include <Model.hh>
+# include <glm/glm.hpp>
+# include <Geometry.hh>
+# include <Texture.hh>
+# include <BasicShader.hh>
+# include <Model.hh>
 
-#include "ACamera.hpp"
+# include "config.h"
+# include "ACamera.hpp"
 
 /*
 ** Stock all the information needed to display
