@@ -1,6 +1,6 @@
 #include "Box.hpp"
 
-Box::Box(const int x, const int y) : _x(x), _y(y)
+Box::Box(const float x, const float y) : _vec(x, y)
 {
   _obj = new Cube(IEntity::BOX);
   _obj->translate(glm::vec3(x, 0, y));
@@ -11,24 +11,24 @@ Box::~Box()
 
 }
 
-int	Box::getPosX() const
+float	Box::getPosX() const
 {
-  return _x;
+  return _vec.x;
 }
 
-int	Box::getPosY() const
+float	Box::getPosY() const
 {
-  return _y;
+  return _vec.y;
 }
 
-void	Box::setPosX(const int x)
+void	Box::setPosX(const float x)
 {
-  _x = x;
+  _vec.x = x;
 }
 
-void	Box::setPosY(const int y)
+void	Box::setPosY(const float y)
 {
-  _y = y;
+  _vec.y = y;
 }
 
 AObject	*Box::getObj()

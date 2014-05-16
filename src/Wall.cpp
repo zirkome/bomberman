@@ -1,7 +1,7 @@
 #include "Wall.hpp"
 #include "Cube.hpp"
 
-Wall::Wall(const int x, const int y) : _x(x), _y(y)
+Wall::Wall(const float x, const float y) : _vec(x, y)
 {
   _obj = new Cube(IEntity::WALL);
   _obj->translate(glm::vec3(x, 0, y));
@@ -12,24 +12,24 @@ Wall::~Wall()
 
 }
 
-int	Wall::getPosX() const
+float	Wall::getPosX() const
 {
-  return _x;
+  return _vec.x;
 }
 
-int	Wall::getPosY() const
+float	Wall::getPosY() const
 {
-  return _y;
+  return _vec.y;
 }
 
-void	Wall::setPosX(const int x)
+void	Wall::setPosX(const float x)
 {
-  _x = x;
+  _vec.x = x;
 }
 
-void	Wall::setPosY(const int y)
+void	Wall::setPosY(const float y)
 {
-  _y = y;
+  _vec.y = y;
 }
 
 AObject	*Wall::getObj()

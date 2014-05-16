@@ -34,6 +34,7 @@ public:
   IEntity	*getEntityAt(const int x, const int y) const;
   bool		addEntity(IEntity *entity);
   bool		deleteEntityAt(const int x, const int y);
+  IEntity::Type	getTypeAt(const int x, const int y) const;
 
 private:
   bool		loadMapFromFile(std::string const &fileName);
