@@ -51,8 +51,11 @@ bool		Map::loadMapFromFile(std::string const &fileName)
   std::ifstream	file(fileName.c_str());
 
   if (!file.is_open())
-    return false;
-  //TODO throw exception
+    {
+      std::cerr << "Unable to load from file : " + fileName << std::endl;
+      return false;
+    }
+
   std::string	line;
   int		x = 0, y = 0;
   IEntity	*entity;

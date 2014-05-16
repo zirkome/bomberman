@@ -2,7 +2,8 @@
 
 Box::Box(const int x, const int y) : _x(x), _y(y)
 {
-
+  _obj = new Cube(IEntity::BOX);
+  _obj->translate(glm::vec3(x, 0, y));
 }
 
 Box::~Box()
@@ -28,4 +29,9 @@ void	Box::setPosX(const int x)
 void	Box::setPosY(const int y)
 {
   _y = y;
+}
+
+AObject	*Box::getObj()
+{
+  return _obj;
 }
