@@ -8,16 +8,16 @@
 class Ground : public IEntity
 {
 private:
-  int		_x;
-  int		_y;
+  glm::vec2	_vec;
   AObject	*_obj;
+
 public:
-  Ground(const int, const int y);
+  Ground(const float x, const float y);
   virtual ~Ground();
-  int	getPosX() const;
-  int	getPosY() const;
-  void	setPosX(const int);
-  void	setPosY(const int);
+  float	getPosX() const;
+  float	getPosY() const;
+  void	setPosX(const float);
+  void	setPosY(const float);
   AObject	*getObj();
 };
 
