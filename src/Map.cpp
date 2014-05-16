@@ -52,7 +52,7 @@ bool		Map::loadMapFromFile(std::string const &fileName)
 
   if (!file.is_open())
     return false;
-
+  //TODO throw exception
   std::string	line;
   int		x = 0, y = 0;
   IEntity	*entity;
@@ -195,3 +195,5 @@ bool	Map::deleteEntityAt(const int x, const int y)
     }
   return false;
 }
+
+//TODO method to get enum Type for an IEntity at (x, y)
