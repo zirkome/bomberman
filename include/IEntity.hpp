@@ -12,7 +12,13 @@ public:
     {
       BOX = 0,
       WALL = 1,
-      NONE = 2
+      BOMB = 2,
+      NONE = 3
+    };
+  enum Symbol
+    {
+      S_BOX = 'o',
+      S_WALL = '#'
     };
 
   virtual ~IEntity() {}
