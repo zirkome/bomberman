@@ -27,9 +27,9 @@ CC		=	g++
 
 FILETYPE	=	.cpp
 
-RM			=	rm -f
+RM		=	rm -f
 
-NAME			=	bomberman
+NAME		=	bomberman
 
 OBJDIR		=	obj/
 SRCDIR		=	src/
@@ -107,6 +107,6 @@ endif
 re:	fclean all
 
 help:
-	@echo -e "\033[37mTarget available: all, ${NAME}, clean, fclean\033[00m" | sed 's/^-e //'
+	@echo -e "\033[37mTarget available: all, ${NAME}, clean, fclean, help\033[00m" | sed 's/^-e //'
 
 .PHONY:	all clean fclean re help
