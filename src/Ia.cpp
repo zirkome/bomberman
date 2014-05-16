@@ -7,7 +7,7 @@ Ia::Ia(Map *currentMap)
 
 Ia::Ia(std::string const &fileName, Map *currentMap)
 {
-  _L = lua_open();
+  _L = luaL_newstate();
   if (_L == NULL)
     throw nFault("Init lua fail");
   _currentMap = currentMap;
