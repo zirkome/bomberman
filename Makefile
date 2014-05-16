@@ -19,27 +19,32 @@ SRC		=	main.cpp \
 			Cube.cpp \
 			ACamera.cpp \
 			FreeCam.cpp \
-			FontText.cpp
+			FontText.cpp \
+			EntitiesFactory.cpp \
+			AssetsManager.cpp \
+			Plan.cpp \
+			Ground.cpp
 
-CC			=	g++
-FILETYPE		=	.cpp
+CC		=	g++
 
-RM			=	rm -f
+FILETYPE	=	.cpp
 
-NAME			=	bomberman
+RM		=	rm -f
+
+NAME		=	bomberman
 
 OBJDIR		=	obj/
 SRCDIR		=	src/
 INCDIR		=	include/
 
-CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/ -I./liblua5.1/include/
+CFLAGS		+=	-I$(INCDIR) -Ilib/include/ -I./liblua5.1/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
 CFLAGS		+=	-Wunused-function -pipe
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread
-LDFLAGS		+=	-Wl,-rpath="`pwd`/LibBomberman_linux_x64/libs/"
-LDFLAGS		+=	-LLibBomberman_linux_x64/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
+LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
+LDFLAGS		+=	-Llib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
 LDFLAGS		+=	-L./liblua5.1/lib/ -llua5.1
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
@@ -104,6 +109,6 @@ endif
 re:	fclean all
 
 help:
-	@echo -e "\033[37mTarget available: all, ${NAME}, clean, fclean\033[00m" | sed 's/^-e //'
+	@echo -e "\033[37mTarget available: all, ${NAME}, clean, fclean, help\033[00m" | sed 's/^-e //'
 
 .PHONY:	all clean fclean re help

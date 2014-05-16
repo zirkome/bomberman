@@ -1,3 +1,6 @@
+#ifndef _GRAPHICPLAYER_H_
+#define _GRAPHICPLAYER_H_
+
 #include "AObject.hpp"
 #include <string>
 
@@ -16,3 +19,5 @@ public:
   // La fonction draw sert a dessiner l'objet
   virtual void	draw(gdl::AShader *shader);
 };
+
+#endif /* _GRAPHICPLAYER_H_ */

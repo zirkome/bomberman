@@ -20,7 +20,9 @@ int main()
       std::cerr << e.what() << std::endl;
       return (1);
     }
-  Map	map(20, 20);
+  Map	map("map.map");
 
+  map.addEntity(new Bomb(1,1));
+  map.deleteEntityAt(0,1);
   map.displayDebugMap();
 }
