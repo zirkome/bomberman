@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <list>
 
 #include <Input.hh>
 #include <Clock.hh>

@@ -1,6 +1,7 @@
 #include "AObject.hpp"
 
-AObject::AObject() : _position(0, 0, 0), _rotation(0, 0, 0), _scale(1, 1, 1)
+AObject::AObject() :
+  _position(0, 0, 0), _rotation(0, 0, 0), _scale(1, 1, 1)
 {
 
 }

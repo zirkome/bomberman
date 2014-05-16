@@ -3,6 +3,8 @@
 
 # include "glm/glm.hpp"
 
+class	AObject;
+
 class IEntity
 {
 public:
@@ -18,6 +20,7 @@ public:
   virtual int getPosY() const = 0;
   virtual void setPosX(const int) = 0;
   virtual void setPosY(const int) = 0;
+  virtual AObject *getObj() = 0;
 };
 
 #endif

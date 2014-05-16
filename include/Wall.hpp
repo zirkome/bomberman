@@ -17,6 +17,7 @@ public:
   int	getPosY() const;
   void	setPosX(const int);
   void	setPosY(const int);
+  AObject	*getObj();
 };
 
 #endif /* !WALL_HPP_ */
