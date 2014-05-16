@@ -21,7 +21,9 @@ SRC		=	main.cpp \
 			FreeCam.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
-			AssetsManager.cpp
+			AssetsManager.cpp \
+			Plan.cpp \
+			Ground.cpp
 
 CC		=	g++
 

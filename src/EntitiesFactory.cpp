@@ -17,6 +17,8 @@ IEntity		*EntitiesFactory::create(IEntity::Type type, int x, int y)
       return new Box(x, y);
     case IEntity::WALL:
       return new Wall(x, y);
+    case IEntity::GROUND:
+      return new Ground(x, y);
     default:
       return NULL;
     }
