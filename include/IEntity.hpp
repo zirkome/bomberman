@@ -10,10 +10,11 @@ class IEntity
 public:
   enum Type
     {
-      BOX = 0,
-      WALL = 1,
-      BOMB = 2,
-      NONE = 3
+      BOX ,
+      WALL,
+      BOMB,
+      GROUND,
+      NONE
     };
   enum Symbol
     {
