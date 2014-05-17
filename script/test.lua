@@ -1,2 +1,3 @@
--- the first program in every language
-io.write("Hello world, from ",_VERSION,"!\n")
+io.write('[Lua] Hello,\n')
+a,b = iaGetPos(thisptr)
+io.write('[Lua] IA create at <' .. a .. ', ' .. b .. '>\n')
