@@ -19,10 +19,13 @@ SRC		=	main.cpp \
 			Cube.cpp \
 			ACamera.cpp \
 			FreeCam.cpp \
+			FpsCam.cpp \
+			TrackCam.cpp \
+			OrthoCam.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
 			AssetsManager.cpp \
-			Plan.cpp \
+			Pan.cpp \
 			Ground.cpp
 
 CC		=	g++
