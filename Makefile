@@ -21,6 +21,7 @@ SRC		=	main.cpp \
 			FreeCam.cpp \
 			FpsCam.cpp \
 			TrackCam.cpp \
+			OrthoCam.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
 			AssetsManager.cpp \

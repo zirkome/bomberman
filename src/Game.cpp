@@ -4,6 +4,7 @@
 #include "FreeCam.hpp"
 #include "FpsCam.hpp"
 #include "TrackCam.hpp"
+#include "OrthoCam.hpp"
 #include <Geometry.hh>
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
