@@ -85,11 +85,13 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 void Game::drawGame(gdl::Clock const &clock)
 {
   gdl::AShader *shader = _ogl.getShader();
-  std::list<IEntity *>	&list = _currentMap->getMap();
+  const std::list<IEntity *> &list = _currentMap->getMap();
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
-  for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
+
+  for (std::list<IEntity*>::const_iterator it = list.begin(), end = list.end();
+       it != end; it++)
     {
       if (*it != NULL)
         (*it)->getObj()->draw(shader, clock);

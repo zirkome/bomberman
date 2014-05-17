@@ -22,5 +22,4 @@ public:
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
 };
 
-
 #endif /* _PLAN_H_ */
