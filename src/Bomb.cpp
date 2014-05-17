@@ -1,9 +1,8 @@
 #include <iostream>
 #include "Bomb.hpp"
 
-Bomb::Bomb(const int x, const int y) : _x(x), _y(y), _vec(0.01, 0.01)
+Bomb::Bomb(const float x, const float y) : _vec(x, y)
 {
-  std::cout << _vec.x << std::endl;
   _obj = new Cube(IEntity::WALL);
   _obj->translate(glm::vec3(x, 0, y));
 }
@@ -13,24 +12,24 @@ Bomb::~Bomb()
 
 }
 
-int	Bomb::getPosX() const
+float	Bomb::getPosX() const
 {
-  return _x;
+  return _vec.x;
 }
 
-int	Bomb::getPosY() const
+float	Bomb::getPosY() const
 {
-  return _y;
+  return _vec.y;
 }
 
-void	Bomb::setPosX(const int x)
+void	Bomb::setPosX(const float x)
 {
-  _x = x;
+  _vec.x = x;
 }
 
-void	Bomb::setPosY(const int y)
+void	Bomb::setPosY(const float y)
 {
-  _y = y;
+  _vec.y = y;
 }
 
 AObject *Bomb::getObj()

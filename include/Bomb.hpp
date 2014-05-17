@@ -7,20 +7,18 @@
 class Bomb : public IEntity
 {
 private:
-  int	_x;
-  int	_y;
   glm::vec2	_vec;
   AObject *_obj;
-public:
-  Bomb(const int x, const int y);
-  virtual ~Bomb();
 
-  virtual void	update(gdl::Input &input, gdl::Clock const &clock);
-  virtual int	getPosX() const;
-  virtual int	getPosY() const;
-  virtual void	setPosX(const int);
-  virtual void	setPosY(const int);
+public:
+  Bomb(const float x, const float y);
+  virtual ~Bomb();
+  virtual float	getPosX() const;
+  virtual float	getPosY() const;
+  virtual void	setPosX(const float);
+  virtual void	setPosY(const float);
   virtual AObject *getObj();
+  virtual void	update(gdl::Input &input, gdl::Clock const &clock);
 };
 
 #endif /* !BOMB_HPP_ */

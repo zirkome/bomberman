@@ -38,14 +38,13 @@ Map::~Map()
 
 IEntity::Type	Map::getType(const std::string::const_iterator &it) const
 {
-  if (*it == 'o')
+  if (*it == IEntity::S_BOX)
     return IEntity::BOX;
-  if (*it == '#')
+  if (*it == IEntity::S_WALL)
     return IEntity::WALL;
   return IEntity::GROUND;
 }
 
-/* TODO : Load map in file mapFileName */
 bool		Map::loadMapFromFile(std::string const &fileName)
 {
   std::ifstream	file(fileName.c_str());
@@ -55,6 +54,7 @@ bool		Map::loadMapFromFile(std::string const &fileName)
       std::cerr << "Unable to load from file : " + fileName << std::endl;
       return false;
     }
+
   std::string	line;
   int		x = 0, y = 0;
   IEntity	*entity;
@@ -159,10 +159,30 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
 {
   ScopeLock	lk(*_mutex);
 
-  for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it)
+  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y)
       return *it;
   return NULL;
+}
+
+/*
+** Return the Type of an Entity at coor(x, y)
+*/
+
+IEntity::Type	Map::getTypeAt(const int x, const int y) const
+{
+  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
+    if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y) {
+
+      //TODO Get better this shit (linard_f)
+      if (dynamic_cast<Box *>(*it))
+	return IEntity::BOX;
+      else if (dynamic_cast<Bomb *>(*it))
+	return IEntity::BOMB;
+      else
+	return IEntity::WALL;
+    }
+  return IEntity::NONE;
 }
 
 /*
@@ -173,7 +193,7 @@ bool		Map::addEntity(IEntity *entity)
 {
   ScopeLock	lk(*_mutex);
 
-  for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it)
+  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPosX() == (*entity).getPosX() &&
 	(*(*it)).getPosY() == (*entity).getPosY())
       return false;
@@ -199,3 +219,5 @@ bool	Map::deleteEntityAt(const int x, const int y)
     }
   return false;
 }
+
+//TODO method to get enum Type for an IEntity at (x, y)

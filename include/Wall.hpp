@@ -7,19 +7,18 @@
 class Wall : public IEntity
 {
 private:
-  int		_x;
-  int		_y;
+  glm::vec2	_vec;
   AObject	*_obj;
-public:
-  Wall(const int, const int y);
-  virtual ~Wall();
 
+public:
+  Wall(const float x, const float y);
+  virtual ~Wall();
+  virtual float	getPosX() const;
+  virtual float	getPosY() const;
+  virtual void	setPosX(const float);
+  virtual void	setPosY(const float);
+  virtual AObject *getObj();
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
-  virtual int	getPosX() const;
-  virtual int	getPosY() const;
-  virtual void	setPosX(const int);
-  virtual void	setPosY(const int);
-  virtual AObject	*getObj();
 };
 
 #endif /* !WALL_HPP_ */

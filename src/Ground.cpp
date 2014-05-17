@@ -1,7 +1,7 @@
 #include "Ground.hpp"
 #include "Pan.hpp"
 
-Ground::Ground(const int x, const int y) : _x(x), _y(y)
+Ground::Ground(const float x, const float y) : _vec(x, y)
 {
   _obj = new Pan(IEntity::GROUND);
   _obj->translate(glm::vec3(x, 0, y));
@@ -12,24 +12,24 @@ Ground::~Ground()
 
 }
 
-int	Ground::getPosX() const
+float	Ground::getPosX() const
 {
-  return _x;
+  return _vec.x;
 }
 
-int	Ground::getPosY() const
+float	Ground::getPosY() const
 {
-  return _y;
+  return _vec.y;
 }
 
-void	Ground::setPosX(const int x)
+void	Ground::setPosX(const float x)
 {
-  _x = x;
+  _vec.x = x;
 }
 
-void	Ground::setPosY(const int y)
+void	Ground::setPosY(const float y)
 {
-  _y = y;
+  _vec.y = y;
 }
 
 AObject	*Ground::getObj()

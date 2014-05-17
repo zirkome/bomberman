@@ -47,8 +47,7 @@ CFLAGS		+=	-Wunused-function -pipe
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
-LDFLAGS		+=	-Llib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
-
+LDFLAGS		+=	-Llib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
 DEPS		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.d, $(SRC))
