@@ -6,10 +6,10 @@ int iaGetPos(lua_State *L)
   const Ia *ptr;
 
   if (argc != 1)
-    throw nFault("iaGetPos need 1 argument (thisptr)");
+    throw nFault("iaGetPos need 1 argument (thisptr)");//TODO :dont throw is dangerous here
   ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   lua_pushnumber(L, ptr->getX());
   lua_pushnumber(L, ptr->getY());
   return 2; //number of return values
@@ -22,10 +22,10 @@ int iaGetMap(lua_State *L)
   int x, y;
 
   if (argc != 3)
-    throw nFault("iaGetMap need 3 arguments (x, y, thisptr)");
+    throw nFault("iaGetMap need 3 arguments (x, y, thisptr)");//TODO :dont throw is dangerous here
   ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   y = lua_tonumber(L, lua_gettop(L)); //the order of args is inverse
   x = lua_tonumber(L, lua_gettop(L));
   lua_pushnumber(L, ptr->getMap(x, y));
@@ -39,10 +39,10 @@ int iaAction(lua_State *L)
   int act;
 
   if (argc != 2)
-    throw nFault("iaAction need 2 arguments (act, thisptr)");
+    throw nFault("iaAction need 2 arguments (act, thisptr)");//TODO :dont throw is dangerous here
   ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   act = lua_tonumber(L, lua_gettop(L));
   ptr->action(act);
   return 0;
@@ -53,11 +53,11 @@ int iaLaunch(lua_State *L)
   int argc = lua_gettop(L);
   const Ia *ptr;
 
-  if (argc != 2)
-    throw nFault("iaLaunch need 1 arguments (act, thisptr)");
+  if (argc != 1)
+    throw nFault("iaLaunch need 1 arguments (act, thisptr)");//TODO :dont throw is dangerous here
   ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   ptr->action(-1);
   return 0;
 }

@@ -1,3 +1,4 @@
+iaLaunch(thisptr)
 io.write('[Lua] Hello,\n')
-a,b = iaGetPos(thisptr)
-io.write('[Lua] IA create at <' .. a .. ', ' .. b .. '>\n')
+x,y = iaGetPos(thisptr)
+io.write('[Lua] IA create at <' .. x .. ', ' .. y .. '>\n')
