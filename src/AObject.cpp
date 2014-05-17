@@ -11,17 +11,17 @@ bool AObject::initialize()
   return true;
 }
 
-void AObject::translate(glm::vec3 const &v)
+void AObject::translate(const glm::vec3& v)
 {
   _position += v;
 }
 
-void AObject::rotate(glm::vec3 const& axis, float angle)
+void AObject::rotate(const glm::vec3& axis, float angle)
 {
   _rotation += axis * angle;
 }
 
-void AObject::scale(glm::vec3 const& scale)
+void AObject::scale(const glm::vec3& scale)
 {
   _scale *= scale;
 }

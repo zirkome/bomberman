@@ -49,7 +49,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0, _currentMap->getLength() / 2));
+  _cam = new OrthoCam();
   std::list<IEntity *>	&list = _currentMap->getMap();
 
   for (std::list<IEntity *>::iterator it = list.begin(); it != list.end(); it++)
@@ -84,7 +84,6 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
 void Game::drawGame(gdl::Clock const &clock)
 {
-  (void)clock;
   gdl::AShader *shader = _ogl.getShader();
   std::list<IEntity *>	&list = _currentMap->getMap();
 
@@ -93,7 +92,7 @@ void Game::drawGame(gdl::Clock const &clock)
   for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
     {
       if (*it != NULL)
-        (*it)->getObj()->draw(shader);
+        (*it)->getObj()->draw(shader, clock);
     }
   // Menu and Game have they own Graphics class
 }

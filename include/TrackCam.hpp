@@ -1,6 +1,7 @@
 #ifndef TRACKCAM_H
 # define TRACKCAM_H
 
+# include "config.h"
 # include "ACamera.hpp"
 # include <glm/gtx/rotate_vector.hpp>
 
