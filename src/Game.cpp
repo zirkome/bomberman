@@ -28,9 +28,9 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
   while (i < numberIA)
     {
       if (size != 0)
-        _listIA.push_back(new Ia(algoFileName[i % size], _currentMap, 0, 0));
+        _listIA.push_back(new Ia(_currentMap, 0, 0, algoFileName[i % size]));
       else
-        _listIA.push_back(new Ia(_currentMap, 0, 0));
+        _listIA.push_back(new Ia(_currentMap, 0, 0, "Path/to/default/ia.lua"));
       i++;
     }
 
