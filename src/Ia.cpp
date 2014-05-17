@@ -8,6 +8,8 @@ int iaGetPos(lua_State *L)
   if (argc != 1)
     throw nFault("iaGetPos need 1 argument (thisptr)");
   ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
+  if (ptr == NULL)
+    throw nFault("thisptr can't be null");
   lua_pushnumber(L, ptr->getX());
   lua_pushnumber(L, ptr->getY());
   return 2; //number of return values
@@ -22,6 +24,8 @@ int iaGetMap(lua_State *L)
   if (argc != 3)
     throw nFault("iaGetMap need 3 arguments (x, y, thisptr)");
   ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
+  if (ptr == NULL)
+    throw nFault("thisptr can't be null");
   y = lua_tonumber(L, lua_gettop(L)); //the order of args is inverse
   x = lua_tonumber(L, lua_gettop(L));
   lua_pushnumber(L, ptr->getMap(x, y));
@@ -37,6 +41,8 @@ int iaAction(lua_State *L)
   if (argc != 2)
     throw nFault("iaAction need 2 arguments (act, thisptr)");
   ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
+  if (ptr == NULL)
+    throw nFault("thisptr can't be null");
   act = lua_tonumber(L, lua_gettop(L));
   ptr->action(act);
   return 0;
