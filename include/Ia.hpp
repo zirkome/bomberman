@@ -32,8 +32,10 @@ public:
   int getMap(int x, int y) const;
   int getX() const;
   int getY() const;
-  void setDead();
-  void action(int act) const;
+  void setX(const int x);
+  void setY(const int y);
+  void setXY(const int x, const int y);
+  void action(int act);
   void *init();
   Ia(Map *currentMap, int x, int y, std::string const &fileName);
   ~Ia();

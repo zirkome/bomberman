@@ -3,11 +3,11 @@
 int iaGetPos(lua_State *L)
 {
   int argc = lua_gettop(L);
-  const Ia *ptr;
+  Ia *ptr;
 
   if (argc != 1)
     throw nFault("iaGetPos need 1 argument (thisptr)");//TODO :dont throw is dangerous here
-  ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
+  ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   lua_pushnumber(L, ptr->getX());
@@ -18,12 +18,12 @@ int iaGetPos(lua_State *L)
 int iaGetMap(lua_State *L)
 {
   int argc = lua_gettop(L);
-  const Ia *ptr;
+  Ia *ptr;
   int x, y;
 
   if (argc != 3)
     throw nFault("iaGetMap need 3 arguments (x, y, thisptr)");//TODO :dont throw is dangerous here
-  ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
+  ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   y = lua_tonumber(L, lua_gettop(L)); //the order of args is inverse
@@ -35,12 +35,12 @@ int iaGetMap(lua_State *L)
 int iaAction(lua_State *L)
 {
   int argc = lua_gettop(L);
-  const Ia *ptr;
+  Ia *ptr;
   int act;
 
   if (argc != 2)
     throw nFault("iaAction need 2 arguments (act, thisptr)");//TODO :dont throw is dangerous here
-  ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
+  ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   act = lua_tonumber(L, lua_gettop(L));
@@ -51,11 +51,11 @@ int iaAction(lua_State *L)
 int iaLaunch(lua_State *L)
 {
   int argc = lua_gettop(L);
-  const Ia *ptr;
+  Ia *ptr;
 
   if (argc != 1)
     throw nFault("iaLaunch need 1 arguments (act, thisptr)");//TODO :dont throw is dangerous here
-  ptr = static_cast<const Ia *> (lua_topointer(L, lua_gettop(L)));
+  ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");//TODO :dont throw is dangerous here
   ptr->action(-1);
@@ -126,11 +126,8 @@ int Ia::exec()
   return _act;
 }
 
-void Ia::action(int act) const
+void Ia::action(int act)
 {
-  /* how to do this with a const ????*/
-
-  /*
   _act = act;
   _mutex.lock();
   if (_act != -1)
@@ -138,8 +135,7 @@ void Ia::action(int act) const
   _condAct.wait();
   _mutex.unlock();
   if (_dead)
-    ;// detroy thread
-  //*/ (void) act;
+    pthread_exit(&act);
 }
 
 int Ia::getX() const
@@ -150,4 +146,20 @@ int Ia::getX() const
 int Ia::getY() const
 {
   return _y;
+}
+
+void Ia::setX(const int x)
+{
+  _x = x;
+}
+
+void Ia::setY(const int y)
+{
+  _y = y;
+}
+
+void Ia::setXY(const int x, const int y)
+{
+  _x = x;
+  _y = y;
 }
