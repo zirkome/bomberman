@@ -1,5 +1,5 @@
-#ifndef _CUBE_H_
-#define _CUBE_H_
+#ifndef _PLAN_H_
+#define _PLAN_H_
 
 #include "IEntity.hpp"
 #include "AObject.hpp"
@@ -8,17 +8,18 @@
 #include <Geometry.hh>
 #include <iostream>
 
-class Cube : public AObject
+class Pan : public AObject
 {
 private:
   gdl::Texture *_texture;
   gdl::Geometry _geometry;
+
 public:
-  Cube(IEntity::Type assetsType);
-  virtual ~Cube();
+  Pan(IEntity::Type assetsType);
+  virtual ~Pan();
   virtual bool	initialize();
 
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
 };
 
-#endif /* _CUBE_H_ */
+#endif /* _PLAN_H_ */

@@ -2,6 +2,9 @@
 #include "Game.hpp"
 #include "AShader.hh"
 #include "FreeCam.hpp"
+#include "FpsCam.hpp"
+#include "TrackCam.hpp"
+#include "OrthoCam.hpp"
 #include <Geometry.hh>
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
@@ -46,10 +49,10 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  _cam = new FreeCam();
+  _cam = new OrthoCam();
   std::list<IEntity *>	&list = _currentMap->getMap();
 
-  for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
+  for (std::list<IEntity *>::iterator it = list.begin(); it != list.end(); it++)
     {
       if (*it != NULL)
         (*it)->getObj()->initialize();
@@ -81,16 +84,17 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
 void Game::drawGame(gdl::Clock const &clock)
 {
-  (void)clock;
   gdl::AShader *shader = _ogl.getShader();
-  std::list<IEntity *>	&list = _currentMap->getMap();
+  const std::list<IEntity *> &list = _currentMap->getMap();
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
-  for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
+
+  for (std::list<IEntity*>::const_iterator it = list.begin(), end = list.end();
+       it != end; it++)
     {
       if (*it != NULL)
-        (*it)->getObj()->draw(shader);
+        (*it)->getObj()->draw(shader, clock);
     }
   // Menu and Game have they own Graphics class
 }

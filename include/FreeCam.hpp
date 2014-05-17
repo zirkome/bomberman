@@ -1,8 +1,8 @@
 #ifndef FREECAM_H
-#define FREECAM_H
+# define FREECAM_H
 
-#include "ACamera.hpp"
-#include <SdlContext.hh>
+# include "ACamera.hpp"
+# include <SdlContext.hh>
 
 class FreeCam : public ACamera
 {
@@ -12,8 +12,8 @@ public:
 
   virtual void update(gdl::Input& input, const gdl::Clock& clock);
 
-private:
-  void moveCam(gdl::Input& input, float delta);
+protected:
+  virtual void moveCam(gdl::Input& input, float delta);
   void vectorsFromAngles();
 
 private:
