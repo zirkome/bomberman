@@ -69,8 +69,8 @@ FBORenderer::FBORenderer(const glm::ivec2& win)
 
   _shader = new FBOShader;
 
-  if (!_shader->load(RES_SHADERS "game.fp", GL_FRAGMENT_SHADER)
-      || !_shader->load(RES_SHADERS "game.vp", GL_VERTEX_SHADER)
+  if (!_shader->load(RES_SHADERS "fbo.fp", GL_FRAGMENT_SHADER)
+      || !_shader->load(RES_SHADERS "fbo.vp", GL_VERTEX_SHADER)
       || !_shader->build())
     {
       throw nFault("Shader failed to init");
