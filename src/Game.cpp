@@ -63,7 +63,6 @@ void Game::init(glm::ivec2 win)
 
 Game::~Game()
 {
-  // delete _cube;
   delete _cam;
 }
 
@@ -82,7 +81,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(gdl::Clock const &clock)
+void Game::drawGame(gdl::Clock const &clock) const
 {
   gdl::AShader *shader = _ogl.getShader();
   const std::list<IEntity *> &list = _currentMap->getMap();
@@ -96,5 +95,7 @@ void Game::drawGame(gdl::Clock const &clock)
       if (*it != NULL)
         (*it)->getObj()->draw(shader, clock);
     }
+
+  _ogl.processFrame();
   // Menu and Game have they own Graphics class
 }

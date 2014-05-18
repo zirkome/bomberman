@@ -5,6 +5,8 @@
 # include <glm/glm.hpp>
 
 # include "FBOShader.hpp"
+# include "PanShader.hpp"
+# include "Pan.hpp"
 # include "config.h"
 # include "Fault.hpp"
 
@@ -20,13 +22,10 @@ public:
   virtual ~FBORenderer();
 
   void start() const;
-  void stop() const;
 
-  GLuint getDiffuseTexture() const {return _fbo_texture_color;};
-  GLuint getPositionTexture() const {return _fbo_texture_position;};
-  GLuint getNormalsTexture() const {return _fbo_texture_normals;};
+  void process() const;
 
-  gdl::AShader* getShader() const {return _shader;};
+  gdl::AShader* getShader() const {return _fboshader;};
 
 protected:
   GLuint _fbo_texture_color;
@@ -35,7 +34,8 @@ protected:
   GLuint _rbo_depth;
   GLuint _fbo;
 
-  gdl::AShader* _shader;
+  gdl::AShader* _fboshader;
+  gdl::AShader* _rendershader;
 };
 
 #endif // FBORENDERER_H

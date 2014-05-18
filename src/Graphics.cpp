@@ -29,6 +29,11 @@ void GameGraphics::startFrame() const
   _fbo->getShader()->setUniform("projection", _proj);
 }
 
+void GameGraphics::processFrame() const
+{
+  _fbo->process();
+}
+
 MenuGraphics::MenuGraphics()
 {
 }

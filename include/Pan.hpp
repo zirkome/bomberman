@@ -16,10 +16,12 @@ private:
 
 public:
   Pan(IEntity::Type assetsType);
+  Pan();
   virtual ~Pan();
   virtual bool	initialize();
 
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
+  void	draw(gdl::AShader *shader);
 };
 
 #endif /* _PLAN_H_ */

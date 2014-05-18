@@ -67,11 +67,20 @@ FBORenderer::FBORenderer(const glm::ivec2& win)
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-  _shader = new FBOShader;
+  _fboshader = new FBOShader;
 
-  if (!_shader->load(RES_SHADERS "fbo.fp", GL_FRAGMENT_SHADER)
-      || !_shader->load(RES_SHADERS "fbo.vp", GL_VERTEX_SHADER)
-      || !_shader->build())
+  if (!_fboshader->load(RES_SHADERS "fbo.fp", GL_FRAGMENT_SHADER)
+      || !_fboshader->load(RES_SHADERS "fbo.vp", GL_VERTEX_SHADER)
+      || !_fboshader->build())
+    {
+      throw nFault("Shader failed to init");
+    }
+
+  _rendershader = new PanShader;
+
+  if (!_rendershader->load(RES_SHADERS "pan.fp", GL_FRAGMENT_SHADER)
+      || !_rendershader->load(RES_SHADERS "pan.vp", GL_VERTEX_SHADER)
+      || !_rendershader->build())
     {
       throw nFault("Shader failed to init");
     }
@@ -85,17 +94,38 @@ FBORenderer::~FBORenderer()
   glDeleteTextures(1, &_fbo_texture_normals);
   glDeleteFramebuffers(1, &_fbo);
 
-  delete _shader;
+  delete _fboshader;
 }
 
 void FBORenderer::start() const
 {
-  _shader->bind();
+  _fboshader->bind();
   glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void FBORenderer::stop() const
+void FBORenderer::process() const
 {
+  Pan pan;
+
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+  _rendershader->bind();
+
+  glActiveTexture(GL_TEXTURE0);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, _fbo_texture_color);
+  glUniform1i(_fbo_texture_color, 0);
+
+  glActiveTexture(GL_TEXTURE1);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, _fbo_texture_position);
+  glUniform1i(_fbo_texture_position, 1);
+
+  glActiveTexture(GL_TEXTURE2);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, _fbo_texture_normals);
+  glUniform1i(_fbo_texture_normals, 2);
+
+  pan.draw(_rendershader);
 }

@@ -48,8 +48,6 @@ private:
 };
 
 
-
-
 class GameGraphics : public Graphics
 {
 public:
@@ -58,6 +56,8 @@ public:
 
   virtual bool init(const glm::ivec2& win);
   virtual void startFrame() const;
+
+  void processFrame() const;
 
   gdl::AShader *getShader() const {return _fbo ? _fbo->getShader() : NULL;};
 
