@@ -49,7 +49,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  _cam = new OrthoCam();
+  _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0, _currentMap->getLength() / 2));
   std::list<IEntity *>	&list = _currentMap->getMap();
 
   for (std::list<IEntity *>::iterator it = list.begin(); it != list.end(); it++)

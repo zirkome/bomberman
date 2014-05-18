@@ -3,6 +3,8 @@ SRC		=	main.cpp \
 			Game.cpp \
 			Fault.cpp \
 			Graphics.cpp \
+			FBORenderer.cpp \
+			FBOShader.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
 			Map.cpp \
