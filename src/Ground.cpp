@@ -4,7 +4,9 @@
 Ground::Ground(const float x, const float y) : _vec(x, y)
 {
   _obj = new Pan(IEntity::GROUND);
-  _obj->translate(glm::vec3(x, 0, y));
+  _obj->translate(glm::vec3(x, -0.5f, y));
+  _obj->scale(glm::vec3(0.5f, 0.5f, 1.0));
+  _obj->rotate(glm::vec3(1, 0, 0), 90.0);
 }
 
 Ground::~Ground()
