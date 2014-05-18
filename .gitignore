@@ -36,3 +36,5 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 bomberman
+.#*
+*.bin
