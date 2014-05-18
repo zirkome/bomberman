@@ -3,8 +3,8 @@
 
 # include <OpenGL.hh>
 # include <glm/glm.hpp>
-# include <BasicShader.hh>
 
+# include "FBOShader.hpp"
 # include "config.h"
 # include "Fault.hpp"
 

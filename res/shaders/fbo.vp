@@ -1,0 +1,38 @@
+#version 120
+
+///////////////////////////////
+// Attribute coming from the cpu
+
+in vec4 vPosition;
+in vec4 vColor;
+in vec4 vNormal;
+in vec2 vTexCoord;
+
+///////////////////////////////
+// Attributes for the fragment shader
+
+out vec4 fColor;
+out vec4 fPosition;
+out vec4 fNormal;
+out vec2 fUv;
+
+///////////////////////////////
+// Uniform variables
+
+uniform sampler2D fTexture0;
+
+uniform	mat4 projection;
+uniform	mat4 view;
+uniform	mat4 model;
+
+void main( void )
+{
+  fColor = vColor;
+  fUv = vTexCoord;
+
+  fPosition = model * vPosition;
+  fNormal = normalize(model * vNormal);
+
+  gl_Position = projection * view * model * vPosition;
+}
+}

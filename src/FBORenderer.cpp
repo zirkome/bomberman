@@ -67,7 +67,7 @@ FBORenderer::FBORenderer(const glm::ivec2& win)
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
+  _shader = new FBOShader;
 
   if (!_shader->load(RES_SHADERS "game.fp", GL_FRAGMENT_SHADER)
       || !_shader->load(RES_SHADERS "game.vp", GL_VERTEX_SHADER)
