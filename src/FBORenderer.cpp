@@ -8,6 +8,16 @@ FBORenderer::FBORenderer(const glm::ivec2& win)
   _rbo_depth = 0;
   _fbo = 0;
 
+  _fboshader = new FBOShader;
+
+  if (!_fboshader->load(RES_SHADERS "fbo.fp", GL_FRAGMENT_SHADER)
+      || !_fboshader->load(RES_SHADERS "fbo.vp", GL_VERTEX_SHADER)
+      || !_fboshader->build())
+    {
+      throw nFault("Shader failed to init");
+    }
+  _fboshader->bind();
+
   /* Texture color*/
   glActiveTexture(GL_TEXTURE0);
   glGenTextures(1, &_fbo_texture_color);
@@ -56,7 +66,6 @@ FBORenderer::FBORenderer(const glm::ivec2& win)
 
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _rbo_depth);
 
-  // Specify what to render
   GLenum buffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
   glDrawBuffers(3, buffers);
 
@@ -66,15 +75,7 @@ FBORenderer::FBORenderer(const glm::ivec2& win)
     }
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-  _fboshader = new FBOShader;
-
-  if (!_fboshader->load(RES_SHADERS "fbo.fp", GL_FRAGMENT_SHADER)
-      || !_fboshader->load(RES_SHADERS "fbo.vp", GL_VERTEX_SHADER)
-      || !_fboshader->build())
-    {
-      throw nFault("Shader failed to init");
-    }
+  glActiveTexture(GL_TEXTURE0);
 
   _rendershader = new PanShader;
 
@@ -84,6 +85,8 @@ FBORenderer::FBORenderer(const glm::ivec2& win)
     {
       throw nFault("Shader failed to init");
     }
+  _pan = new Pan;
+  _pan->initialize();
 }
 
 FBORenderer::~FBORenderer()
@@ -103,29 +106,22 @@ void FBORenderer::start() const
   glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
-
 void FBORenderer::process() const
 {
-  Pan pan;
-
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
   _rendershader->bind();
 
   glActiveTexture(GL_TEXTURE0);
-  glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, _fbo_texture_color);
-  glUniform1i(_fbo_texture_color, 0);
+  _rendershader->setUniform("tColor", 0);
 
   glActiveTexture(GL_TEXTURE1);
-  glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, _fbo_texture_position);
-  glUniform1i(_fbo_texture_position, 1);
+  _rendershader->setUniform("tPosition", 1);
 
   glActiveTexture(GL_TEXTURE2);
-  glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, _fbo_texture_normals);
-  glUniform1i(_fbo_texture_normals, 2);
+  _rendershader->setUniform("tNormals", 2);
 
-  pan.draw(_rendershader);
+  _pan->draw(_rendershader);
 }

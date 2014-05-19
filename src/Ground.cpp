@@ -1,7 +1,8 @@
 #include "Ground.hpp"
 #include "Pan.hpp"
 
-Ground::Ground(const float x, const float y) : _vec(x, y)
+Ground::Ground(const float x, const float y)
+  : _vec(x, y)
 {
   _obj = new Pan(IEntity::GROUND);
   _obj->translate(glm::vec3(x, -0.5f, y));

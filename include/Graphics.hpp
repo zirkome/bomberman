@@ -59,7 +59,7 @@ public:
 
   void processFrame() const;
 
-  gdl::AShader *getShader() const {return _fbo ? _fbo->getShader() : NULL;};
+  gdl::AShader *getShader() const;
 
 protected:
   float _fov;

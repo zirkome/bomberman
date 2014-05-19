@@ -36,6 +36,8 @@ protected:
 
   gdl::AShader* _fboshader;
   gdl::AShader* _rendershader;
+
+  Pan *_pan;
 };
 
 #endif // FBORENDERER_H

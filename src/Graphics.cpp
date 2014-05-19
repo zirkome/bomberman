@@ -20,6 +20,7 @@ bool GameGraphics::init(const glm::ivec2& win)
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0f);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
   return true;
 }
 
@@ -31,7 +32,12 @@ void GameGraphics::startFrame() const
 
 void GameGraphics::processFrame() const
 {
-  _fbo->process();
+ _fbo->process();
+}
+
+gdl::AShader *GameGraphics::getShader() const
+{
+  return _fbo ? _fbo->getShader() : NULL;
 }
 
 MenuGraphics::MenuGraphics()

@@ -21,9 +21,9 @@ varying vec2 fUv;
 
 uniform sampler2D fTexture0;
 
-uniform	mat4 projection;
-uniform	mat4 view;
-uniform	mat4 model;
+uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
 
 void main(void)
 {
