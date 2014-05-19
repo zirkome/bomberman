@@ -123,5 +123,6 @@ void FBORenderer::process() const
   glBindTexture(GL_TEXTURE_2D, _fbo_texture_normals);
   _rendershader->setUniform("tNormals", 2);
 
+  glActiveTexture(GL_TEXTURE0);
   _pan->draw(_rendershader);
 }

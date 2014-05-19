@@ -6,6 +6,7 @@
 
 # include "FBOShader.hpp"
 # include "PanShader.hpp"
+# include "Cube.hpp"
 # include "Pan.hpp"
 # include "config.h"
 # include "Fault.hpp"

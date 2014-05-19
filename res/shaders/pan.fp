@@ -20,5 +20,5 @@ void main(void)
 
   normal = normalize(normal);
 
-  gl_FragColor = position;
+  gl_FragColor = color;
 }

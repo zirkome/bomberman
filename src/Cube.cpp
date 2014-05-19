@@ -11,8 +11,6 @@ Cube::~Cube()
 
 bool Cube::initialize()
 {
-  // _geometry.setColor(glm::vec4(1, 0, 0, 1));
-
   _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
   _geometry.pushVertex(glm::vec3(0.5, 0.5, 0.5));
   _geometry.pushVertex(glm::vec3(-0.5, 0.5, 0.5));
