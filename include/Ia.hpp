@@ -27,6 +27,7 @@ private:
   PCondVar _condAct;
   PThread _thread;
   bool _dead;
+  bool _running;
   std::string _fileName;
 public:
   int getMap(int x, int y) const;

@@ -1,13 +1,7 @@
 #include "Pan.hpp"
 
-Pan::Pan(IEntity::Type assetsType)
-{
-  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(assetsType);
-}
-
 Pan::Pan()
 {
-  _texture = NULL;
 }
 
 Pan::~Pan()
@@ -39,14 +33,10 @@ bool Pan::initialize()
 
 void Pan::draw(gdl::AShader *shader, UNUSED const gdl::Clock& clock)
 {
-  if (_texture)
-    _texture->bind();
   _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
 }
 
 void Pan::draw(gdl::AShader *shader)
 {
-  if (_texture)
-    _texture->bind();
   _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
 }

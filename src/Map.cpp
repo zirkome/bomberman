@@ -112,7 +112,7 @@ void	Map::displayDebugMap() const
       for (int j = 0; j < _y; ++j) {
 	check = false;
 	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
-	  if ((*(*it)).getPosX() == i && (*(*it)).getPosY() == j) {
+	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
 	    if (dynamic_cast<Box *>(*it) != NULL)
 	      std::cout << "o";
 	    else if (dynamic_cast<Wall *>(*it) != NULL)
@@ -160,7 +160,7 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
   ScopeLock	lk(*_mutex);
 
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
-    if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y)
+    if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y)
       return *it;
   return NULL;
 }
@@ -172,7 +172,7 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
 IEntity::Type	Map::getTypeAt(const int x, const int y) const
 {
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
-    if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y) {
+    if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
 
       //TODO Get better this shit (linard_f)
       if (dynamic_cast<Box *>(*it))
@@ -194,8 +194,8 @@ bool		Map::addEntity(IEntity *entity)
   ScopeLock	lk(*_mutex);
 
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
-    if ((*(*it)).getPosX() == (*entity).getPosX() &&
-	(*(*it)).getPosY() == (*entity).getPosY())
+    if ((*(*it)).getPos().x == (*entity).getPos().x &&
+	(*(*it)).getPos().y == (*entity).getPos().y)
       return false;
   _map.push_back(entity);
   return true;
@@ -211,7 +211,7 @@ bool	Map::deleteEntityAt(const int x, const int y)
   IEntity	*entity;
 
   for (LMap::iterator it = _map.begin(); it != _map.end(); ++it)
-    if ((*(*it)).getPosX() == x && (*(*it)).getPosY() == y) {
+    if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
       entity = *it;
       delete entity;
       _map.erase(it);

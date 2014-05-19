@@ -15,8 +15,8 @@ private:
   gdl::Geometry _geometry;
 
 public:
-  Pan(IEntity::Type assetsType);
   Pan();
+
   virtual ~Pan();
   virtual bool	initialize();
 

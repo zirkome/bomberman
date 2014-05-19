@@ -1,7 +1,7 @@
 #ifndef _GROUND_H_
 #define _GROUND_H_
 
-
+# include <Texture.hh>
 # include "IEntity.hpp"
 # include "AObject.hpp"
 
@@ -10,16 +10,14 @@ class Ground : public IEntity
 private:
   glm::vec2	_vec;
   AObject	*_obj;
-
+  gdl::Texture	*_texture;
 public:
-  Ground(const float x, const float y);
+  Ground(glm::vec2 pos);
   virtual ~Ground();
-  virtual float	getPosX() const;
-  virtual float	getPosY() const;
-  virtual void	setPosX(const float);
-  virtual void	setPosY(const float);
-  virtual AObject	*getObj();
-  virtual void update(gdl::Input &input, gdl::Clock const &clock);
+  virtual glm::vec2	getPos() const;
+  virtual void	setPos(glm::vec2 new_pos);
+  virtual void	update(gdl::Input &input, gdl::Clock const &clock);
+  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
 };
 
 

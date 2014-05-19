@@ -14,7 +14,7 @@ private:
   gdl::Texture *_texture;
   gdl::Geometry _geometry;
 public:
-  Cube(IEntity::Type assetsType);
+  Cube();
   virtual ~Cube();
   virtual bool	initialize();
 
