@@ -1,50 +1,94 @@
+#include <iostream>
 #include "FontText.hpp"
 
-FontText::FontText(const gdl::Texture &texture, int c_width, int c_height) : _texture(texture)
+FontText::FontText(const std::string &path)
 {
-  _img_height = texture.getWidth();
-  _img_width = texture.getHeight();
-  _c_height = c_height;
-  _c_width = c_width;
-  _c_by_row = _img_width / _c_width;
+  if (_texture.load(path) == false)
+    throw std::runtime_error("Can't load : " + path);
+  _textureID = _texture.getId();
+
+  // Initialize VBO
+  glGenBuffers(1, &_vertexBuffID);
+  glGenBuffers(1, &_UVBuffID);
 }
 
-void FontText::drawText(int x, int y, int w, int h, std::string const &text)
+void FontText::displayText(const std::string &str, glm::vec2 pos, int size, gdl::AShader *shader)
 {
-  glLoadIdentity();
-  glTranslatef(x, y, 0.0f);
-  _texture.bind();
-  glBegin(GL_QUADS);
+  // Initialize Shader
+  _shaderID = shader->getProgramId();
+  std::cout << "shaderID : " << _shaderID << std::endl;
+  // Initialize uniforms' IDs
+  _uniformID = shader->getUniformId("fTexture0");
+  std::cout << "uniformID : " << _uniformID << std::endl;
+  unsigned int length = str.size();
 
-  //character location and dimensions
-  GLfloat cx = 0.0f;
-  GLfloat cy = 0.0f;
-  GLfloat cw = float(w);
-  GLfloat ch = float(h);
+  // Fill buffers
+  std::vector<glm::vec2> vertices;
+  std::vector<glm::vec2> UVs;
+  for (unsigned int i = 0 ; i < length ; i++)
+    {
+      glm::vec2 vertex_up_left    = glm::vec2( pos.x+i*size     , pos.y+size );
+      glm::vec2 vertex_up_right   = glm::vec2( pos.x+i*size+size, pos.y+size );
+      glm::vec2 vertex_down_right = glm::vec2( pos.x+i*size+size, pos.y      );
+      glm::vec2 vertex_down_left  = glm::vec2( pos.x+i*size     , pos.y      );
 
-  //calculate how wide each character is in term of texture coords
-  GLfloat dtx = float(_c_width)/float(_img_width);
-  GLfloat dty = float(_c_height)/float(_img_height);
+      vertices.push_back(vertex_up_left   );
+      vertices.push_back(vertex_down_left );
+      vertices.push_back(vertex_up_right  );
 
-  const char *str = text.c_str();
-  for (int i = 0; char c = str[i]; i++, cx += cw) {
-    // subtract the value of the first char in the character map
-    // to get the index in our map
-    int index = c - '0';
-    int row = index / _c_by_row;
-    int col = index % _c_by_row;
+      vertices.push_back(vertex_down_right);
+      vertices.push_back(vertex_up_right);
+      vertices.push_back(vertex_down_left);
 
-    // if (index < 0)
-    //   throw GameException(__FILE__, __LINE__, "Character outside of font");
+      char character = str[i];
+      float uv_x = (character % 16) / 16.0f;
+      float uv_y = (character / 16) / 16.0f;
 
-    // find the texture coords
-    GLfloat tx = float(col * _c_width) / float(_img_width);
-    GLfloat ty = float(row * _c_height) / float(_img_height);
+      glm::vec2 uv_up_left    = glm::vec2( uv_x           , uv_y );
+      glm::vec2 uv_up_right   = glm::vec2( uv_x+1.0f/16.0f, uv_y );
+      glm::vec2 uv_down_right = glm::vec2( uv_x+1.0f/16.0f, (uv_y + 1.0f/16.0f) );
+      glm::vec2 uv_down_left  = glm::vec2( uv_x           , (uv_y + 1.0f/16.0f) );
+      UVs.push_back(uv_up_left   );
+      UVs.push_back(uv_down_left );
+      UVs.push_back(uv_up_right  );
 
-    glTexCoord2d(tx,ty); glVertex2f(cx,cy);
-    glTexCoord2d(tx+dtx,ty); glVertex2f(cx+cw,cy);
-    glTexCoord2d(tx+dtx,ty+dty); glVertex2f(cx+cw,cy+ch);
-    glTexCoord2d(tx,ty+dty); glVertex2f(cx,cy+ch);
-  }
-  glEnd();
+      UVs.push_back(uv_down_right);
+      UVs.push_back(uv_up_right);
+      UVs.push_back(uv_down_left);
+    }
+
+  glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffID);
+  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), &vertices[0], GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, _UVBuffID);
+  glBufferData(GL_ARRAY_BUFFER, UVs.size() * sizeof(glm::vec2), &UVs[0], GL_STATIC_DRAW);
+
+  // Bind shader
+  glUseProgram(_shaderID);
+
+  // Bind texture
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, _textureID);
+  // Set our "myTextureSampler" sampler to user Texture Unit 0
+  glUniform1i(_uniformID, 0);
+
+  // 1rst attribute buffer : vertices
+  glEnableVertexAttribArray(0);
+  glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffID);
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0 );
+
+  // 2nd attribute buffer : UVs
+  glEnableVertexAttribArray(1);
+  glBindBuffer(GL_ARRAY_BUFFER, _UVBuffID);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0 );
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  // Draw call
+  glDrawArrays(GL_TRIANGLES, 0, vertices.size() );
+
+  glDisable(GL_BLEND);
+
+  glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
 }

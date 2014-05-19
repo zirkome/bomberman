@@ -1,23 +1,29 @@
 #ifndef _FONTTEXT_H_
 #define _FONTTEXT_H_
 
-#include <Texture.hh>
-#include <iostream>
-#include <string>
+# include <AShader.hh>
+# include <Texture.hh>
+# include <iostream>
+# include <string>
+# include <vector>
+# include <exception>
+# include <stdexcept>
 
 class FontText
 {
 private:
-  const gdl::Texture	_texture;
-  GLuint		_img_width;
-  GLuint		_img_height;
-  GLuint		_c_width;
-  GLuint		_c_height;
-  GLint  		_c_by_row;
+  gdl::Texture	_texture;
+  GLuint	_textureID;
+  GLuint        _shaderID;
+  GLuint        _uniformID;
+  GLuint        _vertexBuffID;
+  GLuint        _UVBuffID;
+
 public:
-  FontText(const gdl::Texture &texture, int c_width, int c_height);
-  virtual ~FontText() {}
-  void drawText(int x, int y, int w, int h, std::string const &text);
+  FontText(const std::string &path);
+  ~FontText() {};
+  void displayText(const std::string &str, glm::vec2 pos, int size, gdl::AShader *shader);
+
 };
 
 #endif /* _FONTTEXT_H_ */

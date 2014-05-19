@@ -5,6 +5,7 @@
 #include "FpsCam.hpp"
 #include "TrackCam.hpp"
 #include "OrthoCam.hpp"
+#include "config.h"
 #include <Geometry.hh>
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
@@ -58,7 +59,7 @@ void Game::init(glm::ivec2 win)
   //     if (*it != NULL)
   //       (*it)->getObj()->initialize();
   //   }
-  _font = new FontText();
+  _font = new FontText(RES_ASSETS "font.tga");
   _ogl.init(win);
 }
 
@@ -102,6 +103,7 @@ void Game::drawGame(gdl::Clock const &clock) const
       (*it)->draw(shader, clock);
     }
 
+  _font->displayText("Hello", glm::vec2(0,0), 10, shader);
   _ogl.processFrame(_cam->getPosition());
   // Menu and Game have they own Graphics class
 }
