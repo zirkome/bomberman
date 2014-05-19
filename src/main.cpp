@@ -22,7 +22,7 @@ int main()
     }
   Map	map("map.map");
 
-  map.addEntity(new Bomb(1,1));
+  map.addEntity(new Bomb(glm::vec2(1,1)));
   map.deleteEntityAt(0,1);
   map.displayDebugMap();
 }

@@ -1,8 +1,7 @@
 #include "Cube.hpp"
 
-Cube::Cube(IEntity::Type assetsType)
+Cube::Cube()
 {
-  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(assetsType);
 }
 
 Cube::~Cube()
@@ -75,6 +74,5 @@ bool Cube::initialize()
 
 void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock& clock)
 {
-  _texture->bind();
   _geometry.draw(*shader, getTransformation(), GL_QUADS);
 }

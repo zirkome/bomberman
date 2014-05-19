@@ -1,8 +1,7 @@
 #include "Pan.hpp"
 
-Pan::Pan(IEntity::Type assetsType)
+Pan::Pan()
 {
-  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(assetsType);
 }
 
 Pan::~Pan()
@@ -27,6 +26,5 @@ bool Pan::initialize()
 
 void Pan::draw(gdl::AShader *shader, UNUSED const gdl::Clock& clock)
 {
-  _texture->bind();
   _geometry.draw(*shader, getTransformation(), GL_QUADS);
 }

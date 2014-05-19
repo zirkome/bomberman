@@ -9,16 +9,15 @@ class Box : public IEntity
 private:
   glm::vec2	_vec;
   AObject	*_obj;
+  gdl::Texture	*_texture;
 
 public:
-  Box(const float x, const float y);
+  Box(glm::vec2 pos);
   virtual ~Box();
-  virtual float	getPosX() const;
-  virtual float	getPosY() const;
-  virtual void	setPosX(const float);
-  virtual void	setPosY(const float);
-  virtual AObject *getObj();
+  virtual glm::vec2	getPos() const;
+  virtual void	setPos(glm::vec2 new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
+  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
 };
 
 #endif /* !BOX_HPP_ */

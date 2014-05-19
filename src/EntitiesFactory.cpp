@@ -14,11 +14,11 @@ IEntity		*EntitiesFactory::create(IEntity::Type type, int x, int y)
   switch (type)
     {
     case IEntity::BOX:
-      return new Box(x, y);
+      return new Box(glm::vec2(x, y));
     case IEntity::WALL:
-      return new Wall(x, y);
+      return new Wall(glm::vec2(x, y));
     case IEntity::GROUND:
-      return new Ground(x, y);
+      return new Ground(glm::vec2(x, y));
     default:
       return NULL;
     }
