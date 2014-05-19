@@ -1,6 +1,6 @@
 #include "Box.hpp"
 
-Box::Box(glm::vec2 pos) : _vec(pos)
+Box::Box(const glm::vec2 &pos) : _vec(pos)
 {
   _obj = new Cube();
   _obj->initialize();
@@ -13,12 +13,12 @@ Box::~Box()
 
 }
 
-glm::vec2	Box::getPos() const
+const glm::vec2	&Box::getPos() const
 {
   return _vec;
 }
 
-void	Box::setPos(glm::vec2 new_pos)
+void	Box::setPos(const glm::vec2 &new_pos)
 {
   _vec = new_pos;
 }

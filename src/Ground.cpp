@@ -1,7 +1,7 @@
 #include "Ground.hpp"
 #include "Pan.hpp"
 
-Ground::Ground(glm::vec2 pos) : _vec(pos)
+Ground::Ground(const glm::vec2 &pos) : _vec(pos)
 {
   _obj = new Pan();
   _obj->initialize();
@@ -14,12 +14,12 @@ Ground::~Ground()
 
 }
 
-glm::vec2	Ground::getPos() const
+const glm::vec2	&Ground::getPos() const
 {
   return _vec;
 }
 
-void	Ground::setPos(glm::vec2 new_pos)
+void	Ground::setPos(const glm::vec2 &new_pos)
 {
   _vec = new_pos;
 }

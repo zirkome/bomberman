@@ -13,10 +13,10 @@ private:
   gdl::Texture	*_texture;
 
 public:
-  Wall(glm::vec2 pos);
+  Wall(const glm::vec2 &pos);
   virtual ~Wall();
-  virtual glm::vec2	getPos() const;
-  virtual void	setPos(glm::vec2 new_pos);
+  virtual const glm::vec2 &getPos() const;
+  virtual void	setPos(const glm::vec2 &new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
 };

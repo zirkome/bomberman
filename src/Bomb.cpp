@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Bomb.hpp"
 
-Bomb::Bomb(glm::vec2 pos) : _vec(pos)
+Bomb::Bomb(const glm::vec2 &pos) : _vec(pos)
 {
   _obj = new Cube();
   _obj->initialize();
@@ -13,12 +13,12 @@ Bomb::~Bomb()
 
 }
 
-glm::vec2	Bomb::getPos() const
+const glm::vec2	&Bomb::getPos() const
 {
   return _vec;
 }
 
-void	Bomb::setPos(glm::vec2 new_pos)
+void	Bomb::setPos(const glm::vec2 &new_pos)
 {
   _vec = new_pos;
 }

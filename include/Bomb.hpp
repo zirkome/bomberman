@@ -11,10 +11,10 @@ private:
   AObject *_obj;
 
 public:
-  Bomb(glm::vec2 pos);
+  Bomb(const glm::vec2 &pos);
   virtual ~Bomb();
-  virtual glm::vec2	getPos() const;
-  virtual void	setPos(glm::vec2 new_pos);
+  virtual const glm::vec2 &getPos() const;
+  virtual void	setPos(const glm::vec2 &new_pos);
   virtual void	update(gdl::Input &input, gdl::Clock const &clock);
   virtual void  draw(gdl::AShader *shader, const gdl::Clock& clock);
 };
