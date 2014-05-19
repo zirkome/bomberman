@@ -5,6 +5,7 @@ Wall::Wall(const glm::vec2 &pos) : _vec(pos)
 {
   _obj = new Cube();
   _obj->initialize();
+  _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
   _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::WALL);
 }
