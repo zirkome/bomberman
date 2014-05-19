@@ -24,7 +24,7 @@ public:
 
   void start() const;
 
-  void process() const;
+  void process(const glm::vec3& camPos) const;
 
   gdl::AShader* getShader() const {return _fboshader;};
 

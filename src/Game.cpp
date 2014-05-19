@@ -96,6 +96,6 @@ void Game::drawGame(gdl::Clock const &clock) const
         (*it)->draw(shader, clock);
     }
 
-  _ogl.processFrame();
+  _ogl.processFrame(_cam->getPosition());
   // Menu and Game have they own Graphics class
 }

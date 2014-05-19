@@ -30,9 +30,9 @@ void GameGraphics::startFrame() const
   _fbo->getShader()->setUniform("projection", _proj);
 }
 
-void GameGraphics::processFrame() const
+void GameGraphics::processFrame(const glm::vec3& camPos) const
 {
- _fbo->process();
+ _fbo->process(camPos);
 }
 
 gdl::AShader *GameGraphics::getShader() const

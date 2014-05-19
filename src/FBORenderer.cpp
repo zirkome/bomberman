@@ -106,10 +106,12 @@ void FBORenderer::start() const
   glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
-void FBORenderer::process() const
+void FBORenderer::process(const glm::vec3& camPos) const
 {
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   _rendershader->bind();
+
+  _rendershader->setUniform("camPos", camPos);
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, _fbo_texture_color);

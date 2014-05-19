@@ -57,7 +57,7 @@ public:
   virtual bool init(const glm::ivec2& win);
   virtual void startFrame() const;
 
-  void processFrame() const;
+  void processFrame(const glm::vec3& camPos) const;
 
   gdl::AShader *getShader() const;
 

@@ -15,6 +15,7 @@ bool PanShader::build()
   _build();
 
   _bindAttribLocation(0, "vPosition");
+  _bindAttribLocation(1, "camPos");
   ret = _linkProgram();
   if (ret)
     {
