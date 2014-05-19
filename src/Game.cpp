@@ -40,7 +40,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new Player(_currentMap));
+      _players.push_back(new Player(glm::vec2(1,1)));
       i++;
     }
   init(win);
@@ -49,7 +49,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0, _currentMap->getLength() / 2));
+  _cam = new FreeCam;
   // std::list<IEntity *>	&list = _currentMap->getMap();
 
   // for (std::list<IEntity *>::iterator it = list.begin(); it != list.end(); it++)
@@ -58,6 +58,7 @@ void Game::init(glm::ivec2 win)
   //       (*it)->getObj()->initialize();
   //   }
   // _font = new FontText(_text_texture, 19, 29);
+
   _ogl.init(win);
 }
 
@@ -95,6 +96,10 @@ void Game::drawGame(gdl::Clock const &clock)
     {
       if (*it != NULL)
         (*it)->draw(shader, clock);
+    }
+  for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end() ; it++)
+    {
+      (*it)->draw(shader, clock);
     }
   // Menu and Game have they own Graphics class
 }

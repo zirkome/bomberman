@@ -26,7 +26,8 @@ SRC		=	main.cpp \
 			EntitiesFactory.cpp \
 			AssetsManager.cpp \
 			Pan.cpp \
-			Ground.cpp
+			Ground.cpp \
+			Model.cpp
 
 CC		=	g++
 

@@ -105,31 +105,31 @@ IEntity		*Map::getEntityForMap(const int x, const int y, const int i) const
 
 void	Map::displayDebugMap() const
 {
-  bool	check;
+  // bool	check;
 
-  if (_map.size() > 0) {
-    for (int i = 0; i < _x; ++i) {
-      for (int j = 0; j < _y; ++j) {
-	check = false;
-	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
-	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
-	    if (dynamic_cast<Box *>(*it) != NULL)
-	      std::cout << "o";
-	    else if (dynamic_cast<Wall *>(*it) != NULL)
-	      std::cout << "#";
-	    else if (dynamic_cast<Ground *>(*it) != NULL)
-	      std::cout << "#";
-	    else
-	      std::cout << "*";
-	    check = true;
-	  }
-	}
-	if (check == false)
-	  std::cout << " ";
-      }
-      std::cout << std::endl;
-    }
-  }
+  // if (_map.size() > 0) {
+  //   for (int i = 0; i < _x; ++i) {
+  //     for (int j = 0; j < _y; ++j) {
+  // 	check = false;
+  // 	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
+  // 	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
+  // 	    if (dynamic_cast<Box *>(*it) != NULL)
+  // 	      std::cout << "o";
+  // 	    else if (dynamic_cast<Wall *>(*it) != NULL)
+  // 	      std::cout << "#";
+  // 	    else if (dynamic_cast<Ground *>(*it) != NULL)
+  // 	      std::cout << "#";
+  // 	    else
+  // 	      std::cout << "*";
+  // 	    check = true;
+  // 	  }
+  // 	}
+  // 	if (check == false)
+  // 	  std::cout << " ";
+  //     }
+  //     std::cout << std::endl;
+  //   }
+  // }
 }
 
 /*

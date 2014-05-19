@@ -31,7 +31,7 @@ bool GameEngine::initialize()
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
   AssetsManager::createAssets();
-  _game = new ::Game(glm::ivec2(width, heigth), 2, 2, tmp, "map2.map");
+  _game = new ::Game(glm::ivec2(width, heigth), 2, 0, tmp, "map2.map");
   return true;
 }
 
