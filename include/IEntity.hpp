@@ -26,8 +26,8 @@ public:
     };
 
   virtual ~IEntity() {}
-  virtual glm::vec2 getPos() const = 0;
-  virtual void setPos(glm::vec2 new_pos) = 0;
+  virtual const glm::vec2 &getPos() const = 0;
+  virtual void setPos(const glm::vec2 &new_pos) = 0;
   virtual void update(gdl::Input &input, gdl::Clock const &clock) = 0;
   virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) = 0;
 };

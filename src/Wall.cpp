@@ -1,7 +1,7 @@
 #include "Wall.hpp"
 #include "Cube.hpp"
 
-Wall::Wall(glm::vec2 pos) : _vec(pos)
+Wall::Wall(const glm::vec2 &pos) : _vec(pos)
 {
   _obj = new Cube();
   _obj->initialize();
@@ -14,12 +14,12 @@ Wall::~Wall()
 
 }
 
-glm::vec2	Wall::getPos() const
+const glm::vec2	&Wall::getPos() const
 {
   return _vec;
 }
 
-void	Wall::setPos(glm::vec2 new_pos)
+void	Wall::setPos(const glm::vec2 &new_pos)
 {
   _vec = new_pos;
 }
