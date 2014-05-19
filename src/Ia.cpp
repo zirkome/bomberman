@@ -113,10 +113,12 @@ void *Ia::init()
     }
   catch (std::exception& e)
     {
-      _running = false;
       std::cerr << e.what() << std::endl;
     }
   _running = false;
+  _mutex.lock();
+  _condAct.notifyAll();
+  _mutex.unlock();
   return NULL;
 }
 
@@ -151,6 +153,9 @@ void Ia::action(int act)
   if (_dead)
     {
       _running = false;
+      _mutex.lock();
+      _condAct.notifyAll();
+      _mutex.unlock();
       pthread_exit(&act);
     }
 }
