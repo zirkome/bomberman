@@ -9,6 +9,7 @@
 #include <Clock.hh>
 #include <Texture.hh>
 #include "Graphics.hpp"
+#include "ACamera.hpp"
 #include "Map.hpp"
 #include "Ia.hpp"
 #include "Player.hpp"
@@ -29,7 +30,7 @@ public:
 
 public:
   bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(gdl::Clock const &clock);
+  void drawGame(gdl::Clock const &clock) const;
 
 private:
   void init(glm::ivec2 win);

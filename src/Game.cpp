@@ -64,7 +64,6 @@ void Game::init(glm::ivec2 win)
 
 Game::~Game()
 {
-  // delete _cube;
   delete _cam;
 }
 
@@ -83,7 +82,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(gdl::Clock const &clock)
+void Game::drawGame(gdl::Clock const &clock) const
 {
   gdl::AShader *shader = _ogl.getShader();
   const std::list<IEntity *> &list = _currentMap->getMap();
@@ -92,14 +91,17 @@ void Game::drawGame(gdl::Clock const &clock)
   shader->setUniform("view", _cam->project());
 
   for (std::list<IEntity*>::const_iterator it = list.begin(), end = list.end();
-       it != end; it++)
+       it != end; ++it)
     {
       if (*it != NULL)
         (*it)->draw(shader, clock);
     }
-  for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end() ; it++)
+
+  for (std::vector<Player *>::const_iterator it = _players.begin(); it != _players.end(); ++it)
     {
       (*it)->draw(shader, clock);
     }
+
+  _ogl.processFrame(_cam->getPosition());
   // Menu and Game have they own Graphics class
 }
