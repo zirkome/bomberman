@@ -13,6 +13,7 @@ public:
       BOX = 0,
       WALL,
       GROUND,
+      MODEL,
       NONE
     };
 
