@@ -21,7 +21,8 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 {
   int i, size;
 
-  if (numberIA < 0 || numberPlayer < 0 || (numberPlayer + numberIA <= 1))
+  if (numberIA < 0 || numberPlayer < 0 // || (numberPlayer + numberIA <= 1)
+      )
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
@@ -57,8 +58,7 @@ void Game::init(glm::ivec2 win)
   //     if (*it != NULL)
   //       (*it)->getObj()->initialize();
   //   }
-  // _font = new FontText(_text_texture, 19, 29);
-
+  _font = new FontText();
   _ogl.init(win);
 }
 
