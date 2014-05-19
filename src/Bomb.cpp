@@ -29,8 +29,7 @@ void	Bomb::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 
 }
 
-void    Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-  // _texture->bind();
   _obj->draw(shader, clock);
 }
