@@ -8,11 +8,15 @@
 
 class Player : public IEntity
 {
+  typedef bool (Player::*move)(double const);
+  typedef std::map<int, move> MovePtr;
+
 private:
   glm::vec2	_vec;
   AObject	*_obj;
   Map		*_map;
   int		_speed;
+  MovePtr	_movePtr;
 public:
   Player(glm::vec2 pos, Map *map);
   ~Player();
