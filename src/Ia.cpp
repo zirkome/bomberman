@@ -1,3 +1,4 @@
+#include <sstream>
 #include "Ia.hpp"
 
 int iaGetPos(lua_State *L)
@@ -10,6 +11,7 @@ int iaGetPos(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   lua_pushnumber(L, ptr->getX());
   lua_pushnumber(L, ptr->getY());
   return 2; //number of return values
@@ -26,8 +28,11 @@ int iaGetMap(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   y = lua_tonumber(L, lua_gettop(L)); //the order of args is inverse
+  lua_pop(L, 1);
   x = lua_tonumber(L, lua_gettop(L));
+  lua_pop(L, 1);
   lua_pushnumber(L, ptr->getMap(x, y));
   return 1;
 }
@@ -43,7 +48,9 @@ int iaAction(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   act = lua_tonumber(L, lua_gettop(L));
+  lua_pop(L, 1);
   ptr->action(act);
   return 0;
 }
@@ -58,6 +65,7 @@ int iaLaunch(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   ptr->action(-1);
   return 0;
 }
@@ -202,44 +210,46 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   IEntity::Type elem;
   (void) clock;
+
   exec();
+
   if (_act == 1)
-    {
-      elem = _currentMap->getTypeAt(_x + 1, _y);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _x += 1;
-	  _vec.x += 1;
-	  _obj->translate(glm::vec3(0, 0, 1));
-	}
-    }
-  if (_act == 2)
-    {
-      elem = _currentMap->getTypeAt(_x - 1, _y);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _x -= 1;
-	  _vec.x -= 1;
-	  _obj->translate(glm::vec3(0, 0, -1));
-	}
-    }
-  if (_act == 3)
-    {
-      elem = _currentMap->getTypeAt(_x, _y - 1);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _y -= 1;
-	  _vec.y -= 1;
-	  _obj->translate(glm::vec3(-1, 0, 0));
-	}
-    }
-  if (_act == 4)
     {
       elem = _currentMap->getTypeAt(_x, _y + 1);
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
 	  _y += 1;
 	  _vec.y += 1;
+	  _obj->translate(glm::vec3(0, 0, 1));
+	}
+    }
+  if (_act == 2)
+    {
+      elem = _currentMap->getTypeAt(_x, _y - 1);
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _y -= 1;
+	  _vec.y -= 1;
+	  _obj->translate(glm::vec3(0, 0, -1));
+	}
+    }
+  if (_act == 3)
+    {
+      elem = _currentMap->getTypeAt(_x - 1, _y);
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _x -= 1;
+	  _vec.x -= 1;
+	  _obj->translate(glm::vec3(-1, 0, 0));
+	}
+    }
+  if (_act == 4)
+    {
+      elem = _currentMap->getTypeAt(_x + 1, _y);
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _x += 1;
+	  _vec.x += 1;
 	  _obj->translate(glm::vec3(1, 0, 0));
 	}
     }
