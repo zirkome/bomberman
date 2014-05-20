@@ -173,14 +173,7 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
 {
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
-
-      //TODO Get better this shit (linard_f)
-      if (dynamic_cast<Box *>(*it))
-	return IEntity::BOX;
-      else if (dynamic_cast<Bomb *>(*it))
-	return IEntity::BOMB;
-      else
-	return IEntity::WALL;
+      return (*it)->getType();
     }
   return IEntity::NONE;
 }

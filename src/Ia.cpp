@@ -206,8 +206,12 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
 void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-
   _obj->draw(shader, clock);
+}
+
+IEntity::Type Ia::getType() const
+{
+  return IEntity::PLAYER;
 }
 
 const glm::vec2 &Ia::getPos() const

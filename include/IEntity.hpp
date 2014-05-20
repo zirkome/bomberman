@@ -12,12 +12,13 @@ class IEntity
 public:
   enum Type
     {
-      BOX ,
-      WALL,
-      BOMB,
-      GROUND,
-      MODEL,
-      NONE
+      BOX = 0,
+      WALL = 1,
+      BOMB = 2,
+      GROUND = 3,
+      MODEL = 4,
+      PLAYER = 5,
+      NONE = 6
     };
   enum Symbol
     {
@@ -30,6 +31,7 @@ public:
   virtual void setPos(const glm::vec2 &new_pos) = 0;
   virtual void update(gdl::Input &input, gdl::Clock const &clock) = 0;
   virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) = 0;
+  virtual IEntity::Type getType() const = 0;
 };
 
 #endif

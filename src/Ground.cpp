@@ -38,3 +38,8 @@ void Ground::draw(gdl::AShader *shader, const gdl::Clock& clock)
   _texture->bind();
   _obj->draw(shader, clock);
 }
+
+IEntity::Type Ground::getType() const
+{
+  return IEntity::GROUND;
+}

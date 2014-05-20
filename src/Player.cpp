@@ -33,3 +33,8 @@ void	Player::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
   _obj->draw(shader, clock);
 }
+
+IEntity::Type Player::getType() const
+{
+  return IEntity::PLAYER;
+}

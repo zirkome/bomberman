@@ -45,6 +45,7 @@ public:
   const glm::vec2 &getPos() const;
   void action(int act);
   void *init();
+  IEntity::Type getType() const;
   Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName);
   ~Ia();
   int exec(); /*!BLOQUANT! call it when the ia can make one action */
