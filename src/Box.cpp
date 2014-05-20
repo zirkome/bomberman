@@ -34,3 +34,8 @@ void	Box::draw(gdl::AShader *shader, const gdl::Clock& clock)
   _texture->bind();
   _obj->draw(shader, clock);
 }
+
+IEntity::Type Box::getType() const
+{
+  return IEntity::BOX;
+}

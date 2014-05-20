@@ -105,31 +105,31 @@ IEntity		*Map::getEntityForMap(const int x, const int y, const int i) const
 
 void	Map::displayDebugMap() const
 {
-  // bool	check;
+  bool	check;
 
-  // if (_map.size() > 0) {
-  //   for (int i = 0; i < _x; ++i) {
-  //     for (int j = 0; j < _y; ++j) {
-  // 	check = false;
-  // 	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
-  // 	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
-  // 	    if (dynamic_cast<Box *>(*it) != NULL)
-  // 	      std::cout << "o";
-  // 	    else if (dynamic_cast<Wall *>(*it) != NULL)
-  // 	      std::cout << "#";
-  // 	    else if (dynamic_cast<Ground *>(*it) != NULL)
-  // 	      std::cout << "#";
-  // 	    else
-  // 	      std::cout << "*";
-  // 	    check = true;
-  // 	  }
-  // 	}
-  // 	if (check == false)
-  // 	  std::cout << " ";
-  //     }
-  //     std::cout << std::endl;
-  //   }
-  // }
+  if (_map.size() > 0) {
+    for (int i = 0; i < _x; ++i) {
+      for (int j = 0; j < _y; ++j) {
+  	check = false;
+  	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
+  	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
+  	    if (dynamic_cast<Box *>(*it) != NULL)
+  	      std::cerr << "o";
+  	    else if (dynamic_cast<Wall *>(*it) != NULL)
+  	      std::cerr << "#";
+  	    else if (dynamic_cast<Ground *>(*it) != NULL)
+  	      std::cerr << " ";
+  	    else
+  	      std::cerr << "*";
+  	    check = true;
+  	  }
+  	}
+  	if (check == false)
+  	  std::cerr << " ";
+      }
+      std::cerr << std::endl;
+    }
+  }
 }
 
 /*
@@ -173,14 +173,7 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
 {
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
-
-      //TODO Get better this shit (linard_f)
-      if (dynamic_cast<Box *>(*it))
-	return IEntity::BOX;
-      else if (dynamic_cast<Bomb *>(*it))
-	return IEntity::BOMB;
-      else
-	return IEntity::WALL;
+      return (*it)->getType();
     }
   return IEntity::NONE;
 }
@@ -193,10 +186,10 @@ bool		Map::addEntity(IEntity *entity)
 {
   ScopeLock	lk(*_mutex);
 
-  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
+  /*  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == (*entity).getPos().x &&
 	(*(*it)).getPos().y == (*entity).getPos().y)
-      return false;
+	return false;*/ /* We can have more than one think one the map */
   _map.push_back(entity);
   return true;
 }
@@ -220,4 +213,12 @@ bool	Map::deleteEntityAt(const int x, const int y)
   return false;
 }
 
-//TODO method to get enum Type for an IEntity at (x, y)
+Map::iterator	Map::begin()
+{
+  return _map.begin();
+}
+
+Map::iterator	Map::end()
+{
+  return _map.end();
+}

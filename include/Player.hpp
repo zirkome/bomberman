@@ -17,6 +17,7 @@ public:
   virtual void	setPos(const glm::vec2 &new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
+  virtual IEntity::Type getType() const;
 };
 
 #endif /* !PLAYER_HPP_ */

@@ -18,6 +18,9 @@ class Map
 {
   typedef std::list<IEntity *> LMap;
 
+public:
+  typedef std::list<IEntity *>::iterator iterator;
+
 private:
   int		_x;
   int		_y;
@@ -35,6 +38,8 @@ public:
   bool		addEntity(IEntity *entity);
   bool		deleteEntityAt(const int x, const int y);
   IEntity::Type	getTypeAt(const int x, const int y) const;
+  Map::iterator	begin();
+  Map::iterator	end();
 
 private:
   bool		loadMapFromFile(std::string const &fileName);

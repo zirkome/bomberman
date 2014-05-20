@@ -14,7 +14,7 @@ public:
   pthread_mutex_t mutex;
 
 public:
-  PMutex(const pthread_mutexattr_t *attr = NULL);
+  explicit PMutex(const pthread_mutexattr_t *attr = NULL);
   virtual ~PMutex();
 
 public:

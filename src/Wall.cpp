@@ -35,3 +35,8 @@ void	Wall::draw(gdl::AShader *shader, const gdl::Clock& clock)
   _texture->bind();
   _obj->draw(shader, clock);
 }
+
+IEntity::Type Wall::getType() const
+{
+  return IEntity::WALL;
+}

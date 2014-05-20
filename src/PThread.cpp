@@ -13,8 +13,6 @@ PThread::PThread(Func f, void *arg)
 
 PThread::~PThread()
 {
-  setCancelModeAsynchronous();
-  cancel();
   join(NULL);
 }
 
