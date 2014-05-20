@@ -19,7 +19,10 @@ uniform mat4 model;
 
 void main(void)
 {
-  gl_FragData[0] = fColor * vec4((texture2D(fTexture0, fUv, -2).rgb), 1.0);
+ if (texture2D(fTexture0, fUv, -2).w > 0.5)
+  gl_FragData[0] = fColor * texture2D(fTexture0, fUv, -2);
+ else
+  gl_FragData[0] = vec4(1.0, 1.0, 1.0, 0.0);
   gl_FragData[1] = fPosition;
   gl_FragData[2] = fNormal;
 }
