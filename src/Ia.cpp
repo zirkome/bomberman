@@ -202,7 +202,6 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   IEntity::Type elem;
   (void) clock;
-
   exec();
   if (_act == 1)
     {
@@ -211,6 +210,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	{
 	  _x += 1;
 	  _vec.x += 1;
+	  _obj->translate(glm::vec3(0, 0, 1));
 	}
     }
   if (_act == 2)
@@ -220,6 +220,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	{
 	  _x -= 1;
 	  _vec.x -= 1;
+	  _obj->translate(glm::vec3(0, 0, -1));
 	}
     }
   if (_act == 3)
@@ -229,6 +230,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	{
 	  _y -= 1;
 	  _vec.y -= 1;
+	  _obj->translate(glm::vec3(-1, 0, 0));
 	}
     }
   if (_act == 4)
@@ -238,6 +240,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	{
 	  _y += 1;
 	  _vec.y += 1;
+	  _obj->translate(glm::vec3(1, 0, 0));
 	}
     }
 }
