@@ -27,7 +27,6 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
-
   i = 0;
   size = algoFileName.size();
   while (i < numberIA)
@@ -86,17 +85,14 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 void Game::drawGame(gdl::Clock const &clock) const
 {
   gdl::AShader *shader = _ogl.getShader();
-  const std::list<IEntity *> &list = _currentMap->getMap();
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
 
-  for (std::list<IEntity*>::const_iterator it = list.begin(), end = list.end();
-       it != end; ++it)
-    {
-      if (*it != NULL)
-        (*it)->draw(shader, clock);
-    }
+  for (Map::iterator it = _currentMap->begin(), end = _currentMap->end(); it != end; ++it) {
+    if (*it != NULL)
+      (*it)->draw(shader, clock);
+  }
 
   for (std::vector<Player *>::const_iterator it = _players.begin(); it != _players.end(); ++it)
     {
