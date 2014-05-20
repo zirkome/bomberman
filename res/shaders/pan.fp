@@ -51,7 +51,7 @@ void main(void)
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
 
-  gl_FragColor = color; //* lighting;
+  gl_FragColor = color * lighting;
 }
 
 

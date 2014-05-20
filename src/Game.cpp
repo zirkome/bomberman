@@ -23,7 +23,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
   int i, size;
 
   if (numberIA < 0 || numberPlayer < 0 // || (numberPlayer + numberIA <= 1)
-      )
+     )
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
@@ -41,7 +41,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new Player(glm::vec2(1,1), _currentMap));
+      _players.push_back(new Player(glm::vec2(1, 1), _currentMap));
       i++;
     }
   for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)
@@ -97,10 +97,15 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   shader->setUniform("view", _cam->project());
 
   for (Map::iterator it = _currentMap->begin(), end = _currentMap->end(); it != end; ++it) {
-    (*it)->draw(shader, clock);
-  }
+      (*it)->draw(shader, clock);
+    }
 
-  _font->displayText("facebook", glm::vec3(0,1,0), 3, shader);
+  _font->displayText("facebook", glm::vec3(0, 1, 0), 3, shader);
+
+ /* shader->setUniform("view", glm::mat4(1));
+
+  _font->displayText("facebook", glm::vec3(0, 1, 0), 3, shader);*/
+
   _ogl.processFrame(_cam->getPosition());
   // Menu and Game have they own Graphics class
 }
