@@ -76,6 +76,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _vec = pos;
   _dead = false;
   _fileName = fileName;
+  _act = 0;
 
   _obj = new Model(RES_ASSETS "marvin.fbx");
   _obj->initialize();
@@ -107,6 +108,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 Ia::~Ia()
 {
   _dead = true;
+  _condAct.notifyAll();
   lua_close(_L);
 }
 
@@ -143,7 +145,7 @@ int Ia::exec()
     {
       _mutex.lock();
       _condAct.notifyAll();
-      _condAct.wait();
+      _condAct.wait();/* TODO : change that */
       _mutex.unlock();
     }
   return _act;
@@ -180,11 +182,13 @@ int Ia::getY() const
 void Ia::setX(const int x)
 {
   _x = x;
+  _vec.x = x;
 }
 
 void Ia::setY(const int y)
 {
   _y = y;
+  _vec.y = y;
 }
 
 void Ia::setPos(const glm::vec2 &new_pos)
@@ -202,6 +206,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
 void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
+
   _obj->draw(shader, clock);
 }
 
