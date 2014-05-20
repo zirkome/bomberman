@@ -73,6 +73,8 @@ Ia::Ia(Map *currentMap, int x, int y, std::string const &fileName)
   _running = false;
   _x = x;
   _y = y;
+  _vec.x = x;
+  _vec.y = y;
   _dead = false;
   _fileName = fileName;
   _L = luaL_newstate();
@@ -180,8 +182,26 @@ void Ia::setY(const int y)
   _y = y;
 }
 
-void Ia::setXY(const int x, const int y)
+void Ia::setPos(const glm::vec2 &new_pos)
 {
-  _x = x;
-  _y = y;
+  _vec = new_pos;
+  _x = new_pos.x;
+  _y = new_pos.y;
+}
+
+void Ia::update(gdl::Input &input, gdl::Clock const &clock)
+{
+  (void) input;
+  (void) clock;
+}
+
+void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
+{
+  (void) shader;
+  (void) clock;
+}
+
+const glm::vec2 &Ia::getPos() const
+{
+  return _vec;
 }
