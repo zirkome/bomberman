@@ -15,6 +15,7 @@ extern "C" {
 #include "PCondVar.hpp"
 #include "PThread.hpp"
 #include "IEntity.hpp"
+#include "Model.hpp"
 
 class Ia : public IEntity
 {
@@ -29,6 +30,7 @@ private:
   PThread _thread;
   bool _dead;
   bool _running;
+  AObject *_obj;
   glm::vec2 _vec;
   std::string _fileName;
 public:

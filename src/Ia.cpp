@@ -76,6 +76,12 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _vec = pos;
   _dead = false;
   _fileName = fileName;
+
+  _obj = new Model(RES_ASSETS "marvin.fbx");
+  _obj->initialize();
+  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
+  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
   _L = luaL_newstate();
   if (_L == NULL)
     throw nFault("Init lua fail");
@@ -188,16 +194,15 @@ void Ia::setPos(const glm::vec2 &new_pos)
   _y = new_pos.y;
 }
 
-void Ia::update(gdl::Input &input, gdl::Clock const &clock)
+void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
-  (void) input;
   (void) clock;
+  /* TODO : call exec*/
 }
 
 void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-  (void) shader;
-  (void) clock;
+  _obj->draw(shader, clock);
 }
 
 const glm::vec2 &Ia::getPos() const
