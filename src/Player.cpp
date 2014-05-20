@@ -26,8 +26,6 @@ void	Player::setPos(const glm::vec2 &new_pos)
 
 void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 {
-  if (_vec.x == _vec.y)
-    std::cerr << "toto" << std::endl;
   if (input.getKey(SDLK_UP))
     moveUp(clock.getElapsed() * _speed);
   if (input.getKey(SDLK_DOWN))
