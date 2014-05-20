@@ -26,6 +26,7 @@ private:
   float _y;
   int _speed;
   int _act;
+  int _rotate;
   PMutex _mutex;
   PCondVar _condAct;
   PThread _thread;

@@ -86,6 +86,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _dead = false;
   _fileName = fileName;
   _act = 0;
+  _rotate = 0;
 
   _obj = new Model(RES_ASSETS "marvin.fbx");
   _obj->initialize();
@@ -126,7 +127,7 @@ void *Ia::init()
   try
     {
       _running = true;
-      luaL_dofile(_L,"script/test.lua");
+      luaL_dofile(_L,"script/test2.lua");
       //  luaL_dofile(_L,_fileName.c_str());
     }
   catch (std::exception& e)
@@ -223,6 +224,9 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	  _y += distance;
 	  _vec.y += distance;
 	  _obj->translate(glm::vec3(0, 0, distance));
+	  if (_rotate != 0)
+	    _obj->rotate(glm::vec3(0, 1, 0), -_rotate);
+	  _rotate = 0;
 	}
     }
   if (_act == 2)
@@ -233,6 +237,9 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	  _y -= distance;
 	  _vec.y -= distance;
 	  _obj->translate(glm::vec3(0, 0, -distance));
+	  if (_rotate != 180)
+	    _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-180));
+	  _rotate = 180;
 	}
     }
   if (_act == 3)
@@ -243,6 +250,9 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	  _x -= distance;
 	  _vec.x -= distance;
 	  _obj->translate(glm::vec3(-distance, 0, 0));
+	  if (_rotate != 270)
+	    _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-270));
+	  _rotate = 270;
 	}
     }
   if (_act == 4)
@@ -253,6 +263,9 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 	  _x += distance;
 	  _vec.x += distance;
 	  _obj->translate(glm::vec3(distance, 0, 0));
+	  if (_rotate != 90)
+	    _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-90));
+	  _rotate = 90;
 	}
     }
 }
