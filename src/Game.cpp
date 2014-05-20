@@ -84,13 +84,12 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
     {
-      if (*it != NULL)
-        (*it)->update(input, clock);
+      (*it)->update(input, clock);
     }
   return true;
 }
 
-void Game::drawGame(gdl::Input &input, gdl::Clock const &clock) const
+void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
 {
   gdl::AShader *shader = _ogl.getShader();
 
@@ -98,15 +97,8 @@ void Game::drawGame(gdl::Input &input, gdl::Clock const &clock) const
   shader->setUniform("view", _cam->project());
 
   for (Map::iterator it = _currentMap->begin(), end = _currentMap->end(); it != end; ++it) {
-    if (*it != NULL)
-      (*it)->draw(shader, clock);
+    (*it)->draw(shader, clock);
   }
-
-  for (std::vector<Player *>::const_iterator it = _players.begin(); it != _players.end(); ++it)
-    {
-      (*it)->update(input, clock);
-      (*it)->draw(shader, clock);
-    }
 
   _font->displayText("facebook", glm::vec3(0,1,0), 3, shader);
   _ogl.processFrame(_cam->getPosition());
