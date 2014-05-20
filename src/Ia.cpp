@@ -67,14 +67,13 @@ void *iaStart(void *ptr)
   return (static_cast<Ia *> (ptr))->init();
 }
 
-Ia::Ia(Map *currentMap, int x, int y, std::string const &fileName)
+Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 : _condAct(_mutex), _thread(iaStart, this)
 {
   _running = false;
-  _x = x;
-  _y = y;
-  _vec.x = x;
-  _vec.y = y;
+  _x = pos.x;
+  _y = pos.y;
+  _vec = pos;
   _dead = false;
   _fileName = fileName;
   _L = luaL_newstate();
