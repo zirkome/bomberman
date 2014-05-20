@@ -204,30 +204,42 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
   (void) clock;
 
   exec();
-  if (_act == 1 && elem = _currentMap->getTypeAt(x + 1, y))
+  if (_act == 1)
+    {
+      elem = _currentMap->getTypeAt(_x + 1, _y);
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
 	  _x += 1;
 	  _vec.x += 1;
-	};
-  if (_act == 2 && elem = _currentMap->getTypeAt(x - 1, y))
+	}
+    }
+  if (_act == 2)
+    {
+      elem = _currentMap->getTypeAt(_x - 1, _y);
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
 	  _x -= 1;
 	  _vec.x -= 1;
 	}
-  if (_act == 3 && elem = _currentMap->getTypeAt(x, y - 1))
+    }
+  if (_act == 3)
+    {
+      elem = _currentMap->getTypeAt(_x, _y - 1);
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
 	  _y -= 1;
 	  _vec.y -= 1;
-	};
-  if (_act == 4 && elem = _currentMap->getTypeAt(x + 1, y + 1))
+	}
+    }
+  if (_act == 4)
+    {
+      elem = _currentMap->getTypeAt(_x, _y + 1);
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
 	  _y += 1;
 	  _vec.y += 1;
 	}
+    }
 }
 
 void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
