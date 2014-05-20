@@ -23,12 +23,12 @@ void FontText::displayText(const std::string &str, const glm::vec3 &pos, int siz
       float uv_x = (str[i] % 16) / 16.0f;
       float uv_y = (str[i] / 16) / 16.0f;
 
-      geometry.pushVertex(glm::vec3(pos.x + i * size, pos.y + size , pos.z));
-      geometry.pushVertex(glm::vec3(pos.x + i * size, pos.y, pos.z));
-      geometry.pushVertex(glm::vec3(pos.x + i * size + size, pos.y + size, pos.z));
-      geometry.pushVertex(glm::vec3(pos.x + i * size + size, pos.y, pos.z));
-      geometry.pushVertex(glm::vec3(pos.x + i * size + size, pos.y + size, pos.z));
-      geometry.pushVertex(glm::vec3(pos.x + i * size, pos.y, pos.z));
+      geometry.pushVertex(glm::vec3(pos.x + i * size / 1.5, pos.y + size , pos.z));
+      geometry.pushVertex(glm::vec3(pos.x + i * size / 1.5, pos.y, pos.z));
+      geometry.pushVertex(glm::vec3(pos.x + i * size / 1.5 + size, pos.y + size, pos.z));
+      geometry.pushVertex(glm::vec3(pos.x + i * size / 1.5 + size, pos.y, pos.z));
+      geometry.pushVertex(glm::vec3(pos.x + i * size / 1.5 + size, pos.y + size, pos.z));
+      geometry.pushVertex(glm::vec3(pos.x + i * size / 1.5, pos.y, pos.z));
 
       geometry.pushUv(glm::vec2(uv_x, 1.0 - uv_y));
       geometry.pushUv(glm::vec2(uv_x, 1 - (uv_y + 1.0 / 16.0)));

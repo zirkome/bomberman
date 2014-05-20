@@ -5,10 +5,9 @@
 # include <Model.hh>
 # include "AObject.hpp"
 
-class Model : public AObject
+class Model : public AObject, public gdl::Model
 {
 private:
-  gdl::Model	*_model;
   std::string	_path;
 public:
   Model(const std::string &);

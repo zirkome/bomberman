@@ -100,7 +100,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
     (*it)->draw(shader, clock);
   }
 
-  _font->displayText("facebook", glm::vec3(0,1,0), 3, shader);
+  _font->displayText("ABCDEFGHIJKLMNOPQRSTUVWXYZ", glm::vec3(0,1,0), 1, shader);
   _ogl.processFrame(_cam->getPosition());
   // Menu and Game have they own Graphics class
 }

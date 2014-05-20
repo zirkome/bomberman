@@ -32,7 +32,7 @@ private:
   PThread _thread;
   bool _dead;
   bool _running;
-  AObject *_obj;
+  Model *_obj;
   glm::vec2 _vec;
   std::string _fileName;
 public:

@@ -1,6 +1,7 @@
 #ifndef PLAYER_HPP_
 # define PLAYER_HPP_
 
+# include <string>
 # include <map>
 # include "Model.hpp"
 # include "IEntity.hpp"
@@ -8,23 +9,31 @@
 
 class Player : public IEntity
 {
+  enum Status {
+    STANDBY = 0,
+    WALK,
+    STOP_WALK
+  };
+
   typedef bool (Player::*move)(double const);
   typedef std::map<int, move> MovePtr;
 
 private:
   glm::vec2	_vec;
-  AObject	*_obj;
+  Model		*_obj;
   Map		*_map;
   int		_speed;
   MovePtr	_movePtr;
+  Status	_status;
 public:
   Player(glm::vec2 pos, Map *map);
   ~Player();
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
-  virtual void update(gdl::Input &input, gdl::Clock const &clock);
+  virtual void	update(gdl::Input &input, gdl::Clock const &clock);
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
   virtual IEntity::Type getType() const;
+  virtual void	setStatus(Player::Status);
 private:
   bool	moveUp(double const distance);
   bool	moveDown(double const distance);
