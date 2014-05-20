@@ -78,6 +78,7 @@ void *iaStart(void *ptr)
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 : _condAct(_mutex), _thread(iaStart, this)
 {
+  _speed = 3;
   _running = false;
   _x = pos.x;
   _y = pos.y;
@@ -177,23 +178,23 @@ void Ia::action(int act)
     }
 }
 
-int Ia::getX() const
+float Ia::getX() const
 {
   return _x;
 }
 
-int Ia::getY() const
+float Ia::getY() const
 {
   return _y;
 }
 
-void Ia::setX(const int x)
+void Ia::setX(const float x)
 {
   _x = x;
   _vec.x = x;
 }
 
-void Ia::setY(const int y)
+void Ia::setY(const float y)
 {
   _y = y;
   _vec.y = y;
@@ -209,48 +210,49 @@ void Ia::setPos(const glm::vec2 &new_pos)
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   IEntity::Type elem;
-  (void) clock;
+  double distance;
 
   exec();
 
+  distance = clock.getElapsed() * _speed;
   if (_act == 1)
     {
-      elem = _currentMap->getTypeAt(_x, _y + 1);
+      elem = _currentMap->getTypeAt((int)_x, (int)(_y +  distance + 1));
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
-	  _y += 1;
-	  _vec.y += 1;
-	  _obj->translate(glm::vec3(0, 0, 1));
+	  _y += distance;
+	  _vec.y += distance;
+	  _obj->translate(glm::vec3(0, 0, distance));
 	}
     }
   if (_act == 2)
     {
-      elem = _currentMap->getTypeAt(_x, _y - 1);
+      elem = _currentMap->getTypeAt((int)_x, (int)(_y - distance));
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
-	  _y -= 1;
-	  _vec.y -= 1;
-	  _obj->translate(glm::vec3(0, 0, -1));
+	  _y -= distance;
+	  _vec.y -= distance;
+	  _obj->translate(glm::vec3(0, 0, -distance));
 	}
     }
   if (_act == 3)
     {
-      elem = _currentMap->getTypeAt(_x - 1, _y);
+      elem = _currentMap->getTypeAt((int)(_x - distance), (int)_y);
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
-	  _x -= 1;
-	  _vec.x -= 1;
-	  _obj->translate(glm::vec3(-1, 0, 0));
+	  _x -= distance;
+	  _vec.x -= distance;
+	  _obj->translate(glm::vec3(-distance, 0, 0));
 	}
     }
   if (_act == 4)
     {
-      elem = _currentMap->getTypeAt(_x + 1, _y);
+      elem = _currentMap->getTypeAt((int)(_x + 1 + distance), (int)_y);
       if (elem != BOX && elem != WALL && elem != BOMB)
 	{
-	  _x += 1;
-	  _vec.x += 1;
-	  _obj->translate(glm::vec3(1, 0, 0));
+	  _x += distance;
+	  _vec.x += distance;
+	  _obj->translate(glm::vec3(distance, 0, 0));
 	}
     }
 }

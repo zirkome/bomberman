@@ -22,8 +22,9 @@ class Ia : public IEntity
 private:
   Map *_currentMap;
   lua_State *_L;
-  int _x;
-  int _y;
+  float _x;
+  float _y;
+  int _speed;
   int _act;
   PMutex _mutex;
   PCondVar _condAct;
@@ -35,10 +36,10 @@ private:
   std::string _fileName;
 public:
   int getMap(int x, int y) const;
-  int getX() const;
-  int getY() const;
-  void setX(const int x);
-  void setY(const int y);
+  float getX() const;
+  float getY() const;
+  void setX(const float x);
+  void setY(const float y);
   void setPos(const glm::vec2 &new_pos);
   void update(gdl::Input &input, gdl::Clock const &clock);
   void draw(gdl::AShader *shader, const gdl::Clock& clock);
