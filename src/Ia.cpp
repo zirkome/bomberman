@@ -200,8 +200,34 @@ void Ia::setPos(const glm::vec2 &new_pos)
 
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
+  IEntity::Type elem;
   (void) clock;
-  /* TODO : call exec*/
+
+  exec();
+  if (_act == 1 && elem = _currentMap->getTypeAt(x + 1, y))
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _x += 1;
+	  _vec.x += 1;
+	};
+  if (_act == 2 && elem = _currentMap->getTypeAt(x - 1, y))
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _x -= 1;
+	  _vec.x -= 1;
+	}
+  if (_act == 3 && elem = _currentMap->getTypeAt(x, y - 1))
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _y -= 1;
+	  _vec.y -= 1;
+	};
+  if (_act == 4 && elem = _currentMap->getTypeAt(x + 1, y + 1))
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _y += 1;
+	  _vec.y += 1;
+	}
 }
 
 void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
