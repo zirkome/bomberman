@@ -54,6 +54,6 @@ void GameEngine::draw()
   if (_show)
     _menu->drawMenu(_clock);
   else
-    _game->drawGame(_clock);
+    _game->drawGame(_input, _clock);
   _context->flush();
 }

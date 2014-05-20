@@ -30,7 +30,7 @@ public:
 
 public:
   bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(gdl::Clock const &clock) const;
+  void drawGame(gdl::Input &input, gdl::Clock const &clock) const;
 
 private:
   void init(glm::ivec2 win);

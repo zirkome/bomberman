@@ -41,7 +41,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new Player(glm::vec2(1,1)));
+      _players.push_back(new Player(glm::vec2(1,1), _currentMap));
       i++;
     }
   init(win);
@@ -82,7 +82,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(gdl::Clock const &clock) const
+void Game::drawGame(gdl::Input &input, gdl::Clock const &clock) const
 {
   gdl::AShader *shader = _ogl.getShader();
 
@@ -96,6 +96,7 @@ void Game::drawGame(gdl::Clock const &clock) const
 
   for (std::vector<Player *>::const_iterator it = _players.begin(); it != _players.end(); ++it)
     {
+      (*it)->update(input, clock);
       (*it)->draw(shader, clock);
     }
 
