@@ -22,7 +22,7 @@ private:
 public:
   FontText(const std::string &path);
   ~FontText() {};
-  void displayText(const std::string &str, glm::vec2 pos, int size, gdl::AShader *shader);
+  void displayText(const std::string &str, const glm::vec3 &pos, int size, gdl::AShader *shader);
 
 };
 

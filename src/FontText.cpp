@@ -13,17 +13,17 @@ FontText::FontText(const std::string &path)
   // glGenBuffers(1, &_UVBuffID);
 }
 
-void FontText::displayText(const std::string &str, glm::vec2 pos, int size, gdl::AShader *shader)
+void FontText::displayText(const std::string &str, const glm::vec3 &pos, int size, gdl::AShader *shader)
 {
   // Fill buffers
   gdl::Geometry	geometry;
 
-  for (unsigned int i = 0 ; i < str.size() ; i++)
+  for (unsigned int i = 0 ; i < str.length() ; i++)
     {
-      glm::vec3 vertex_up_left    = glm::vec3( pos.x+i*size     , pos.y+size , 0);
-      glm::vec3 vertex_up_right   = glm::vec3( pos.x+i*size+size, pos.y+size , 0);
-      glm::vec3 vertex_down_right = glm::vec3( pos.x+i*size+size, pos.y      , 0);
-      glm::vec3 vertex_down_left  = glm::vec3( pos.x+i*size     , pos.y      , 0);
+      glm::vec3 vertex_up_left    = glm::vec3( pos.x+i*size     , pos.y+size , pos.z);
+      glm::vec3 vertex_up_right   = glm::vec3( pos.x+i*size+size, pos.y+size , pos.z);
+      glm::vec3 vertex_down_right = glm::vec3( pos.x+i*size+size, pos.y      , pos.z);
+      glm::vec3 vertex_down_left  = glm::vec3( pos.x+i*size     , pos.y      , pos.z);
 
       geometry.pushVertex(vertex_up_left   );
       geometry.pushVertex(vertex_down_left );
@@ -37,10 +37,10 @@ void FontText::displayText(const std::string &str, glm::vec2 pos, int size, gdl:
       float uv_x = (character % 16) / 16.0f;
       float uv_y = (character / 16) / 16.0f;
 
-      glm::vec2 uv_up_left    = glm::vec2( uv_x           , uv_y );
-      glm::vec2 uv_up_right   = glm::vec2( uv_x+1.0f/16.0f, uv_y );
-      glm::vec2 uv_down_right = glm::vec2( uv_x+1.0f/16.0f, (uv_y + 1.0f/16.0f) );
-      glm::vec2 uv_down_left  = glm::vec2( uv_x           , (uv_y + 1.0f/16.0f) );
+      glm::vec2 uv_up_left    = glm::vec2( uv_x           , 1 - uv_y );
+      glm::vec2 uv_up_right   = glm::vec2( uv_x+1.0f/16.0f, 1 - uv_y );
+      glm::vec2 uv_down_right = glm::vec2( uv_x+1.0f/16.0f, 1 - (uv_y + 1.0f/16.0f) );
+      glm::vec2 uv_down_left  = glm::vec2( uv_x           , 1 - (uv_y + 1.0f/16.0f) );
 
       geometry.pushUv(uv_up_left   );
       geometry.pushUv(uv_down_left );
@@ -53,6 +53,7 @@ void FontText::displayText(const std::string &str, glm::vec2 pos, int size, gdl:
   geometry.build();
   _texture.bind();
 
+  // glDisable(GL_DEPTH)
   glEnable(GL_BLEND);
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
