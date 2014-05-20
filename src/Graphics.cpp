@@ -14,7 +14,7 @@ GameGraphics::~GameGraphics()
 bool GameGraphics::init(const glm::ivec2& win)
 {
   _proj = glm::perspective(_fov, static_cast<float>(win.x) / static_cast<float>(win.y),
-                           0.01f, 500.0f);
+                           0.1f, 500.0f);
   _fbo = new FBORenderer(win);
 
   glEnable(GL_DEPTH_TEST);

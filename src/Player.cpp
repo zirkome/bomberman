@@ -1,12 +1,6 @@
 #include "config.h"
 #include "Player.hpp"
 
-bool	operator==(double a, double b)
-{
-  std::cerr << "SALUT" << std::endl;
-  return true;
-}
-
 Player::Player(const glm::vec2 pos, Map *map)
   : _vec(pos), _map(map), _speed(3)
 {
@@ -75,4 +69,9 @@ bool	Player::moveRight(double const distance)
   _vec.x -= distance;
   _obj->translate(glm::vec3(-distance, 0, 0));
   return true;
+}
+
+IEntity::Type Player::getType() const
+{
+  return IEntity::PLAYER;
 }

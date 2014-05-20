@@ -27,6 +27,7 @@ bool GameEngine::initialize()
 
   if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
     return false;
+  SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");

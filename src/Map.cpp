@@ -173,14 +173,7 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
 {
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
-
-      //TODO Get better this shit (linard_f)
-      if (dynamic_cast<Box *>(*it))
-	return IEntity::BOX;
-      else if (dynamic_cast<Bomb *>(*it))
-	return IEntity::BOMB;
-      else
-	return IEntity::WALL;
+      return (*it)->getType();
     }
   return IEntity::NONE;
 }
@@ -193,10 +186,10 @@ bool		Map::addEntity(IEntity *entity)
 {
   ScopeLock	lk(*_mutex);
 
-  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
+  /*  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == (*entity).getPos().x &&
 	(*(*it)).getPos().y == (*entity).getPos().y)
-      return false;
+	return false;*/ /* We can have more than one think one the map */
   _map.push_back(entity);
   return true;
 }

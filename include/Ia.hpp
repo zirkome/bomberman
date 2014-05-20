@@ -14,8 +14,10 @@ extern "C" {
 #include "PMutex.hpp"
 #include "PCondVar.hpp"
 #include "PThread.hpp"
+#include "IEntity.hpp"
+#include "Model.hpp"
 
-class Ia
+class Ia : public IEntity
 {
 private:
   Map *_currentMap;
@@ -28,6 +30,8 @@ private:
   PThread _thread;
   bool _dead;
   bool _running;
+  AObject *_obj;
+  glm::vec2 _vec;
   std::string _fileName;
 public:
   int getMap(int x, int y) const;
@@ -35,10 +39,14 @@ public:
   int getY() const;
   void setX(const int x);
   void setY(const int y);
-  void setXY(const int x, const int y);
+  void setPos(const glm::vec2 &new_pos);
+  void update(gdl::Input &input, gdl::Clock const &clock);
+  void draw(gdl::AShader *shader, const gdl::Clock& clock);
+  const glm::vec2 &getPos() const;
   void action(int act);
   void *init();
-  Ia(Map *currentMap, int x, int y, std::string const &fileName);
+  IEntity::Type getType() const;
+  Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName);
   ~Ia();
   int exec(); /*!BLOQUANT! call it when the ia can make one action */
 };

@@ -67,14 +67,22 @@ void *iaStart(void *ptr)
   return (static_cast<Ia *> (ptr))->init();
 }
 
-Ia::Ia(Map *currentMap, int x, int y, std::string const &fileName)
+Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 : _condAct(_mutex), _thread(iaStart, this)
 {
   _running = false;
-  _x = x;
-  _y = y;
+  _x = pos.x;
+  _y = pos.y;
+  _vec = pos;
   _dead = false;
   _fileName = fileName;
+  _act = 0;
+
+  _obj = new Model(RES_ASSETS "marvin.fbx");
+  _obj->initialize();
+  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
+  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
   _L = luaL_newstate();
   if (_L == NULL)
     throw nFault("Init lua fail");
@@ -100,6 +108,7 @@ Ia::Ia(Map *currentMap, int x, int y, std::string const &fileName)
 Ia::~Ia()
 {
   _dead = true;
+  _condAct.notifyAll();
   lua_close(_L);
 }
 
@@ -136,7 +145,7 @@ int Ia::exec()
     {
       _mutex.lock();
       _condAct.notifyAll();
-      _condAct.wait();
+      _condAct.wait();/* TODO : change that */
       _mutex.unlock();
     }
   return _act;
@@ -173,15 +182,77 @@ int Ia::getY() const
 void Ia::setX(const int x)
 {
   _x = x;
+  _vec.x = x;
 }
 
 void Ia::setY(const int y)
 {
   _y = y;
+  _vec.y = y;
 }
 
-void Ia::setXY(const int x, const int y)
+void Ia::setPos(const glm::vec2 &new_pos)
 {
-  _x = x;
-  _y = y;
+  _vec = new_pos;
+  _x = new_pos.x;
+  _y = new_pos.y;
+}
+
+void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
+{
+  IEntity::Type elem;
+  (void) clock;
+
+  exec();
+  if (_act == 1)
+    {
+      elem = _currentMap->getTypeAt(_x + 1, _y);
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _x += 1;
+	  _vec.x += 1;
+	}
+    }
+  if (_act == 2)
+    {
+      elem = _currentMap->getTypeAt(_x - 1, _y);
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _x -= 1;
+	  _vec.x -= 1;
+	}
+    }
+  if (_act == 3)
+    {
+      elem = _currentMap->getTypeAt(_x, _y - 1);
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _y -= 1;
+	  _vec.y -= 1;
+	}
+    }
+  if (_act == 4)
+    {
+      elem = _currentMap->getTypeAt(_x, _y + 1);
+      if (elem != BOX && elem != WALL && elem != BOMB)
+	{
+	  _y += 1;
+	  _vec.y += 1;
+	}
+    }
+}
+
+void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
+{
+  _obj->draw(shader, clock);
+}
+
+IEntity::Type Ia::getType() const
+{
+  return IEntity::PLAYER;
+}
+
+const glm::vec2 &Ia::getPos() const
+{
+  return _vec;
 }

@@ -32,9 +32,9 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
   while (i < numberIA)
     {
       if (size != 0)
-        _listIA.push_back(new Ia(_currentMap, 0, 0, algoFileName[i % size]));
+        _listIA.push_back(new Ia(_currentMap, glm::vec2(0, 0), algoFileName[i % size]));
       else
-        _listIA.push_back(new Ia(_currentMap, 0, 0, "Path/to/default/ia.lua"));
+        _listIA.push_back(new Ia(_currentMap, glm::vec2(0, 0), "Path/to/default/ia.lua"));
       i++;
     }
 
@@ -44,6 +44,14 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
       _players.push_back(new Player(glm::vec2(1,1), _currentMap));
       i++;
     }
+  for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)
+    if (_currentMap->addEntity(*it) != true)
+      throw nFault("Error in the initializiation of the map");
+  for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end(); ++it)
+    if (_currentMap->addEntity(*it) != true)
+      throw nFault("Error in the initializiation of the map");
+
+
   init(win);
 }
 
@@ -100,7 +108,7 @@ void Game::drawGame(gdl::Input &input, gdl::Clock const &clock) const
       (*it)->draw(shader, clock);
     }
 
-  _font->displayText("Hello", glm::vec2(0,0), 10, shader);
+  _font->displayText("facebook", glm::vec3(0,1,0), 3, shader);
   _ogl.processFrame(_cam->getPosition());
   // Menu and Game have they own Graphics class
 }

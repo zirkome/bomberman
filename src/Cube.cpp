@@ -90,3 +90,8 @@ void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock& clock)
 {
   _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
 }
+
+IEntity::Type Cube::getType() const
+{
+  return IEntity::MODEL;
+}

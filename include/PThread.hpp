@@ -14,7 +14,7 @@ private:
   pthread_t _thread;
 
 public:
-  PThread(Func f, void *arg);
+  explicit PThread(Func f, void *arg);
   virtual ~PThread();
 
 public:
