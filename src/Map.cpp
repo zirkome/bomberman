@@ -193,10 +193,10 @@ bool		Map::addEntity(IEntity *entity)
 {
   ScopeLock	lk(*_mutex);
 
-  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
+  /*  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == (*entity).getPos().x &&
 	(*(*it)).getPos().y == (*entity).getPos().y)
-      return false;
+	return false;*/ /* We can have more than one think one the map */
   _map.push_back(entity);
   return true;
 }
