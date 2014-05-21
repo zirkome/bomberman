@@ -36,20 +36,24 @@ void	Player::setPos(const glm::vec2 &new_pos)
 
 void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 {
-  bool	keyDown = false;
+  bool	hasMoved;
 
   for (MovePtr::const_iterator it = _movePtr.begin(), end = _movePtr.end(); it != end; ++it)
     if (input.getKey(it->first)) {
-      (this->*_movePtr[it->first])(clock.getElapsed() * _speed);
-      keyDown = true;
-      if (_status != WALK)
+      hasMoved = (this->*_movePtr[it->first])(clock.getElapsed() * _speed);
+      if (_status != WALK && hasMoved)
 	{
 	  _status = WALK;
 	  _obj->setCurrentSubAnim("walk");
 	}
+      else if (_status == WALK && !hasMoved)
+	{
+	  _obj->setCurrentSubAnim("stop_walking", false);
+	  _status = STOP_WALK;
+	}
       return ;
     }
-  if (!keyDown && _status == WALK)
+  if (_status == WALK)
     {
       _obj->setCurrentSubAnim("stop_walking", false);
       _status = STOP_WALK;
@@ -66,14 +70,15 @@ bool	Player::moveUp(double const distance)
   double rotate;
 
   rotate = (_way - UP) * 90;
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = UP;
   if (_map->getTypeAt(_vec.x + _size, _vec.y + distance + 1) == GROUND &&
       _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + 1) == GROUND) {
     _vec.y += distance;
     _obj->translate(glm::vec3(0, 0, distance));
+    return true;
   }
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = UP;
-  return true;
+  return false;
 }
 
 bool	Player::moveDown(double const distance)
@@ -81,14 +86,15 @@ bool	Player::moveDown(double const distance)
   double rotate;
 
   rotate = (_way - DOWN) * 90;
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = DOWN;
   if (_map->getTypeAt(_vec.x + _size, _vec.y - distance) == GROUND &&
       _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance) == GROUND) {
     _vec.y -= distance;
     _obj->translate(glm::vec3(0, 0, -distance));
+    return true;
   }
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = DOWN;
-  return true;
+  return false;
 }
 
 bool	Player::moveLeft(double const distance)
@@ -96,14 +102,15 @@ bool	Player::moveLeft(double const distance)
   double rotate;
 
   rotate = (_way - LEFT) * 90;
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = LEFT;
   if (_map->getTypeAt(_vec.x + distance + 1, _vec.y + _size) == GROUND &&
       _map->getTypeAt(_vec.x + distance + 1, _vec.y + 1 - _size) == GROUND) {
     _vec.x += distance;
     _obj->translate(glm::vec3(distance, 0, 0));
+    return true;
   }
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = LEFT;
-  return true;
+  return false;
 }
 
 bool	Player::moveRight(double const distance)
@@ -111,14 +118,15 @@ bool	Player::moveRight(double const distance)
   double rotate;
 
   rotate = (_way - RIGHT) * 90;
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = RIGHT;
   if (_map->getTypeAt(_vec.x - distance, _vec.y + _size) == GROUND &&
       _map->getTypeAt(_vec.x - distance, _vec.y + 1 - _size) == GROUND) {
     _vec.x -= distance;
     _obj->translate(glm::vec3(-distance, 0, 0));
+    return true;
   }
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = RIGHT;
-  return true;
+  return false;
 }
 
 IEntity::Type Player::getType() const

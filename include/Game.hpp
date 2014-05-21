@@ -9,7 +9,8 @@
 #include <Clock.hh>
 #include <Texture.hh>
 #include "Graphics.hpp"
-#include "ACamera.hpp"
+#include "ArmagetroCam.hpp"
+#include "BasicCam.hpp"
 #include "Map.hpp"
 #include "Ia.hpp"
 #include "Player.hpp"
@@ -40,7 +41,7 @@ private:
   std::vector<Player *> _players; //Those are IEntity
   Map *_currentMap;
   Cube *_cube;
-  ACamera* _cam;
+  BasicCam* _cam;
   FontText *_font;
   gdl::Texture	_text_texture;
   GameGraphics _ogl;

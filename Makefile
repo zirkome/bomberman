@@ -22,6 +22,8 @@ SRC		=	main.cpp \
 			Cube.cpp \
 			ACamera.cpp \
 			FreeCam.cpp \
+			BasicCam.cpp \
+			ArmagetroCam.cpp \
 			FpsCam.cpp \
 			TrackCam.cpp \
 			OrthoCam.cpp \
