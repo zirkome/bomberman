@@ -32,13 +32,13 @@ void FreeCam::update(gdl::Input& input, const gdl::Clock& clock)
 
 void FreeCam::moveCam(gdl::Input & input, float delta)
 {
-  if (input.getKey(SDLK_UP))
+  if (input.getKey(SDLK_UP) || input.getKey(SDLK_z))
     translate(_target * (_speed * delta));
-  if (input.getKey(SDLK_DOWN))
+  if (input.getKey(SDLK_DOWN) || input.getKey(SDLK_s))
     translate(-_target * (_speed * delta));
-  if (input.getKey(SDLK_LEFT))
+  if (input.getKey(SDLK_LEFT) || input.getKey(SDLK_q))
     translate(_left * (_speed * delta));
-  if (input.getKey(SDLK_RIGHT))
+  if (input.getKey(SDLK_RIGHT) || input.getKey(SDLK_d))
     translate(-_left * (_speed * delta));
 
   _forward = _pos + _target;

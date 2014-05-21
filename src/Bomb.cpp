@@ -1,8 +1,12 @@
+#include <iostream>
 #include "Bomb.hpp"
 
-Bomb::Bomb(const int x, const int y) : _x(x), _y(y)
+Bomb::Bomb(const glm::vec2 &pos) : _vec(pos)
 {
-
+  _obj = new Cube();
+  _obj->initialize();
+  _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
+  _obj->translate(glm::vec3(pos.x, 0, pos.y));
 }
 
 Bomb::~Bomb()
@@ -10,22 +14,22 @@ Bomb::~Bomb()
 
 }
 
-int	Bomb::getPosX() const
+const glm::vec2	&Bomb::getPos() const
 {
-  return _x;
+  return _vec;
 }
 
-int	Bomb::getPosY() const
+void	Bomb::setPos(const glm::vec2 &new_pos)
 {
-  return _y;
+  _vec = new_pos;
 }
 
-void	Bomb::setPosX(const int x)
+void	Bomb::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
-  _x = x;
+
 }
 
-void	Bomb::setPosY(const int y)
+void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-  _y = y;
+  _obj->draw(shader, clock);
 }

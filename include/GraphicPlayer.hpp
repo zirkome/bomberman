@@ -1,3 +1,6 @@
+#ifndef _GRAPHICPLAYER_H_
+#define _GRAPHICPLAYER_H_
+
 #include "AObject.hpp"
 #include <string>
 
@@ -11,8 +14,9 @@ public:
   GraphicPlayer(std::string const &path);
   virtual ~GraphicPlayer();
   virtual bool	initialize();
-  // La fonction update sert a gerer le comportement de l'objet
-  virtual void	update(gdl::Clock const &clock, gdl::Input &input);
+
   // La fonction draw sert a dessiner l'objet
   virtual void	draw(gdl::AShader *shader);
 };
+
+#endif /* _GRAPHICPLAYER_H_ */

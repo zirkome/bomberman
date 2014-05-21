@@ -1,21 +1,22 @@
 #ifndef BOMB_HPP_
 # define BOMB_HPP_
 
+# include "Cube.hpp"
 # include "IEntity.hpp"
 
 class Bomb : public IEntity
 {
 private:
-  int	_x;
-  int	_y;
+  glm::vec2	_vec;
+  AObject *_obj;
 
 public:
-  Bomb(const int, const int y);
+  Bomb(const glm::vec2 &pos);
   virtual ~Bomb();
-  int	getPosX() const;
-  int	getPosY() const;
-  void	setPosX(const int);
-  void	setPosY(const int);
+  virtual const glm::vec2 &getPos() const;
+  virtual void	setPos(const glm::vec2 &new_pos);
+  virtual void	update(gdl::Input &input, gdl::Clock const &clock);
+  virtual void  draw(gdl::AShader *shader, const gdl::Clock& clock);
 };
 
 #endif /* !BOMB_HPP_ */

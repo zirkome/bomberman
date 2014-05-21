@@ -1,8 +1,12 @@
 #include "Box.hpp"
 
-Box::Box(const int x, const int y) : _x(x), _y(y)
+Box::Box(const glm::vec2 &pos) : _vec(pos)
 {
-
+  _obj = new Cube();
+  _obj->initialize();
+  _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
+  _obj->translate(glm::vec3(pos.x, 0, pos.y));
+  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::BOX);
 }
 
 Box::~Box()
@@ -10,22 +14,28 @@ Box::~Box()
 
 }
 
-int	Box::getPosX() const
+const glm::vec2	&Box::getPos() const
 {
-  return _x;
+  return _vec;
 }
 
-int	Box::getPosY() const
+void	Box::setPos(const glm::vec2 &new_pos)
 {
-  return _y;
+  _vec = new_pos;
 }
 
-void	Box::setPosX(const int x)
+void	Box::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
-  _x = x;
+
 }
 
-void	Box::setPosY(const int y)
+void	Box::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-  _y = y;
+  _texture->bind();
+  _obj->draw(shader, clock);
+}
+
+IEntity::Type Box::getType() const
+{
+  return IEntity::BOX;
 }

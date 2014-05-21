@@ -2,6 +2,9 @@ SRC		=	main.cpp \
 			Game.cpp \
 			Fault.cpp \
 			Graphics.cpp \
+			FBORenderer.cpp \
+			FBOShader.cpp \
+			PanShader.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
 			Map.cpp \
@@ -19,29 +22,36 @@ SRC		=	main.cpp \
 			Cube.cpp \
 			ACamera.cpp \
 			FreeCam.cpp \
-			FontText.cpp
+			FpsCam.cpp \
+			TrackCam.cpp \
+			OrthoCam.cpp \
+			FontText.cpp \
+			EntitiesFactory.cpp \
+			AssetsManager.cpp \
+			Pan.cpp \
+			Ground.cpp \
+			Model.cpp
 
-CC			=	g++
+CC		=	g++
 
-FILETYPE		=	.cpp
+FILETYPE	=	.cpp
 
-RM			=	rm -f
+RM		=	rm -f
 
-NAME			=	bomberman
+NAME		=	bomberman
 
 OBJDIR		=	obj/
 SRCDIR		=	src/
 INCDIR		=	include/
 
-CFLAGS		+=	-I$(INCDIR) -ILibBomberman_linux_x64/includes/
+CFLAGS		+=	-I$(INCDIR) -Ilib/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
 CFLAGS		+=	-Wunused-function -pipe
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread
-LDFLAGS		+=	-Wl,-rpath="`pwd`/LibBomberman_linux_x64/libs/"
-LDFLAGS		+=	-LLibBomberman_linux_x64/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2
-
+LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
+LDFLAGS		+=	-Llib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
 DEPS		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.d, $(SRC))
@@ -105,6 +115,6 @@ endif
 re:	fclean all
 
 help:
-	@echo -e "\033[37mTarget available: all, ${NAME}, clean, fclean\033[00m" | sed 's/^-e //'
+	@echo -e "\033[37mTarget available: all, ${NAME}, clean, fclean, help\033[00m" | sed 's/^-e //'
 
 .PHONY:	all clean fclean re help

@@ -1,8 +1,13 @@
 #include "Wall.hpp"
+#include "Cube.hpp"
 
-Wall::Wall(const int x, const int y) : _x(x), _y(y)
+Wall::Wall(const glm::vec2 &pos) : _vec(pos)
 {
-
+  _obj = new Cube();
+  _obj->initialize();
+  _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
+  _obj->translate(glm::vec3(pos.x, 0, pos.y));
+  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::WALL);
 }
 
 Wall::~Wall()
@@ -10,22 +15,28 @@ Wall::~Wall()
 
 }
 
-int	Wall::getPosX() const
+const glm::vec2	&Wall::getPos() const
 {
-  return _x;
+  return _vec;
 }
 
-int	Wall::getPosY() const
+void	Wall::setPos(const glm::vec2 &new_pos)
 {
-  return _y;
+  _vec = new_pos;
 }
 
-void	Wall::setPosX(const int x)
+void	Wall::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
-  _x = x;
+
 }
 
-void	Wall::setPosY(const int y)
+void	Wall::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-  _y = y;
+  _texture->bind();
+  _obj->draw(shader, clock);
+}
+
+IEntity::Type Wall::getType() const
+{
+  return IEntity::WALL;
 }
