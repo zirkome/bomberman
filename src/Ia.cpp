@@ -93,6 +93,17 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
+  _obj->createSubAnim(0, "standby", 0, 0);
+  _obj->createSubAnim(0, "walk", 42, 63);
+  _obj->createSubAnim(0, "stop_walking", 64, 121);
+
+  _movePtr.push_back(&Ia::nothing);
+  _movePtr.push_back(&Ia::moveUp);
+  _movePtr.push_back(&Ia::moveDown);
+  _movePtr.push_back(&Ia::moveLeft);
+  _movePtr.push_back(&Ia::moveRight);
+  _movePtr.push_back(&Ia::bomb);
+
   _L = luaL_newstate();
   if (_L == NULL)
     throw nFault("Init lua fail");
@@ -179,23 +190,23 @@ void Ia::action(int act)
     }
 }
 
-float Ia::getX() const
+double Ia::getX() const
 {
   return _x;
 }
 
-float Ia::getY() const
+double Ia::getY() const
 {
   return _y;
 }
 
-void Ia::setX(const float x)
+void Ia::setX(const double x)
 {
   _x = x;
   _vec.x = x;
 }
 
-void Ia::setY(const float y)
+void Ia::setY(const double y)
 {
   _y = y;
   _vec.y = y;
@@ -210,64 +221,14 @@ void Ia::setPos(const glm::vec2 &new_pos)
 
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
-  IEntity::Type elem;
   double distance;
 
   exec();
-
   distance = clock.getElapsed() * _speed;
-  if (_act == 1)
-    {
-      elem = _currentMap->getTypeAt((int)_x, (int)(_y +  distance + 1));
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _y += distance;
-	  _vec.y += distance;
-	  _obj->translate(glm::vec3(0, 0, distance));
-	  if (_rotate != 0)
-	    _obj->rotate(glm::vec3(0, 1, 0), -_rotate);
-	  _rotate = 0;
-	}
-    }
-  if (_act == 2)
-    {
-      elem = _currentMap->getTypeAt((int)_x, (int)(_y - distance));
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _y -= distance;
-	  _vec.y -= distance;
-	  _obj->translate(glm::vec3(0, 0, -distance));
-	  if (_rotate != 180)
-	    _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-180));
-	  _rotate = 180;
-	}
-    }
-  if (_act == 3)
-    {
-      elem = _currentMap->getTypeAt((int)(_x - distance), (int)_y);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _x -= distance;
-	  _vec.x -= distance;
-	  _obj->translate(glm::vec3(-distance, 0, 0));
-	  if (_rotate != 270)
-	    _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-270));
-	  _rotate = 270;
-	}
-    }
-  if (_act == 4)
-    {
-      elem = _currentMap->getTypeAt((int)(_x + 1 + distance), (int)_y);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _x += distance;
-	  _vec.x += distance;
-	  _obj->translate(glm::vec3(distance, 0, 0));
-	  if (_rotate != 90)
-	    _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-90));
-	  _rotate = 90;
-	}
-    }
+  if (_act >= 0 && _act < 6)
+    (this->*_movePtr[_act])(distance);
+  else
+    (this->*_movePtr[0])(distance);
 }
 
 void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
@@ -283,4 +244,106 @@ IEntity::Type Ia::getType() const
 const glm::vec2 &Ia::getPos() const
 {
   return _vec;
+}
+
+
+
+bool Ia::nothing(UNUSED double const distance)
+{
+  _obj->setCurrentSubAnim("standby");
+  return true;
+}
+
+bool Ia::moveUp(double const distance)
+{
+ IEntity::Type elem;
+
+ elem = _currentMap->getTypeAt((int)_x, (int)(_y +  distance + 1));
+ if (elem != BOX && elem != WALL && elem != BOMB)
+   {
+     _y += distance;
+     _vec.y += distance;
+     _obj->translate(glm::vec3(0, 0, distance));
+     if (_rotate != 0)
+       {
+	 _obj->rotate(glm::vec3(0, 1, 0), -_rotate);
+	 _obj->setCurrentSubAnim("walk");
+       }
+     _rotate = 0;
+     return true;
+   }
+ else
+   return false;
+}
+
+bool Ia::moveDown(double const distance)
+{
+ IEntity::Type elem;
+
+ elem = _currentMap->getTypeAt((int)_x, (int)(_y - distance));
+ if (elem != BOX && elem != WALL && elem != BOMB)
+   {
+     _y -= distance;
+     _vec.y -= distance;
+     _obj->translate(glm::vec3(0, 0, -distance));
+     if (_rotate != 180)
+       {
+	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-180));
+	 _obj->setCurrentSubAnim("walk");
+       }
+     _rotate = 180;
+     return true;
+   }
+ else
+   return false;
+}
+
+bool Ia::moveLeft(double const distance)
+{
+ IEntity::Type elem;
+
+ elem = _currentMap->getTypeAt((int)(_x - distance), (int)_y);
+ if (elem != BOX && elem != WALL && elem != BOMB)
+   {
+     _x -= distance;
+     _vec.x -= distance;
+     _obj->translate(glm::vec3(-distance, 0, 0));
+     if (_rotate != 270)
+       {
+	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-270));
+	 _obj->setCurrentSubAnim("walk");
+       }
+     _rotate = 270;
+     return true;
+   }
+ else
+   return false;
+}
+
+bool Ia::moveRight(double const distance)
+{
+ IEntity::Type elem;
+
+ elem = _currentMap->getTypeAt((int)(_x + 1 + distance), (int)_y);
+ if (elem != BOX && elem != WALL && elem != BOMB)
+   {
+     _x += distance;
+     _vec.x += distance;
+     _obj->translate(glm::vec3(distance, 0, 0));
+     if (_rotate != 90)
+       {
+	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-90));
+	 _obj->setCurrentSubAnim("walk");
+       }
+     _rotate = 90;
+     return true;
+   }
+ else
+   return false;
+}
+
+bool Ia::bomb(UNUSED double const distance)
+{
+  _obj->setCurrentSubAnim("standby");
+  return true;
 }

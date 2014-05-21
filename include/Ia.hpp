@@ -22,8 +22,8 @@ class Ia : public IEntity
 private:
   Map *_currentMap;
   lua_State *_L;
-  float _x;
-  float _y;
+  double _x;
+  double _y;
   int _speed;
   int _act;
   int _rotate;
@@ -35,12 +35,13 @@ private:
   Model *_obj;
   glm::vec2 _vec;
   std::string _fileName;
+  std::vector<bool (Ia::*)(double const)> _movePtr;
 public:
   int getMap(int x, int y) const;
-  float getX() const;
-  float getY() const;
-  void setX(const float x);
-  void setY(const float y);
+  double getX() const;
+  double getY() const;
+  void setX(const double x);
+  void setY(const double y);
   void setPos(const glm::vec2 &new_pos);
   void update(gdl::Input &input, gdl::Clock const &clock);
   void draw(gdl::AShader *shader, const gdl::Clock& clock);
@@ -48,6 +49,13 @@ public:
   void action(int act);
   void *init();
   IEntity::Type getType() const;
+  bool nothing(UNUSED double const distance);
+  bool moveUp(double const distance);
+  bool moveDown(double const distance);
+  bool moveLeft(double const distance);
+  bool moveRight(double const distance);
+  bool bomb(UNUSED double const distance);
+public:
   Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName);
   ~Ia();
   int exec(); /*!BLOQUANT! call it when the ia can make one action */
