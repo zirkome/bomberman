@@ -1,4 +1,3 @@
-#include <sstream>
 #include "Ia.hpp"
 
 int iaGetPos(lua_State *L)
@@ -80,13 +79,12 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 {
   _speed = 3;
   _running = false;
-  _x = pos.x;
-  _y = pos.y;
   _vec = pos;
   _dead = false;
   _fileName = fileName;
   _act = 0;
   _rotate = 0;
+  _size = 0.7;
 
   _obj = new Model(RES_ASSETS "marvin.fbx");
   _obj->initialize();
@@ -138,7 +136,7 @@ void *Ia::init()
   try
     {
       _running = true;
-      luaL_dofile(_L,"script/test2.lua");
+      luaL_dofile(_L,"script/test.lua");
       //  luaL_dofile(_L,_fileName.c_str());
     }
   catch (std::exception& e)
@@ -192,31 +190,27 @@ void Ia::action(int act)
 
 double Ia::getX() const
 {
-  return _x;
+  return _vec.x;
 }
 
 double Ia::getY() const
 {
-  return _y;
+  return _vec.y;
 }
 
 void Ia::setX(const double x)
 {
-  _x = x;
   _vec.x = x;
 }
 
 void Ia::setY(const double y)
 {
-  _y = y;
   _vec.y = y;
 }
 
 void Ia::setPos(const glm::vec2 &new_pos)
 {
   _vec = new_pos;
-  _x = new_pos.x;
-  _y = new_pos.y;
 }
 
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
@@ -256,12 +250,9 @@ bool Ia::nothing(UNUSED double const distance)
 
 bool Ia::moveUp(double const distance)
 {
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)_x, (int)(_y +  distance + 1));
- if (elem != BOX && elem != WALL && elem != BOMB)
-   {
-     _y += distance;
+ if (_currentMap->getTypeAt(_vec.x + _size, _vec.y + distance + 1) == (GROUND) &&
+     _currentMap->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + 1) == (GROUND))
+    {
      _vec.y += distance;
      _obj->translate(glm::vec3(0, 0, distance));
      if (_rotate != 0)
@@ -278,12 +269,9 @@ bool Ia::moveUp(double const distance)
 
 bool Ia::moveDown(double const distance)
 {
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)_x, (int)(_y - distance));
- if (elem != BOX && elem != WALL && elem != BOMB)
+ if (_currentMap->getTypeAt(_vec.x + _size, _vec.y - distance) == (GROUND) &&
+     _currentMap->getTypeAt(_vec.x + 1 - _size, _vec.y - distance) == (GROUND))
    {
-     _y -= distance;
      _vec.y -= distance;
      _obj->translate(glm::vec3(0, 0, -distance));
      if (_rotate != 180)
@@ -300,12 +288,9 @@ bool Ia::moveDown(double const distance)
 
 bool Ia::moveLeft(double const distance)
 {
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)(_x - distance), (int)_y);
- if (elem != BOX && elem != WALL && elem != BOMB)
+ if (_currentMap->getTypeAt(_vec.x - distance, _vec.y + _size) == (GROUND) &&
+     _currentMap->getTypeAt(_vec.x - distance, _vec.y + 1 - _size) == (GROUND))
    {
-     _x -= distance;
      _vec.x -= distance;
      _obj->translate(glm::vec3(-distance, 0, 0));
      if (_rotate != 270)
@@ -322,12 +307,9 @@ bool Ia::moveLeft(double const distance)
 
 bool Ia::moveRight(double const distance)
 {
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)(_x + 1 + distance), (int)_y);
- if (elem != BOX && elem != WALL && elem != BOMB)
+ if (_currentMap->getTypeAt(_vec.x + distance + 1, _vec.y + _size) == (GROUND) &&
+     _currentMap->getTypeAt(_vec.x + distance + 1, _vec.y + 1 - _size) == (GROUND))
    {
-     _x += distance;
      _vec.x += distance;
      _obj->translate(glm::vec3(distance, 0, 0));
      if (_rotate != 90)

@@ -22,8 +22,7 @@ class Ia : public IEntity
 private:
   Map *_currentMap;
   lua_State *_L;
-  double _x;
-  double _y;
+  double _size;
   int _speed;
   int _act;
   int _rotate;
