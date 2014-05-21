@@ -2,7 +2,7 @@
 #include "Player.hpp"
 
 Player::Player(const glm::vec2 pos, Map *map)
-  : _vec(pos), _map(map), _speed(4), _way(UP)
+  : _vec(pos), _map(map), _speed(4), _way(UP), _size(0.7)
 {
   _obj = new Model(RES_ASSETS "marvin.fbx");
   _obj->initialize();
@@ -66,8 +66,11 @@ bool	Player::moveUp(double const distance)
   double rotate;
 
   rotate = (_way - UP) * 90;
-  _vec.y += distance;
-  _obj->translate(glm::vec3(0, 0, distance));
+  if (_map->getTypeAt(_vec.x + _size, _vec.y + distance + 1) == GROUND &&
+      _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + 1) == GROUND) {
+    _vec.y += distance;
+    _obj->translate(glm::vec3(0, 0, distance));
+  }
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = UP;
   return true;
@@ -78,8 +81,11 @@ bool	Player::moveDown(double const distance)
   double rotate;
 
   rotate = (_way - DOWN) * 90;
-  _vec.y -= distance;
-  _obj->translate(glm::vec3(0, 0, -distance));
+  if (_map->getTypeAt(_vec.x + _size, _vec.y - distance) == GROUND &&
+      _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance) == GROUND) {
+    _vec.y -= distance;
+    _obj->translate(glm::vec3(0, 0, -distance));
+  }
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = DOWN;
   return true;
@@ -90,8 +96,11 @@ bool	Player::moveLeft(double const distance)
   double rotate;
 
   rotate = (_way - LEFT) * 90;
-  _vec.x += distance;
-  _obj->translate(glm::vec3(distance, 0, 0));
+  if (_map->getTypeAt(_vec.x + distance + 1, _vec.y + _size) == GROUND &&
+      _map->getTypeAt(_vec.x + distance + 1, _vec.y + 1 - _size) == GROUND) {
+    _vec.x += distance;
+    _obj->translate(glm::vec3(distance, 0, 0));
+  }
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = LEFT;
   return true;
@@ -102,8 +111,11 @@ bool	Player::moveRight(double const distance)
   double rotate;
 
   rotate = (_way - RIGHT) * 90;
-  _vec.x -= distance;
-  _obj->translate(glm::vec3(-distance, 0, 0));
+  if (_map->getTypeAt(_vec.x - distance, _vec.y + _size) == GROUND &&
+      _map->getTypeAt(_vec.x - distance, _vec.y + 1 - _size) == GROUND) {
+    _vec.x -= distance;
+    _obj->translate(glm::vec3(-distance, 0, 0));
+  }
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = RIGHT;
   return true;
@@ -116,5 +128,5 @@ IEntity::Type Player::getType() const
 
 void	Player::setStatus(Player::Status st)
 {
-  _status = STANDBY;
+  _status = st;
 }

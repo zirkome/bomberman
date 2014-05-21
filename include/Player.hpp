@@ -35,6 +35,7 @@ private:
   MovePtr	_movePtr;
   Status	_status;
   Way		_way;
+  double	_size;
 public:
   Player(glm::vec2 pos, Map *map);
   ~Player();
