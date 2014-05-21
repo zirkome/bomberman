@@ -9,7 +9,7 @@ class Singleton
 {
 protected:
   static T* _singleton;
-  static PMutex _mutex;
+  static IMutex *_mutex;
 
 public:
   // Here is the why I tricked the code on this method:
@@ -18,7 +18,7 @@ public:
   {
     if (_singleton == NULL)
       {
-	ScopeLock lock(&_mutex);
+	ScopeLock lock(*_mutex);
         if (_singleton == NULL)
 	  {
 	    _singleton = static_cast<T*>(operator new(sizeof(T)));
@@ -38,7 +38,7 @@ private:
   T& operator=(const T&) {}
 };
 
-template <class T> PMutex Singleton<T>::_mutex = PMutex();
+template <class T> IMutex* Singleton<T>::_mutex = new PMutex;
 template <class T> T* Singleton<T>::_singleton = NULL;
 
 #endif /* _SINGLETON_H_ */
