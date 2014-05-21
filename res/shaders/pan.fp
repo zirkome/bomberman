@@ -44,14 +44,14 @@ void main(void)
 
   light tmpLight;
 
-  tmpLight.position = vec4(5, 10, 5, 1);
+  tmpLight.position = vec4(5, 5, 5, 1);
   tmpLight.diffuse = vec4(0.8, 0.8, 0.8, 0);
   tmpLight.specular = vec4(1, 1, 1, 0);
   tmpLight.spotCutoff = 180;
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
 
-  gl_FragColor = color * lighting;
+  gl_FragColor = color;
 }
 
 

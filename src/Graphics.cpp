@@ -17,6 +17,15 @@ bool GameGraphics::init(const glm::ivec2& win)
                            0.1f, 500.0f);
   _fbo = new FBORenderer(win);
 
+  _hudShader = new BasicShader();
+
+  if (!_hudShader->load(RES_SHADERS "menu.fp", GL_FRAGMENT_SHADER)
+      || !_hudShader->load(RES_SHADERS "menu.vp", GL_VERTEX_SHADER)
+      || !_hudShader->build())
+    {
+      throw std::runtime_error("Load shader fail");
+    }
+
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0f);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -32,12 +41,17 @@ void GameGraphics::startFrame() const
 
 void GameGraphics::processFrame(const glm::vec3& camPos) const
 {
- _fbo->process(camPos);
+  _fbo->process(camPos);
 }
 
 gdl::AShader *GameGraphics::getShader() const
 {
   return _fbo ? _fbo->getShader() : NULL;
+}
+
+gdl::AShader *GameGraphics::getHudShader() const
+{
+  return _hudShader;
 }
 
 MenuGraphics::MenuGraphics()
@@ -53,7 +67,7 @@ bool MenuGraphics::init(const glm::ivec2& win)
 {
 
   _ortho = glm::ortho(0, win.x, win.y, 0, -1, 1);
-  _shader = new gdl::BasicShader;
+  _shader = new BasicShader;
 
   if (!_shader->load(RES_SHADERS "menu.fp", GL_FRAGMENT_SHADER)
       || !_shader->load(RES_SHADERS "menu.vp", GL_VERTEX_SHADER)

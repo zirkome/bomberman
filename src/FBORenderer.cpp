@@ -106,6 +106,7 @@ void FBORenderer::start() const
   glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+
 void FBORenderer::process(const glm::vec3& camPos) const
 {
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -127,4 +128,5 @@ void FBORenderer::process(const glm::vec3& camPos) const
 
   glActiveTexture(GL_TEXTURE0);
   _pan->draw(_rendershader);
+  glClear(GL_DEPTH_BUFFER_BIT);
 }

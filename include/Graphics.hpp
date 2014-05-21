@@ -3,12 +3,13 @@
 
 # include <iostream>
 # include <exception>
+# include <stdexcept>
 
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
 # include <Geometry.hh>
 # include <Texture.hh>
-# include <BasicShader.hh>
+# include <BasicShader.hpp>
 # include <Model.hh>
 
 # include "FBORenderer.hpp"
@@ -60,11 +61,13 @@ public:
   void processFrame(const glm::vec3& camPos) const;
 
   gdl::AShader *getShader() const;
+  gdl::AShader *getHudShader() const;
 
 protected:
   float _fov;
   glm::mat4 _proj;
   FBORenderer* _fbo;
+  gdl::AShader* _hudShader;
 };
 
 #endif

@@ -5,15 +5,11 @@
 FontText::FontText(const std::string &path)
 {
   if (_texture.load(path) == false)
-    throw std::runtime_error("Can't load : " + path);
-  // _textureID = _texture.getId();
-
-  // // Initialize VBO
-  // glGenBuffers(1, &_vertexBuffID);
-  // glGenBuffers(1, &_UVBuffID);
+    throw std::runtime_error("Can't load: " + path);
 }
 
-void FontText::displayText(const std::string &str, const glm::vec3 &pos, int size, gdl::AShader *shader)
+void FontText::displayText(const std::string &str, const glm::vec3 &pos,
+                           int size, gdl::AShader *shader)
 {
   // Fill buffers
   gdl::Geometry	geometry;

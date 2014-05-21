@@ -92,20 +92,24 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
 {
   gdl::AShader *shader = _ogl.getShader();
+  gdl::AShader *hudshader = _ogl.getHudShader();
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
 
-  for (Map::iterator it = _currentMap->begin(), end = _currentMap->end(); it != end; ++it) {
+  for (Map::iterator it = _currentMap->begin(), end = _currentMap->end();
+       it != end; ++it)
+    {
       (*it)->draw(shader, clock);
     }
 
-  _font->displayText("facebook", glm::vec3(0, 1, 0), 3, shader);
-
- /* shader->setUniform("view", glm::mat4(1));
-
-  _font->displayText("facebook", glm::vec3(0, 1, 0), 3, shader);*/
+  _font->displayText("abcde", glm::vec3(0, 1, 0), 3, shader);
 
   _ogl.processFrame(_cam->getPosition());
+
+  hudshader->bind();
+
+  hudshader->setUniform("view", glm::mat4(1));
+  _font->displayText("fghijkl", glm::vec3(0, 1, 0), 3, hudshader);
   // Menu and Game have they own Graphics class
 }
