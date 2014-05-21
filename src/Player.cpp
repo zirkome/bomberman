@@ -2,7 +2,7 @@
 #include "Player.hpp"
 
 Player::Player(const glm::vec2 pos, Map *map)
-  : _vec(pos), _map(map), _speed(4)
+  : _vec(pos), _map(map), _speed(4), _way(UP)
 {
   _obj = new Model(RES_ASSETS "marvin.fbx");
   _obj->initialize();
@@ -63,29 +63,49 @@ void	Player::draw(gdl::AShader *shader, const gdl::Clock& clock)
 
 bool	Player::moveUp(double const distance)
 {
+  double rotate;
+
+  rotate = (_way - UP) * 90;
   _vec.y += distance;
   _obj->translate(glm::vec3(0, 0, distance));
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = UP;
   return true;
 }
 
 bool	Player::moveDown(double const distance)
 {
+  double rotate;
+
+  rotate = (_way - DOWN) * 90;
   _vec.y -= distance;
   _obj->translate(glm::vec3(0, 0, -distance));
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = DOWN;
   return true;
 }
 
 bool	Player::moveLeft(double const distance)
 {
+  double rotate;
+
+  rotate = (_way - LEFT) * 90;
   _vec.x += distance;
   _obj->translate(glm::vec3(distance, 0, 0));
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = LEFT;
   return true;
 }
 
 bool	Player::moveRight(double const distance)
 {
+  double rotate;
+
+  rotate = (_way - RIGHT) * 90;
   _vec.x -= distance;
   _obj->translate(glm::vec3(-distance, 0, 0));
+  _obj->rotate(glm::vec3(0, 1, 0), rotate);
+  _way = RIGHT;
   return true;
 }
 

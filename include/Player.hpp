@@ -9,10 +9,19 @@
 
 class Player : public IEntity
 {
-  enum Status {
-    STANDBY = 0,
-    WALK,
-    STOP_WALK
+  enum Status
+    {
+      STANDBY = 0,
+      WALK,
+      STOP_WALK
+    };
+
+enum Way
+  {
+    UP = 0,
+    RIGHT,
+    DOWN,
+    LEFT
   };
 
   typedef bool (Player::*move)(double const);
@@ -25,6 +34,7 @@ private:
   int		_speed;
   MovePtr	_movePtr;
   Status	_status;
+  Way		_way;
 public:
   Player(glm::vec2 pos, Map *map);
   ~Player();
