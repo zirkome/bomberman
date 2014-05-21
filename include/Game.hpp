@@ -17,6 +17,7 @@
 #include "Fault.hpp"
 #include "FontText.hpp"
 #include "Cube.hpp"
+#include "Placement.hpp"
 
 class Game
 {

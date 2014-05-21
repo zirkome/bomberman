@@ -28,21 +28,22 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
+  Placement place(_currentMap);
   i = 0;
   size = algoFileName.size();
   while (i < numberIA)
     {
       if (size != 0)
-        _listIA.push_back(new Ia(_currentMap, glm::vec2(1, 2), algoFileName[i % size]));
+        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName[i % size]));
       else
-        _listIA.push_back(new Ia(_currentMap, glm::vec2(2, 1), "Path/to/default/ia.lua"));
+        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), "Path/to/default/ia.lua"));
       i++;
     }
 
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new Player(glm::vec2(1,1), _currentMap));
+      _players.push_back(new Player(place.getNewPos(), _currentMap));
       i++;
     }
   for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)

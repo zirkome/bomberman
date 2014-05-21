@@ -32,6 +32,7 @@ SRC		=	main.cpp \
 			AssetsManager.cpp \
 			Pan.cpp \
 			Ground.cpp \
+			Placement.cpp \
 			Model.cpp
 
 CC		=	g++
