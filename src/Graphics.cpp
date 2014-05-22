@@ -56,39 +56,3 @@ gdl::AShader *GameGraphics::getHudShader() const
 {
   return _hudShader;
 }
-
-MenuGraphics::MenuGraphics()
-{
-}
-
-MenuGraphics::~MenuGraphics()
-{
-  delete _shader;
-}
-
-bool MenuGraphics::init(const glm::ivec2& win)
-{
-
-  _ortho = glm::ortho(0, win.x, win.y, 0, -1, 1);
-  _shader = new BasicShader;
-
-  if (!_shader->load(RES_SHADERS "menu.fp", GL_FRAGMENT_SHADER)
-      || !_shader->load(RES_SHADERS "menu.vp", GL_VERTEX_SHADER)
-      || !_shader->build())
-    {
-      std::cerr << "Load shader fail" << std::endl;
-      return false;
-    }
-
-  glEnable(GL_DEPTH_TEST);
-  glClearDepth(1.0f);
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-  return true;
-}
-
-void MenuGraphics::startFrame() const
-{
-  _shader->bind();
-  _shader->setUniform("projection", _ortho);
-}

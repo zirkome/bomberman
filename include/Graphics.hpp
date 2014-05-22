@@ -19,37 +19,7 @@
 ** Stock all the information needed to display
 */
 
-class Graphics
-{
-public:
-  virtual ~Graphics() {};
-
-  virtual bool init(const glm::ivec2& win) = 0;
-  virtual void startFrame() const = 0;
-
-  virtual gdl::AShader *getShader() const = 0;
-};
-
-
-
-class MenuGraphics : public Graphics
-{
-public:
-  MenuGraphics();
-  virtual ~MenuGraphics();
-
-  virtual bool init(const glm::ivec2& win);
-  virtual void startFrame() const;
-
-  gdl::AShader *getShader() const {return _shader;};
-
-private:
-  glm::mat4 _ortho;
-  gdl::AShader *_shader;
-};
-
-
-class GameGraphics : public Graphics
+class GameGraphics
 {
 public:
   GameGraphics();
