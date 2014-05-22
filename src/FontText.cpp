@@ -27,6 +27,13 @@ void FontText::displayText(const std::string &str, const glm::mat4 &matrice,
       geometry.pushVertex(glm::vec3(i * size + size, size, 0));
       geometry.pushVertex(glm::vec3(i * size, 0, 0));
 
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+
       geometry.pushUv(glm::vec2(uv_x, 1.0 - uv_y));
       geometry.pushUv(glm::vec2(uv_x, 1 - (uv_y + 1.0 / 16.0)));
       geometry.pushUv(glm::vec2(uv_x + 1.0 / 16.0, 1 - uv_y));
