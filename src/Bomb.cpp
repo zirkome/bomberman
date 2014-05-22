@@ -33,3 +33,8 @@ void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
   _obj->draw(shader, clock);
 }
+
+IEntity::Type Bomb::getType() const
+{
+  return IEntity::BOMB;
+}

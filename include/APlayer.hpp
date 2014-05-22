@@ -22,6 +22,7 @@ public:
       DOWN,
       LEFT
     };
+
 protected:
   glm::vec2	_vec;
   Model         *_obj;
@@ -30,8 +31,10 @@ protected:
   double        _size;
   Way		_way;
   Status	_status;
+
 public:
   virtual ~APlayer();
+
 public:
   virtual const glm::vec2 &getPos() const;
   virtual void  setPos(const glm::vec2 &new_pos);
@@ -39,6 +42,7 @@ public:
   virtual void  draw(gdl::AShader *shader, const gdl::Clock& clock);
   virtual IEntity::Type getType() const;
   virtual void  setStatus(APlayer::Status);
+
 protected:
   virtual bool  moveUp(double const distance);
   virtual bool  moveDown(double const distance);
