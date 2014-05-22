@@ -50,7 +50,7 @@ INCDIR		=	include/
 
 CFLAGS		+=	-I$(INCDIR) -Ilib/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe
+CFLAGS		+=	-Wunused-function -pipe -g -g3
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread

@@ -7,12 +7,15 @@ Player::Player(const glm::vec2 pos, Map *map)
   _obj->initialize();
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+  // Init pointer method
   _movePtr[SDLK_UP] = &Player::moveUp;
   _movePtr[SDLK_DOWN] = &Player::moveDown;
   _movePtr[SDLK_RIGHT] = &Player::moveRight;
   _movePtr[SDLK_LEFT] = &Player::moveLeft;
-  _status = STANDBY;
+  _movePtr[SDLK_SPACE] = &Player::putBomb;
 
+  _status = STANDBY;
   _vec = pos;
   _map = map;
   _speed = 4;
@@ -23,6 +26,9 @@ Player::Player(const glm::vec2 pos, Map *map)
   _obj->createSubAnim(0, "walk", 42, 63);
   _obj->createSubAnim(0, "stop_walking", 64, 121);
   _obj->setCurrentSubAnim("standby");
+
+  // Init bombList
+  _bombList.push_back(Bomb::SMALL);
 }
 
 Player::~Player()
@@ -53,4 +59,14 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
       _obj->setCurrentSubAnim("stop_walking", false);
       _status = STOP_WALK;
     }
+}
+
+bool Player::putBomb(UNUSED double const distance)
+{
+  if (_map->getTypeAt(_vec.x, _vec.y + 1) == GROUND &&
+      _map->getTypeAt(_vec.x, _vec.y + 1) == GROUND) {
+    _map->addEntity(new Bomb(glm::vec2((int)(_vec.x), (int)(_vec.y + 1))));
+    return true;
+  }
+  return true;
 }
