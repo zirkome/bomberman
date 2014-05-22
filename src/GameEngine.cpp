@@ -1,12 +1,8 @@
 #include "GameEngine.hpp"
 
 GameEngine::GameEngine()
+  : _state(Intro), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext)
 {
-  _context = new gdl::SdlContext;
-  _show = false;
-  _init = false;
-  _game = NULL;
-  _menu = NULL;
 }
 
 GameEngine::~GameEngine()
@@ -25,14 +21,16 @@ bool GameEngine::initialize()
   const int width = 1024;
   const int heigth = 900;
 
-  if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
+  if (!_context->start(width, heigth, "Bomberman",
+		       SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
     return false;
   SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
   AssetsManager::createAssets();
-  _game = new ::Game(glm::ivec2(width, heigth), 1, 1, tmp, "map2.map");
+  _intro = new ::Intro(glm::ivec2(width, heigth));
+  // _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
   return true;
 }
 
@@ -42,19 +40,28 @@ bool GameEngine::update()
   _context->updateInputs(_input);
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
-  if (_show)
-    return _menu->updateMenu(_input, _clock);
-  else
-    _game->updateGame(_input, _clock);
-  return true;
+  switch (_state)
+    {
+    case Intro:
+      return _intro->updateIntro(_input, _clock);
+    case Game:
+    default:
+      return _game->updateGame(_input, _clock);
+    }
 }
 
 void GameEngine::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  if (_show)
-    _menu->drawMenu(_clock);
-  else
-    _game->drawGame(_input, _clock);
+  switch (_state)
+    {
+    case Intro:
+      _intro->drawIntro(_clock);
+      break;
+    case Game:
+    default:
+      _game->drawGame(_input, _clock);
+      break;
+    }
   _context->flush();
 }

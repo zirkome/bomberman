@@ -40,38 +40,43 @@ gdl::AShader *GameGraphics::getShader() const
   return _fbo ? _fbo->getShader() : NULL;
 }
 
-MenuGraphics::MenuGraphics()
+IntroGraphics::IntroGraphics()
 {
+  _fov = 60.0;
+  _fbo = NULL;
 }
 
-MenuGraphics::~MenuGraphics()
+IntroGraphics::~IntroGraphics()
 {
-  delete _shader;
+  if (_fbo != NULL)
+    delete _fbo;
 }
 
-bool MenuGraphics::init(const glm::ivec2& win)
+bool IntroGraphics::init(const glm::ivec2& win)
 {
-
-  _ortho = glm::ortho(0, win.x, win.y, 0, -1, 1);
-  _shader = new gdl::BasicShader;
-
-  if (!_shader->load(RES_SHADERS "menu.fp", GL_FRAGMENT_SHADER)
-      || !_shader->load(RES_SHADERS "menu.vp", GL_VERTEX_SHADER)
-      || !_shader->build())
-    {
-      std::cerr << "Load shader fail" << std::endl;
-      return false;
-    }
+  _proj = glm::perspective(_fov, static_cast<float>(win.x) / static_cast<float>(win.y),
+                           0.1f, 500.0f);
+  _fbo = new FBORenderer(win);
 
   glEnable(GL_DEPTH_TEST);
   glClearDepth(1.0f);
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
   return true;
 }
 
-void MenuGraphics::startFrame() const
+void IntroGraphics::startFrame() const
 {
-  _shader->bind();
-  _shader->setUniform("projection", _ortho);
+  _fbo->start();
+  _fbo->getShader()->setUniform("projection", _proj);
+}
+
+void IntroGraphics::processFrame(const glm::vec3& camPos) const
+{
+ _fbo->process(camPos);
+}
+
+gdl::AShader *IntroGraphics::getShader() const
+{
+  return _fbo ? _fbo->getShader() : NULL;
 }

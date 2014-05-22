@@ -1,6 +1,7 @@
 
 SRC		=	main.cpp \
 			Game.cpp \
+			Intro.cpp \
 			Fault.cpp \
 			Graphics.cpp \
 			FBORenderer.cpp \
@@ -9,7 +10,6 @@ SRC		=	main.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
 			Map.cpp \
-			Menu.cpp \
 			PThread.cpp \
 			PMutex.cpp \
 			PCondVar.cpp \

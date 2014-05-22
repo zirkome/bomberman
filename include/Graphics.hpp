@@ -29,24 +29,24 @@ public:
   virtual gdl::AShader *getShader() const = 0;
 };
 
-
-
-class MenuGraphics : public Graphics
+class IntroGraphics : public Graphics
 {
 public:
-  MenuGraphics();
-  virtual ~MenuGraphics();
+  IntroGraphics();
+  virtual ~IntroGraphics();
 
   virtual bool init(const glm::ivec2& win);
   virtual void startFrame() const;
 
-  gdl::AShader *getShader() const {return _shader;};
+  void processFrame(const glm::vec3& camPos) const;
+
+  gdl::AShader *getShader() const;
 
 private:
-  glm::mat4 _ortho;
-  gdl::AShader *_shader;
+  float _fov;
+  glm::mat4 _proj;
+  FBORenderer* _fbo;
 };
-
 
 class GameGraphics : public Graphics
 {

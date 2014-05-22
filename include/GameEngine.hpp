@@ -9,7 +9,8 @@
 #include <SdlContext.hh>
 #include <IRenderContext.hh>
 
-#include "Menu.hpp"
+#include "Intro.hpp"
+//#include "Menu.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 
@@ -23,9 +24,13 @@ public:
   virtual void draw();
 
 private:
-  bool _show;
+  enum {
+    Intro,
+    Menu,
+    Game
+  } _state;
   bool _init;
-  Menu *_menu;
+  ::Intro *_intro;
   ::Game *_game;
   gdl::Clock _clock;
   gdl::Input _input;
