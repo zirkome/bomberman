@@ -83,7 +83,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _dead = false;
   _fileName = fileName;
   _act = 0;
-  _rotate = 0;
+  _status = STANDBY;
   _size = 0.7;
 
   _obj = new Model(RES_ASSETS "marvin.fbx");
@@ -106,7 +106,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   if (_L == NULL)
     throw nFault("Init lua fail");
 
-  _currentMap = currentMap;
+  _map = currentMap;
 
   luaL_openlibs(_L);
 
@@ -154,7 +154,7 @@ int Ia::getMap(const int x, const int y) const
 {
   IEntity::Type elem;
 
-  elem = _currentMap->getTypeAt(x, y);
+  elem = _map->getTypeAt(x, y);
   return (static_cast<int> (elem));
 }
 
@@ -208,11 +208,6 @@ void Ia::setY(const double y)
   _vec.y = y;
 }
 
-void Ia::setPos(const glm::vec2 &new_pos)
-{
-  _vec = new_pos;
-}
-
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   double distance;
@@ -225,107 +220,10 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
     (this->*_movePtr[0])(distance);
 }
 
-void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
-{
-  _obj->draw(shader, clock);
-}
-
-IEntity::Type Ia::getType() const
-{
-  return IEntity::PLAYER;
-}
-
-const glm::vec2 &Ia::getPos() const
-{
-  return _vec;
-}
-
-
-
 bool Ia::nothing(UNUSED double const distance)
 {
-  _obj->setCurrentSubAnim("standby");
-  return true;
-}
-
-bool Ia::moveUp(double const distance)
-{
- if (_currentMap->getTypeAt(_vec.x + _size, _vec.y + distance + 1) == (GROUND) &&
-     _currentMap->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + 1) == (GROUND))
-    {
-     _vec.y += distance;
-     _obj->translate(glm::vec3(0, 0, distance));
-     if (_rotate != 0)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -_rotate);
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 0;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::moveDown(double const distance)
-{
- if (_currentMap->getTypeAt(_vec.x + _size, _vec.y - distance) == (GROUND) &&
-     _currentMap->getTypeAt(_vec.x + 1 - _size, _vec.y - distance) == (GROUND))
-   {
-     _vec.y -= distance;
-     _obj->translate(glm::vec3(0, 0, -distance));
-     if (_rotate != 180)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-180));
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 180;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::moveLeft(double const distance)
-{
- if (_currentMap->getTypeAt(_vec.x - distance, _vec.y + _size) == (GROUND) &&
-     _currentMap->getTypeAt(_vec.x - distance, _vec.y + 1 - _size) == (GROUND))
-   {
-     _vec.x -= distance;
-     _obj->translate(glm::vec3(-distance, 0, 0));
-     if (_rotate != 270)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-270));
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 270;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::moveRight(double const distance)
-{
- if (_currentMap->getTypeAt(_vec.x + distance + 1, _vec.y + _size) == (GROUND) &&
-     _currentMap->getTypeAt(_vec.x + distance + 1, _vec.y + 1 - _size) == (GROUND))
-   {
-     _vec.x += distance;
-     _obj->translate(glm::vec3(distance, 0, 0));
-     if (_rotate != 90)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-90));
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 90;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::bomb(UNUSED double const distance)
-{
-  _obj->setCurrentSubAnim("standby");
+  if (_status != STOP_WALK)
+    _obj->setCurrentSubAnim("stop_walk");
+  _status = STOP_WALK;
   return true;
 }
