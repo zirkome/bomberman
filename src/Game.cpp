@@ -103,13 +103,15 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
       (*it)->draw(shader, clock);
     }
 
-  _font->displayText("abcde", glm::vec3(0, 1, 0), 3, shader);
+  _font->displayText("abcde", glm::rotate(glm::mat4(1), 45.0f, glm::vec3(5, 2, 3)), shader);
 
   _ogl.processFrame(_cam->getPosition());
 
   hudshader->bind();
 
-  hudshader->setUniform("view", glm::mat4(1));
-  _font->displayText("fghijkl", glm::vec3(0, 1, 0), 3, hudshader);
+  glm::mat4 screen = glm::translate(glm::scale(glm::mat4(1), glm::vec3(2, 2, 0)), glm::vec3(-1, -1, 0));
+
+  hudshader->setUniform("view", screen);
+  _font->displayText("fghijkl",glm::translate(glm::mat4(1), glm::vec3(5, 2, 3)), hudshader);
   // Menu and Game have they own Graphics class
 }
