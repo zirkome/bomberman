@@ -10,13 +10,10 @@ class Menu
 public:
   Menu(const glm::ivec2& win);
   ~Menu();
-  bool updateMenu(gdl::Input &input, gdl::Clock &clock);
+  bool updateMenu(gdl::Input &input, const gdl::Clock &clock);
   void drawMenu(const gdl::Clock &clock);
 
 private:
-  bool _show;
-  Game *_game;
-  MenuGraphics _ogl;
 };
 
 #endif
