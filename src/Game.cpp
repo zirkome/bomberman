@@ -69,7 +69,7 @@ void Game::init(glm::ivec2 win)
   //     if (*it != NULL)
   //       (*it)->getObj()->initialize();
   //   }
-  _font = new FontText(RES_ASSETS "font.tga");
+  _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
 

@@ -3,7 +3,7 @@
 
 Player::Player(const glm::vec2 pos, Map *map)
 {
-  _obj = new Model(RES_ASSETS "marvin.fbx");
+  _obj = new Model(RES_MODEL "marvin.fbx");
   _obj->initialize();
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
