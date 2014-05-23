@@ -14,3 +14,9 @@ void		BasicCam::update(const glm::vec2 &toFollow)
   _pos = glm::vec3(toFollow.x, _elevation, toFollow.y - _distance);
   _forward = glm::vec3(toFollow.x, 0.5, toFollow.y);
 }
+
+void		BasicCam::update(__attribute__((unused)) gdl::Input& input,
+				 __attribute__((unused)) const gdl::Clock& clock)
+{
+
+}

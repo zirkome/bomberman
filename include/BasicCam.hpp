@@ -11,7 +11,7 @@ private:
 public:
   BasicCam(const glm::vec2 &toFollow, float elevation, float distance);
   virtual ~BasicCam() {}
-  virtual void update(gdl::Input& input, const gdl::Clock& clock) {}
+  virtual void update(gdl::Input& input, const gdl::Clock& clock);
   virtual void	update(const glm::vec2 &toFollow);
 };
 

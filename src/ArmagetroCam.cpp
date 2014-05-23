@@ -11,7 +11,8 @@ ArmagetroCam::ArmagetroCam(const glm::vec2 &playerPos)
   _follow_pos.clear();
 }
 
-void	ArmagetroCam::update(gdl::Input &input, const gdl::Clock &clock)
+void	ArmagetroCam::update(__attribute__((unused)) gdl::Input &input,
+			     __attribute__((unused)) const gdl::Clock &clock)
 {
 
 }
