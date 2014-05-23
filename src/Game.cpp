@@ -1,6 +1,7 @@
 #include "EntitiesFactory.hpp"
 #include "Game.hpp"
 #include "AShader.hh"
+#include "ArmagetroCam.hpp"
 #include "FreeCam.hpp"
 #include "FpsCam.hpp"
 #include "TrackCam.hpp"
@@ -27,21 +28,22 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
+  Placement place(_currentMap);
   i = 0;
   size = algoFileName.size();
   while (i < numberIA)
     {
       if (size != 0)
-        _listIA.push_back(new Ia(_currentMap, glm::vec2(0, 0), algoFileName[i % size]));
+        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName[i % size]));
       else
-        _listIA.push_back(new Ia(_currentMap, glm::vec2(0, 0), "Path/to/default/ia.lua"));
+        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), "Path/to/default/ia.lua"));
       i++;
     }
 
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new Player(glm::vec2(1, 1), _currentMap));
+      _players.push_back(new Player(place.getNewPos(), _currentMap));
       i++;
     }
   for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)
@@ -58,7 +60,9 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0.0, _currentMap->getLength() / 2));
+  glm::vec2 playerPos = _players.front()->getPos();
+  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
+  // _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0.0, _currentMap->getLength() / 2));
   // std::list<IEntity *>	&list = _currentMap->getMap();
 
   // for (std::list<IEntity *>::iterator it = list.begin(); it != list.end(); it++)
@@ -66,7 +70,7 @@ void Game::init(glm::ivec2 win)
   //     if (*it != NULL)
   //       (*it)->getObj()->initialize();
   //   }
-  _font = new FontText(RES_ASSETS "font.tga");
+  _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
 
@@ -77,7 +81,9 @@ Game::~Game()
 
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
-  _cam->update(input, clock);
+  glm::vec2 playerPos = _players.front()->getPos();
+  _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
+  // _cam->update(input, clock);
 
   /* TODO : move players, explose bomb, ... */
   std::list<IEntity *>	&list = _currentMap->getMap();
@@ -112,6 +118,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   glm::mat4 screen = glm::translate(glm::scale(glm::mat4(1), glm::vec3(2, 2, 0)), glm::vec3(-1, -1, 0));
 
   hudshader->setUniform("view", screen);
-  _font->displayText("fghijkl",glm::translate(glm::mat4(1), glm::vec3(5, 2, 3)), hudshader);
+  _font->displayText("fghijkl", glm::translate(glm::mat4(1), glm::vec3(5, 2, 3)), hudshader);
   // Menu and Game have they own Graphics class
 }

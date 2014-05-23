@@ -9,43 +9,36 @@ extern "C" {
 #include "lauxlib.h"
 }
 
-#include "Map.hpp"
 #include "Fault.hpp"
 #include "PMutex.hpp"
 #include "PCondVar.hpp"
 #include "PThread.hpp"
-#include "IEntity.hpp"
-#include "Model.hpp"
+#include "APlayer.hpp"
 
-class Ia : public IEntity
+class Ia : public APlayer
 {
 private:
-  Map *_currentMap;
+
   lua_State *_L;
-  int _x;
-  int _y;
   int _act;
   PMutex _mutex;
   PCondVar _condAct;
   PThread _thread;
   bool _dead;
   bool _running;
-  AObject *_obj;
-  glm::vec2 _vec;
   std::string _fileName;
+  std::vector<bool (Ia::*)(double const)> _movePtr;
 public:
   int getMap(int x, int y) const;
-  int getX() const;
-  int getY() const;
-  void setX(const int x);
-  void setY(const int y);
-  void setPos(const glm::vec2 &new_pos);
+  double getX() const;
+  double getY() const;
+  void setX(const double x);
+  void setY(const double y);
   void update(gdl::Input &input, gdl::Clock const &clock);
-  void draw(gdl::AShader *shader, const gdl::Clock& clock);
-  const glm::vec2 &getPos() const;
   void action(int act);
   void *init();
-  IEntity::Type getType() const;
+  bool nothing(UNUSED double const distance);
+public:
   Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName);
   ~Ia();
   int exec(); /*!BLOQUANT! call it when the ia can make one action */

@@ -23,6 +23,8 @@ SRC		=	main.cpp \
 			Cube.cpp \
 			ACamera.cpp \
 			FreeCam.cpp \
+			BasicCam.cpp \
+			ArmagetroCam.cpp \
 			FpsCam.cpp \
 			TrackCam.cpp \
 			OrthoCam.cpp \
@@ -31,6 +33,8 @@ SRC		=	main.cpp \
 			AssetsManager.cpp \
 			Pan.cpp \
 			Ground.cpp \
+			Placement.cpp \
+			APlayer.cpp \
 			Model.cpp
 
 CC		=	g++

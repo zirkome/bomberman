@@ -14,6 +14,9 @@ public:
   virtual ~ACamera();
 
   virtual void update(gdl::Input& input, const gdl::Clock& clock) = 0;
+  //TODO move to cpp
+  virtual void update(const glm::vec3 &toFollow) { _forward = toFollow; }
+
   virtual const glm::mat4& project();
 
   void translate(const glm::vec3& pos);

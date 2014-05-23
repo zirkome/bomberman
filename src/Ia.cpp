@@ -10,6 +10,7 @@ int iaGetPos(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   lua_pushnumber(L, ptr->getX());
   lua_pushnumber(L, ptr->getY());
   return 2; //number of return values
@@ -26,8 +27,11 @@ int iaGetMap(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   y = lua_tonumber(L, lua_gettop(L)); //the order of args is inverse
+  lua_pop(L, 1);
   x = lua_tonumber(L, lua_gettop(L));
+  lua_pop(L, 1);
   lua_pushnumber(L, ptr->getMap(x, y));
   return 1;
 }
@@ -43,7 +47,9 @@ int iaAction(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   act = lua_tonumber(L, lua_gettop(L));
+  lua_pop(L, 1);
   ptr->action(act);
   return 0;
 }
@@ -58,6 +64,7 @@ int iaLaunch(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
   ptr->action(-1);
   return 0;
 }
@@ -70,24 +77,36 @@ void *iaStart(void *ptr)
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 : _condAct(_mutex), _thread(iaStart, this)
 {
+  _speed = 3;
   _running = false;
-  _x = pos.x;
-  _y = pos.y;
   _vec = pos;
   _dead = false;
   _fileName = fileName;
   _act = 0;
+  _status = STANDBY;
+  _size = 0.7;
 
-  _obj = new Model(RES_ASSETS "marvin.fbx");
+  _obj = new Model(RES_MODEL "marvin.fbx");
   _obj->initialize();
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+  _obj->createSubAnim(0, "standby", 0, 0);
+  _obj->createSubAnim(0, "walk", 42, 63);
+  _obj->createSubAnim(0, "stop_walking", 64, 121);
+
+  _movePtr.push_back(&Ia::nothing);
+  _movePtr.push_back(&Ia::moveUp);
+  _movePtr.push_back(&Ia::moveDown);
+  _movePtr.push_back(&Ia::moveLeft);
+  _movePtr.push_back(&Ia::moveRight);
+  _movePtr.push_back(&Ia::bomb);
 
   _L = luaL_newstate();
   if (_L == NULL)
     throw nFault("Init lua fail");
 
-  _currentMap = currentMap;
+  _map = currentMap;
 
   luaL_openlibs(_L);
 
@@ -135,7 +154,7 @@ int Ia::getMap(const int x, const int y) const
 {
   IEntity::Type elem;
 
-  elem = _currentMap->getTypeAt(x, y);
+  elem = _map->getTypeAt(x, y);
   return (static_cast<int> (elem));
 }
 
@@ -169,93 +188,42 @@ void Ia::action(int act)
     }
 }
 
-int Ia::getX() const
+double Ia::getX() const
 {
-  return _x;
+  return _vec.x;
 }
 
-int Ia::getY() const
+double Ia::getY() const
 {
-  return _y;
+  return _vec.y;
 }
 
-void Ia::setX(const int x)
+void Ia::setX(const double x)
 {
-  _x = x;
   _vec.x = x;
 }
 
-void Ia::setY(const int y)
+void Ia::setY(const double y)
 {
-  _y = y;
   _vec.y = y;
-}
-
-void Ia::setPos(const glm::vec2 &new_pos)
-{
-  _vec = new_pos;
-  _x = new_pos.x;
-  _y = new_pos.y;
 }
 
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
-  IEntity::Type elem;
-  (void) clock;
+  double distance;
+
   exec();
-  if (_act == 1)
-    {
-      elem = _currentMap->getTypeAt(_x + 1, _y);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _x += 1;
-	  _vec.x += 1;
-	  _obj->translate(glm::vec3(0, 0, 1));
-	}
-    }
-  if (_act == 2)
-    {
-      elem = _currentMap->getTypeAt(_x - 1, _y);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _x -= 1;
-	  _vec.x -= 1;
-	  _obj->translate(glm::vec3(0, 0, -1));
-	}
-    }
-  if (_act == 3)
-    {
-      elem = _currentMap->getTypeAt(_x, _y - 1);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _y -= 1;
-	  _vec.y -= 1;
-	  _obj->translate(glm::vec3(-1, 0, 0));
-	}
-    }
-  if (_act == 4)
-    {
-      elem = _currentMap->getTypeAt(_x, _y + 1);
-      if (elem != BOX && elem != WALL && elem != BOMB)
-	{
-	  _y += 1;
-	  _vec.y += 1;
-	  _obj->translate(glm::vec3(1, 0, 0));
-	}
-    }
+  distance = clock.getElapsed() * _speed;
+  if (_act >= 0 && _act < 6)
+    (this->*_movePtr[_act])(distance);
+  else
+    (this->*_movePtr[0])(distance);
 }
 
-void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
+bool Ia::nothing(UNUSED double const distance)
 {
-  _obj->draw(shader, clock);
-}
-
-IEntity::Type Ia::getType() const
-{
-  return IEntity::PLAYER;
-}
-
-const glm::vec2 &Ia::getPos() const
-{
-  return _vec;
+  if (_status != STOP_WALK)
+    _obj->setCurrentSubAnim("stop_walk");
+  _status = STOP_WALK;
+  return true;
 }
