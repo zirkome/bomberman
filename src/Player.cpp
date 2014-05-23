@@ -28,7 +28,7 @@ Player::Player(const glm::vec2 pos, Map *map)
   _obj->setCurrentSubAnim("standby");
 
   // Init bombList
-  _bombList.push_back(Bomb::SMALL);
+  _bombList.push_back(1);
 }
 
 Player::~Player()
@@ -63,7 +63,6 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 
 bool Player::putBomb(UNUSED double const distance)
 {
-  //TODO Collision
   _map->addEntity(new Bomb(glm::vec2((int)(_vec.x + _size), (int)(_vec.y + _size))));
   return true;
 }

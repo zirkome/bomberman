@@ -11,7 +11,7 @@ class Player : public APlayer
 {
   typedef bool (Player::*move)(double const);
   typedef std::map<int, move> MovePtr;
-  typedef std::list<Bomb::LevelBomb> BombList;
+  typedef std::list<int> BombList;
 
 private:
   MovePtr	_movePtr;
