@@ -34,7 +34,8 @@ SRC		=	main.cpp \
 			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
-			Model.cpp
+			Model.cpp \
+			PivotingCam.cpp
 
 CC		=	g++
 

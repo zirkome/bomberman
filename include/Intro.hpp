@@ -3,10 +3,12 @@
 
 # include <Input.hh>
 # include <Clock.hh>
+# include <Texture.hh>
 
 # include "Model.hpp"
 # include "FontText.hpp"
 # include "ACamera.hpp"
+# include "PivotingCam.hpp"
 # include "Graphics.hpp"
 
 class Intro
@@ -24,9 +26,12 @@ private:
 
 private:
   IntroGraphics _ogl;
-  ACamera* _cam;
-  Model *_obj;
+  PivotingCam *_cam;
+  Model *_player;
+  AObject *_logo;
+  gdl::Texture *_texture;
   int _speed;
+  glm::vec3 _pos;
 };
 
 #endif /* _INTRO_H_ */

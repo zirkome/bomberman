@@ -13,12 +13,13 @@ public:
   enum Type
     {
       BOX = 0,
-      WALL = 1,
-      BOMB = 2,
-      GROUND = 3,
-      MODEL = 4,
-      PLAYER = 5,
-      NONE = 6
+      WALL,
+      BOMB,
+      GROUND,
+      MODEL,
+      PLAYER,
+      LOGO,
+      NONE
     };
   enum Symbol
     {
