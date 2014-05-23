@@ -42,10 +42,12 @@ private:
   std::vector<Player *> _players; //Those are IEntity
   Map *_currentMap;
   Cube *_cube;
-  BasicCam* _cam;
+  ACamera* _cam;
   FontText *_font;
   gdl::Texture	_text_texture;
   GameGraphics _ogl;
+
+  glm::mat4 _ortho;
 };
 
 #endif
