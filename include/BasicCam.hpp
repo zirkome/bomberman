@@ -9,10 +9,10 @@ private:
   float _distance;
   float	_elevation;
 public:
-  BasicCam(const glm::vec2 &toFollow, float elevation, float distance);
+  BasicCam(const glm::vec3 &toFollow, float elevation, float distance);
   virtual ~BasicCam() {}
   virtual void update(gdl::Input& input, const gdl::Clock& clock);
-  virtual void	update(const glm::vec2 &toFollow);
+  virtual void	update(const glm::vec3 &toFollow);
 };
 
 #endif /* _BASICCAM_H_ */
