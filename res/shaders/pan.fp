@@ -54,6 +54,18 @@ void main(void)
   gl_FragColor = color * lighting;
 }
 
+float smoothstep(float edge0, float edge1, float x)
+{
+  if (x <= edge0)
+    return 0.0;
+  else if (x >= edge1)
+    return 1.0;
+  else
+    {
+      float t = (x - edge0) / (edge1 - edge0);
+      return 3.0 * pow(t, 3) - 2.0 * pow(t, 2);
+    }
+}
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position)
 {
