@@ -47,7 +47,7 @@ glm::vec2 const Placement::genNewPos()
 
 bool Placement::checkSpace(glm::vec2 const &pos, glm::vec2 const &back, int rec)
 {
-  if (pos.x < 0 || pos.y < 0 || _map->getTypeAt(pos.x, pos.y) != IEntity::GROUND)
+  if (pos.x < 0 || pos.y < 0 || _map->getTypeAt(pos.x, pos.y) != IEntity::NONE)
     return false;
   if (rec == 0)
     return true;

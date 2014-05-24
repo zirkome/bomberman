@@ -1,11 +1,13 @@
 #ifndef MAP_HPP_
 # define MAP_HPP_
 
+# include <stdexcept>
 # include <string>
 # include <list>
 # include <iostream>
 # include <cstdlib>
 # include <ctime>
+# include <map>
 # include <fstream>
 # include "IEntity.hpp"
 # include "Wall.hpp"
@@ -26,6 +28,7 @@ private:
   int		_y;
   IMutex	*_mutex;
   LMap		_map;
+  std::map<char, IEntity::Type>	_charToIEntity;
 
 public:
   Map(const int x, const int y);
@@ -44,8 +47,8 @@ public:
 private:
   bool		loadMapFromFile(std::string const &fileName);
   void		loadRandomMap();
-  IEntity::Type	getType(const std::string::const_iterator &it) const;
-  IEntity	*getEntityForMap(const int x, const int y, const int i) const;
+  IEntity::Type	getType(const char c) const;
+  IEntity	*getEntityForMap(const int x, const int y, const IEntity::Type i) const;
 
   //Debug methods
 public:
