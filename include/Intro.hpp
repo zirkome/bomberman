@@ -32,6 +32,10 @@ private:
   gdl::Texture *_texture;
   int _speed;
   glm::vec3 _pos;
+  enum {
+    Running,
+    Finished
+  } _state;
 };
 
 #endif /* _INTRO_H_ */

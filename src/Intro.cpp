@@ -2,7 +2,7 @@
 #include "Intro.hpp"
 
 Intro::Intro(const glm::ivec2& win)
-  : _speed(4), _pos(25.0, 0.0f, 0.0)
+  : _speed(4), _pos(25.0, 0.0f, 0.0), _state(Running)
 {
   _player = new Model(RES_MODEL "marvin.fbx");
   _player->initialize();
@@ -39,11 +39,21 @@ void Intro::init(glm::ivec2 win)
 bool Intro::updateIntro(gdl::Input &input, const gdl::Clock &clock)
 {
   _cam->update(glm::vec2(_pos.x, _pos.y));
-  // if (_pos.x > 0.0)
-  //   {
-      _pos.x += -(clock.getElapsed() * _speed);
-      _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
-    // }
+  if (_state == Running)
+    {
+      if (_pos.x > 0.0)
+	{
+	  _pos.x += -(clock.getElapsed() * _speed);
+	  _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
+	}
+      else
+	_state = Finished;
+    }
+  else if (_pos.y < 4.0)
+    {
+      _pos.y += clock.getElapsed();
+      _logo->translate(glm::vec3(0, clock.getElapsed(), 0));
+    }
   _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
 
   return true;
