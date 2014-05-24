@@ -1,6 +1,7 @@
+#include "config.h"
 #include "BasicCam.hpp"
 
-BasicCam::BasicCam(const glm::vec2 &toFollow, float elevation, float distance)
+BasicCam::BasicCam(const glm::vec3 &toFollow, float elevation, float distance)
 {
   _pos = glm::vec3(0.0, elevation, -distance);
   _forward = glm::vec3(toFollow.x, 0.5, toFollow.y);
@@ -9,8 +10,14 @@ BasicCam::BasicCam(const glm::vec2 &toFollow, float elevation, float distance)
   _elevation = elevation;
 }
 
-void		BasicCam::update(const glm::vec2 &toFollow)
+void		BasicCam::update(const glm::vec3 &toFollow)
 {
   _pos = glm::vec3(toFollow.x, _elevation, toFollow.y - _distance);
   _forward = glm::vec3(toFollow.x, 0.5, toFollow.y);
+}
+
+void		BasicCam::update(UNUSED gdl::Input& input,
+				 UNUSED const gdl::Clock& clock)
+{
+
 }

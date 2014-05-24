@@ -60,7 +60,8 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  _cam = new BasicCam(_players.front()->getPos(), 10, 3);
+  glm::vec2 playerPos = _players.front()->getPos();
+  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
   // _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0.0, _currentMap->getLength() / 2));
   // std::list<IEntity *>	&list = _currentMap->getMap();
 
@@ -80,7 +81,8 @@ Game::~Game()
 
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
-  _cam->update(_players.front()->getPos());
+  glm::vec2 playerPos = _players.front()->getPos();
+  _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
   // _cam->update(input, clock);
 
   /* TODO : move players, explose bomb, ... */
