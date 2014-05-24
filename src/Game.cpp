@@ -64,15 +64,8 @@ void Game::init(glm::ivec2 win)
   //_cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
   _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0.0, _currentMap->getLength() / 2));
 
-  _ortho = glm::ortho(v);
+  _ortho = glm::ortho(0.0f, static_cast<float>(win.x), static_cast<float>(win.y), 0.0f, 1.0f, -1.0f);
 
-  // std::list<IEntity *>	&list = _currentMap->getMap();
-
-  // for (std::list<IEntity *>::iterator it = list.begin(); it != list.end(); it++)
-  //   {
-  //     if (*it != NULL)
-  //       (*it)->getObj()->initialize();
-  //   }
   _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
@@ -86,7 +79,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
   glm::vec2 playerPos = _players.front()->getPos();
   _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
-  // _cam->update(input, clock);
+  _cam->update(input, clock);
 
   /* TODO : move players, explose bomb, ... */
   std::list<IEntity *>	&list = _currentMap->getMap();
@@ -105,26 +98,25 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
-  /*
+
     for (Map::iterator it = _currentMap->begin(), end = _currentMap->end();
          it != end; ++it)
       {
         (*it)->draw(shader, clock);
       }
 
-    _font->displayText("abcde", glm::rotate(glm::mat4(1), 45.0f, glm::vec3(5, 2, 3)), shader);*/
+    _font->displayText("abcde", glm::rotate(glm::mat4(1), 45.0f, glm::vec3(5, 2, 3)), shader);
 
   _ogl.processFrame(_cam->getPosition());
 
   hudshader->bind();
 
-  glm::mat4 screen = glm::translate(glm::scale(glm::mat4(1), glm::vec3(2, 2, 0)), glm::vec3(-1, -1, 0));
+  glm::mat4 screen = glm::mat4(1);//glm::translate(glm::scale(glm::mat4(1), glm::vec3(2, 2, 0)), glm::vec3(-1, -1, 0));
 
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", screen);
 
-  glm::mat4 textMat = glm::scale(glm::translate(glm::mat4(1), glm::vec3(1, 0, 0)), glm::vec3(0.1, 1, 0.1));
+  glm::mat4 textMat = glm::scale(glm::translate(glm::mat4(1), glm::vec3(1, 0, 0)), glm::vec3(0.1, 1, 1));
 
   _font->displayText("fghijkl", textMat, hudshader);
-  // Menu and Game have they own Graphics class
 }
