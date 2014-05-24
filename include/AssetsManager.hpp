@@ -8,6 +8,7 @@
 # include <Texture.hh>
 # include <Model.hh>
 
+# include "Model.hpp"
 # include "config.h"
 # include "IEntity.hpp"
 # include "Singleton.hpp"
@@ -37,7 +38,7 @@ private:
 
 private:
   std::map<IEntity::Type, gdl::Texture *> _textures;
-  std::map<IEntity::Type, gdl::Model *> _model;
+  std::map<IEntity::Type, Model *> _model;
 };
 
 #endif /* _ASSETSMANAGER_H_ */
