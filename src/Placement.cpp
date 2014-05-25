@@ -3,7 +3,7 @@
 Placement::Placement(Map *cmap)
 {
   _map = cmap;
-  _mapSize = glm::vec2(_map->getWidth(), _map->getLength());
+  _mapSize = glm::vec2(_map->getDimension().x, _map->getDimension().y);
   _numberPlayer = 0;
   _div = 2;
 }

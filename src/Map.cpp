@@ -5,7 +5,7 @@
 ** constructor random map
 */
 
-Map::Map(const int x, const int y) : _x(x), _y(y), _mutex(new PMutex)
+Map::Map(const int x, const int y) : _dim(x, y), _mutex(new PMutex)
 {
   srand(time(NULL));
 
@@ -19,7 +19,7 @@ Map::Map(const int x, const int y) : _x(x), _y(y), _mutex(new PMutex)
 ** constructor map with fileName
 */
 
-Map::Map(std::string const &mapFileName) : _x(0), _y(0), _mutex(new PMutex)
+Map::Map(std::string const &mapFileName) : _dim(0, 0), _mutex(new PMutex)
 {
   _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
   _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
@@ -82,8 +82,8 @@ bool		Map::loadMapFromFile(std::string const &fileName)
     }
     ++x;
   }
-  _y = y;
-  _x = x;
+  _dim.y = y;
+  _dim.x = x;
   file.close();
   return true;
 }
@@ -93,10 +93,10 @@ void		Map::loadRandomMap()
   IEntity	*entity;
   IEntity::Type	type;
 
-  for (int i = 0; i < _x; ++i) {
-    if (i && (i != _x - 1))
-      for (int j = 0; j < _y; ++j) {
-	if (j && (j != _y - 1)) {
+  for (int i = 0; i < _dim.x; ++i) {
+    if (i && (i != _dim.x - 1))
+      for (int j = 0; j < _dim.y; ++j) {
+	if (j && (j != _dim.y - 1)) {
 	  type = static_cast<IEntity::Type>(((rand() % 10) - 3) % 10);
 	  entity = this->getEntityForMap(i, j, type);
 	  if (entity)
@@ -124,8 +124,8 @@ void	Map::displayDebugMap() const
   bool	check;
 
   if (_map.size() > 0) {
-    for (int i = 0; i < _x; ++i) {
-      for (int j = 0; j < _y; ++j) {
+    for (int i = 0; i < _dim.x; ++i) {
+      for (int j = 0; j < _dim.y; ++j) {
   	check = false;
   	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
   	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
@@ -157,14 +157,19 @@ Map::LMap	&Map::getMap()
   return _map;
 }
 
-int	Map::getWidth() const
-{
-  return _x;
-}
+// int	Map::getWidth() const
+// {
+//   return _x;
+// }
 
-int	Map::getLength() const
+// int	Map::getLength() const
+// {
+//   return _y;
+// }
+
+const glm::vec2 &Map::getDimension() const
 {
-  return _y;
+  return _dim;
 }
 
 /*
