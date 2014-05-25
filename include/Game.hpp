@@ -46,8 +46,8 @@ private:
   FontText *_font;
   gdl::Texture	_text_texture;
   GameGraphics _ogl;
-
   glm::mat4 _ortho;
+  Pan *_ground;
 };
 
 #endif
