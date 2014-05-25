@@ -1,3 +1,6 @@
+#include <sstream>
+#include <iomanip>
+
 #include "EntitiesFactory.hpp"
 #include "Game.hpp"
 #include "AShader.hh"
@@ -134,13 +137,23 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
 
-  glm::mat4 textMat(1);
-
-  textMat = glm::translate(textMat, glm::vec3(0.01f, 0.6f, 0.0f));
+  glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
   textMat = glm::rotate(textMat, 45.0f, glm::vec3(0.3f, 0.5f, 0.6));
 
   _font->displayText("The Quick Brown Fox Jumps Over The Lazy Dog", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), textMat, hudshader);
+
+  std::stringstream ss;
+  static double elapsed = 0.0;
+  static unsigned int k = 0;
+  ++k;
+  if (k % 10 == 0)
+    elapsed = clock.getElapsed();
+  ss << std::setprecision(2) << 1.0 / elapsed << " FPS";
+
+  textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
+  textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
+  _font->displayText(ss.str(), (elapsed <= 0.01666) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
 
   glEnable(GL_DEPTH_TEST);
 }
