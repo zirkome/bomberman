@@ -65,7 +65,6 @@ void Game::init(glm::ivec2 win)
   //_cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
   _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
-  _ortho = glm::ortho(0.0f, static_cast<float>(win.x), static_cast<float>(win.y), 0.0f, 1.0f, -1.0f);
   _ground = new Pan(_currentMap->getDimension());
 
   _ground->initialize();
@@ -73,11 +72,11 @@ void Game::init(glm::ivec2 win)
   _ground->translate(glm::vec3(-0.5f, 0, -0.5f));
   _ground->scale(glm::vec3(_currentMap->getDimension().x, _currentMap->getDimension().y, 1.0f));
 
-  _ground->translate(glm::vec3((float)_currentMap->getDimension().x / 2.0,
-                               -0.5f,
-                               (float)_currentMap->getDimension().y / 2));
+  _ground->translate(glm::vec3(static_cast<float>(_currentMap->getDimension().x) / 2.0, -0.5f,
+                               static_cast<float>(_currentMap->getDimension().y) / 2.0));
   _ground->rotate(glm::vec3(1, 0, 0), 90.0);
 
+  _ortho = glm::ortho(0.0f, static_cast<float>(win.x), 0.0f, static_cast<float>(win.y), -1.0f, 1.0f);
   _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
@@ -122,16 +121,24 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     (*it)->draw(shader, clock);
 
+  glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
+  tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
+  tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
+  _font->displayText("abcde", tmpMat, shader);
+
   _ogl.processFrame(_cam->getPosition());
 
   hudshader->bind();
 
-  glm::mat4 screen = glm::mat4(1);//glm::translate(glm::scale(glm::mat4(1), glm::vec3(2, 2, 0)), glm::vec3(-1, -1, 0));
+  glm::mat4 screen = glm::mat4(1); //glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0f, -1.0f, 0)), glm::vec3(0.5f, 0.5f, 0));
 
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", screen);
 
-  glm::mat4 textMat = glm::scale(glm::translate(glm::mat4(1), glm::vec3(1, 0, 0)), glm::vec3(0.1, 1, 1));
+  glm::mat4 textMat(1);
+
+  textMat = glm::scale(textMat, glm::vec3(0.50f, 0.50f, 0));
+ //textMat = glm::scale(textMat, glm::vec3(100.0f, 80.0f, 1));
 
   _font->displayText("fghijkl", textMat, hudshader);
 }
