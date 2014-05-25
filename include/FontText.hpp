@@ -1,13 +1,16 @@
 #ifndef _FONTTEXT_H_
-#define _FONTTEXT_H_
+# define _FONTTEXT_H_
 
-# include <AShader.hh>
-# include <Texture.hh>
 # include <iostream>
 # include <string>
 # include <vector>
 # include <exception>
 # include <stdexcept>
+# include <glm/glm.hpp>
+# include <glm/gtc/matrix_transform.hpp>
+
+# include <AShader.hh>
+# include <Texture.hh>
 
 class FontText
 {
@@ -18,11 +21,13 @@ private:
   GLuint        _uniformID;
   GLuint        _vertexBuffID;
   GLuint        _UVBuffID;
+  const int	_sizeCharPix;
 
 public:
-  FontText(const std::string &path);
+  FontText(const std::string &path, int sizeCharPix = 16);
   ~FontText() {};
-  void displayText(const std::string &str, const glm::vec3 &pos, int size, gdl::AShader *shader);
+  void displayText(const std::string &str, const glm::vec4& color,
+                   const glm::mat4 &matrice, gdl::AShader *shader) const;
 
 };
 
