@@ -75,9 +75,8 @@ void Game::init(glm::ivec2 win)
                                static_cast<float>(_currentMap->getDimension().y) / 2.0));
   _ground->rotate(glm::vec3(1, 0, 0), 90.0);
 
-  _ortho = glm::ortho(0.0f, static_cast<float>(win.x), 0.0f, static_cast<float>(win.y));
-  _proj = glm::perspective(45.0f, static_cast<float>(win.x) / static_cast<float>(win.y),
-                           0.001f, 500.0f);
+  _ortho = glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0, -1.0, -1.0)), glm::vec3(2.0, 2.0, 2.0));
+
   _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
@@ -127,17 +126,21 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
   _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
 
+  glDisable(GL_DEPTH_TEST);
   _ogl.processFrame(_cam->getPosition());
 
   hudshader->bind();
 
   hudshader->setUniform("view", _ortho);
-  hudshader->setUniform("projection", _proj);
+  hudshader->setUniform("projection", glm::mat4(1));
 
   glm::mat4 textMat(1);
 
-  textMat = glm::scale(textMat, glm::vec3(0.50f, 0.50f, 0));
- //textMat = glm::scale(textMat, glm::vec3(100.0f, 80.0f, 1));
+  textMat = glm::translate(textMat, glm::vec3(0.01f, 0.6f, 0.0f));
+  textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
+  textMat = glm::rotate(textMat, 45.0f, glm::vec3(0.3f, 0.5f, 0.6));
 
-  _font->displayText("fghijkl", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), textMat, hudshader);
+  _font->displayText("The Quick Brown Fox Jumps Over The Lazy Dog", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), textMat, hudshader);
+
+  glEnable(GL_DEPTH_TEST);
 }

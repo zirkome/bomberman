@@ -12,8 +12,7 @@ FontText::FontText(const std::string &path, int sizeCharPix)
 void FontText::displayText(const std::string &str, const glm::vec4& color,
                            const glm::mat4 &matrice, gdl::AShader *shader) const
 {
-  // Fill buffers
-  const int size = 3;
+  const int size = 1;
   const float sizePixf = static_cast<float>(_sizeCharPix);
   gdl::Geometry geometry;
 

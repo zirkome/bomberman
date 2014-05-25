@@ -128,5 +128,4 @@ void FBORenderer::process(const glm::vec3& camPos) const
 
   glActiveTexture(GL_TEXTURE0);
   _pan->draw(_rendershader);
-  glClear(GL_DEPTH_BUFFER_BIT);
 }
