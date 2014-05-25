@@ -61,15 +61,19 @@ void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
   glm::vec2 playerPos = _players.front()->getPos();
-  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-  // _cam = new TrackCam(glm::vec3(_currentMap->getWidth() / 2, 0.0, _currentMap->getLength() / 2));
-  // std::list<IEntity *>	&list = _currentMap->getMap();
+  _ground = new Pan(_currentMap->getDimension());
+  _cam = new FreeCam;
 
-  // for (std::list<IEntity *>::iterator it = list.begin(); it != list.end(); it++)
-  //   {
-  //     if (*it != NULL)
-  //       (*it)->getObj()->initialize();
-  //   }
+  _ground->initialize();
+  _ground->scale(glm::vec3(0.5f, 0.5f, 1.0f));
+  _ground->translate(glm::vec3(-0.5f, 0, -0.5f));
+  _ground->scale(glm::vec3(_currentMap->getDimension().x, _currentMap->getDimension().y, 1.0f));
+
+  _ground->translate(glm::vec3((float)_currentMap->getDimension().x / 2.0,
+			       -0.5f,
+			       (float)_currentMap->getDimension().y / 2));
+  _ground->rotate(glm::vec3(1, 0, 0), 90.0);
+
   _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
@@ -82,8 +86,8 @@ Game::~Game()
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
   glm::vec2 playerPos = _players.front()->getPos();
-  _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
-  // _cam->update(input, clock);
+  // _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
+  _cam->update(input, clock);
 
   /* TODO : move players, explose bomb, ... */
   std::list<IEntity *>	&list = _currentMap->getMap();
@@ -101,6 +105,14 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
+
+  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
+  _ground->draw(shader, clock);
 
   for (Map::iterator it = _currentMap->begin(), end = _currentMap->end(); it != end; ++it) {
     (*it)->draw(shader, clock);
