@@ -9,16 +9,17 @@ FontText::FontText(const std::string &path, int sizeCharPix)
     throw std::runtime_error("Can't load: " + path);
 }
 
-void FontText::displayText(const std::string &str, const glm::mat4 &matrice,
-                           gdl::AShader *shader) const
+void FontText::displayText(const std::string &str, const glm::vec4& color,
+                           const glm::mat4 &matrice, gdl::AShader *shader) const
 {
   // Fill buffers
   const int size = 3;
   const float sizePixf = static_cast<float>(_sizeCharPix);
   gdl::Geometry geometry;
 
-  unsigned int i = 0;
+  geometry.setColor(color);
 
+  unsigned int i = 0;
   for (i = 0; i < str.length(); i++)
     {
       float uv_x = (str[i] % _sizeCharPix) / sizePixf;

@@ -26,7 +26,8 @@ private:
 public:
   FontText(const std::string &path, int sizeCharPix = 16);
   ~FontText() {};
-  void displayText(const std::string &str, const glm::mat4 &matrice, gdl::AShader *shader) const;
+  void displayText(const std::string &str, const glm::vec4& color,
+                   const glm::mat4 &matrice, gdl::AShader *shader) const;
 
 };
 

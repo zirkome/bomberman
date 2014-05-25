@@ -23,8 +23,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 {
   int i, size;
 
-  if (numberIA < 0 || numberPlayer < 0 // || (numberPlayer + numberIA <= 1)
-     )
+  if (numberIA < 0 || numberPlayer < 0)
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
@@ -76,7 +75,9 @@ void Game::init(glm::ivec2 win)
                                static_cast<float>(_currentMap->getDimension().y) / 2.0));
   _ground->rotate(glm::vec3(1, 0, 0), 90.0);
 
-  _ortho = glm::ortho(0.0f, static_cast<float>(win.x), 0.0f, static_cast<float>(win.y), -1.0f, 1.0f);
+  _ortho = glm::ortho(0.0f, static_cast<float>(win.x), 0.0f, static_cast<float>(win.y));
+  _proj = glm::perspective(45.0f, static_cast<float>(win.x) / static_cast<float>(win.y),
+                           0.001f, 500.0f);
   _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
@@ -124,21 +125,19 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
-  _font->displayText("abcde", tmpMat, shader);
+  _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
 
   _ogl.processFrame(_cam->getPosition());
 
   hudshader->bind();
 
-  glm::mat4 screen = glm::mat4(1); //glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0f, -1.0f, 0)), glm::vec3(0.5f, 0.5f, 0));
-
   hudshader->setUniform("view", _ortho);
-  hudshader->setUniform("projection", screen);
+  hudshader->setUniform("projection", _proj);
 
   glm::mat4 textMat(1);
 
   textMat = glm::scale(textMat, glm::vec3(0.50f, 0.50f, 0));
  //textMat = glm::scale(textMat, glm::vec3(100.0f, 80.0f, 1));
 
-  _font->displayText("fghijkl", textMat, hudshader);
+  _font->displayText("fghijkl", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), textMat, hudshader);
 }

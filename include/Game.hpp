@@ -47,6 +47,7 @@ private:
   gdl::Texture	_text_texture;
   GameGraphics _ogl;
   glm::mat4 _ortho;
+  glm::mat4 _proj;
   Pan *_ground;
 };
 
