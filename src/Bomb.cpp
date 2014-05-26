@@ -1,9 +1,12 @@
 #include <iostream>
 #include "Bomb.hpp"
+#include <unistd.h>
 
 Bomb::Bomb(const glm::vec2 &pos) : _vec(pos)
 {
-  _obj = AssetsManager::getInstance()->getAssets<Model>(IEntity::BOMB);
+  _obj = new Model(RES_MODEL "bomb.fbx");
+  _obj->initialize();
+
   _obj->scale(glm::vec3(0.0025f, 0.0025f, 0.0025f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
 }
