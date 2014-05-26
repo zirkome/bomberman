@@ -153,7 +153,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
 
   textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
-  _font->displayText(ss.str(), (elapsed <= 0.01666) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
+  _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
 
   glEnable(GL_DEPTH_TEST);
 }
