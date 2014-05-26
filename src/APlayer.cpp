@@ -22,12 +22,15 @@ void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock)
 bool	APlayer::moveUp(double const distance)
 {
   double rotate;
+  int y, ya;
 
   rotate = (_way - UP) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = UP;
-  if (_map->getTypeAt(_vec.x + _size, _vec.y + distance + _size) == GROUND &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == GROUND) {
+  y = _vec.y + distance + _size;
+  ya = _vec.y;
+  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y + distance + _size) == GROUND &&
+      _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == GROUND)) {
     _vec.y += distance;
     _obj->translate(glm::vec3(0, 0, distance));
     return true;
@@ -38,12 +41,15 @@ bool	APlayer::moveUp(double const distance)
 bool	APlayer::moveDown(double const distance)
 {
   double rotate;
+  int y, ya;
 
   rotate = (_way - DOWN) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = DOWN;
-  if (_map->getTypeAt(_vec.x + _size, _vec.y - distance + 1 - _size) == GROUND &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == GROUND) {
+  y = _vec.y -distance + 1 - _size;
+  ya = _vec.y;
+  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y - distance + 1 - _size) == GROUND &&
+      _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == GROUND)) {
     _vec.y -= distance;
     _obj->translate(glm::vec3(0, 0, -distance));
     return true;
@@ -54,12 +60,15 @@ bool	APlayer::moveDown(double const distance)
 bool	APlayer::moveLeft(double const distance)
 {
   double rotate;
+  int x, xa;
 
   rotate = (_way - LEFT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = LEFT;
-  if (_map->getTypeAt(_vec.x + distance + _size, _vec.y + _size) == GROUND &&
-      _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == GROUND) {
+  x = _vec.x + distance + _size;
+  xa = _vec.x;
+  if (x == xa || (_map->getTypeAt(_vec.x + distance + _size, _vec.y + _size) == GROUND &&
+      _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == GROUND)) {
     _vec.x += distance;
     _obj->translate(glm::vec3(distance, 0, 0));
     return true;
@@ -70,12 +79,15 @@ bool	APlayer::moveLeft(double const distance)
 bool	APlayer::moveRight(double const distance)
 {
   double rotate;
+  int x, xa;
 
   rotate = (_way - RIGHT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = RIGHT;
-  if (_map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + _size) == GROUND &&
-      _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == GROUND) {
+  x = _vec.x - distance + 1 - _size;
+  xa = _vec.x;
+  if (x == xa || (_map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + _size) == GROUND &&
+      _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == GROUND)) {
     _vec.x -= distance;
     _obj->translate(glm::vec3(-distance, 0, 0));
     return true;

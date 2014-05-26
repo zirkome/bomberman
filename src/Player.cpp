@@ -63,6 +63,7 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 
 bool Player::putBomb(UNUSED double const distance)
 {
+  //TODO change this shit
   _map->addEntity(new Bomb(glm::vec2((int)(_vec.x + _size), (int)(_vec.y + _size))));
   return true;
 }
