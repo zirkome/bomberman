@@ -3,6 +3,7 @@
 
 # include <string>
 # include <Model.hh>
+# include "Model.hpp"
 # include "AObject.hpp"
 
 class Model : public AObject, public gdl::Model

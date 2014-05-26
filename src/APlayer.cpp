@@ -29,8 +29,8 @@ bool	APlayer::moveUp(double const distance)
   _way = UP;
   y = _vec.y + distance + _size;
   ya = _vec.y;
-  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y + distance + _size) == GROUND &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == GROUND)) {
+  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y + distance + _size) == NONE &&
+		  _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == NONE)) {
     _vec.y += distance;
     _obj->translate(glm::vec3(0, 0, distance));
     return true;
@@ -42,14 +42,18 @@ bool	APlayer::moveDown(double const distance)
 {
   double rotate;
   int y, ya;
+  int x, xa, xb;
 
   rotate = (_way - DOWN) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = DOWN;
-  y = _vec.y -distance + 1 - _size;
+  y = _vec.y - distance;
   ya = _vec.y;
-  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y - distance + 1 - _size) == GROUND &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == GROUND)) {
+  x = _vec.x;
+  xa = _vec.x + _size;
+  xb = _vec.x + 1 - _size;
+  if ((y == ya && x == xa && x == xb) || (_map->getTypeAt(_vec.x + _size, _vec.y - distance + 1 - _size) == NONE &&
+		  _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == NONE)) {
     _vec.y -= distance;
     _obj->translate(glm::vec3(0, 0, -distance));
     return true;
@@ -67,8 +71,8 @@ bool	APlayer::moveLeft(double const distance)
   _way = LEFT;
   x = _vec.x + distance + _size;
   xa = _vec.x;
-  if (x == xa || (_map->getTypeAt(_vec.x + distance + _size, _vec.y + _size) == GROUND &&
-      _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == GROUND)) {
+  if (x == xa || (_map->getTypeAt(_vec.x + distance + _size, _vec.y + _size) == NONE &&
+      _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == NONE)) {
     _vec.x += distance;
     _obj->translate(glm::vec3(distance, 0, 0));
     return true;
@@ -86,8 +90,8 @@ bool	APlayer::moveRight(double const distance)
   _way = RIGHT;
   x = _vec.x - distance + 1 - _size;
   xa = _vec.x;
-  if (x == xa || (_map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + _size) == GROUND &&
-      _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == GROUND)) {
+  if (x == xa || (_map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + _size) == NONE &&
+      _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == NONE)) {
     _vec.x -= distance;
     _obj->translate(glm::vec3(-distance, 0, 0));
     return true;

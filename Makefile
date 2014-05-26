@@ -5,6 +5,7 @@ SRC		=	main.cpp \
 			Graphics.cpp \
 			FBORenderer.cpp \
 			FBOShader.cpp \
+			BasicShader.cpp \
 			PanShader.cpp \
 			Ia.cpp \
 			GameEngine.cpp \

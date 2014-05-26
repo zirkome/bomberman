@@ -10,7 +10,6 @@ private:
   std::list<glm::vec2>	_follow_pos;
 public:
   ArmagetroCam(const glm::vec2 &);
-  virtual void	update(gdl::Input &input, const gdl::Clock &clock);
   void		update(const glm::vec2 &);
   virtual ~ArmagetroCam() {};
 };
