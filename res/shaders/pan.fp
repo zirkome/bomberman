@@ -31,6 +31,7 @@ uniform sampler2D tNormals;
 uniform vec3 camPos;
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position);
+float smoothstep(float edge0, float edge1, float x);
 
 void main(void)
 {
@@ -51,20 +52,17 @@ void main(void)
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
 
-  gl_FragColor = color * lighting;
+  float alpha = sign(1.0 - normal.w);
+
+  gl_FragColor = vec4((color.xyz * lighting.xyz), alpha);
 }
 
 float smoothstep(float edge0, float edge1, float x)
 {
-  if (x <= edge0)
-    return 0.0;
-  else if (x >= edge1)
-    return 1.0;
-  else
-    {
-      float t = (x - edge0) / (edge1 - edge0);
-      return 3.0 * pow(t, 3) - 2.0 * pow(t, 2);
-    }
+    // Scale, and clamp x to 0..1 range
+    x = clamp((x - edge0)/(edge1 - edge0), 0.0, 1.0);
+    // Evaluate polynomial
+    return pow(x, 3) * (x * (x * 6 - 15) + 10);
 }
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position)
