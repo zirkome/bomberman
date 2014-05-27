@@ -31,12 +31,12 @@ bool GameGraphics::init(const glm::ivec2& win)
   getShader()->bind();
   getShader()->setUniform("projection", _proj);
 
-  glEnable(GL_DEPTH_TEST);
-  glClearDepth(1.0f);
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glEnable(GL_DEPTH_TEST);
+  glClearDepth(1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
   return true;
 }

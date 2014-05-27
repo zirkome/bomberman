@@ -52,17 +52,13 @@ void main(void)
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
 
-  float alpha = sign(1.0 - normal.w);
-
-  gl_FragColor = vec4((color.xyz * lighting.xyz), alpha);
+  gl_FragColor = color * lighting;
 }
 
 float smoothstep(float edge0, float edge1, float x)
 {
-    // Scale, and clamp x to 0..1 range
-    x = clamp((x - edge0)/(edge1 - edge0), 0.0, 1.0);
-    // Evaluate polynomial
-    return pow(x, 3) * (x * (x * 6 - 15) + 10);
+  x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+  return pow(x, 3) * (x * (x * 6 - 15) + 10);
 }
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position)
