@@ -3,7 +3,10 @@
 
 Player::Player(const glm::vec2 pos, Map *map)
 {
-  _obj = AssetsManager::getInstance()->getAssets<Model>(IEntity::PLAYER);
+  // _obj = AssetsManager::getInstance()->getAssets<Model>(IEntity::PLAYER);
+  _obj = new Model(RES_MODEL "marvin.fbx");
+  _obj->initialize();
+
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
@@ -64,5 +67,5 @@ bool Player::putBomb(UNUSED double const distance)
 {
   //TODO change this shit
   _map->addEntity(new Bomb(glm::vec2((int)(_vec.x + _size), (int)(_vec.y + _size))));
-  return true;
+  return false;
 }
