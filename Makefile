@@ -35,6 +35,7 @@ SRC		=	main.cpp \
 			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
+			Light.cpp \
 			Model.cpp
 
 CC		=	g++

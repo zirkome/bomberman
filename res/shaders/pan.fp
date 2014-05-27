@@ -44,9 +44,9 @@ void main(void)
 
   light tmpLight;
 
-  tmpLight.position = vec4(5, 5, 5, 1);
-  tmpLight.diffuse = vec4(0.8, 0.8, 0.8, 0);
-  tmpLight.specular = vec4(1, 1, 1, 0);
+  tmpLight.position = vec4(0, 0.7, 0.3, 0.0);
+  tmpLight.diffuse = vec4(1, 1, 1, 0);
+  tmpLight.specular = vec4(2, 2, 2, 0);
   tmpLight.spotCutoff = 180;
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
@@ -89,13 +89,9 @@ vec4 CalcLight(light currlight, vec3 normal, vec3 position)
           float clampedCosine = max(0.0, dot(-lightDirection, normalize(currlight.spotDirection)));
 
           if (clampedCosine < cos(radians(currlight.spotCutoff))) // outside of spotlight cone?
-            {
-              attenuation = 0.0;
-            }
+            attenuation = 0.0;
           else
-            {
-              attenuation = attenuation * pow(clampedCosine, currlight.spotExponent);
-            }
+            attenuation = attenuation * pow(clampedCosine, currlight.spotExponent);
         }
     }
 

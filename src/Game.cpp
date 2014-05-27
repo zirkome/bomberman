@@ -67,7 +67,7 @@ void Game::init(glm::ivec2 win)
   //_cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
   _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
-  _ground = new Pan(_currentMap->getDimension());
+  _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
 
   _ground->initialize();
   _ground->scale(glm::vec3(0.5f, 0.5f, 1.0f));
@@ -117,7 +117,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 
   _ground->draw(shader, clock);
 
@@ -141,13 +140,13 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
   textMat = glm::rotate(textMat, 45.0f, glm::vec3(0.3f, 0.5f, 0.6));
 
-  _font->displayText("The Quick Brown Fox Jumps Over The Lazy Dog", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), textMat, hudshader);
+  //_font->displayText("The Quick Brown Fox Jumps Over The Lazy Dog", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), textMat, hudshader);
 
   std::stringstream ss;
   static double elapsed = 0.0;
   static unsigned int k = 0;
   ++k;
-  if (k % 10 == 0)
+  if (k % 20 == 0)
     elapsed = clock.getElapsed();
   ss << std::setprecision(2) << 1.0 / elapsed << " FPS";
 
