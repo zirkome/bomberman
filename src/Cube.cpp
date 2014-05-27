@@ -6,7 +6,6 @@ Cube::Cube()
 
 Cube::~Cube()
 {
-
 }
 
 bool Cube::initialize()
@@ -86,7 +85,7 @@ bool Cube::initialize()
   return (true);
 }
 
-void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock& clock)
+void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock &clock)
 {
   _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
 }

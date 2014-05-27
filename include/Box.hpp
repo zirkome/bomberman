@@ -15,9 +15,9 @@ public:
   Box(const glm::vec2 &pos);
   virtual ~Box();
   virtual const glm::vec2 &getPos() const;
-  virtual void	setPos(const glm::vec2 &new_pos);
+  virtual void setPos(const glm::vec2 &new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
-  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
+  virtual void draw(gdl::AShader *shader, const gdl::Clock& clock);
   virtual IEntity::Type getType() const;
 };
 

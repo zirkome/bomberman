@@ -18,6 +18,7 @@
 #include "FontText.hpp"
 #include "Cube.hpp"
 #include "Placement.hpp"
+#include "SkyBox.hpp"
 
 class Game
 {
@@ -32,7 +33,7 @@ public:
 
 public:
   bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(gdl::Input &input, gdl::Clock const &clock) const;
+  void drawGame(gdl::Input &input, gdl::Clock const &clock);
 
 private:
   void init(glm::ivec2 win);
@@ -48,6 +49,7 @@ private:
   GameGraphics _ogl;
   glm::mat4 _ortho;
   Pan *_ground;
+  SkyBox _skybox;
 };
 
 #endif
