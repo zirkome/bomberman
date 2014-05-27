@@ -38,8 +38,8 @@ glm::vec2 const Placement::genNewPos()
 	  return glm::vec2(_mapSize.x, _mapSize.y / _div);
 	default:
 	  {
-	    return glm::vec2(_mapSize.x / _div, _mapSize.y / _div);
 	    _div *= 2;
+	    return glm::vec2(_mapSize.x / _div, _mapSize.y / _div);
 	  }
 	}
     }
@@ -93,5 +93,7 @@ glm::vec2 const Placement::foundCloserGoodPlace(glm::vec2 const &pos)
 
 glm::vec2 const Placement::getNewPos()
 {
-  return foundCloserGoodPlace(genNewPos());
+  glm::vec2 new_pos = genNewPos();
+  std::cout << "try to pos at [" << new_pos.x << ", " << new_pos.y << "]\n";
+  return foundCloserGoodPlace(new_pos);
 }
