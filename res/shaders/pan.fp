@@ -52,6 +52,9 @@ void main(void)
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
 
+  if (color.w >= 0.5)
+    color.w = 1.0;
+
   gl_FragColor = color * lighting;
 }
 
