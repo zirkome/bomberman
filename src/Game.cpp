@@ -61,11 +61,11 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(glm::ivec2 win)
 {
   /* TODO : init game and load 3d models */
-  //  glm::vec2 playerPos = _players.front()->getPos();
+  glm::vec2 playerPos = _players.front()->getPos();
 
   //_cam = new FreeCam;
-  // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-   _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+   _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
+   // _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
   _ground = new Pan(_currentMap->getDimension());
 
@@ -112,7 +112,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   gdl::AShader *shader = _ogl.getShader();
   gdl::AShader *hudshader = _ogl.getHudShader();
   glm::vec2 posObject(0, 0);
-  int rayon = 5;
+  int rayon = 9;
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
