@@ -17,7 +17,6 @@ Game::Game(const glm::ivec2& win, std::string const &saveGame)
   if (saveGame == "")
     throw nFault("The file name of the game is too short");
   /* TODO : load the saved game in saveGame*/
-
   init(win);
 }
 
@@ -64,8 +63,9 @@ void Game::init(glm::ivec2 win)
   /* TODO : init game and load 3d models */
   glm::vec2 playerPos = _players.front()->getPos();
 
-  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-  //_cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+  //_cam = new FreeCam;
+  // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
+   _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
   _ground = new Pan(_currentMap->getDimension());
 
@@ -80,6 +80,7 @@ void Game::init(glm::ivec2 win)
 
   _ortho = glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0, -1.0, -1.0)), glm::vec3(2.0, 2.0, 2.0));
 
+  _skybox.initialize();
   _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
@@ -94,6 +95,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   glm::vec2 playerPos = _players.front()->getPos();
   _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
   _cam->update(input, clock);
+  _skybox.setPosition(_cam->getPosition());
 
   /* TODO : move players, explose bomb, ... */
   std::list<IEntity *>	&list = _currentMap->getMap();
@@ -105,7 +107,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
+void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   gdl::AShader *shader = _ogl.getShader();
   gdl::AShader *hudshader = _ogl.getHudShader();
@@ -114,11 +116,9 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   shader->setUniform("view", _cam->project());
 
   AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
-
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-
   _ground->draw(shader, clock);
 
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
@@ -129,9 +129,17 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
   _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
 
-  glDisable(GL_DEPTH_TEST);
-  _ogl.processFrame(_cam->getPosition());
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+  hudshader->bind();
+  glDisable(GL_DEPTH_TEST);
+
+  hudshader->setUniform("view", _cam->project());
+  hudshader->setUniform("projection", _ogl.getPerspectiveProj());
+
+  _skybox.draw(hudshader, clock);
+
+  _ogl.processFrame(_cam->getPosition());
   hudshader->bind();
 
   hudshader->setUniform("view", _ortho);
@@ -140,8 +148,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
   glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
   textMat = glm::rotate(textMat, 45.0f, glm::vec3(0.3f, 0.5f, 0.6));
-
-  _font->displayText("The Quick Brown Fox Jumps Over The Lazy Dog", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), textMat, hudshader);
 
   std::stringstream ss;
   static double elapsed = 0.0;
@@ -153,7 +159,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock) const
 
   textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
-  _font->displayText(ss.str(), (elapsed <= 0.01666) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
+  _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
 
   glEnable(GL_DEPTH_TEST);
 }
