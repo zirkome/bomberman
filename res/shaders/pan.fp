@@ -31,6 +31,7 @@ uniform sampler2D tNormals;
 uniform vec3 camPos;
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position);
+float smoothstep(float edge0, float edge1, float x);
 
 void main(void)
 {
