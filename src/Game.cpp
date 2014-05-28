@@ -63,9 +63,9 @@ void Game::init(glm::ivec2 win)
   /* TODO : init game and load 3d models */
   glm::vec2 playerPos = _players.front()->getPos();
 
-  _cam = new FreeCam;
+  //_cam = new FreeCam;
   // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-  // _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+   _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
   _ground = new Pan(_currentMap->getDimension());
 
@@ -141,8 +141,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   _ogl.processFrame(_cam->getPosition());
   hudshader->bind();
-
-  glDisable(GL_DEPTH_TEST);
 
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
