@@ -36,6 +36,8 @@ SRC		=	main.cpp \
 			Placement.cpp \
 			APlayer.cpp \
 			Light.cpp \
+			Cube6Face.cpp \
+			SkyBox.cpp \
 			Model.cpp
 
 CC		=	g++

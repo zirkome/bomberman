@@ -30,6 +30,8 @@ public:
 
   void processFrame(const glm::vec3& camPos) const;
 
+  const glm::mat4 &getPerspectiveProj() const;
+
   gdl::AShader *getShader() const;
   gdl::AShader *getHudShader() const;
 

@@ -109,7 +109,6 @@ void FBORenderer::start() const
 
 void FBORenderer::process(const glm::vec3& camPos) const
 {
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
   _rendershader->bind();
 
   _rendershader->setUniform("camPos", camPos);
