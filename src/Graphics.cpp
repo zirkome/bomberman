@@ -60,3 +60,8 @@ gdl::AShader *GameGraphics::getHudShader() const
 {
   return _hudShader;
 }
+
+const glm::mat4 &GameGraphics::getPerspectiveProj() const
+{
+  return _proj;
+}
