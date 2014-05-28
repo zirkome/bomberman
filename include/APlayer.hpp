@@ -31,6 +31,8 @@ protected:
   double        _size;
   Way		_way;
   Status	_status;
+  int		_xBomb;
+  int		_yBomb;
 
 public:
   virtual ~APlayer();
