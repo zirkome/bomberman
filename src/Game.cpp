@@ -120,7 +120,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
   _ground->draw(shader, clock);
 
   glm::vec2 posPlayer = _players[0]->getPos();
@@ -128,7 +127,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
     {
       posObject = (*it)->getPos();
       if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-	(*it)->draw(shader, clock);
+        (*it)->draw(shader, clock);
     }
 
   glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
