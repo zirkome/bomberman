@@ -65,7 +65,7 @@ void Game::init(const glm::ivec2& win)
 
   //_cam = new FreeCam;
   // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-   _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+  _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
   _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
 
@@ -139,10 +139,13 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
   _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
 
+
+//Render object
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glEnable(GL_CULL_FACE);
+  glDisable(GL_DEPTH_TEST);
 
   hudshader->bind();
-  glDisable(GL_DEPTH_TEST);
 
   hudshader->setUniform("view", _cam->project());
   hudshader->setUniform("projection", _ogl.getPerspectiveProj());
@@ -150,10 +153,13 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   _skybox.draw(hudshader, clock);
 
   _ogl.processFrame(_cam->getPosition());
-  hudshader->bind();
+
+
 //hud object
+  hudshader->bind();
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
+
 
   glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));

@@ -12,13 +12,13 @@ Pan::~Pan()
 
 bool Pan::initialize()
 {
-  _geometry.pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  _geometry.pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
   _geometry.pushVertex(glm::vec3(-1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
-  _geometry.pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
-
-  _geometry.pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
-  _geometry.pushVertex(glm::vec3(1.0f,  -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
   _geometry.pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+
+  _geometry.pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  _geometry.pushVertex(glm::vec3(1.0f,  -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  _geometry.pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
 
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
   _geometry.pushUv(glm::vec2(_repeat.y, 0.0f));
