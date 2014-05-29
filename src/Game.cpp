@@ -63,9 +63,9 @@ void Game::init(const glm::ivec2& win)
   /* TODO : init game and load 3d models */
   glm::vec2 playerPos = _players.front()->getPos();
 
-  // _cam = new FreeCam;
+  //_cam = new FreeCam;
   // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-  _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+   _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
   _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
 
@@ -111,6 +111,8 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   gdl::AShader *shader = _ogl.getShader();
   gdl::AShader *hudshader = _ogl.getHudShader();
+  glm::vec2 posObject(0, 0);
+  int rayon = 9;
 
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
@@ -118,11 +120,15 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
   _ground->draw(shader, clock);
 
+  glm::vec2 posPlayer = _players[0]->getPos();
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
-    (*it)->draw(shader, clock);
+    {
+      posObject = (*it)->getPos();
+      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+        (*it)->draw(shader, clock);
+    }
 
   glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));

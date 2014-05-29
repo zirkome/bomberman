@@ -3,7 +3,6 @@
 Model::Model(const std::string &path)
   : _path(path)
 {
-
 }
 
 bool	Model::initialize()

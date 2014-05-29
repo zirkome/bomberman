@@ -15,7 +15,7 @@ Player::Player(const glm::vec2 pos, Map *map)
   _movePtr[SDLK_DOWN] = &Player::moveDown;
   _movePtr[SDLK_RIGHT] = &Player::moveRight;
   _movePtr[SDLK_LEFT] = &Player::moveLeft;
-  _movePtr[SDLK_SPACE] = &Player::putBomb;
+  _movePtr[SDLK_SPACE] = &Player::bomb;
 
   _status = STANDBY;
   _vec = pos;
@@ -30,6 +30,8 @@ Player::Player(const glm::vec2 pos, Map *map)
   _obj->setCurrentSubAnim("standby");
 
   // Init bombList
+  _xBomb = -1;
+  _yBomb = -1;
   _bombList.push_back(1);
 }
 
@@ -61,10 +63,4 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
       _obj->setCurrentSubAnim("stop_walking", false);
       _status = STOP_WALK;
     }
-}
-
-bool Player::putBomb(UNUSED double const distance)
-{
-  _map->addEntity(new Bomb(glm::vec2((int)(_vec.x + _size), (int)(_vec.y + _size))));
-  return false;
 }
