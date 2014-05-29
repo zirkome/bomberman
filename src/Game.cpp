@@ -154,7 +154,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   _ogl.processFrame(_cam->getPosition());
 
-
 //hud object
   hudshader->bind();
   hudshader->setUniform("view", _ortho);
