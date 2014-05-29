@@ -68,9 +68,9 @@ bool Cube6Face::initialize()
   _geometry.pushVertex(vertice[4]).pushUv(uv[0]).pushNormal(normals[0]);
 
 
-  _geometry.pushVertex(vertice[5]).pushUv(uv[10]).pushNormal(normals[2]);
-  _geometry.pushVertex(vertice[4]).pushUv(uv[12]).pushNormal(normals[2]);
   _geometry.pushVertex(vertice[7]).pushUv(uv[13]).pushNormal(normals[2]);
+  _geometry.pushVertex(vertice[4]).pushUv(uv[12]).pushNormal(normals[2]);
+  _geometry.pushVertex(vertice[5]).pushUv(uv[10]).pushNormal(normals[2]);
 
   _geometry.pushVertex(vertice[5]).pushUv(uv[10]).pushNormal(normals[3]);
   _geometry.pushVertex(vertice[6]).pushUv(uv[11]).pushNormal(normals[3]);
@@ -90,9 +90,9 @@ bool Cube6Face::initialize()
   _geometry.pushVertex(vertice[3]).pushUv(uv[4]).pushNormal(normals[6]);
   _geometry.pushVertex(vertice[5]).pushUv(uv[7]).pushNormal(normals[6]);
 
-  _geometry.pushVertex(vertice[4]).pushUv(uv[6]).pushNormal(normals[6]);
-  _geometry.pushVertex(vertice[3]).pushUv(uv[4]).pushNormal(normals[6]);
   _geometry.pushVertex(vertice[0]).pushUv(uv[1]).pushNormal(normals[6]);
+  _geometry.pushVertex(vertice[3]).pushUv(uv[4]).pushNormal(normals[6]);
+  _geometry.pushVertex(vertice[4]).pushUv(uv[6]).pushNormal(normals[6]);
 
 
   _geometry.pushVertex(vertice[6]).pushUv(uv[8]).pushNormal(normals[7]);
