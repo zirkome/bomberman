@@ -87,7 +87,6 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _size = 0.7;
 
   _obj = new Model(RES_MODEL "marvin.fbx");
-  _obj->initialize();
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 

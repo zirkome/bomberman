@@ -12,11 +12,9 @@ class AObject
 {
 public:
   AObject();
-  virtual ~AObject() {}
+  virtual ~AObject() {};
 
-  virtual bool	initialize() = 0;
-
-  virtual void	draw(gdl::AShader* shader, const gdl::Clock& clock) = 0;
+  virtual void draw(gdl::AShader* shader, const gdl::Clock& clock) = 0;
 
   void translate(const glm::vec3& v);
   void rotate(const glm::vec3& axis, float angle);

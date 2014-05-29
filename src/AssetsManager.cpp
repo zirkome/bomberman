@@ -25,10 +25,6 @@ void AssetsManager::loadAssets<Model>(const std::string &path, IEntity::Type ass
   Model	*ptr;
 
   ptr = new Model(path);
-  if (ptr->initialize() == false)
-    {
-      throw std::runtime_error("Can't load model : " + path);
-    }
   _model[assetsType] = ptr;
   std::cout << path + " has been loaded" << std::endl;
 }
