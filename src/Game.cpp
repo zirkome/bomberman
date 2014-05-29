@@ -122,6 +122,8 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   _ground->draw(shader, clock);
 
+  glEnable(GL_CULL_FACE);
+
   glm::vec2 posPlayer = _players[0]->getPos();
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
@@ -129,6 +131,8 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
       if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
         (*it)->draw(shader, clock);
     }
+
+  glDisable(GL_CULL_FACE);
 
   glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
