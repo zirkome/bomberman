@@ -10,12 +10,12 @@ private:
   gdl::Model	_player;
   float		_speed;
   std::string	_model_path;
+
 public:
   GraphicPlayer(std::string const &path);
   virtual ~GraphicPlayer();
   virtual bool	initialize();
 
-  // La fonction draw sert a dessiner l'objet
   virtual void	draw(gdl::AShader *shader);
 };
 

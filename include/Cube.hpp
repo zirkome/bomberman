@@ -15,11 +15,10 @@ public:
   Cube();
   virtual ~Cube();
   virtual bool	initialize();
-  virtual IEntity::Type getType() const;
+
   virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
 
-protected:
-  gdl::Texture *_texture;
+private:
   gdl::Geometry _geometry;
 };
 

@@ -6,21 +6,19 @@
 # include <iostream>
 
 # include "IEntity.hpp"
-# include "Cube.hpp"
+# include "AObject.hpp"
 # include "AssetsManager.hpp"
 
-class Cube6Face : public Cube
+class Cube6Face : public AObject
 {
 public:
   Cube6Face();
   virtual ~Cube6Face();
   virtual bool	initialize();
-  virtual IEntity::Type getType() const;
   virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
 
-// private:
-//   gdl::Texture *_texture;
-//   gdl::Geometry _geometry;
+private:
+  gdl::Geometry _geometry;
 };
 
 #endif /* _CUBE6FACE_H_ */

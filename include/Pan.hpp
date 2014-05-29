@@ -11,7 +11,6 @@
 class Pan : public AObject
 {
 private:
-  gdl::Texture *_texture;
   gdl::Geometry _geometry;
   const glm::vec2	&_repeat;
 

@@ -111,8 +111,3 @@ void Cube6Face::draw(gdl::AShader *shader, UNUSED const gdl::Clock &clock)
 {
   _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
 }
-
-IEntity::Type Cube6Face::getType() const
-{
-  return IEntity::MODEL;
-}
