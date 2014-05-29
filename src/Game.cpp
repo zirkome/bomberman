@@ -117,13 +117,8 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
 
-  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  _ground->draw(shader, clock);
-
   glEnable(GL_CULL_FACE);
-
+//game entities
   glm::vec2 posPlayer = _players[0]->getPos();
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
@@ -133,6 +128,11 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
     }
 
   glDisable(GL_CULL_FACE);
+//Graphic objects
+  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  _ground->draw(shader, clock);
 
   glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
@@ -151,7 +151,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   _ogl.processFrame(_cam->getPosition());
   hudshader->bind();
-
+//hud object
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
 
