@@ -2,7 +2,7 @@
 
 SkyBox::SkyBox()
 {
-  scale(glm::vec3(2.0f, 2.0f, 2.0f));
+  scale(glm::vec3(-2.0f, -2.0f, -2.0f));
 }
 
 SkyBox::~SkyBox()
