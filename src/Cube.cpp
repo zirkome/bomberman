@@ -6,7 +6,6 @@ Cube::Cube()
 
 Cube::~Cube()
 {
-
 }
 
 bool Cube::initialize()
@@ -33,9 +32,9 @@ bool Cube::initialize()
     glm::vec3(0.000000, 0.000000, -1.000000),
     glm::vec3(-1.000000, 0.000000, 0.000000),
     glm::vec3(0.000000, 0.000000, 1.000000),
-    glm::vec3(0.000001, 0.000000, 1.000000),
+    glm::vec3(0.000000, 0.000000, 1.000000),
     glm::vec3(1.000000, 0.000000, 0.000000),
-    glm::vec3(1.000000, 0.000000, 0.000001),
+    glm::vec3(1.000000, 0.000000, 0.000000),
     glm::vec3(0.000000, 1.000000, 0.000000),
     glm::vec3(0.000000, -1.000000, 0.000000)
   };
@@ -86,7 +85,7 @@ bool Cube::initialize()
   return (true);
 }
 
-void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock& clock)
+void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock &clock)
 {
   _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
 }

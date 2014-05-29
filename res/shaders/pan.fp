@@ -31,6 +31,7 @@ uniform sampler2D tNormals;
 uniform vec3 camPos;
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position);
+float smoothstep(float edge0, float edge1, float x);
 
 void main(void)
 {
@@ -44,16 +45,28 @@ void main(void)
 
   light tmpLight;
 
-  tmpLight.position = vec4(5, 10, 5, 1);
+  tmpLight.position = vec4(5, 5, 5, 1);
   tmpLight.diffuse = vec4(0.8, 0.8, 0.8, 0);
   tmpLight.specular = vec4(1, 1, 1, 0);
   tmpLight.spotCutoff = 180;
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
 
-  gl_FragColor = color; //* lighting;
+  gl_FragColor = color * lighting;
 }
 
+float smoothstep(float edge0, float edge1, float x)
+{
+  if (x <= edge0)
+    return 0.0;
+  else if (x >= edge1)
+    return 1.0;
+  else
+    {
+      float t = (x - edge0) / (edge1 - edge0);
+      return 3.0 * pow(t, 3) - 2.0 * pow(t, 2);
+    }
+}
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position)
 {

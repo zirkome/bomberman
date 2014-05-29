@@ -1,11 +1,13 @@
 #include <iostream>
 #include "Bomb.hpp"
+#include <unistd.h>
 
 Bomb::Bomb(const glm::vec2 &pos) : _vec(pos)
 {
-  _obj = new Cube();
+  _obj = new Model(RES_MODEL "bomb.fbx");
   _obj->initialize();
-  _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+  _obj->scale(glm::vec3(0.0025f, 0.0025f, 0.0025f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
 }
 
@@ -32,4 +34,9 @@ void	Bomb::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
   _obj->draw(shader, clock);
+}
+
+IEntity::Type Bomb::getType() const
+{
+  return IEntity::BOMB;
 }

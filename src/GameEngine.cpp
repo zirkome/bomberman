@@ -40,6 +40,10 @@ bool GameEngine::update()
 {
   _context->updateClock(_clock);
   _context->updateInputs(_input);
+  if (_input.getInput(SDL_BUTTON_LEFT))
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+  if (_input.getKey(SDLK_LCTRL) && _input.getInput(SDLK_LALT))
+    SDL_SetRelativeMouseMode(SDL_FALSE);
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
   if (_show)

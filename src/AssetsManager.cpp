@@ -20,16 +20,17 @@ void AssetsManager::loadAssets<gdl::Texture>(const std::string &path, IEntity::T
 }
 
 template <>
-void AssetsManager::loadAssets<gdl::Model>(const std::string &path, IEntity::Type assetsType)
+void AssetsManager::loadAssets<Model>(const std::string &path, IEntity::Type assetsType)
 {
-  gdl::Model	*ptr;
+  Model	*ptr;
 
-  ptr = new gdl::Model;
-  if (ptr->load(path) == false)
+  ptr = new Model(path);
+  if (ptr->initialize() == false)
     {
       throw std::runtime_error("Can't load model : " + path);
     }
   _model[assetsType] = ptr;
+  std::cout << path + " has been loaded" << std::endl;
 }
 
 template <>
@@ -45,9 +46,9 @@ gdl::Texture *AssetsManager::getAssets<gdl::Texture>(IEntity::Type assetsType)
 }
 
 template <>
-gdl::Model *AssetsManager::getAssets<gdl::Model>(IEntity::Type assetsType)
+Model *AssetsManager::getAssets<Model>(IEntity::Type assetsType)
 {
-  std::map<IEntity::Type, gdl::Model *>::iterator it = _model.find(assetsType);
+  std::map<IEntity::Type, Model *>::iterator it = _model.find(assetsType);
 
   if (it == _model.end())
     {
@@ -60,7 +61,11 @@ void AssetsManager::createAssets()
 {
   AssetsManager *obj = AssetsManager::getInstance();
 
-  obj->loadAssets<gdl::Texture>(RES_ASSETS "wall_texture.tga", IEntity::WALL);
-  obj->loadAssets<gdl::Texture>(RES_ASSETS "box_texture.tga", IEntity::BOX);
-  obj->loadAssets<gdl::Texture>(RES_ASSETS "ground_texture.tga", IEntity::GROUND);
+  obj->loadAssets<gdl::Texture>(RES_TEXTURE "wall_texture.tga", IEntity::WALL);
+  // obj->loadAssets<gdl::Texture>(RES_TEXTURE "brick_wall.tga", IEntity::WALL);
+  obj->loadAssets<gdl::Texture>(RES_TEXTURE "box_texture.tga", IEntity::BOX);
+  obj->loadAssets<gdl::Texture>(RES_TEXTURE "ground_texture.tga", IEntity::GROUND);
+  obj->loadAssets<gdl::Texture>(RES_TEXTURE "skybox.tga", IEntity::SKYBOX);
+  obj->loadAssets<Model>(RES_MODEL "marvin.fbx", IEntity::PLAYER);
+  obj->loadAssets<Model>(RES_MODEL "bomb.fbx", IEntity::BOMB);
 }

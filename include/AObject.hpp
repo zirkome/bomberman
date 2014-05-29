@@ -22,16 +22,20 @@ public:
   void rotate(const glm::vec3& axis, float angle);
   void scale(const glm::vec3& scale);
 
-  void setPosition(const glm::vec3& pos) {_position = pos;};
-  void setRotation(const glm::vec3& rot) {_rotation = rot;};
-  void setScale(const glm::vec3& scl) {_scale = scl;};
+  void setPosition(const glm::vec3& pos);
+  void setRotation(const glm::vec3& rot);
+  void setScale(const glm::vec3& scl);
 
-  glm::mat4 getTransformation();
+  const glm::mat4 &getTransformation();
 
 private:
+  void calculate_matrix();
+protected:
   glm::vec3 _position;
   glm::vec3 _rotation;
   glm::vec3 _scale;
+
+  glm::mat4 _matrix;
 };
 
 #endif /* _AOBJECT_H_ */

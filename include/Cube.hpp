@@ -1,24 +1,26 @@
 #ifndef _CUBE_H_
-#define _CUBE_H_
+# define _CUBE_H_
 
-#include "IEntity.hpp"
-#include "AObject.hpp"
-#include "AssetsManager.hpp"
-#include <Texture.hh>
-#include <Geometry.hh>
-#include <iostream>
+# include <Texture.hh>
+# include <Geometry.hh>
+# include <iostream>
+
+# include "IEntity.hpp"
+# include "AObject.hpp"
+# include "AssetsManager.hpp"
 
 class Cube : public AObject
 {
-private:
-  gdl::Texture *_texture;
-  gdl::Geometry _geometry;
 public:
   Cube();
   virtual ~Cube();
   virtual bool	initialize();
   virtual IEntity::Type getType() const;
-  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
+  virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
+
+protected:
+  gdl::Texture *_texture;
+  gdl::Geometry _geometry;
 };
 
 #endif /* _CUBE_H_ */

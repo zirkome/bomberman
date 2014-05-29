@@ -1,4 +1,3 @@
-#include <sstream>
 #include "Ia.hpp"
 
 int iaGetPos(lua_State *L)
@@ -80,15 +79,14 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 {
   _speed = 3;
   _running = false;
-  _x = pos.x;
-  _y = pos.y;
   _vec = pos;
   _dead = false;
   _fileName = fileName;
   _act = 0;
-  _rotate = 0;
+  _status = STANDBY;
+  _size = 0.7;
 
-  _obj = new Model(RES_ASSETS "marvin.fbx");
+  _obj = new Model(RES_MODEL "marvin.fbx");
   _obj->initialize();
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
@@ -108,7 +106,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   if (_L == NULL)
     throw nFault("Init lua fail");
 
-  _currentMap = currentMap;
+  _map = currentMap;
 
   luaL_openlibs(_L);
 
@@ -138,7 +136,7 @@ void *Ia::init()
   try
     {
       _running = true;
-      luaL_dofile(_L,"script/test2.lua");
+      luaL_dofile(_L,"script/test.lua");
       //  luaL_dofile(_L,_fileName.c_str());
     }
   catch (std::exception& e)
@@ -156,7 +154,7 @@ int Ia::getMap(const int x, const int y) const
 {
   IEntity::Type elem;
 
-  elem = _currentMap->getTypeAt(x, y);
+  elem = _map->getTypeAt(x, y);
   return (static_cast<int> (elem));
 }
 
@@ -192,31 +190,22 @@ void Ia::action(int act)
 
 double Ia::getX() const
 {
-  return _x;
+  return _vec.x;
 }
 
 double Ia::getY() const
 {
-  return _y;
+  return _vec.y;
 }
 
 void Ia::setX(const double x)
 {
-  _x = x;
   _vec.x = x;
 }
 
 void Ia::setY(const double y)
 {
-  _y = y;
   _vec.y = y;
-}
-
-void Ia::setPos(const glm::vec2 &new_pos)
-{
-  _vec = new_pos;
-  _x = new_pos.x;
-  _y = new_pos.y;
 }
 
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
@@ -231,119 +220,10 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
     (this->*_movePtr[0])(distance);
 }
 
-void Ia::draw(gdl::AShader *shader, const gdl::Clock& clock)
-{
-  _obj->draw(shader, clock);
-}
-
-IEntity::Type Ia::getType() const
-{
-  return IEntity::PLAYER;
-}
-
-const glm::vec2 &Ia::getPos() const
-{
-  return _vec;
-}
-
-
-
 bool Ia::nothing(UNUSED double const distance)
 {
-  _obj->setCurrentSubAnim("standby");
-  return true;
-}
-
-bool Ia::moveUp(double const distance)
-{
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)_x, (int)(_y +  distance + 1));
- if (elem != BOX && elem != WALL && elem != BOMB)
-   {
-     _y += distance;
-     _vec.y += distance;
-     _obj->translate(glm::vec3(0, 0, distance));
-     if (_rotate != 0)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -_rotate);
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 0;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::moveDown(double const distance)
-{
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)_x, (int)(_y - distance));
- if (elem != BOX && elem != WALL && elem != BOMB)
-   {
-     _y -= distance;
-     _vec.y -= distance;
-     _obj->translate(glm::vec3(0, 0, -distance));
-     if (_rotate != 180)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-180));
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 180;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::moveLeft(double const distance)
-{
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)(_x - distance), (int)_y);
- if (elem != BOX && elem != WALL && elem != BOMB)
-   {
-     _x -= distance;
-     _vec.x -= distance;
-     _obj->translate(glm::vec3(-distance, 0, 0));
-     if (_rotate != 270)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-270));
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 270;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::moveRight(double const distance)
-{
- IEntity::Type elem;
-
- elem = _currentMap->getTypeAt((int)(_x + 1 + distance), (int)_y);
- if (elem != BOX && elem != WALL && elem != BOMB)
-   {
-     _x += distance;
-     _vec.x += distance;
-     _obj->translate(glm::vec3(distance, 0, 0));
-     if (_rotate != 90)
-       {
-	 _obj->rotate(glm::vec3(0, 1, 0), -(_rotate-90));
-	 _obj->setCurrentSubAnim("walk");
-       }
-     _rotate = 90;
-     return true;
-   }
- else
-   return false;
-}
-
-bool Ia::bomb(UNUSED double const distance)
-{
-  _obj->setCurrentSubAnim("standby");
+  if (_status != STOP_WALK)
+    _obj->setCurrentSubAnim("stop_walk");
+  _status = STOP_WALK;
   return true;
 }

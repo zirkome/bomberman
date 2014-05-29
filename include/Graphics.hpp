@@ -3,12 +3,13 @@
 
 # include <iostream>
 # include <exception>
+# include <stdexcept>
 
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
 # include <Geometry.hh>
 # include <Texture.hh>
-# include <BasicShader.hh>
+# include <BasicShader.hpp>
 # include <Model.hh>
 
 # include "FBORenderer.hpp"
@@ -18,37 +19,7 @@
 ** Stock all the information needed to display
 */
 
-class Graphics
-{
-public:
-  virtual ~Graphics() {};
-
-  virtual bool init(const glm::ivec2& win) = 0;
-  virtual void startFrame() const = 0;
-
-  virtual gdl::AShader *getShader() const = 0;
-};
-
-
-
-class MenuGraphics : public Graphics
-{
-public:
-  MenuGraphics();
-  virtual ~MenuGraphics();
-
-  virtual bool init(const glm::ivec2& win);
-  virtual void startFrame() const;
-
-  gdl::AShader *getShader() const {return _shader;};
-
-private:
-  glm::mat4 _ortho;
-  gdl::AShader *_shader;
-};
-
-
-class GameGraphics : public Graphics
+class GameGraphics
 {
 public:
   GameGraphics();
@@ -59,12 +30,16 @@ public:
 
   void processFrame(const glm::vec3& camPos) const;
 
+  const glm::mat4 &getPerspectiveProj() const;
+
   gdl::AShader *getShader() const;
+  gdl::AShader *getHudShader() const;
 
 protected:
   float _fov;
   glm::mat4 _proj;
   FBORenderer* _fbo;
+  gdl::AShader* _hudShader;
 };
 
 #endif
