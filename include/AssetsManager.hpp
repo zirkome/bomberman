@@ -10,6 +10,7 @@
 
 # include "Model.hpp"
 # include "config.h"
+# include "AObject.hpp"
 # include "IEntity.hpp"
 # include "Singleton.hpp"
 
@@ -20,7 +21,7 @@ class AssetsManager : public Singleton<AssetsManager>
 
 public:
   template <class T>
-  void loadAssets(std::string const &, IEntity::Type) {}
+  void loadAssets(std::string const &, IEntity::Type) {};
 
   template <class T>
   T *getAssets(IEntity::Type)

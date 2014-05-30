@@ -1,7 +1,7 @@
 #include "AObject.hpp"
 
 AObject::AObject() :
-  _position(0, 0, 0), _rotation(0, 0, 0), _scale(1, 1, 1)
+  _modified(false), _position(0, 0, 0), _rotation(0, 0, 0), _scale(1, 1, 1)
 {
   calculate_matrix();
 }
@@ -9,37 +9,37 @@ AObject::AObject() :
 void AObject::translate(const glm::vec3& v)
 {
   _position += v;
-  calculate_matrix();
+  _modified = true;
 }
 
 void AObject::rotate(const glm::vec3& axis, float angle)
 {
   _rotation += axis * angle;
-  calculate_matrix();
+  _modified = true;
 }
 
 void AObject::scale(const glm::vec3& scale)
 {
   _scale *= scale;
-  calculate_matrix();
+  _modified = true;
 }
 
 void AObject::setPosition(const glm::vec3& pos)
 {
   _position = pos;
-  calculate_matrix();
+  _modified = true;
 }
 
 void AObject::setRotation(const glm::vec3& rot)
 {
   _rotation = rot;
-  calculate_matrix();
+  _modified = true;
 }
 
 void AObject::setScale(const glm::vec3& scl)
 {
   _scale = scl;
-  calculate_matrix();
+  _modified = true;
 }
 
 void AObject::calculate_matrix()
@@ -57,5 +57,10 @@ void AObject::calculate_matrix()
 
 const glm::mat4 &AObject::getTransformation()
 {
+  if (_modified)
+    {
+      _modified = false;
+      calculate_matrix();
+    }
   return _matrix;
 }

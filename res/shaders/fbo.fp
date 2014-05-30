@@ -21,6 +21,7 @@ void main(void)
 {
   vec4 texturePix = texture2D(fTexture0, fUv);
   vec4 color = (fColor * texturePix);
+
   gl_FragData[0] = color;
   gl_FragData[1] = vec4(fPosition.xyz, color.w);
   gl_FragData[2] = vec4(fNormal.xyz, color.w);

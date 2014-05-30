@@ -36,7 +36,7 @@ public:
   void drawGame(gdl::Input &input, gdl::Clock const &clock);
 
 private:
-  void init(glm::ivec2 win);
+  void init(const glm::ivec2& win);
 
 private:
   std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?

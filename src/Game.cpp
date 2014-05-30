@@ -58,16 +58,16 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
   init(win);
 }
 
-void Game::init(glm::ivec2 win)
+void Game::init(const glm::ivec2& win)
 {
   /* TODO : init game and load 3d models */
   glm::vec2 playerPos = _players.front()->getPos();
 
   //_cam = new FreeCam;
-   _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-   // _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+  // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
+  _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
-  _ground = new Pan(_currentMap->getDimension());
+  _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
 
   _ground->initialize();
   _ground->scale(glm::vec3(0.5f, 0.5f, 1.0f));
@@ -80,7 +80,6 @@ void Game::init(glm::ivec2 win)
 
   _ortho = glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0, -1.0, -1.0)), glm::vec3(2.0, 2.0, 2.0));
 
-  _skybox.initialize();
   _font = new FontText(RES_TEXTURE "font.tga");
   _ogl.init(win);
 }
@@ -96,7 +95,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
   _cam->update(input, clock);
   _skybox.setPosition(_cam->getPosition());
-
+  _skybox.rotate(glm::vec3(1, 1, 0.6), 0.02f);
   /* TODO : move players, explose bomb, ... */
   std::list<IEntity *>	&list = _currentMap->getMap();
 
@@ -117,11 +116,8 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   _ogl.startFrame();
   shader->setUniform("view", _cam->project());
 
-  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  _ground->draw(shader, clock);
-
+  glEnable(GL_CULL_FACE);
+//game entities
   glm::vec2 posPlayer = _players[0]->getPos();
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
@@ -130,15 +126,25 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
         (*it)->draw(shader, clock);
     }
 
+  glDisable(GL_CULL_FACE);
+//Graphic objects
+  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  _ground->draw(shader, clock);
+
   glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
   _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
 
+
+//Render object
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glEnable(GL_CULL_FACE);
+  glDisable(GL_DEPTH_TEST);
 
   hudshader->bind();
-  glDisable(GL_DEPTH_TEST);
 
   hudshader->setUniform("view", _cam->project());
   hudshader->setUniform("projection", _ogl.getPerspectiveProj());
@@ -146,10 +152,12 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   _skybox.draw(hudshader, clock);
 
   _ogl.processFrame(_cam->getPosition());
-  hudshader->bind();
 
+//hud object
+  hudshader->bind();
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
+
 
   glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
@@ -159,7 +167,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   static double elapsed = 0.0;
   static unsigned int k = 0;
   ++k;
-  if (k % 10 == 0)
+  if (k % 20 == 0)
     elapsed = clock.getElapsed();
   ss << std::setprecision(2) << 1.0 / elapsed << " FPS";
 

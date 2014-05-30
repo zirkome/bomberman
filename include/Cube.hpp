@@ -12,15 +12,17 @@
 class Cube : public AObject
 {
 public:
+  Cube(gdl::Geometry* geometry);
+  Cube(const Cube& c);
+  const Cube& operator=(const Cube& c);
+
   Cube();
   virtual ~Cube();
-  virtual bool	initialize();
-  virtual IEntity::Type getType() const;
+
   virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
 
-protected:
-  gdl::Texture *_texture;
-  gdl::Geometry _geometry;
+private:
+  gdl::Geometry* _geometry;
 };
 
 #endif /* _CUBE_H_ */

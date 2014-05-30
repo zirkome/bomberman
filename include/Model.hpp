@@ -3,17 +3,16 @@
 
 # include <string>
 # include <Model.hh>
+# include <stdexcept>
+
 # include "Model.hpp"
 # include "AObject.hpp"
 
 class Model : public AObject, public gdl::Model
 {
-private:
-  std::string	_path;
 public:
-  Model(const std::string &);
+  Model(const std::string &path);
   virtual ~Model() {};
-  virtual bool	initialize();
 
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
 };

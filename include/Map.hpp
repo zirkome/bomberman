@@ -36,8 +36,7 @@ public:
   Map(std::string const &mapFileName);
   ~Map();
   Map::LMap	&getMap();
-  // int		getWidth() const;
-  // int		getLength() const;
+
   const glm::vec2 &getDimension() const;
   IEntity	*getEntityAt(const int x, const int y) const;
   bool		addEntity(IEntity *entity);
