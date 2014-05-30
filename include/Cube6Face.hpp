@@ -12,13 +12,17 @@
 class Cube6Face : public AObject
 {
 public:
+  Cube6Face(gdl::Geometry* geometry);
+  Cube6Face(const Cube6Face& c);
+  const Cube6Face& operator=(const Cube6Face& c);
+
   Cube6Face();
-  virtual ~Cube6Face();
-  virtual bool	initialize();
+  virtual ~Cube6Face() {};
+
   virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
 
 private:
-  gdl::Geometry _geometry;
+  gdl::Geometry* _geometry;
 };
 
 #endif /* _CUBE6FACE_H_ */
