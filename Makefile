@@ -6,6 +6,7 @@ SRC		=	main.cpp \
 			Graphics.cpp \
 			FBORenderer.cpp \
 			FBOShader.cpp \
+			BasicShader.cpp \
 			PanShader.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
@@ -35,7 +36,10 @@ SRC		=	main.cpp \
 			Placement.cpp \
 			APlayer.cpp \
 			Model.cpp \
-			PivotingCam.cpp
+			PivotingCam.cpp \
+			Light.cpp \
+			Cube6Face.cpp \
+			SkyBox.cpp
 
 CC		=	g++
 

@@ -11,12 +11,6 @@ ArmagetroCam::ArmagetroCam(const glm::vec2 &playerPos)
   _follow_pos.clear();
 }
 
-void	ArmagetroCam::update(__attribute__((unused)) gdl::Input &input,
-			     __attribute__((unused)) const gdl::Clock &clock)
-{
-
-}
-
 void	ArmagetroCam::update(const glm::vec2 &newPlayerPos)
 {
   if (newPlayerPos != _follow_pos.back())
@@ -24,13 +18,13 @@ void	ArmagetroCam::update(const glm::vec2 &newPlayerPos)
       _follow_pos.push_back(newPlayerPos);
 
       if (_follow_pos.size() > 40)
-	{
-	  glm::vec2 tmp = _follow_pos.front();
+        {
+          glm::vec2 tmp = _follow_pos.front();
 
-	  _pos.x = tmp.x;
-	  _pos.z = tmp.y;
-	  _follow_pos.pop_front();
-	}
+          _pos.x = tmp.x;
+          _pos.z = tmp.y;
+          _follow_pos.pop_front();
+        }
       _forward.x = newPlayerPos.x;
       _forward.z = newPlayerPos.y;
       _forward.y = 0.5;

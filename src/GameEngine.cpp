@@ -22,7 +22,7 @@ bool GameEngine::initialize()
   const int heigth = 900;
 
   if (!_context->start(width, heigth, "Bomberman",
-		       SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
+                       SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
     return false;
   SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
@@ -30,7 +30,7 @@ bool GameEngine::initialize()
   tmp.push_back("sdf");
   AssetsManager::createAssets();
   _intro = new ::Intro(glm::ivec2(width, heigth));
-  // _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
+  //_game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
   return true;
 }
 
@@ -38,6 +38,10 @@ bool GameEngine::update()
 {
   _context->updateClock(_clock);
   _context->updateInputs(_input);
+  if (_input.getInput(SDL_BUTTON_LEFT))
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+  if (_input.getKey(SDLK_LCTRL) && _input.getInput(SDLK_LALT))
+    SDL_SetRelativeMouseMode(SDL_FALSE);
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
   switch (_state)

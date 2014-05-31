@@ -3,7 +3,7 @@
 Placement::Placement(Map *cmap)
 {
   _map = cmap;
-  _mapSize = glm::vec2(_map->getWidth(), _map->getLength());
+  _mapSize = glm::vec2(_map->getDimension().x, _map->getDimension().y);
   _numberPlayer = 0;
   _div = 2;
 }
@@ -38,8 +38,8 @@ glm::vec2 const Placement::genNewPos()
 	  return glm::vec2(_mapSize.x, _mapSize.y / _div);
 	default:
 	  {
-	    return glm::vec2(_mapSize.x / _div, _mapSize.y / _div);
 	    _div *= 2;
+	    return glm::vec2(_mapSize.x / _div, _mapSize.y / _div);
 	  }
 	}
     }
@@ -47,7 +47,7 @@ glm::vec2 const Placement::genNewPos()
 
 bool Placement::checkSpace(glm::vec2 const &pos, glm::vec2 const &back, int rec)
 {
-  if (pos.x < 0 || pos.y < 0 || _map->getTypeAt(pos.x, pos.y) != IEntity::GROUND)
+  if (pos.x < 0 || pos.y < 0 || _map->getTypeAt(pos.x, pos.y) != IEntity::NONE)
     return false;
   if (rec == 0)
     return true;
@@ -93,5 +93,7 @@ glm::vec2 const Placement::foundCloserGoodPlace(glm::vec2 const &pos)
 
 glm::vec2 const Placement::getNewPos()
 {
-  return foundCloserGoodPlace(genNewPos());
+  glm::vec2 new_pos = genNewPos();
+  std::cout << "try to pos at [" << new_pos.x << ", " << new_pos.y << "]\n";
+  return foundCloserGoodPlace(new_pos);
 }

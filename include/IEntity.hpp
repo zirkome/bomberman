@@ -18,13 +18,15 @@ public:
       GROUND,
       MODEL,
       PLAYER,
+      SKYBOX,
       LOGO,
       NONE
     };
   enum Symbol
     {
       S_BOX = 'o',
-      S_WALL = '#'
+      S_WALL = '#',
+      S_NONE = ' '
     };
 
   virtual ~IEntity() {}

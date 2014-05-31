@@ -8,7 +8,9 @@
 # include <Texture.hh>
 # include <Model.hh>
 
+# include "Model.hpp"
 # include "config.h"
+# include "AObject.hpp"
 # include "IEntity.hpp"
 # include "Singleton.hpp"
 
@@ -19,7 +21,7 @@ class AssetsManager : public Singleton<AssetsManager>
 
 public:
   template <class T>
-  void loadAssets(std::string const &, IEntity::Type) {}
+  void loadAssets(std::string const &, IEntity::Type) {};
 
   template <class T>
   T *getAssets(IEntity::Type)
@@ -37,7 +39,7 @@ private:
 
 private:
   std::map<IEntity::Type, gdl::Texture *> _textures;
-  std::map<IEntity::Type, gdl::Model *> _model;
+  std::map<IEntity::Type, Model *> _model;
 };
 
 #endif /* _ASSETSMANAGER_H_ */

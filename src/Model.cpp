@@ -1,17 +1,10 @@
 #include "Model.hpp"
 
 Model::Model(const std::string &path)
-  : _path(path)
 {
-
-}
-
-bool	Model::initialize()
-{
-  if (load(_path) == false)
-    return false;
+  if (load(path) == false)
+    throw std::runtime_error("Can't load model : " + path);
   setCurrentAnim(0);
-  return true;
 }
 
 void Model::draw(gdl::AShader *shader, const gdl::Clock& clock)

@@ -5,9 +5,13 @@
 ** constructor random map
 */
 
-Map::Map(const int x, const int y) : _x(x), _y(y), _mutex(new PMutex)
+Map::Map(const int x, const int y) : _dim(x, y), _mutex(new PMutex)
 {
   srand(time(NULL));
+
+  _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
+  _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
+  _charToIEntity[IEntity::S_NONE] = IEntity::NONE;
   this->loadRandomMap();
 }
 
@@ -15,8 +19,11 @@ Map::Map(const int x, const int y) : _x(x), _y(y), _mutex(new PMutex)
 ** constructor map with fileName
 */
 
-Map::Map(std::string const &mapFileName) : _x(0), _y(0), _mutex(new PMutex)
+Map::Map(std::string const &mapFileName) : _dim(0, 0), _mutex(new PMutex)
 {
+  _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
+  _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
+  _charToIEntity[IEntity::S_NONE] = IEntity::NONE;
   this->loadMapFromFile(mapFileName);
 }
 
@@ -36,13 +43,19 @@ Map::~Map()
 ** Private Methods
 */
 
-IEntity::Type	Map::getType(const std::string::const_iterator &it) const
+IEntity::Type	Map::getType(const char c) const
 {
-  if (*it == IEntity::S_BOX)
-    return IEntity::BOX;
-  if (*it == IEntity::S_WALL)
-    return IEntity::WALL;
-  return IEntity::GROUND;
+  IEntity::Type	type;
+
+  try
+    {
+      type = _charToIEntity.at(c);
+    }
+  catch (const std::out_of_range &oor)
+    {
+      std::cout << "Invalid type \'" << c << "\'" << std::endl;
+    }
+  return type;
 }
 
 bool		Map::loadMapFromFile(std::string const &fileName)
@@ -63,14 +76,14 @@ bool		Map::loadMapFromFile(std::string const &fileName)
     y = 0;
     for (std::string::const_iterator it = line.begin(), end = line.end();
 	 it != end; ++it) {
-      if ((entity = this->getEntityForMap(x, y, this->getType(it))))
+      if ((entity = this->getEntityForMap(x, y, this->getType(*it))))
 	_map.push_back(entity);
       ++y;
     }
     ++x;
   }
-  _y = y;
-  _x = x;
+  _dim.y = y;
+  _dim.x = x;
   file.close();
   return true;
 }
@@ -78,12 +91,14 @@ bool		Map::loadMapFromFile(std::string const &fileName)
 void		Map::loadRandomMap()
 {
   IEntity	*entity;
+  IEntity::Type	type;
 
-  for (int i = 0; i < _x; ++i) {
-    if (i && (i != _x - 1))
-      for (int j = 0; j < _y; ++j) {
-	if (j && (j != _y - 1)) {
-	  entity = this->getEntityForMap(i, j, ((rand() % 10) - 3) % 10);
+  for (int i = 0; i < _dim.x; ++i) {
+    if (i && (i != _dim.x - 1))
+      for (int j = 0; j < _dim.y; ++j) {
+	if (j && (j != _dim.y - 1)) {
+	  type = static_cast<IEntity::Type>(((rand() % 10) - 3) % 10);
+	  entity = this->getEntityForMap(i, j, type);
 	  if (entity)
 	    _map.push_back(entity);
 	}
@@ -91,11 +106,12 @@ void		Map::loadRandomMap()
   }
 }
 
-IEntity		*Map::getEntityForMap(const int x, const int y, const int i) const
+IEntity		*Map::getEntityForMap(const int x, const int y, const IEntity::Type i) const
 {
   IEntity	*entity = NULL;
 
-  entity = EntitiesFactory::getInstance()->create(static_cast<IEntity::Type>(i), x, y);
+  if (i != IEntity::NONE)
+    entity = EntitiesFactory::getInstance()->create(i, x, y);
   return entity;
 }
 
@@ -108,8 +124,8 @@ void	Map::displayDebugMap() const
   bool	check;
 
   if (_map.size() > 0) {
-    for (int i = 0; i < _x; ++i) {
-      for (int j = 0; j < _y; ++j) {
+    for (int i = 0; i < _dim.x; ++i) {
+      for (int j = 0; j < _dim.y; ++j) {
   	check = false;
   	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
   	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
@@ -141,14 +157,19 @@ Map::LMap	&Map::getMap()
   return _map;
 }
 
-int	Map::getWidth() const
-{
-  return _x;
-}
+// int	Map::getWidth() const
+// {
+//   return _x;
+// }
 
-int	Map::getLength() const
+// int	Map::getLength() const
+// {
+//   return _y;
+// }
+
+const glm::vec2 &Map::getDimension() const
 {
-  return _y;
+  return _dim;
 }
 
 /*
@@ -177,8 +198,8 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
       type = (*it)->getType();
       if (type == IEntity::PLAYER)
-	type = IEntity::GROUND;
-      if (type != IEntity::GROUND)
+	type = IEntity::NONE;
+      if (type != IEntity::NONE)
 	return type;
     }
   return type;

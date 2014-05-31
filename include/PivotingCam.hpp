@@ -11,8 +11,8 @@ private:
 public:
   PivotingCam(const glm::vec2 &toFollow, float elevation, float distance);
   virtual ~PivotingCam() {}
-  virtual void update(gdl::Input& input, const gdl::Clock& clock) {}
-  virtual void	update(const glm::vec2 &toFollow);
+  virtual void update(UNUSED gdl::Input& input, UNUSED const gdl::Clock& clock) {};
+  virtual void update(const glm::vec2 &toFollow);
 };
 
 #endif /* _PIVOTINGCAM_H_ */
