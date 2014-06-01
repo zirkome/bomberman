@@ -11,10 +11,10 @@
 class Menu
 {
 public:
-  Menu(PivotingCam *cam, IntroGraphics &ogl);
+  Menu(PivotingCam *cam);
   ~Menu();
   bool updateMenu(gdl::Input &input, const gdl::Clock &clock);
-  void drawMenu(const gdl::Clock &clock);
+  void drawMenu(const gdl::Clock &clock, gdl::AShader* hudshader) const;
   Game *getGame();
   bool finish() const;
 private:
@@ -26,7 +26,6 @@ private:
   std::string _mapFile;
   Game *_game;
   PivotingCam *_cam;
-  IntroGraphics &_ogl;
   FontText *_font;
   glm::vec3 _pos;
   glm::mat4 _ortho;

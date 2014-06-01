@@ -1,8 +1,8 @@
 #include <sstream>
 #include "Menu.hpp"
 
-Menu::Menu(PivotingCam *cam, IntroGraphics &ogl)
-  : _mapFile("map2.map"), _cam(cam), _ogl(ogl), _state(Running), _select(Start)
+Menu::Menu(PivotingCam *cam)
+  : _mapFile("map2.map"), _cam(cam), _state(Running), _select(Start)
 {
   _numberIa = 0;
   _numberPlayer = 1;
@@ -32,7 +32,7 @@ bool Menu::finish() const
   return false;
 }
 
-bool Menu::updateMenu(UNUSED gdl::Input &input, UNUSED const gdl::Clock &clock)
+bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 {
   if (_state != Finished)
     {
@@ -53,12 +53,10 @@ bool Menu::updateMenu(UNUSED gdl::Input &input, UNUSED const gdl::Clock &clock)
   return true;
 }
 
-void Menu::drawMenu(UNUSED gdl::Clock const &clock)
+void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) const
 {
-  gdl::AShader *hudshader = _ogl.getShader();
   glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
 
-  hudshader->bind();
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
 
