@@ -108,12 +108,21 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
 void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
-  gdl::AShader *shader = _ogl.getShader();
+  gdl::AShader *shader = _ogl.getHudShader();
   gdl::AShader *hudshader = _ogl.getHudShader();
   glm::vec2 posObject(0, 0);
   int rayon = 9;
 
-  _ogl.startFrame();
+  //_ogl.startFrame();
+  hudshader->bind();
+
+  hudshader->setUniform("view", _cam->project());
+  hudshader->setUniform("projection", _ogl.getPerspectiveProj());
+
+  glDisable(GL_DEPTH_TEST);
+  _skybox.draw(hudshader, clock);
+  glEnable(GL_DEPTH_TEST);
+
   shader->setUniform("view", _cam->project());
 
   glEnable(GL_CULL_FACE);
@@ -137,21 +146,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
   _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
-
-
-//Render object
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glEnable(GL_CULL_FACE);
-  glDisable(GL_DEPTH_TEST);
-
-  hudshader->bind();
-
-  hudshader->setUniform("view", _cam->project());
-  hudshader->setUniform("projection", _ogl.getPerspectiveProj());
-
-  _skybox.draw(hudshader, clock);
-
-  _ogl.processFrame(_cam->getPosition());
 
 //hud object
   hudshader->bind();
@@ -175,5 +170,4 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
   _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
 
-  glEnable(GL_DEPTH_TEST);
 }
