@@ -1,42 +1,38 @@
 #include "Box.hpp"
 
-Box::Box(const float x, const float y) : _vec(x, y)
+Box::Box(const glm::vec2 &pos) : _vec(pos)
 {
-  _obj = new Cube(IEntity::BOX);
-  _obj->translate(glm::vec3(x, 0, y));
+  _obj = new Cube();
+  _obj->scale(glm::vec3(.5f, .5f, .5f));
+  _obj->translate(glm::vec3(pos.x, 0, pos.y));
+  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::BOX);
 }
 
 Box::~Box()
 {
-
 }
 
-float	Box::getPosX() const
+const glm::vec2	&Box::getPos() const
 {
-  return _vec.x;
+  return _vec;
 }
 
-float	Box::getPosY() const
+void	Box::setPos(const glm::vec2 &new_pos)
 {
-  return _vec.y;
+  _vec = new_pos;
 }
 
-void	Box::setPosX(const float x)
+void	Box::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
-  _vec.x = x;
 }
 
-void	Box::setPosY(const float y)
+void	Box::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-  _vec.y = y;
+  _texture->bind();
+  _obj->draw(shader, clock);
 }
 
-AObject	*Box::getObj()
+IEntity::Type Box::getType() const
 {
-  return _obj;
-}
-
-void Box::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
-{
-
+  return IEntity::BOX;
 }

@@ -9,12 +9,16 @@
 #include <Clock.hh>
 #include <Texture.hh>
 #include "Graphics.hpp"
+#include "ArmagetroCam.hpp"
+#include "BasicCam.hpp"
 #include "Map.hpp"
 #include "Ia.hpp"
 #include "Player.hpp"
 #include "Fault.hpp"
 #include "FontText.hpp"
 #include "Cube.hpp"
+#include "Placement.hpp"
+#include "SkyBox.hpp"
 
 class Game
 {
@@ -29,10 +33,10 @@ public:
 
 public:
   bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(gdl::Clock const &clock);
+  void drawGame(gdl::Input &input, gdl::Clock const &clock);
 
 private:
-  void init(glm::ivec2 win);
+  void init(const glm::ivec2& win);
 
 private:
   std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?
@@ -43,6 +47,9 @@ private:
   FontText *_font;
   gdl::Texture	_text_texture;
   GameGraphics _ogl;
+  glm::mat4 _ortho;
+  Pan *_ground;
+  SkyBox _skybox;
 };
 
 #endif

@@ -3,6 +3,7 @@
 
 # include <Clock.hh>
 # include <Input.hh>
+# include <AShader.hh>
 
 class	AObject;
 
@@ -11,25 +12,28 @@ class IEntity
 public:
   enum Type
     {
-      BOX ,
+      BOX = 0,
       WALL,
       BOMB,
       GROUND,
+      MODEL,
+      PLAYER,
+      SKYBOX,
       NONE
     };
   enum Symbol
     {
       S_BOX = 'o',
-      S_WALL = '#'
+      S_WALL = '#',
+      S_NONE = ' '
     };
 
   virtual ~IEntity() {}
-  virtual float getPosX() const = 0;
-  virtual float getPosY() const = 0;
-  virtual void setPosX(const float) = 0;
-  virtual void setPosY(const float) = 0;
+  virtual const glm::vec2 &getPos() const = 0;
+  virtual void setPos(const glm::vec2 &new_pos) = 0;
   virtual void update(gdl::Input &input, gdl::Clock const &clock) = 0;
-  virtual AObject *getObj() = 0;
+  virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) = 0;
+  virtual IEntity::Type getType() const = 0;
 };
 
 #endif

@@ -1,23 +1,34 @@
 #ifndef _FONTTEXT_H_
-#define _FONTTEXT_H_
+# define _FONTTEXT_H_
 
-#include <Texture.hh>
-#include <iostream>
-#include <string>
+# include <iostream>
+# include <string>
+# include <vector>
+# include <exception>
+# include <stdexcept>
+# include <glm/glm.hpp>
+# include <glm/gtc/matrix_transform.hpp>
+
+# include <AShader.hh>
+# include <Texture.hh>
 
 class FontText
 {
 private:
-  const gdl::Texture	_texture;
-  GLuint		_img_width;
-  GLuint		_img_height;
-  GLuint		_c_width;
-  GLuint		_c_height;
-  GLint  		_c_by_row;
+  gdl::Texture	_texture;
+  GLuint	_textureID;
+  GLuint        _shaderID;
+  GLuint        _uniformID;
+  GLuint        _vertexBuffID;
+  GLuint        _UVBuffID;
+  const int	_sizeCharPix;
+
 public:
-  FontText(const gdl::Texture &texture, int c_width, int c_height);
-  virtual ~FontText() {}
-  void drawText(int x, int y, int w, int h, std::string const &text);
+  FontText(const std::string &path, int sizeCharPix = 16);
+  ~FontText() {};
+  void displayText(const std::string &str, const glm::vec4& color,
+                   const glm::mat4 &matrice, gdl::AShader *shader) const;
+
 };
 
 #endif /* _FONTTEXT_H_ */

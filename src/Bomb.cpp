@@ -1,10 +1,13 @@
 #include <iostream>
 #include "Bomb.hpp"
+#include <unistd.h>
 
-Bomb::Bomb(const float x, const float y) : _vec(x, y)
+Bomb::Bomb(const glm::vec2 &pos) : _vec(pos)
 {
-  _obj = new Cube(IEntity::WALL);
-  _obj->translate(glm::vec3(x, 0, y));
+  _obj = new Model(RES_MODEL "bomb.fbx");
+
+  _obj->scale(glm::vec3(0.0025f, 0.0025f, 0.0025f));
+  _obj->translate(glm::vec3(pos.x, 0, pos.y));
 }
 
 Bomb::~Bomb()
@@ -12,32 +15,27 @@ Bomb::~Bomb()
 
 }
 
-float	Bomb::getPosX() const
+const glm::vec2	&Bomb::getPos() const
 {
-  return _vec.x;
+  return _vec;
 }
 
-float	Bomb::getPosY() const
+void	Bomb::setPos(const glm::vec2 &new_pos)
 {
-  return _vec.y;
+  _vec = new_pos;
 }
 
-void	Bomb::setPosX(const float x)
+void	Bomb::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
-  _vec.x = x;
+
 }
 
-void	Bomb::setPosY(const float y)
+void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
-  _vec.y = y;
+  _obj->draw(shader, clock);
 }
 
-AObject *Bomb::getObj()
+IEntity::Type Bomb::getType() const
 {
-  return _obj;
-}
-
-void Bomb::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
-{
-
+  return IEntity::BOMB;
 }

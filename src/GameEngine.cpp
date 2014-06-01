@@ -27,11 +27,12 @@ bool GameEngine::initialize()
 
   if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
     return false;
+  SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
   AssetsManager::createAssets();
-  _game = new ::Game(glm::ivec2(width, heigth), 2, 2, tmp, "map2.map");
+  _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
   return true;
 }
 
@@ -39,6 +40,10 @@ bool GameEngine::update()
 {
   _context->updateClock(_clock);
   _context->updateInputs(_input);
+  if (_input.getInput(SDL_BUTTON_LEFT))
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+  if (_input.getKey(SDLK_LCTRL) && _input.getInput(SDLK_LALT))
+    SDL_SetRelativeMouseMode(SDL_FALSE);
   if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
     return false;
   if (_show)
@@ -54,6 +59,6 @@ void GameEngine::draw()
   if (_show)
     _menu->drawMenu(_clock);
   else
-    _game->drawGame(_clock);
+    _game->drawGame(_input, _clock);
   _context->flush();
 }

@@ -8,22 +8,20 @@
 # include <Texture.hh>
 # include <Model.hh>
 
+# include "Model.hpp"
 # include "config.h"
+# include "AObject.hpp"
 # include "IEntity.hpp"
+# include "Singleton.hpp"
 
-class		AssetsManager
+class AssetsManager : public Singleton<AssetsManager>
 {
-private:
-  std::map<IEntity::Type, gdl::Texture *>	_textures;
-  std::map<IEntity::Type, gdl::Model *>		_model;
+  friend AssetsManager* Singleton<AssetsManager>::getInstance();
+  friend void Singleton<AssetsManager>::kill();
 
 public:
-  AssetsManager() {}
-  virtual ~AssetsManager();
-  static AssetsManager	*getInstance();
-  static void		createAssets();
   template <class T>
-  void loadAssets(std::string const &, IEntity::Type) {}
+  void loadAssets(std::string const &, IEntity::Type) {};
 
   template <class T>
   T *getAssets(IEntity::Type)
@@ -31,7 +29,17 @@ public:
     return NULL;
   }
 
-  static AssetsManager	*_instance;
+public:
+  static void createAssets();
+
+private:
+  AssetsManager() {}
+  virtual ~AssetsManager();
+
+
+private:
+  std::map<IEntity::Type, gdl::Texture *> _textures;
+  std::map<IEntity::Type, Model *> _model;
 };
 
 #endif /* _ASSETSMANAGER_H_ */

@@ -1,10 +1,15 @@
 #include "Ground.hpp"
 #include "Pan.hpp"
 
-Ground::Ground(const float x, const float y) : _vec(x, y)
+
+Ground::Ground(const glm::vec2 &pos)
+  : _vec(pos)
 {
-  _obj = new Pan(IEntity::GROUND);
-  _obj->translate(glm::vec3(x, 0, y));
+  _obj = new Pan;
+  _obj->translate(glm::vec3(pos.x, -0.5f, pos.y));
+  _obj->scale(glm::vec3(0.5f, 0.5f, 1.0));
+  _obj->rotate(glm::vec3(1, 0, 0), 90.0);
+  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND);
 }
 
 Ground::~Ground()
@@ -12,32 +17,28 @@ Ground::~Ground()
 
 }
 
-float	Ground::getPosX() const
+const glm::vec2	&Ground::getPos() const
 {
-  return _vec.x;
+  return _vec;
 }
 
-float	Ground::getPosY() const
+void	Ground::setPos(const glm::vec2 &new_pos)
 {
-  return _vec.y;
-}
-
-void	Ground::setPosX(const float x)
-{
-  _vec.x = x;
-}
-
-void	Ground::setPosY(const float y)
-{
-  _vec.y = y;
-}
-
-AObject	*Ground::getObj()
-{
-  return _obj;
+  _vec = new_pos;
 }
 
 void Ground::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
 
+}
+
+void Ground::draw(gdl::AShader *shader, const gdl::Clock& clock)
+{
+  _texture->bind();
+  _obj->draw(shader, clock);
+}
+
+IEntity::Type Ground::getType() const
+{
+  return IEntity::GROUND;
 }

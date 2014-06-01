@@ -1,18 +1,27 @@
 #ifndef PLAYER_HPP_
 # define PLAYER_HPP_
 
-# include "Map.hpp"
+# include <string>
+# include <map>
+# include <list>
+# include "APlayer.hpp"
+# include "AssetsManager.hpp"
+# include "Bomb.hpp"
 
-class Player
+class Player : public APlayer
 {
+  typedef bool (Player::*move)(double const);
+  typedef std::map<int, move> MovePtr;
+  typedef std::list<int> BombList;
+
 private:
-  int _x;
-  int _y;
-  Map *_map;
+  MovePtr	_movePtr;
+  BombList	_bombList;
 
 public:
-  Player(Map *map);
+  Player(glm::vec2 pos, Map *map);
   ~Player();
+  virtual void	update(gdl::Input &input, gdl::Clock const &clock);
 };
 
 #endif /* !PLAYER_HPP_ */

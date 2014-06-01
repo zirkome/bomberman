@@ -1,50 +1,54 @@
+#include <iostream>
+#include <Geometry.hh>
 #include "FontText.hpp"
 
-FontText::FontText(const gdl::Texture &texture, int c_width, int c_height) : _texture(texture)
+FontText::FontText(const std::string &path, int sizeCharPix)
+  : _sizeCharPix(sizeCharPix)
 {
-  _img_height = texture.getWidth();
-  _img_width = texture.getHeight();
-  _c_height = c_height;
-  _c_width = c_width;
-  _c_by_row = _img_width / _c_width;
+  if (_texture.load(path) == false)
+    throw std::runtime_error("Can't load: " + path);
 }
 
-void FontText::drawText(int x, int y, int w, int h, std::string const &text)
+void FontText::displayText(const std::string &str, const glm::vec4& color,
+                           const glm::mat4 &matrice, gdl::AShader *shader) const
 {
-  glLoadIdentity();
-  glTranslatef(x, y, 0.0f);
+  const int size = 1;
+  const float sizePixf = static_cast<float>(_sizeCharPix);
+  gdl::Geometry geometry;
+
+  geometry.setColor(color);
+
+  unsigned int i = 0;
+  for (i = 0; i < str.length(); i++)
+    {
+      float uv_x = (str[i] % _sizeCharPix) / sizePixf;
+      float uv_y = (str[i] / _sizeCharPix) / sizePixf;
+
+      geometry.pushVertex(glm::vec3(i * size, size, 0));
+      geometry.pushVertex(glm::vec3(i * size, 0, 0));
+      geometry.pushVertex(glm::vec3(i * size + size, size, 0));
+      geometry.pushVertex(glm::vec3(i * size + size, 0, 0));
+      geometry.pushVertex(glm::vec3(i * size + size, size, 0));
+      geometry.pushVertex(glm::vec3(i * size, 0, 0));
+
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+      geometry.pushNormal(glm::vec3(0, 0, 1));
+
+      geometry.pushUv(glm::vec2(uv_x, 1.0 - uv_y));
+      geometry.pushUv(glm::vec2(uv_x, 1 - (uv_y + 1.0 / sizePixf)));
+      geometry.pushUv(glm::vec2(uv_x + 1.0 / sizePixf, 1 - uv_y));
+      geometry.pushUv(glm::vec2(uv_x + 1.0 / sizePixf, 1 - (uv_y + 1.0 / sizePixf)));
+      geometry.pushUv(glm::vec2(uv_x + 1.0 / sizePixf, 1 - uv_y ));
+      geometry.pushUv(glm::vec2(uv_x, 1 - (uv_y + 1.0 / sizePixf)));
+    }
+  geometry.build();
   _texture.bind();
-  glBegin(GL_QUADS);
 
-  //character location and dimensions
-  GLfloat cx = 0.0f;
-  GLfloat cy = 0.0f;
-  GLfloat cw = float(w);
-  GLfloat ch = float(h);
+  glm::mat4 mat = glm::scale(matrice, glm::vec3(1.0f / sizePixf, 1.0f / sizePixf, 1.0f));
 
-  //calculate how wide each character is in term of texture coords
-  GLfloat dtx = float(_c_width)/float(_img_width);
-  GLfloat dty = float(_c_height)/float(_img_height);
-
-  const char *str = text.c_str();
-  for (int i = 0; char c = str[i]; i++, cx += cw) {
-    // subtract the value of the first char in the character map
-    // to get the index in our map
-    int index = c - '0';
-    int row = index / _c_by_row;
-    int col = index % _c_by_row;
-
-    // if (index < 0)
-    //   throw GameException(__FILE__, __LINE__, "Character outside of font");
-
-    // find the texture coords
-    GLfloat tx = float(col * _c_width) / float(_img_width);
-    GLfloat ty = float(row * _c_height) / float(_img_height);
-
-    glTexCoord2d(tx,ty); glVertex2f(cx,cy);
-    glTexCoord2d(tx+dtx,ty); glVertex2f(cx+cw,cy);
-    glTexCoord2d(tx+dtx,ty+dty); glVertex2f(cx+cw,cy+ch);
-    glTexCoord2d(tx,ty+dty); glVertex2f(cx,cy+ch);
-  }
-  glEnd();
+  geometry.draw(*shader, mat, GL_TRIANGLES);
 }
