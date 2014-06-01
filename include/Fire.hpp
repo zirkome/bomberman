@@ -1,27 +1,27 @@
-#ifndef WALL_HPP_
-# define WALL_HPP_
+#ifndef FIRE_HPP_
+# define FIRE_HPP_
 
-# include "Texture.hh"
+# include <Texture.hh>
 # include "IEntity.hpp"
-# include "AObject.hpp"
+# include "Cube.hpp"
 
-class Wall : public IEntity
+class Fire : public IEntity
 {
 private:
   glm::vec2	_vec;
   AObject	*_obj;
-  gdl::Texture	*_texture;
+  IEntity::Status _status;
 
 public:
-  Wall(const glm::vec2 &pos);
-  virtual ~Wall();
+  Fire(const glm::vec2 &pos);
+  virtual ~Fire();
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
   virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
   virtual IEntity::Type getType() const;
-  virtual void setStatus(IEntity::Status status);
   virtual IEntity::Status getStatus() const;
+  virtual void setStatus(IEntity::Status status);
 };
 
-#endif /* !WALL_HPP_ */
+#endif /* !FIRE_HPP_ */

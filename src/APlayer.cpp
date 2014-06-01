@@ -100,9 +100,7 @@ bool APlayer::bomb(UNUSED double const distance)
   int x = _vec.x + _size;
   int y = _vec.y + _size;
 
-  _xBomb = x;
-  _yBomb = y;
-  _map->addEntity(new Bomb(glm::vec2(x, y)));
+  _map->addEntity(new Bomb(glm::vec2(x, y), _bombList.front(), _map));
   return false;
 }
 
@@ -114,4 +112,14 @@ IEntity::Type APlayer::getType() const
 void	APlayer::setStatus(APlayer::Status st)
 {
   _status = st;
+}
+
+IEntity::Status APlayer::getStatus() const
+{
+  return _statusOfObject;
+}
+
+void APlayer::setStatus(IEntity::Status status)
+{
+  _statusOfObject = status;
 }

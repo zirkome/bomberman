@@ -27,6 +27,12 @@ public:
       S_WALL = '#',
       S_NONE = ' '
     };
+  enum Status
+    {
+      OK = 0,
+      BURNING,
+      DESTROY
+    };
 
   virtual ~IEntity() {}
   virtual const glm::vec2 &getPos() const = 0;
@@ -34,6 +40,8 @@ public:
   virtual void update(gdl::Input &input, gdl::Clock const &clock) = 0;
   virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) = 0;
   virtual IEntity::Type getType() const = 0;
+  virtual IEntity::Status getStatus() const = 0;
+  virtual void setStatus(IEntity::Status status) = 0;
 };
 
 #endif
