@@ -40,7 +40,7 @@ void Intro::init(glm::ivec2 win)
 
 Game *Intro::getGame()
 {
-  return NULL;
+  return _menu->getGame();
 }
 
 bool Intro::finish() const
@@ -69,6 +69,8 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
     }
   else if (_state == Menu)
     {
+      if (_menu->finish())
+	_state = Finished;
       if (_pos.y < 4.0)
 	{
 	  _pos.y += clock.getElapsed()*_speed;

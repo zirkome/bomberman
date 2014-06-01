@@ -2,8 +2,11 @@
 #include "Menu.hpp"
 
 Menu::Menu(PivotingCam *cam, IntroGraphics &ogl)
-  : _cam(cam), _ogl(ogl), _state(Running), _select(Start)
+  : _mapFile("map2.map"), _cam(cam), _ogl(ogl), _state(Running), _select(Start)
 {
+  _numberIa = 0;
+  _numberPlayer = 1;
+  _game = NULL;
   _font = new FontText(RES_TEXTURE "font.tga");
   init();
 }
@@ -17,6 +20,11 @@ void Menu::init()
   _ortho = glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0, -1.0, -1.0)), glm::vec3(2.0, 2.0, 2.0));
 }
 
+Game *Menu::getGame()
+{
+  return _game;
+}
+
 bool Menu::finish() const
 {
   if (_state == Finished)
@@ -26,15 +34,22 @@ bool Menu::finish() const
 
 bool Menu::updateMenu(UNUSED gdl::Input &input, UNUSED const gdl::Clock &clock)
 {
-  if (input.getKey(SDLK_UP, true))
-    _select = (selected)(_select - 1);
-  else if (input.getKey(SDLK_DOWN, true))
-    _select = (selected)(_select + 1);
-  if (_select < 0)
-    _select = Exit;
-  if (_select > 2)
-    _select = Start;
-  /* TODO : move in menu, ... */
+  if (_state != Finished)
+    {
+      if (input.getKey(SDLK_RETURN, true) && _select == Start)
+	{
+	  _state = Finished;
+	  _game = new ::Game(glm::ivec2(1024, 900), _numberPlayer, _numberIa, _iaFile, _mapFile);
+	}
+      else if (input.getKey(SDLK_UP, true))
+	_select = (selected)(_select - 1);
+      else if (input.getKey(SDLK_DOWN, true))
+	_select = (selected)(_select + 1);
+      if (_select < 0)
+	_select = Exit;
+      if (_select > 2)
+	_select = Start;
+    }
   return true;
 }
 

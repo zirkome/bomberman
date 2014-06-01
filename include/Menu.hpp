@@ -8,7 +8,6 @@
 #include "PivotingCam.hpp"
 #include "Graphics.hpp"
 
-
 class Menu
 {
 public:
@@ -16,10 +15,16 @@ public:
   ~Menu();
   bool updateMenu(gdl::Input &input, const gdl::Clock &clock);
   void drawMenu(const gdl::Clock &clock);
+  Game *getGame();
   bool finish() const;
 private:
   void init();
 private:
+  int _numberPlayer;
+  int _numberIa;
+  std::vector<std::string> _iaFile;
+  std::string _mapFile;
+  Game *_game;
   PivotingCam *_cam;
   IntroGraphics &_ogl;
   FontText *_font;
