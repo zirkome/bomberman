@@ -25,15 +25,16 @@ public:
   bool finish() const;
   Game *getGame();
 private:
-  void init(glm::ivec2 win);
+  void init(const glm::ivec2& win);
 
 private:
   ::Menu *_menu;
-  IntroGraphics _ogl;
   PivotingCam *_cam;
   Model *_player;
   AObject *_logo;
+  glm::mat4 _proj;
   gdl::Texture *_texture;
+  gdl::AShader *_shader;
   int _speed;
   glm::vec3 _pos;
   glm::vec3 _pos2;

@@ -8,20 +8,18 @@
 #include "PivotingCam.hpp"
 #include "Graphics.hpp"
 
-
 class Menu
 {
 public:
-  Menu(PivotingCam *cam, IntroGraphics &ogl);
+  Menu(PivotingCam *cam);
   ~Menu();
   bool updateMenu(gdl::Input &input, const gdl::Clock &clock);
-  void drawMenu(const gdl::Clock &clock);
+  void drawMenu(const gdl::Clock &clock, gdl::AShader* hudshader) const;
   bool finish() const;
 private:
   void init();
 private:
   PivotingCam *_cam;
-  IntroGraphics &_ogl;
   FontText *_font;
   glm::vec3 _pos;
   glm::mat4 _ortho;

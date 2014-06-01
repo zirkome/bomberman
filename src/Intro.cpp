@@ -31,11 +31,31 @@ Intro::~Intro()
     delete _menu;
 }
 
-void Intro::init(glm::ivec2 win)
+void Intro::init(const glm::ivec2& win)
 {
-  //_cam = new TrackCam(_pos);
   _cam = new PivotingCam(glm::vec2(_pos.x, _pos.y), -0.5, 10);
-  _ogl.init(win);
+
+  _shader = new BasicShader();
+
+  _proj = glm::perspective(60.0f, static_cast<float>(win.x) / static_cast<float>(win.y),
+                           0.1f, 500.0f);
+
+  if (!_shader->load(RES_SHADERS "menu.fp", GL_FRAGMENT_SHADER)
+      || !_shader->load(RES_SHADERS "menu.vp", GL_VERTEX_SHADER)
+      || !_shader->build())
+    {
+      throw std::runtime_error("Load shader fail");
+    }
+
+  glEnable(GL_DEPTH_TEST);
+  glClearDepth(1.0f);
+  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
+  glEnable(GL_CULL_FACE);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 }
 
 Game *Intro::getGame()
@@ -61,29 +81,29 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
           _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
         }
       else
-	{
-	  //          _logo->translate(glm::vec3(0, 5, 0));
-	  _state = Menu;
-	  _menu = new ::Menu(_cam, _ogl);
-	}
+        {
+          //          _logo->translate(glm::vec3(0, 5, 0));
+          _state = Menu;
+          _menu = new ::Menu(_cam);
+        }
     }
   else if (_state == Menu)
     {
       if (_pos.y < 4.0)
-	{
-	  _pos.y += clock.getElapsed()*_speed;
-	  _logo->translate(glm::vec3(0, clock.getElapsed()*_speed, 0));
-	}
+        {
+          _pos.y += clock.getElapsed() * _speed;
+          _logo->translate(glm::vec3(0, clock.getElapsed()*_speed, 0));
+        }
       if (_pos2.y > 27.5)
-	{
-	  _player->translate(glm::vec3(_pos2.y, 0, 0));
-	  _pos2.y = 0.0;
-	}
+        {
+          _player->translate(glm::vec3(_pos2.y, 0, 0));
+          _pos2.y = 0.0;
+        }
       else
-	{
-      _pos2.y += clock.getElapsed() * _speed;
-      _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
-	}
+        {
+          _pos2.y += clock.getElapsed() * _speed;
+          _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
+        }
       return _menu->updateMenu(input, clock);
     }
   _pos2.y += clock.getElapsed() * _speed;
@@ -93,18 +113,16 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
 
 void Intro::drawIntro(gdl::Clock const &clock) const
 {
-  gdl::Texture texture;
-  gdl::AShader *shader = _ogl.getShader();
+  _shader->bind();
+  _shader->setUniform("view", _cam->project());
+  _shader->setUniform("projection", _proj);
 
-  _ogl.startFrame();
-  shader->setUniform("view", _cam->project());
-
-  _player->draw(shader, clock);
+  _player->draw(_shader, clock);
 
   _texture->bind();
-  _logo->draw(shader, clock);
+  _logo->draw(_shader, clock);
 
   if (_state == Menu)
-    _menu->drawMenu(clock);
+    _menu->drawMenu(clock, _shader);
 
 }
