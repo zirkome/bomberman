@@ -61,6 +61,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(const glm::ivec2& win)
 {
   /* TODO : init game and load 3d models */
+  _win = win;
   glm::vec2 playerPos = _players.front()->getPos();
 
   //_cam = new FreeCam;
@@ -106,26 +107,8 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   return true;
 }
 
-void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
+void Game::drawGraphicObject(gdl::AShader* shader, gdl::Clock const &clock) const
 {
-  gdl::AShader *shader = _ogl.getShader();
-  gdl::AShader *hudshader = _ogl.getHudShader();
-  glm::vec2 posObject(0, 0);
-  int rayon = 9;
-
-  _ogl.startFrame();
-  shader->setUniform("view", _cam->project());
-
-  glEnable(GL_CULL_FACE);
-//game entities
-  glm::vec2 posPlayer = _players[0]->getPos();
-  for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
-    {
-      posObject = (*it)->getPos();
-      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-        (*it)->draw(shader, clock);
-    }
-
   glDisable(GL_CULL_FACE);
 //Graphic objects
   AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
@@ -137,7 +120,42 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
   _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
+}
 
+void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
+{
+  gdl::AShader *shader = _ogl.getShader();
+  gdl::AShader *hudshader = _ogl.getHudShader();
+  glm::vec2 posObject(0, 0);
+  int rayon = 9;
+
+  _ogl.startFrame();
+  shader->setUniform("view", _cam->project());
+
+  glEnable(GL_CULL_FACE);
+
+  glViewport(0, 0, _win.x / 2, _win.y);
+//game entities
+  glm::vec2 posPlayer = _players[0]->getPos();
+  for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
+    {
+      posObject = (*it)->getPos();
+      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+        (*it)->draw(shader, clock);
+    }
+  drawGraphicObject(shader, clock);
+
+  glViewport(_win.x / 2, 0, _win.x / 2, _win.y);
+//game entities
+  for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
+    {
+      posObject = (*it)->getPos();
+      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+        (*it)->draw(shader, clock);
+    }
+  drawGraphicObject(shader, clock);
+
+  glViewport(0, 0, _win.x, _win.y);
 
 //Render object
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
