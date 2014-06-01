@@ -3,6 +3,7 @@
 
 Player::Player(const glm::vec2 pos, Map *map)
 {
+  _statusOfObject = OK;
   // _obj = AssetsManager::getInstance()->getAssets<Model>(IEntity::PLAYER);
   _obj = new Model(RES_MODEL "marvin.fbx");
 
@@ -29,8 +30,6 @@ Player::Player(const glm::vec2 pos, Map *map)
   _obj->setCurrentSubAnim("standby");
 
   // Init bombList
-  _xBomb = -1;
-  _yBomb = -1;
   _bombList.push_back(1);
 }
 

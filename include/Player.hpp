@@ -12,11 +12,9 @@ class Player : public APlayer
 {
   typedef bool (Player::*move)(double const);
   typedef std::map<int, move> MovePtr;
-  typedef std::list<int> BombList;
 
 private:
   MovePtr	_movePtr;
-  BombList	_bombList;
 
 public:
   Player(glm::vec2 pos, Map *map);
