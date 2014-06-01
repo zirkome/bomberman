@@ -115,7 +115,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   //_ogl.startFrame();
   hudshader->bind();
-
+  hudshader->setUniform("camPos", _cam->getPosition());
   hudshader->setUniform("view", _cam->project());
   hudshader->setUniform("projection", _ogl.getPerspectiveProj());
 
@@ -152,7 +152,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   hudshader->bind();
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
-
 
   glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));

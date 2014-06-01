@@ -45,7 +45,7 @@ void main(void)
 
   light tmpLight;
 
-  tmpLight.position = vec4(0, 0.7, 0.3, 0.0);
+  tmpLight.position = vec4(0, 0.5, 0.3, 0.0);
   tmpLight.diffuse = vec4(1, 1, 1, 0);
   tmpLight.specular = vec4(2, 2, 2, 0);
   tmpLight.spotCutoff = 180;
