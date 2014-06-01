@@ -151,7 +151,10 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   _skybox.draw(hudshader, clock);
 
-  _ogl.processFrame(_cam->getPosition());
+  static float time = -1.0;
+  time += clock.getElapsed() / 10.0f;
+  std::cout << time << std::endl;
+  _ogl.processFrame(_cam->getPosition(), glm::vec3(cos(time), tan(time), sin(time)));
 
 //hud object
   hudshader->bind();
