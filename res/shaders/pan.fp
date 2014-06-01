@@ -39,15 +39,13 @@ void main(void)
   vec4 position = texture2D(tPosition, fUv);
   vec4 normal = texture2D(tNormals, fUv);
 
-  normal = normalize(normal);
-
   vec4 lighting = vec4(0.005, 0.005, 0.005, 1.0);
 
   light tmpLight;
 
-  tmpLight.position = vec4(0, 0.7, 0.3, 0.0);
+  tmpLight.position = vec4(0, 0.5, 0.3, 0.0);
   tmpLight.diffuse = vec4(1, 1, 1, 0);
-  tmpLight.specular = vec4(2, 2, 2, 0);
+  tmpLight.specular = vec4(1.1, 1.1, 1.1, 0);
   tmpLight.spotCutoff = 180;
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
