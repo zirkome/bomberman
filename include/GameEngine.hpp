@@ -10,7 +10,7 @@
 #include <IRenderContext.hh>
 
 #include "Intro.hpp"
-//#include "Menu.hpp"
+#include "Menu.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 
@@ -32,6 +32,7 @@ private:
   bool _init;
   ::Intro *_intro;
   ::Game *_game;
+  ::Menu *_menu;
   gdl::Clock _clock;
   gdl::Input _input;
   gdl::IRenderContext *_context;

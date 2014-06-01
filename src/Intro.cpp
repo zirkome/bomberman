@@ -34,6 +34,13 @@ void Intro::init(glm::ivec2 win)
   _ogl.init(win);
 }
 
+bool Intro::finish() const
+{
+  if (_state == Finished)
+    return true;
+  return false;
+}
+
 bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
 {
   _cam->update(glm::vec2(_pos.x, _pos.y));
@@ -53,7 +60,6 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
       _logo->translate(glm::vec3(0, clock.getElapsed(), 0));
     }
   _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
-
   return true;
 }
 

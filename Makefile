@@ -2,6 +2,7 @@
 SRC		=	main.cpp \
 			Game.cpp \
 			Intro.cpp \
+			Menu.cpp \
 			Fault.cpp \
 			Graphics.cpp \
 			FBORenderer.cpp \

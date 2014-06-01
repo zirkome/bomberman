@@ -36,6 +36,12 @@ bool GameEngine::initialize()
 
 bool GameEngine::update()
 {
+  if (_state == Intro && _intro->finish() == true)
+    {
+      _state = Menu;
+      _menu = new ::Menu(glm::ivec2(1024, 900));
+      delete _intro;
+    }
   _context->updateClock(_clock);
   _context->updateInputs(_input);
   if (_input.getInput(SDL_BUTTON_LEFT))
@@ -48,6 +54,8 @@ bool GameEngine::update()
     {
     case Intro:
       return _intro->updateIntro(_input, _clock);
+    case Menu:
+      return _menu->updateMenu(_input, _clock);
     case Game:
     default:
       return _game->updateGame(_input, _clock);
@@ -61,6 +69,9 @@ void GameEngine::draw()
     {
     case Intro:
       _intro->drawIntro(_clock);
+      break;
+    case Menu:
+      _menu->drawMenu(_clock);
       break;
     case Game:
     default:

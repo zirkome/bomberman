@@ -20,7 +20,7 @@ public:
 public:
   bool updateIntro(gdl::Input &input, const gdl::Clock &clock);
   void drawIntro(gdl::Clock const &clock) const;
-
+  bool finish() const;
 private:
   void init(glm::ivec2 win);
 
