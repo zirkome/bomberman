@@ -43,8 +43,6 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock)
   gdl::AShader *hudshader = _ogl.getShader();
   glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
 
-  _ogl.startFrame();
-
   hudshader->bind();
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
