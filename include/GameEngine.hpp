@@ -26,13 +26,11 @@ public:
 private:
   enum {
     Intro,
-    Menu,
     Game
   } _state;
   bool _init;
   ::Intro *_intro;
   ::Game *_game;
-  ::Menu *_menu;
   gdl::Clock _clock;
   gdl::Input _input;
   gdl::IRenderContext *_context;

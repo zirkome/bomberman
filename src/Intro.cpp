@@ -2,8 +2,10 @@
 #include "Intro.hpp"
 
 Intro::Intro(const glm::ivec2& win)
-  : _speed(4), _pos(25.0, 0.0f, 0.0), _state(Running)
+  : _speed(4), _pos(25.0, 0.0f, 0.0), _pos2(25.0, 0.0f, 0.0f), _state(Running)
 {
+  _menu = NULL;
+
   _player = new Model(RES_MODEL "marvin.fbx");
   _player->translate(glm::vec3(20.0, -0.5f, 0.0));
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
@@ -16,7 +18,7 @@ Intro::Intro(const glm::ivec2& win)
 
   _logo = new Pan();
   _logo->translate(_pos);
-  _logo->scale(glm::vec3(2.0f, 3.0f, 2.0f));
+  _logo->scale(glm::vec3(5.0f, 1.0f, 2.0f));
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);
   _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::LOGO);
 
@@ -25,6 +27,8 @@ Intro::Intro(const glm::ivec2& win)
 
 Intro::~Intro()
 {
+  if (_menu != NULL)
+    delete _menu;
 }
 
 void Intro::init(glm::ivec2 win)
@@ -32,6 +36,11 @@ void Intro::init(glm::ivec2 win)
   //_cam = new TrackCam(_pos);
   _cam = new PivotingCam(glm::vec2(_pos.x, _pos.y), -0.5, 10);
   _ogl.init(win);
+}
+
+Game *Intro::getGame()
+{
+  return NULL;
 }
 
 bool Intro::finish() const
@@ -52,13 +61,32 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
           _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
         }
       else
-        _state = Finished;
+	{
+	  //          _logo->translate(glm::vec3(0, 5, 0));
+	  _state = Menu;
+	  _menu = new ::Menu(_cam, _ogl);
+	}
     }
-  else if (_pos.y < 4.0)
+  else if (_state == Menu)
     {
-      _pos.y += clock.getElapsed();
-      _logo->translate(glm::vec3(0, clock.getElapsed(), 0));
+      if (_pos.y < 4.0)
+	{
+	  _pos.y += clock.getElapsed()*_speed;
+	  _logo->translate(glm::vec3(0, clock.getElapsed()*_speed, 0));
+	}
+      if (_pos2.y > 27.5)
+	{
+	  _player->translate(glm::vec3(_pos2.y, 0, 0));
+	  _pos2.y = 0.0;
+	}
+      else
+	{
+      _pos2.y += clock.getElapsed() * _speed;
+      _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
+	}
+      return _menu->updateMenu(input, clock);
     }
+  _pos2.y += clock.getElapsed() * _speed;
   _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
   return true;
 }
@@ -75,4 +103,8 @@ void Intro::drawIntro(gdl::Clock const &clock) const
 
   _texture->bind();
   _logo->draw(shader, clock);
+
+  if (_state == Menu)
+    _menu->drawMenu(clock);
+
 }

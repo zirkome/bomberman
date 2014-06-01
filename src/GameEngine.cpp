@@ -38,8 +38,8 @@ bool GameEngine::update()
 {
   if (_state == Intro && _intro->finish() == true)
     {
-      _state = Menu;
-      _menu = new ::Menu(glm::ivec2(1024, 900));
+      _state = Game;
+      _game = _intro->getGame();
       delete _intro;
     }
   _context->updateClock(_clock);
@@ -54,8 +54,6 @@ bool GameEngine::update()
     {
     case Intro:
       return _intro->updateIntro(_input, _clock);
-    case Menu:
-      return _menu->updateMenu(_input, _clock);
     case Game:
     default:
       return _game->updateGame(_input, _clock);
@@ -69,9 +67,6 @@ void GameEngine::draw()
     {
     case Intro:
       _intro->drawIntro(_clock);
-      break;
-    case Menu:
-      _menu->drawMenu(_clock);
       break;
     case Game:
     default:

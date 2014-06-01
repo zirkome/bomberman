@@ -12,15 +12,16 @@
 class Menu
 {
 public:
-  Menu(const glm::ivec2& win);
+  Menu(PivotingCam *cam, IntroGraphics &ogl);
   ~Menu();
   bool updateMenu(gdl::Input &input, const gdl::Clock &clock);
   void drawMenu(const gdl::Clock &clock);
   bool finish() const;
-  void init(const glm::ivec2& win);
+private:
+  void init();
 private:
   PivotingCam *_cam;
-  IntroGraphics _ogl;
+  IntroGraphics &_ogl;
   FontText *_font;
   glm::vec3 _pos;
   glm::mat4 _ortho;
@@ -28,6 +29,11 @@ private:
     Running,
     Finished
   } _state;
+  enum selected {
+    Start = 0,
+    Options,
+    Exit
+  } _select;
 };
 
 #endif
