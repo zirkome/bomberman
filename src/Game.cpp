@@ -124,6 +124,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glEnable(GL_DEPTH_TEST);
 
   shader->setUniform("view", _cam->project());
+  hudshader->setUniform("ambientLight", glm::vec4(0.005, 0.005, 0.005, 1.0));
 
   glEnable(GL_CULL_FACE);
 //game entities
@@ -150,6 +151,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
 //hud object
   hudshader->bind();
+  hudshader->setUniform("ambientLight", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
   hudshader->setUniform("view", _ortho);
   hudshader->setUniform("projection", glm::mat4(1));
 

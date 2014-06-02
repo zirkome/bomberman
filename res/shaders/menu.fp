@@ -20,6 +20,7 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 uniform vec3 camPos;
+uniform vec4 ambientLight;
 
 uniform sampler2D fTexture0;
 
@@ -37,9 +38,7 @@ void main(void)
   vec4 position = fPosition;
   vec4 normal = fNormal;
 
-  normal = normalize(normal);
-
-  vec4 lighting = vec4(0.005, 0.005, 0.005, 1.0);
+  vec4 lighting = ambientLight;
 
   light tmpLight;
 
@@ -48,7 +47,8 @@ void main(void)
   tmpLight.specular = vec4(2, 2, 2, 0);
   tmpLight.spotCutoff = 180;
 
-  lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
+  if (lighting != vec4(1.0f, 1.0f, 1.0f, 1.0f))
+    lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
 
   gl_FragColor = color * lighting;
 }

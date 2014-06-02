@@ -22,10 +22,10 @@ GameEngine::~GameEngine()
 
 bool GameEngine::initialize()
 {
-  const int width = 1024;
-  const int heigth = 900;
+  const int width = 1920;
+  const int heigth = 1080;
 
-  if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
+  if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL))
     return false;
   SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
