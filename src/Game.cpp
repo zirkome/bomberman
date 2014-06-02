@@ -161,7 +161,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   _skybox.draw(hudshader, clock);
 
-  _ogl.processFrame(_cam->getPosition());
+  _ogl.processFrame(_cam->getPosition(), glm::vec3(0.0f, 0.5f, 0.3f));
 
 //hud object
   hudshader->bind();
@@ -169,7 +169,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   hudshader->setUniform("projection", glm::mat4(1));
 
 
-  glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
+  glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.0f, 0.5f, 0.3f));
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
   textMat = glm::rotate(textMat, 45.0f, glm::vec3(0.3f, 0.5f, 0.6));
 

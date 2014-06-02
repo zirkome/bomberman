@@ -28,7 +28,7 @@ public:
   virtual bool init(const glm::ivec2& win);
   virtual void startFrame() const;
 
-  void processFrame(const glm::vec3& camPos) const;
+  void processFrame(const glm::vec3& camPos, const glm::vec3& lightDir) const;
 
   const glm::mat4 &getPerspectiveProj() const;
 
