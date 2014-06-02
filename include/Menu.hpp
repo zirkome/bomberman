@@ -23,7 +23,6 @@ private:
   int _numberPlayer;
   int _numberIa;
   std::vector<std::string> _iaFile;
-  std::string _mapFile;
   Game *_game;
   PivotingCam *_cam;
   FontText *_font;
@@ -44,6 +43,14 @@ private:
     MapFile,
     Return
   } _select;
+  enum level {
+    Easy,
+    Medium,
+    Hard
+  } _level;
+  int _map;
+  std::map<level, std::string> _levelFile;
+  std::vector<std::string> _mapFile;
 };
 
 #endif

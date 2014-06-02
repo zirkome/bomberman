@@ -27,7 +27,7 @@ public:
   Game(const glm::ivec2& win,
        int numberPlayer,
        int numberIA,
-       const std::vector<std::string> &algoFileName,
+       const std::string &algoFileName,
        const std::string &mapName = "");
   ~Game();
 

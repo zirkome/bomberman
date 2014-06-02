@@ -20,24 +20,21 @@ Game::Game(const glm::ivec2& win, std::string const &saveGame)
   init(win);
 }
 
-Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<std::string> const & algoFileName,
+Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string const & algoFileName,
            std::string const &mapName)
 {
-  int i, size;
+  int i;
 
   if (numberIA < 0 || numberPlayer < 0)
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
   Placement place(_currentMap);
+
   i = 0;
-  size = algoFileName.size();
   while (i < numberIA)
     {
-      if (size != 0)
-        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName[i % size]));
-      else
-        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), "Path/to/default/ia.lua"));
+      _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName));
       i++;
     }
 
