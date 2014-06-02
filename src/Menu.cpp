@@ -84,7 +84,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	_select = static_cast<selected>(_select + 1);
       else if (input.getKey(SDLK_RIGHT, true))
 	{
-	  if (_select == Player)
+	  if (_select == Player && _numberPlayer < 2)
 	    _numberPlayer++;
 	  if (_select == Ia)
 	    _numberIa++;
@@ -95,7 +95,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	}
       else if (input.getKey(SDLK_LEFT, true))
 	{
-	  if (_select == Player && _numberPlayer > 0)
+	  if (_select == Player && _numberPlayer > 1)
 	    _numberPlayer--;
 	  if (_select == Ia && _numberIa > 0)
 	    _numberIa--;
