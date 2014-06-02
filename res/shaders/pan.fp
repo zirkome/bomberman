@@ -12,8 +12,6 @@ struct light
 
   float spotCutoff, spotExponent;
   vec3 spotDirection;
-
-  float shado;
 };
 
 ///////////////////////////////
@@ -29,6 +27,7 @@ uniform sampler2D tPosition;
 uniform sampler2D tNormals;
 
 uniform vec3 camPos;
+uniform vec3 lightVec;
 
 vec4 CalcLight(light currlight, vec3 normal, vec3 position);
 float smoothstep(float edge0, float edge1, float x);
@@ -39,15 +38,13 @@ void main(void)
   vec4 position = texture2D(tPosition, fUv);
   vec4 normal = texture2D(tNormals, fUv);
 
-  normal = normalize(normal);
-
   vec4 lighting = vec4(0.005, 0.005, 0.005, 1.0);
 
   light tmpLight;
 
-  tmpLight.position = vec4(0, 0.5, 0.3, 0.0);
+  tmpLight.position = vec4(lightVec, 0.0);
   tmpLight.diffuse = vec4(1, 1, 1, 0);
-  tmpLight.specular = vec4(2, 2, 2, 0);
+  tmpLight.specular = vec4(1.1, 1.1, 1.1, 0);
   tmpLight.spotCutoff = 180;
 
   lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
@@ -103,10 +100,7 @@ vec4 CalcLight(light currlight, vec3 normal, vec3 position)
 
   vec3 specularReflection = vec3(0.0, 0.0, 0.0);
   float lambertTerm = max(dot(normal, lightDirection), 0.0);
-  if (lambertTerm > 0.0) //light source on the right side
-    {
-      specularReflection = attenuation * vec3(currlight.specular) * pow(max(0.0, dot(reflect(-lightDirection, normal), normalize(camPos - position))), 5);
-    }
+  specularReflection = lambertTerm * attenuation * vec3(currlight.specular) * pow(max(0.0, dot(reflect(-lightDirection, normal), normalize(camPos - position))), 5);
 
   return vec4((diffuseReflection + specularReflection), 0.0);
 }
