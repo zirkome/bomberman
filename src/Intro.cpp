@@ -1,7 +1,7 @@
 #include "PivotingCam.hpp"
 #include "Intro.hpp"
 
-Intro::Intro(const glm::ivec2& win)
+Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
   : _speed(4), _pos(25.0, 0.0f, 0.0), _pos2(25.0, 0.0f, 0.0f), _state(Running)
 {
   _menu = NULL;
@@ -23,6 +23,11 @@ Intro::Intro(const glm::ivec2& win)
   _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::LOGO);
 
   init(win);
+  /*  if (menu)
+    {
+      _state = Menu;
+      _menu = new ::Menu(_cam);
+      }*/
 }
 
 Intro::~Intro()

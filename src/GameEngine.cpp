@@ -9,8 +9,10 @@ GameEngine::~GameEngine()
 {
   if (_init)
     {
-      delete _game;
-
+      if (_state == Game)
+	delete _game;
+      else
+	delete _intro;
       _context->stop();
       delete _context;
     }
@@ -48,7 +50,17 @@ bool GameEngine::update()
     SDL_SetRelativeMouseMode(SDL_TRUE);
   if (_input.getKey(SDLK_LCTRL) && _input.getInput(SDLK_LALT))
     SDL_SetRelativeMouseMode(SDL_FALSE);
-  if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
+  if (_input.getKey(SDLK_ESCAPE, true))
+    {
+      if (_state == Game)
+	{
+	  _state = Intro;
+	  _intro = new ::Intro(glm::ivec2(1024, 900), true);
+	}
+      else
+	return false;
+    }
+  if (_input.getInput(SDL_QUIT))
     return false;
   switch (_state)
     {

@@ -44,7 +44,7 @@ private:
     Return
   } _select;
   enum level {
-    Easy,
+    Easy = 0,
     Medium,
     Hard
   } _level;

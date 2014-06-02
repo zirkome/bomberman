@@ -16,7 +16,7 @@
 class Intro
 {
 public:
-  Intro(const glm::ivec2& win);
+  Intro(const glm::ivec2& win, bool menu = false);
   virtual ~Intro();
 
 public:
