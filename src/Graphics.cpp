@@ -46,9 +46,16 @@ void GameGraphics::startFrame() const
   _fbo->start();
 }
 
-void GameGraphics::processFrame(const glm::vec3& camPos) const
+void GameGraphics::processFrame(const glm::vec3& camPos, const glm::vec3& lightDir) const
 {
-  _fbo->process(camPos);
+  gdl::AShader* rendershader = _fbo->getRenderShader();
+
+  rendershader->bind();
+
+  rendershader->setUniform("lightVec", lightDir);
+  rendershader->setUniform("camPos", camPos);
+
+  _fbo->process();
 }
 
 gdl::AShader *GameGraphics::getShader() const
