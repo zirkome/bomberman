@@ -29,14 +29,20 @@ private:
   FontText *_font;
   glm::vec3 _pos;
   glm::mat4 _ortho;
-  enum {
+  enum state {
     Running,
+    Option,
     Finished
   } _state;
   enum selected {
     Start = 0,
     Options,
-    Exit
+    Exit,
+    Player,
+    Ia,
+    IaFile,
+    MapFile,
+    Return
   } _select;
 };
 
