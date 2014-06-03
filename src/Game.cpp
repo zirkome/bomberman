@@ -61,12 +61,18 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(const glm::ivec2& win)
 {
   /* TODO : init game and load 3d models */
+  <<< <<< < HEAD
   _win = win;
   glm::vec2 playerPos = _players.front()->getPos();
+  || || || | merged common ancestors
+  glm::vec2 playerPos = _players.front()->getPos();
+  == == == =
+    //glm::vec2 playerPos = _players.front()->getPos();
+    >>> >>> > feature / ogl
 
-  //_cam = new FreeCam;
-  // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-  _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+    //_cam = new FreeCam;
+    // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
+    _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
   _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
 
@@ -137,11 +143,14 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glViewport(0, 0, _win.x / 2, _win.y);
 //game entities
   glm::vec2 posPlayer = _players[0]->getPos();
+
+  std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
       posObject = (*it)->getPos();
-      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-        (*it)->draw(shader, clock);
+      (*it)->draw(shader, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+        listMapToDelete.push_back(it);
     }
   drawGraphicObject(shader, clock);
 
@@ -154,6 +163,12 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
         (*it)->draw(shader, clock);
     }
   drawGraphicObject(shader, clock);
+  //Delete every elements which are DESTROYs
+  while (!listMapToDelete.empty()) {
+      delete *listMapToDelete.front();
+      _currentMap->getMap().erase(listMapToDelete.front());
+      listMapToDelete.pop_front();
+    }
 
   glViewport(0, 0, _win.x, _win.y);
 

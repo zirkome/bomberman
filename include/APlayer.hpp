@@ -4,9 +4,12 @@
 # include "IEntity.hpp"
 # include "Model.hpp"
 # include "Map.hpp"
+# include "Bomb.hpp"
 
 class APlayer : public IEntity
 {
+  typedef std::list<int> BombList;
+
 public:
   enum Status
     {
@@ -31,8 +34,8 @@ protected:
   double        _size;
   Way		_way;
   Status	_status;
-  int		_xBomb;
-  int		_yBomb;
+  BombList	_bombList;
+  IEntity::Status _statusOfObject;
 
 public:
   virtual ~APlayer();
@@ -44,6 +47,8 @@ public:
   virtual void  draw(gdl::AShader *shader, const gdl::Clock& clock);
   virtual IEntity::Type getType() const;
   virtual void  setStatus(APlayer::Status);
+  virtual IEntity::Status getStatus() const;
+  virtual void setStatus(IEntity::Status status);
 
 protected:
   virtual bool  moveUp(double const distance);

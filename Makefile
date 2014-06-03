@@ -38,7 +38,9 @@ SRC		=	main.cpp \
 			Light.cpp \
 			Cube6Face.cpp \
 			SkyBox.cpp \
-			Model.cpp
+			Model.cpp \
+			Timer.cpp \
+			Fire.cpp
 
 CC		=	g++
 
