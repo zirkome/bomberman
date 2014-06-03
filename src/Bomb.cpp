@@ -42,7 +42,7 @@ void	Bomb::explode(gdl::Clock const &clock)
   this->spreadDown();
   this->spreadRight();
 }
-#include <cstdio>
+
 void	Bomb::spreadTop(double distance)
 {
   glm::vec2 cpy = _vec;

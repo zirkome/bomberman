@@ -126,7 +126,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
       posObject = (*it)->getPos();
       (*it)->draw(shader, clock);
       if ((*it)->getStatus() == IEntity::DESTROY)
-	listMapToDelete.push_back(it);
+        listMapToDelete.push_back(it);
     }
 
   //Delete every elements which are DESTROYs
@@ -134,7 +134,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
       delete *listMapToDelete.front();
       _currentMap->getMap().erase(listMapToDelete.front());
       listMapToDelete.pop_front();
-  }
+    }
 
   glDisable(GL_CULL_FACE);
 //Graphic objects
