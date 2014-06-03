@@ -77,6 +77,7 @@ void *iaStart(void *ptr)
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 : _condAct(_mutex), _thread(iaStart, this)
 {
+  _statusOfObject = OK;
   _speed = 3;
   _running = false;
   _vec = pos;

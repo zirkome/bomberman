@@ -1,5 +1,5 @@
-#ifndef INTRO_HPP_
-#define INTRO_HPP_
+#ifndef _GAMEENGINE_HPP_
+#define _GAMEENGINE_HPP_
 
 #include <iostream>
 

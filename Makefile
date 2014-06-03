@@ -40,7 +40,9 @@ SRC		=	main.cpp \
 			PivotingCam.cpp \
 			Light.cpp \
 			Cube6Face.cpp \
-			SkyBox.cpp
+			SkyBox.cpp \
+			Timer.cpp \
+			Fire.cpp
 
 CC		=	g++
 

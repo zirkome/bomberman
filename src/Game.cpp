@@ -58,7 +58,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
 void Game::init(const glm::ivec2& win)
 {
   /* TODO : init game and load 3d models */
-  glm::vec2 playerPos = _players.front()->getPos();
+  //glm::vec2 playerPos = _players.front()->getPos();
 
   //_cam = new FreeCam;
   // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
@@ -116,12 +116,22 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glEnable(GL_CULL_FACE);
 //game entities
   glm::vec2 posPlayer = _players[0]->getPos();
+
+  std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
       posObject = (*it)->getPos();
-      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-        (*it)->draw(shader, clock);
+      (*it)->draw(shader, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+	listMapToDelete.push_back(it);
     }
+
+  //Delete every elements which are DESTROYs
+  while (!listMapToDelete.empty()) {
+      delete *listMapToDelete.front();
+      _currentMap->getMap().erase(listMapToDelete.front());
+      listMapToDelete.pop_front();
+  }
 
   glDisable(GL_CULL_FACE);
 //Graphic objects
@@ -148,7 +158,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   _skybox.draw(hudshader, clock);
 
-  _ogl.processFrame(_cam->getPosition());
+  _ogl.processFrame(_cam->getPosition(), glm::vec3(0.0f, 0.5f, 0.3f));
 
 //hud object
   hudshader->bind();
@@ -156,7 +166,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   hudshader->setUniform("projection", glm::mat4(1));
 
 
-  glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.01f, 0.6f, 0.0f));
+  glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.0f, 0.5f, 0.3f));
   textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
   textMat = glm::rotate(textMat, 45.0f, glm::vec3(0.3f, 0.5f, 0.6));
 

@@ -12,7 +12,6 @@
 # include "IEntity.hpp"
 # include "Wall.hpp"
 # include "Box.hpp"
-# include "Bomb.hpp"
 # include "PMutex.hpp"
 # include "ScopeLock.hpp"
 

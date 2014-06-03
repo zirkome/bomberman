@@ -24,9 +24,10 @@ public:
 
   void start() const;
 
-  void process(const glm::vec3& camPos) const;
+  void process() const;
 
   gdl::AShader* getShader() const {return _fboshader;};
+  gdl::AShader* getRenderShader() const {return _rendershader;};
 
 protected:
   GLuint _fbo_texture_color;
