@@ -39,6 +39,7 @@ public:
 
 private:
   void	explode(gdl::Clock const &clock);
+  bool	destroyEntity(int x, int y) const;
   void	spreadTop(double distance);
   void	spreadLeft();
   void	spreadDown();

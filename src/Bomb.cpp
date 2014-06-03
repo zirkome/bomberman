@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 Bomb::Bomb(const glm::vec2 &pos, int lvl, Map *map) :
-	   _vec(pos), _lvl(lvl), _map(map), _time(2), _range(lvl)
+	   _vec(pos), _lvl(lvl), _map(map), _time(2), _range(2)
 {
   _status = OK;
   _speed = 4;
@@ -30,34 +30,48 @@ void	Bomb::setPos(const glm::vec2 &new_pos)
 
 void	Bomb::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
+  if (_status == BURNING)
+    _time.reset(0);
   if (_time.update(clock))
     this->explode(clock);
 }
 
 void	Bomb::explode(gdl::Clock const &clock)
 {
+  if (_status == DESTROY)
+    return ;
   _status = BURNING;
   this->spreadTop(clock.getElapsed() * _speed);
   this->spreadLeft();
   this->spreadDown();
   this->spreadRight();
 }
-#include <cstdio>
+
+bool	Bomb::destroyEntity(int x, int y) const
+{
+  IEntity *entity;
+
+  entity = _map->getEntityAt(x, y);
+  if (entity && entity->getType() == WALL)
+    return false;
+  if (entity && entity->getType() == BOX)
+    entity->setStatus(DESTROY);
+  if (entity && entity->getType() == BOMB && entity->getStatus() == OK)
+    entity->setStatus(BURNING);
+  return true;
+}
+
 void	Bomb::spreadTop(double distance)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
-  IEntity *entity;
 
   _distance += distance;
   if (_distance >= _range)
     _distance = _range;
   while (cpy.y <= _distance + _vec.y) {
-      entity = _map->getEntityAt(cpy.x, cpy.y + 1);
-      if (entity && entity->getType() == WALL)
+      if (!this->destroyEntity(cpy.x, cpy.y + 1))
 	return ;
-      if (entity && entity->getType() == BOX)
-        entity->setStatus(DESTROY);
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y += 0.1;
@@ -67,61 +81,49 @@ void	Bomb::spreadTop(double distance)
 void	Bomb::spreadLeft()
 {
   glm::vec2 cpy = _vec;
-    Fire fire(_vec);
-    IEntity *entity;
+  Fire fire(_vec);
 
-    if (_distance >= _range)
-      _distance = _range;
-    while (cpy.x <= _distance + _vec.x) {
-        entity = _map->getEntityAt(cpy.x + 1, cpy.y);
-        if (entity && entity->getType() == WALL)
-  	return ;
-        if (entity && entity->getType() == BOX)
-          entity->setStatus(DESTROY);
-        fire.setPos(cpy);
-        _fireList.push_back(new Fire(cpy));
-        cpy.x += 0.1;
-    }
+  if (_distance >= _range)
+    _distance = _range;
+  while (cpy.x <= _distance + _vec.x) {
+      if (!this->destroyEntity(cpy.x + 1, cpy.y))
+	return ;
+    fire.setPos(cpy);
+    _fireList.push_back(new Fire(cpy));
+    cpy.x += 0.1;
+  }
 }
 
 void	Bomb::spreadDown()
 {
   glm::vec2 cpy = _vec;
-    Fire fire(_vec);
-    IEntity *entity;
+  Fire fire(_vec);
 
-    if (_distance >= _range)
-      _distance = _range;
-    while (cpy.y > _vec.y - _distance) {
-        entity = _map->getEntityAt(cpy.x, cpy.y - 1);
-        if (entity && entity->getType() == WALL)
-          return ;
-        if (entity && entity->getType() == BOX)
-          entity->setStatus(DESTROY);
-        fire.setPos(cpy);
-        _fireList.push_back(new Fire(cpy));
-        cpy.y -= 0.1;
-    }
+  if (_distance >= _range)
+    _distance = _range;
+  while (cpy.y > _vec.y - _distance) {
+    if (!this->destroyEntity(cpy.x, cpy.y))
+      return ;
+    fire.setPos(cpy);
+    _fireList.push_back(new Fire(cpy));
+    cpy.y -= 0.1;
+  }
 }
 
 void	Bomb::spreadRight()
 {
   glm::vec2 cpy = _vec;
-    Fire fire(_vec);
-    IEntity *entity;
+  Fire fire(_vec);
 
-    if (_distance >= _range)
-      _distance = _range;
-    while (cpy.x > _vec.x - _distance) {
-        entity = _map->getEntityAt(cpy.x - 1, cpy.y);
-        if (entity && entity->getType() == WALL)
-          return ;
-        if (entity && entity->getType() == BOX)
-          entity->setStatus(DESTROY);
-        fire.setPos(cpy);
-        _fireList.push_back(new Fire(cpy));
-        cpy.x -= 0.1;
-    }
+  if (_distance >= _range)
+    _distance = _range;
+  while (cpy.x > _vec.x - _distance) {
+    if (!this->destroyEntity(cpy.x, cpy.y))
+      return ;
+    fire.setPos(cpy);
+    _fireList.push_back(new Fire(cpy));
+    cpy.x -= 0.1;
+  }
 }
 
 void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
