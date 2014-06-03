@@ -10,6 +10,7 @@ private:
   glm::vec2	_vec;
   AObject	*_obj;
   gdl::Texture	*_texture;
+  IEntity::Status _status;
 
 public:
   Box(const glm::vec2 &pos);
@@ -19,6 +20,8 @@ public:
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
   virtual void draw(gdl::AShader *shader, const gdl::Clock& clock);
   virtual IEntity::Type getType() const;
+  virtual IEntity::Status getStatus() const;
+  virtual void setStatus(IEntity::Status status);
 };
 
 #endif /* !BOX_HPP_ */

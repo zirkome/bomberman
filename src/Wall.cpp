@@ -39,3 +39,13 @@ IEntity::Type Wall::getType() const
 {
   return IEntity::WALL;
 }
+
+IEntity::Status Wall::getStatus() const
+{
+  return OK;
+}
+
+void Wall::setStatus(UNUSED IEntity::Status status)
+{
+
+}

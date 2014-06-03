@@ -61,7 +61,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(const glm::ivec2& win)
 {
   /* TODO : init game and load 3d models */
-  glm::vec2 playerPos = _players.front()->getPos();
+  //glm::vec2 playerPos = _players.front()->getPos();
 
   //_cam = new FreeCam;
   // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
@@ -129,12 +129,22 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glEnable(GL_CULL_FACE);
 //game entities
   glm::vec2 posPlayer = _players[0]->getPos();
+
+  std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
       posObject = (*it)->getPos();
-      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-        (*it)->draw(shader, clock);
+      (*it)->draw(shader, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+	listMapToDelete.push_back(it);
     }
+
+  //Delete every elements which are DESTROYs
+  while (!listMapToDelete.empty()) {
+      delete *listMapToDelete.front();
+      _currentMap->getMap().erase(listMapToDelete.front());
+      listMapToDelete.pop_front();
+  }
 
   glDisable(GL_CULL_FACE);
 //Graphic objects
