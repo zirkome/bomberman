@@ -121,7 +121,8 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
       posObject = (*it)->getPos();
-      (*it)->draw(shader, clock);
+      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+	(*it)->draw(shader, clock);
       if ((*it)->getStatus() == IEntity::DESTROY)
 	listMapToDelete.push_back(it);
     }
