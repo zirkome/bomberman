@@ -9,6 +9,7 @@
 #include <SdlContext.hh>
 #include <IRenderContext.hh>
 
+#include "SoundManager.hpp"
 #include "Menu.hpp"
 #include "Game.hpp"
 #include "Map.hpp"

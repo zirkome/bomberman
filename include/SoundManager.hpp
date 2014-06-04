@@ -1,15 +1,30 @@
 #ifndef _SOUNDMANAGER_H_
 # define _SOUNDMANAGER_H_
 
+# include <map>
+# include <iostream>
 # include "Singleton.hpp"
-# include "ISound.hpp"
+# include "Sound.hpp"
 
 class SoundManager : public Singleton<SoundManager>
 {
+  friend SoundManager* Singleton<SoundManager>::getInstance();
+  friend void Singleton<SoundManager>::kill();
+
 public:
-  // virtual void playMusic(int id,
-  // 			 bool loop = false,
-  // 			 bool fadeIn = false);
+
+  enum Sample
+    {
+      INTRO = 0,
+      GAME,
+      BOMB_EXPLOSION,
+      GET_ITEM,
+      TIC_TAC,
+    };
+
+  virtual bool playSound(Sample sample,
+  			 bool loop = false);
+
   // virtual void stopMusic(bool fadeOut = false);
 
   // virtual void playSound(int id,
@@ -17,10 +32,11 @@ public:
   // 			 bool fadeIn = false);
   // virtual void stopSound(bool fadeOut = false);
 
+  virtual bool	loadSounds();
 private:
-  bool _init;
-  std::list<ISound*> _music;
-
+  bool	_init;
+  FMOD_SYSTEM *_system;
+  std::map<Sample, Sound *> _music;
 private:
   SoundManager();
   virtual ~SoundManager();
