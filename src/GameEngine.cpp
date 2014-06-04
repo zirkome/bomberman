@@ -1,7 +1,7 @@
 #include "GameEngine.hpp"
 
 GameEngine::GameEngine()
-  : _state(Game), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext)
+  : _state(Intro), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext)
 {
 }
 
@@ -31,8 +31,8 @@ bool GameEngine::initialize()
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
   AssetsManager::createAssets();
-  //_intro = new ::Intro(glm::ivec2(width, heigth));
-  _game = new ::Game(glm::ivec2(width, heigth), 1, 0, "script/medium.lua", "map/2.map");
+  _intro = new ::Intro(glm::ivec2(width, heigth));
+  //_game = new ::Game(glm::ivec2(width, heigth), 1, 0, "script/medium.lua", "map/2.map");
   return true;
 }
 
