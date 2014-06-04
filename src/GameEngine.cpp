@@ -42,6 +42,7 @@ bool GameEngine::update()
     {
       _state = Game;
       _game = _intro->getGame();
+      _context->updateClock(_clock);
       delete _intro;
     }
   _context->updateClock(_clock);
