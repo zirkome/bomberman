@@ -2,15 +2,13 @@
 #include <stdexcept>
 
 #include "TextureLoader.hpp"
+#include "Texture.hpp"
 
-bomberman::Texture TextureLoader::loadFromFile(const std::string& path)
+bomberman::SPTexture TextureLoader::loadFromFile(const std::string& path)
 {
-    bomberman::Texture ptr(new gdl::Texture);
+    bomberman::SPTexture ptr(new Texture(path));
 
-    if (ptr->load(path) == false)
-        throw std::runtime_error("Can't load texture : " + path);
-    else
-        std::cout << path + " has been loaded" << std::endl;
+    std::cout << path + " has been loaded" << std::endl;
 
     return ptr;
 }

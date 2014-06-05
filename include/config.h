@@ -2,7 +2,7 @@
 # define _CONFIG_H_
 
 # include "SharedPointer.hpp"
-# include "Texture.hh"
+# include "Texture.hpp"
 # include "Model.hpp"
 
 # define UNUSED __attribute__((unused))
@@ -17,10 +17,8 @@
 
 namespace bomberman
 {
-
-typedef SharedPointer<Model> Model;
-typedef SharedPointer<gdl::Texture> Texture;
-
+typedef SharedPointer<Model> SPModel;
+typedef SharedPointer<Texture> SPTexture;
 };
 
 #endif /* _CONFIG_H_ */

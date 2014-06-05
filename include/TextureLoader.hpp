@@ -2,16 +2,16 @@
 #define TEXTURELOADER_HPP_
 
 #include <string>
-#include <Texture.hh>
 
 #include "config.h"
 #include "ILoader.hpp"
 #include "SharedPointer.hpp"
+#include "Texture.hpp"
 
-class TextureLoader : public ILoader<gdl::Texture>
+class TextureLoader : public ILoader<Texture>
 {
 public:
-    virtual bomberman::Texture loadFromFile(const std::string& filename);
+    virtual bomberman::SPTexture loadFromFile(const std::string& filename);
 };
 
 

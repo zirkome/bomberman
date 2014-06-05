@@ -1,3 +1,5 @@
+class Texture;
+
 #ifndef TEXTURE_HPP_
 #define TEXTURE_HPP_
 

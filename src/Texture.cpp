@@ -2,7 +2,6 @@
 #include <string>
 #include <GL/glew.h>
 
-
 #include "Texture.hpp"
 
 Texture::Texture(const std::string& path)

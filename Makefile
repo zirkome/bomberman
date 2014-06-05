@@ -47,6 +47,8 @@ SRC		=	main.cpp \
 			TextureLoader.cpp \
 			ReferenceCounter.cpp \
 			Helper.cpp \
+			AResource.cpp \
+			Texture.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
 			Fire.cpp
