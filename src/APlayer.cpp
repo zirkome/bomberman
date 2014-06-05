@@ -45,6 +45,7 @@ bool	APlayer::moveUp(double const distance)
 {
   double rotate;
   int y, ya;
+  bool hasMoved = false;
 
   rotate = (_way - UP) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -55,15 +56,17 @@ bool	APlayer::moveUp(double const distance)
       _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == NONE)) {
     _vec.y += distance;
     _obj->translate(glm::vec3(0, 0, distance));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
 }
 
 bool	APlayer::moveDown(double const distance)
 {
   double rotate;
   int y, ya;
+  bool hasMoved = false;
 
   rotate = (_way - DOWN) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -74,15 +77,17 @@ bool	APlayer::moveDown(double const distance)
       _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == NONE)) {
     _vec.y -= distance;
     _obj->translate(glm::vec3(0, 0, -distance));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
 }
 
 bool	APlayer::moveLeft(double const distance)
 {
   double rotate;
   int x, xa;
+  bool hasMoved = false;
 
   rotate = (_way - LEFT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -93,15 +98,17 @@ bool	APlayer::moveLeft(double const distance)
       _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == NONE)) {
     _vec.x += distance;
     _obj->translate(glm::vec3(distance, 0, 0));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
 }
 
 bool	APlayer::moveRight(double const distance)
 {
   double rotate;
   int x, xa;
+  bool hasMoved = false;
 
   rotate = (_way - RIGHT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -112,9 +119,24 @@ bool	APlayer::moveRight(double const distance)
       _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == NONE)) {
     _vec.x -= distance;
     _obj->translate(glm::vec3(-distance, 0, 0));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
+}
+
+void	APlayer::updateAnim(bool hasMoved)
+{
+  if (_status != WALK && hasMoved)
+    {
+      _status = WALK;
+      _obj->setCurrentSubAnim("walk");
+    }
+  else if (_status == WALK && !hasMoved)
+    {
+      _obj->setCurrentSubAnim("stop_walking", false);
+      _status = STOP_WALK;
+    }
 }
 
 void APlayer::createBomb()

@@ -32,20 +32,11 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
   if (distance > 1.0)
     distance = 1.0;
   for (MovePtr::const_iterator it = _movePtr.begin(), end = _movePtr.end(); it != end; ++it)
-    if (input.getKey(it->first)) {
-      hasMoved = (this->*_movePtr[it->first])(distance);
-      if (_status != WALK && hasMoved)
-	{
-	  _status = WALK;
-	  _obj->setCurrentSubAnim("walk");
-	}
-      else if (_status == WALK && !hasMoved)
-	{
-	  _obj->setCurrentSubAnim("stop_walking", false);
-	  _status = STOP_WALK;
-	}
-      return ;
-    }
+    if (input.getKey(it->first))
+      {
+	hasMoved = (this->*_movePtr[it->first])(distance);
+	return ;
+      }
   if (_status == WALK)
     {
       _obj->setCurrentSubAnim("stop_walking", false);

@@ -63,6 +63,8 @@ protected:
   virtual bool  moveLeft(double const distance);
   virtual bool  moveRight(double const distance);
   virtual bool	bomb(UNUSED double const distance);
+private:
+  virtual void	updateAnim(bool);
 };
 
 #endif

@@ -5,8 +5,6 @@
 # include <Input.hh>
 # include <AShader.hh>
 
-class	AObject;
-
 class IEntity
 {
 public:
