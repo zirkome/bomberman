@@ -18,23 +18,6 @@
 ** Stock all the information needed to display
 */
 
-class IntroGraphics
-{
-public:
-  IntroGraphics();
-  virtual ~IntroGraphics();
-
-  virtual bool init(const glm::ivec2& win);
-  virtual void startFrame() const;
-
-  gdl::AShader *getShader() const;
-
-private:
-  float _fov;
-  glm::mat4 _proj;
-  gdl::AShader* _hudShader;
-};
-
 class GameGraphics
 {
 public:
