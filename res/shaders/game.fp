@@ -21,6 +21,7 @@ uniform mat4 view;
 uniform mat4 model;
 uniform vec3 camPos;
 uniform vec4 ambientLight;
+uniform vec3 lightDir;
 
 uniform sampler2D fTexture0;
 
@@ -42,15 +43,18 @@ void main(void)
 
   light tmpLight;
 
-  tmpLight.position = vec4(0, 0.7, 0.3, 0.0);
+  tmpLight.position = vec4(lightDir, 0.0);
   tmpLight.diffuse = vec4(1, 1, 1, 0);
   tmpLight.specular = vec4(2, 2, 2, 0);
   tmpLight.spotCutoff = 180;
 
-  if (lighting != vec4(1.0f, 1.0f, 1.0f, 1.0f))
-    lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
-
-  gl_FragColor = color * lighting;
+  if (lightDir != vec3(0.0f, 0.0f, 0.0f))
+    {
+      lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
+      gl_FragColor = color * lighting;
+    }
+  else
+    gl_FragColor = color;
 }
 
 float smoothstep(float edge0, float edge1, float x)

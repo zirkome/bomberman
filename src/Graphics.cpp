@@ -25,6 +25,7 @@ bool GameGraphics::init(const glm::ivec2& win)
 
   _shader->bind();
   _shader->setUniform("projection", _proj);
+  _shader->setUniform("ambientLight", glm::vec4(0.005, 0.005, 0.005, 1.0));
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

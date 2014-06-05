@@ -117,16 +117,15 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glm::vec2 posObject(0, 0);
   int rayon = 9;
 
-  shader->bind();
   shader->setUniform("camPos", _cam->getPosition());
   shader->setUniform("view", _cam->project());
   shader->setUniform("projection", _ogl.getPerspectiveProj());
-  shader->setUniform("ambientLight", glm::vec4(0.005, 0.005, 0.005, 1.0));
 
   glDisable(GL_DEPTH_TEST);
   _skybox.draw(shader, clock);
   glEnable(GL_DEPTH_TEST);
 
+  shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
 
   glEnable(GL_CULL_FACE);
 //game entities
@@ -153,7 +152,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glEnable(GL_CULL_FACE);
 
 //hud object
-  shader->setUniform("ambientLight", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+  shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
   shader->setUniform("view", _ortho);
   shader->setUniform("projection", glm::mat4(1));
 
