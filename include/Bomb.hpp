@@ -10,6 +10,7 @@
 # include "Timer.hpp"
 # include "Fire.hpp"
 # include "APlayer.hpp"
+# include "SoundManager.hpp"
 
 class Bomb : public IEntity
 {

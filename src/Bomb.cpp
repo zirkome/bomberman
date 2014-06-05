@@ -48,6 +48,7 @@ void	Bomb::explode(gdl::Clock const &clock)
   if (_status != DESTROY && _distance >= _range) {
       _status = DESTROY;
       _player->createBomb();
+      SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
   }
 }
 
