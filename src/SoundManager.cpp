@@ -24,6 +24,10 @@ SoundManager::~SoundManager()
     {
       FMOD_System_Close(_system);
       FMOD_System_Release(_system);
+      for (std::map<Sample, Sound *>::iterator it = _music.begin(); it !=  _music.end(); it++)
+	{
+	  delete it->second;
+	}
     }
 }
 
@@ -35,6 +39,10 @@ bool	SoundManager::loadSounds()
 	{
 	  _music[GAME] = new Sound(_system, RES_SOUND "game.mp3",
 				   FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL);
+	  _music[INTRO] = new Sound(_system, RES_SOUND "intro.mp3",
+				   FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL);
+	  _music[BOMB_EXPLOSION] = new Sound(_system, RES_SOUND "bomb.wav",
+	  			   FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
 	}
       catch (std::exception& e)
 	{
@@ -46,7 +54,7 @@ bool	SoundManager::loadSounds()
   return false;
 }
 
-bool	SoundManager::playSound(Sample sample, bool loop)
+bool	SoundManager::manageSound(Sample sample, ManageType type, bool loop)
 {
   std::map<Sample, Sound *>::iterator it = _music.find(sample);
 
@@ -55,7 +63,18 @@ bool	SoundManager::playSound(Sample sample, bool loop)
       if (it != _music.end())
 	{
 	  Sound *sound = it->second;
-	  return sound->play(loop);
+	  switch (type)
+	    {
+	    case PLAY:
+	      return sound->play(loop);
+	      break;
+	    case PAUSE:
+	      return sound->pause();
+	      break;
+	    case STOP:
+	      return sound->stop();
+	      break;
+	    }
 	}
       else
 	{

@@ -33,7 +33,8 @@ bool GameEngine::initialize()
   tmp.push_back("sdf");
   AssetsManager::createAssets();
   SoundManager::getInstance()->loadSounds();
-  SoundManager::getInstance()->playSound(SoundManager::GAME, true);
+  SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
+  // SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY, true);
   _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
   return true;
 }

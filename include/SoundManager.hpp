@@ -22,8 +22,16 @@ public:
       TIC_TAC,
     };
 
-  virtual bool playSound(Sample sample,
-  			 bool loop = false);
+  enum ManageType
+    {
+      PLAY = 0,
+      PAUSE,
+      STOP,
+    };
+
+  virtual bool manageSound(Sample sample,
+			   ManageType type,
+			   bool loop = false);
 
   // virtual void stopMusic(bool fadeOut = false);
 
