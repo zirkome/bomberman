@@ -4,6 +4,8 @@ Fire::Fire(const glm::vec2 &pos) : _vec(pos)
 {
   _status = OK;
   _obj = new Cube();
+  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::FIRE);
+
   _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
 }
@@ -31,6 +33,7 @@ void	Fire::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 
 void	Fire::draw(gdl::AShader *shader, const gdl::Clock& clock)
 {
+  _texture->bind();
   _obj->draw(shader, clock);
 }
 

@@ -14,6 +14,7 @@ public:
       WALL,
       BOMB,
       GROUND,
+      FIRE,
       MODEL,
       PLAYER,
       SKYBOX,
