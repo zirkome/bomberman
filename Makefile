@@ -44,6 +44,11 @@ SRC		=	main.cpp \
 			SoundManager.cpp \
 			Sound.cpp \
 			Timer.cpp \
+			TextureLoader.cpp \
+			ReferenceCounter.cpp \
+			Helper.cpp \
+			MediaManager.cpp \
+			ResourceManager.cpp \
 			Fire.cpp
 
 CC		=	g++
