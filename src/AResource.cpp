@@ -1,3 +1,4 @@
+#include "ResourceManager.hpp"
 #include "AResource.hpp"
 
 AResource::AResource(const std::string& name)

@@ -1,6 +1,6 @@
-#include <string>
-#include <MediaManager.hpp>
+#include <ModelLoader.hpp>
 #include <ResourceManager.hpp>
+#include <TextureLoader.hpp>
 
 void ResourceManager::add(const std::string& name, AResource* resource)
 {

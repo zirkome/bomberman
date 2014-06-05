@@ -45,6 +45,7 @@ SRC		=	main.cpp \
 			Sound.cpp \
 			Timer.cpp \
 			TextureLoader.cpp \
+			ModelLoader.cpp \
 			ReferenceCounter.cpp \
 			Helper.cpp \
 			AResource.cpp \

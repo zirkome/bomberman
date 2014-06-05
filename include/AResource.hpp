@@ -1,11 +1,7 @@
-class AResource;
-
 #ifndef _ARESOURCE_H_
 # define _ARESOURCE_H_
 
 # include <string>
-
-# include "ResourceManager.hpp"
 
 class AResource
 {

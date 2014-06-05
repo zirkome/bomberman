@@ -1,9 +1,15 @@
 #ifndef MODELLOADER_HPP_
 #define MODELLOADER_HPP_
 
-#include "Model.hpp"
+#include <config.h>
+#include <ILoader.hpp>
+#include <Model.hpp>
+#include <string>
 
-class ModelLoader : public ILoader<Model> {
+class Model;
+
+class ModelLoader : public ILoader<Model>
+{
 public:
     virtual bomberman::SPModel loadFromFile(const std::string& filename);
 };

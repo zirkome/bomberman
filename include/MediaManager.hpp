@@ -1,21 +1,22 @@
 #ifndef MEDIAMANAGER_HPP_
 #define MEDIAMANAGER_HPP_
 
+//#include <config.h>
+#include <Fault.hpp>
+#include <Helper.hpp>
+#include <ILoader.hpp>
+#include <Model.hpp>
+#include <ScatteredHierarchy.hpp>
+#include <SharedPointer.hpp>
+#include <Singleton.hpp>
+#include <Texture.hpp>
+#include <TypeList.hpp>
 #include <algorithm>
 #include <cctype>
 #include <iterator>
 #include <map>
 #include <string>
 #include <vector>
-
-#include "config.h"
-#include "Fault.hpp"
-#include "Helper.hpp"
-#include "ILoader.hpp"
-#include "ScatteredHierarchy.hpp"
-#include "SharedPointer.hpp"
-#include "Singleton.hpp"
-#include "TypeList.hpp"
 
 template<class T>
 struct MediaHolder
@@ -24,7 +25,7 @@ struct MediaHolder
     LoadersMap _loaders;
 };
 
-typedef TYPELIST_2(bomberman::SPTexture, bomberman::SPModel) Medias;
+typedef TYPELIST_2(Texture, Model) Medias;
 
 class MediaManager: public Singleton<MediaManager>,
                     public ScatteredHierarchy<Medias, MediaHolder>
@@ -40,7 +41,7 @@ public:
     void registerLoader(ILoader<T>* loader, const std::string& extensions);
 
     template <class T>
-    SharedPointer<T> MediaManager::loadMediaFromFile(const std::string& path);
+    SharedPointer<T> loadMediaFromFile(const std::string& path);
 
 private:
     MediaManager();
@@ -54,7 +55,7 @@ inline SharedPointer<T> MediaManager::loadMediaFromFile(const std::string& path)
 }
 
 template<class T>
-inline ILoader<T>& findLoader(const std::string& filename)
+inline ILoader<T>& MediaManager::findLoader(const std::string& filename)
 {
     std::string extension = filename.substr(filename.find_last_of(".") + 1);
     std::transform(extension.begin(), extension.end(), extension.begin(),
@@ -68,7 +69,7 @@ inline ILoader<T>& findLoader(const std::string& filename)
 }
 
 template<class T>
-inline void registerLoader(ILoader<T>* loader,
+inline void MediaManager::registerLoader(ILoader<T>* loader,
                 const std::string& extensions)
 {
     std::vector<std::string> ext;

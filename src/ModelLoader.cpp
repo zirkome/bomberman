@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 #include "ModelLoader.hpp"
-#include "Texture.hpp"
+#include "Model.hpp"
 
 bomberman::SPModel ModelLoader::loadFromFile(const std::string& path)
 {
