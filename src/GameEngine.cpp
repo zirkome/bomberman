@@ -1,20 +1,18 @@
 #include "GameEngine.hpp"
 
 GameEngine::GameEngine()
+  : _state(Intro), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext)
 {
-  _context = new gdl::SdlContext;
-  _show = false;
-  _init = false;
-  _game = NULL;
-  _menu = NULL;
 }
 
 GameEngine::~GameEngine()
 {
   if (_init)
     {
-      delete _game;
-
+      if (_state == Game)
+	delete _game;
+      else
+	delete _intro;
       _context->stop();
       delete _context;
     }
@@ -25,40 +23,72 @@ bool GameEngine::initialize()
   const int width = 1024;
   const int heigth = 900;
 
-  if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
+  if (!_context->start(width, heigth, "Bomberman",
+                       SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
     return false;
   SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
   AssetsManager::createAssets();
-  _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
+  SoundManager::getInstance()->loadSounds();
+  SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
+  // SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY, true);
+  // _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
+  _intro = new ::Intro(glm::ivec2(width, heigth));
+  //_game = new ::Game(glm::ivec2(width, heigth), 1, 0, "script/medium.lua", "map/2.map");
   return true;
 }
 
 bool GameEngine::update()
 {
+  if (_state == Intro && _intro->finish() == true)
+    {
+      _state = Game;
+      _game = _intro->getGame();
+      _context->updateClock(_clock);
+      delete _intro;
+    }
   _context->updateClock(_clock);
   _context->updateInputs(_input);
   if (_input.getInput(SDL_BUTTON_LEFT))
     SDL_SetRelativeMouseMode(SDL_TRUE);
   if (_input.getKey(SDLK_LCTRL) && _input.getInput(SDLK_LALT))
     SDL_SetRelativeMouseMode(SDL_FALSE);
-  if (_input.getKey(SDLK_ESCAPE) || _input.getInput(SDL_QUIT))
+  if (_input.getKey(SDLK_ESCAPE, true))
+    {
+      if (_state == Game)
+	{
+	  _state = Intro;
+	  _intro = new ::Intro(glm::ivec2(1024, 900), true);
+	}
+      else
+	return false;
+    }
+  if (_input.getInput(SDL_QUIT))
     return false;
-  if (_show)
-    return _menu->updateMenu(_input, _clock);
-  else
-    _game->updateGame(_input, _clock);
-  return true;
+  switch (_state)
+    {
+    case Intro:
+      return _intro->updateIntro(_input, _clock);
+    case Game:
+    default:
+      return _game->updateGame(_input, _clock);
+    }
 }
 
 void GameEngine::draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  if (_show)
-    _menu->drawMenu(_clock);
-  else
-    _game->drawGame(_input, _clock);
+  switch (_state)
+    {
+    case Intro:
+      _intro->drawIntro(_clock);
+      break;
+    case Game:
+    default:
+      _game->drawGame(_input, _clock);
+      break;
+    }
   _context->flush();
 }

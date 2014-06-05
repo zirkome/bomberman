@@ -7,13 +7,13 @@
 class Timer
 {
 private:
-  float _time;
+  double _time;
 
 public:
-  Timer(float time);
+  Timer(double time);
   ~Timer();
-  bool update(gdl::Clock const &clock);
-  void reset(float time);
+  bool update(double clock);
+  void reset(double time);
 };
 
 #endif /* !TIMER_HPP_ */

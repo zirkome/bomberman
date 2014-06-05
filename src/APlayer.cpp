@@ -1,4 +1,26 @@
 #include "APlayer.hpp"
+# include "Bomb.hpp"
+
+APlayer::APlayer(const glm::vec2 &pos, Map *map) : _vec(pos), _map(map), _time(2)
+{
+  _stock = 1;
+
+  _obj = new Model(RES_MODEL "marvin.fbx");
+
+  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
+  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+  _status = STANDBY;
+  _speed = 4;
+  _way = UP;
+  _size = 0.7;
+  _lvl = 1;
+
+  _obj->createSubAnim(0, "standby", 0, 0);
+  _obj->createSubAnim(0, "walk", 13, 63);
+  _obj->createSubAnim(0, "stop_walking", 64, 140);
+  _obj->setCurrentSubAnim("standby");
+}
 
 APlayer::~APlayer()
 {
@@ -95,12 +117,26 @@ bool	APlayer::moveRight(double const distance)
   return false;
 }
 
+void APlayer::createBomb()
+{
+  _bombList.push_back(_lvl);
+}
+
 bool APlayer::bomb(UNUSED double const distance)
 {
   int x = _vec.x + _size;
   int y = _vec.y + _size;
+  static int prevX = 0;
+  static int prevY = 0;
 
-  _map->addEntity(new Bomb(glm::vec2(x, y), _bombList.front(), _map));
+  if (prevX == x && prevY == y)
+    return false;
+  if (!_bombList.empty()) {
+      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
+      _bombList.pop_front();
+      prevX = x;
+      prevY = y;
+  }
   return false;
 }
 

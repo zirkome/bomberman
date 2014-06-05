@@ -1,6 +1,8 @@
 
 SRC		=	main.cpp \
 			Game.cpp \
+			Intro.cpp \
+			Menu.cpp \
 			Fault.cpp \
 			Graphics.cpp \
 			FBORenderer.cpp \
@@ -10,7 +12,6 @@ SRC		=	main.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
 			Map.cpp \
-			Menu.cpp \
 			PThread.cpp \
 			PMutex.cpp \
 			PCondVar.cpp \
@@ -35,10 +36,13 @@ SRC		=	main.cpp \
 			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
+			Model.cpp \
+			PivotingCam.cpp \
 			Light.cpp \
 			Cube6Face.cpp \
 			SkyBox.cpp \
-			Model.cpp \
+			SoundManager.cpp \
+			Sound.cpp \
 			Timer.cpp \
 			Fire.cpp
 
@@ -61,7 +65,7 @@ CFLAGS		+=	-Wunused-function -pipe
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-lpthread
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
-LDFLAGS		+=	-Llib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2
+LDFLAGS		+=	-Llib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2 -lfmodex64
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
 DEPS		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.d, $(SRC))

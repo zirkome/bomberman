@@ -11,7 +11,6 @@ Wall::Wall(const glm::vec2 &pos) : _vec(pos)
 
 Wall::~Wall()
 {
-
 }
 
 const glm::vec2	&Wall::getPos() const

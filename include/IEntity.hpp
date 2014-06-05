@@ -19,6 +19,7 @@ public:
       MODEL,
       PLAYER,
       SKYBOX,
+      LOGO,
       NONE
     };
   enum Symbol

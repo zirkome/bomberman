@@ -20,24 +20,21 @@ Game::Game(const glm::ivec2& win, std::string const &saveGame)
   init(win);
 }
 
-Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<std::string> const & algoFileName,
+Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string const & algoFileName,
            std::string const &mapName)
 {
-  int i, size;
+  int i;
 
   if (numberIA < 0 || numberPlayer < 0)
     throw nFault("You need two players");
 
   _currentMap = new Map(mapName);
   Placement place(_currentMap);
+
   i = 0;
-  size = algoFileName.size();
   while (i < numberIA)
     {
-      if (size != 0)
-        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName[i % size]));
-      else
-        _listIA.push_back(new Ia(_currentMap, place.getNewPos(), "Path/to/default/ia.lua"));
+      _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName));
       i++;
     }
 
@@ -61,11 +58,11 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::vector<st
 void Game::init(const glm::ivec2& win)
 {
   /* TODO : init game and load 3d models */
-  //glm::vec2 playerPos = _players.front()->getPos();
+  glm::vec2 playerPos = _players.front()->getPos();
 
   //_cam = new FreeCam;
-  // _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-  _cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
+  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
+  //_cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
   _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
 
@@ -91,18 +88,26 @@ Game::~Game()
 
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
+  std::list<Map::iterator> listMapToDelete;
+  for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it) {
+      (*it)->update(input, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+        listMapToDelete.push_back(it);
+    }
+
+  //Delete every elements which are DESTROYs
+  while (!listMapToDelete.empty()) {
+      delete *listMapToDelete.front();
+      _currentMap->getMap().erase(listMapToDelete.front());
+      listMapToDelete.pop_front();
+    }
+
   glm::vec2 playerPos = _players.front()->getPos();
   _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
-  _cam->update(input, clock);
+  // _cam->update(input, clock);
   _skybox.setPosition(_cam->getPosition());
   _skybox.rotate(glm::vec3(1, 1, 0.6), 0.02f);
-  /* TODO : move players, explose bomb, ... */
-  std::list<IEntity *>	&list = _currentMap->getMap();
 
-  for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
-    {
-      (*it)->update(input, clock);
-    }
   return true;
 }
 
@@ -120,20 +125,11 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 //game entities
   glm::vec2 posPlayer = _players[0]->getPos();
 
-  std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
       posObject = (*it)->getPos();
-      (*it)->draw(shader, clock);
-      if ((*it)->getStatus() == IEntity::DESTROY)
-        listMapToDelete.push_back(it);
-    }
-
-  //Delete every elements which are DESTROYs
-  while (!listMapToDelete.empty()) {
-      delete *listMapToDelete.front();
-      _currentMap->getMap().erase(listMapToDelete.front());
-      listMapToDelete.pop_front();
+      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+        (*it)->draw(shader, clock);
     }
 
   glDisable(GL_CULL_FACE);
