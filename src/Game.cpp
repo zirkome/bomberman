@@ -108,23 +108,20 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
 void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
-  gdl::AShader *shader = _ogl.getHudShader();
-  gdl::AShader *hudshader = _ogl.getHudShader();
+  gdl::AShader *shader = _ogl.getShader();
   glm::vec2 posObject(0, 0);
   int rayon = 9;
 
-  //_ogl.startFrame();
-  hudshader->bind();
-  hudshader->setUniform("camPos", _cam->getPosition());
-  hudshader->setUniform("view", _cam->project());
-  hudshader->setUniform("projection", _ogl.getPerspectiveProj());
+  shader->bind();
+  shader->setUniform("camPos", _cam->getPosition());
+  shader->setUniform("view", _cam->project());
+  shader->setUniform("projection", _ogl.getPerspectiveProj());
+  shader->setUniform("ambientLight", glm::vec4(0.005, 0.005, 0.005, 1.0));
 
   glDisable(GL_DEPTH_TEST);
-  _skybox.draw(hudshader, clock);
+  _skybox.draw(shader, clock);
   glEnable(GL_DEPTH_TEST);
 
-  shader->setUniform("view", _cam->project());
-  hudshader->setUniform("ambientLight", glm::vec4(0.005, 0.005, 0.005, 1.0));
 
   glEnable(GL_CULL_FACE);
 //game entities
@@ -136,7 +133,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
       posObject = (*it)->getPos();
       (*it)->draw(shader, clock);
       if ((*it)->getStatus() == IEntity::DESTROY)
-	listMapToDelete.push_back(it);
+        listMapToDelete.push_back(it);
     }
 
   //Delete every elements which are DESTROYs
@@ -144,7 +141,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
       delete *listMapToDelete.front();
       _currentMap->getMap().erase(listMapToDelete.front());
       listMapToDelete.pop_front();
-  }
+    }
 
   glDisable(GL_CULL_FACE);
 //Graphic objects
@@ -160,10 +157,9 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   glEnable(GL_CULL_FACE);
 
 //hud object
-  hudshader->bind();
-  hudshader->setUniform("ambientLight", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-  hudshader->setUniform("view", _ortho);
-  hudshader->setUniform("projection", glm::mat4(1));
+  shader->setUniform("ambientLight", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+  shader->setUniform("view", _ortho);
+  shader->setUniform("projection", glm::mat4(1));
 
   glm::mat4 textMat;
 
@@ -177,6 +173,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
-  _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
+  _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
 
 }
