@@ -136,8 +136,7 @@ void *Ia::init()
   try
     {
       _running = true;
-      luaL_dofile(_L,"script/test.lua");
-      //  luaL_dofile(_L,_fileName.c_str());
+      luaL_dofile(_L,_fileName.c_str());
     }
   catch (std::exception& e)
     {
