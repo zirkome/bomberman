@@ -41,9 +41,8 @@ SRC		=	main.cpp \
 			Light.cpp \
 			Cube6Face.cpp \
 			SkyBox.cpp \
-			Model.cpp \
 			SoundManager.cpp \
-			Sound.cpp
+			Sound.cpp \
 			Timer.cpp \
 			Fire.cpp
 
