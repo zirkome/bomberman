@@ -38,6 +38,8 @@ public:
   void action(int act);
   void *init();
   bool nothing(UNUSED double const distance);
+  double getMapX() const;
+  double getMapY() const;
 public:
   Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName);
   ~Ia();
