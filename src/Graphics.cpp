@@ -11,7 +11,7 @@ GameGraphics::~GameGraphics()
 
 bool GameGraphics::init(const glm::ivec2& win)
 {
-  _proj = glm::perspective(_fov, static_cast<float>(win.x) / static_cast<float>(win.y),
+  _proj = glm::perspective(_fov, (static_cast<float>(win.x) / 2.0f) / static_cast<float>(win.y),
                            0.5f, 100.0f);
 
   _shader = new BasicShader();

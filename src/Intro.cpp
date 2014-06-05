@@ -77,7 +77,6 @@ bool Intro::finish() const
 
 bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
 {
-  _cam->update(glm::vec2(_pos.x, _pos.y));
   if (_state == Running)
     {
       if (_pos.x > 0.0)
@@ -120,6 +119,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
     }
   _pos2.y += clock.getElapsed() * _speed;
   _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
+  _cam->update(glm::vec2(_pos.x, _pos.y));
   return true;
 }
 
