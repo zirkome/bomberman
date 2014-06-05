@@ -1,4 +1,10 @@
 #include "APlayer.hpp"
+# include "Bomb.hpp"
+
+APlayer::APlayer() : _time(2)
+{
+  _stock = 1;
+}
 
 APlayer::~APlayer()
 {
@@ -95,12 +101,26 @@ bool	APlayer::moveRight(double const distance)
   return false;
 }
 
+void APlayer::createBomb()
+{
+  _bombList.push_back(_lvl);
+}
+
 bool APlayer::bomb(UNUSED double const distance)
 {
   int x = _vec.x + _size;
   int y = _vec.y + _size;
+  static int prevX = 0;
+  static int prevY = 0;
 
-  _map->addEntity(new Bomb(glm::vec2(x, y), _bombList.front(), _map));
+  if (prevX == x && prevY == y)
+    return false;
+  if (!_bombList.empty()) {
+      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
+      _bombList.pop_front();
+      prevX = x;
+      prevY = y;
+  }
   return false;
 }
 

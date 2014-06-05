@@ -31,6 +31,10 @@ bool GameEngine::initialize()
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
   AssetsManager::createAssets();
+  SoundManager::getInstance()->loadSounds();
+  SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
+  // SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY, true);
+  // _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
   _intro = new ::Intro(glm::ivec2(width, heigth));
   //_game = new ::Game(glm::ivec2(width, heigth), 1, 0, "script/medium.lua", "map/2.map");
   return true;
