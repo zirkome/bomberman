@@ -1,3 +1,4 @@
+#include "MediaManager.hpp"
 #include "GameEngine.hpp"
 
 GameEngine::GameEngine()
@@ -30,6 +31,7 @@ bool GameEngine::initialize()
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
+  MediaManager::getInstance();
   AssetsManager::createAssets();
   SoundManager::getInstance()->loadSounds();
   SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);

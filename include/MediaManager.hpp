@@ -9,7 +9,9 @@
 #include <string>
 #include <vector>
 #include <Texture.hh>
+#include <Model.hpp>
 
+#include "config.h"
 #include "Fault.hpp"
 #include "Helper.hpp"
 #include "ILoader.hpp"
@@ -24,7 +26,7 @@ struct MediaHolder
     LoadersMap _loaders;
 };
 
-typedef TYPELIST_1(gdl::Texture) Medias;
+typedef TYPELIST_2(bomberman::Texture, bomberman::Model) Medias;
 
 class MediaManager: public Singleton<MediaManager>,
                     public ScatteredHierarchy<Medias, MediaHolder>
@@ -59,7 +61,7 @@ public:
                         ext.end(); i != end; ++i)
         {
             std::transform(i->begin(), i->end(), i->begin(), ::tolower);
-            MediaHolder < T > ::_loaders[*i] = ptr;
+            MediaHolder<T>::_loaders[*i] = ptr;
         }
     }
 

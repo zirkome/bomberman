@@ -4,13 +4,14 @@
 #include <string>
 #include <Texture.hh>
 
+#include "config.h"
 #include "ILoader.hpp"
 #include "SharedPointer.hpp"
 
 class TextureLoader : public ILoader<gdl::Texture>
 {
 public:
-    virtual SharedPointer<gdl::Texture> loadFromFile(const std::string& filename);
+    virtual bomberman::Texture loadFromFile(const std::string& filename);
 };
 
 
