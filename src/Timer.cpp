@@ -1,6 +1,6 @@
 #include "Timer.hpp"
 
-Timer::Timer(float time) : _time(time)
+Timer::Timer(double time) : _time(time)
 {
 
 }
@@ -10,15 +10,15 @@ Timer::~Timer()
 
 }
 
-bool Timer::update(gdl::Clock const &clock)
+bool Timer::update(double clock)
 {
-  _time -= clock.getElapsed();
+  _time -= clock;
   if (_time < 0)
     return true;
   return false;
 }
 
-void Timer::reset(float time)
+void Timer::reset(double time)
 {
   _time = time;
 }

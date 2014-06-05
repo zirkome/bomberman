@@ -9,25 +9,27 @@
 # include "Model.hpp"
 # include "Timer.hpp"
 # include "Fire.hpp"
+# include "APlayer.hpp"
 
 class Bomb : public IEntity
 {
   typedef std::list<Fire *> FireList;
 
 private:
-  glm::vec2	_vec;
+  APlayer *_player;
+  glm::vec2 _vec;
   Model *_obj;
   int _lvl;
   Map *_map;
   FireList _fireList;
   Timer _time;
-  float _range;
+  double _range;
   IEntity::Status _status;
   int _speed;
   double _distance;
 
 public:
-  Bomb(const glm::vec2 &pos, int lvl, Map *map);
+  Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map);
   virtual ~Bomb();
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
@@ -40,10 +42,10 @@ public:
 private:
   void	explode(gdl::Clock const &clock);
   bool	destroyEntity(int x, int y) const;
-  void	spreadTop(double distance);
-  void	spreadLeft();
-  void	spreadDown();
-  void	spreadRight();
+  bool	spreadTop();
+  bool	spreadLeft();
+  bool	spreadDown();
+  bool	spreadRight();
 };
 
 #endif /* !BOMB_HPP_ */
