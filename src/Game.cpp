@@ -88,12 +88,6 @@ Game::~Game()
 
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
-  glm::vec2 playerPos = _players.front()->getPos();
-  _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
-  _cam->update(input, clock);
-  _skybox.setPosition(_cam->getPosition());
-  _skybox.rotate(glm::vec3(1, 1, 0.6), 0.02f);
-
   std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it) {
       (*it)->update(input, clock);
@@ -107,6 +101,13 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
         _currentMap->getMap().erase(listMapToDelete.front());
         listMapToDelete.pop_front();
     }
+
+  glm::vec2 playerPos = _players.front()->getPos();
+  _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
+  // _cam->update(input, clock);
+  _skybox.setPosition(_cam->getPosition());
+  _skybox.rotate(glm::vec3(1, 1, 0.6), 0.02f);
+
   return true;
 }
 

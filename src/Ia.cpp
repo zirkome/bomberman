@@ -75,25 +75,13 @@ void *iaStart(void *ptr)
 }
 
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
-: _condAct(_mutex), _thread(iaStart, this)
+  : APlayer(pos, currentMap), _condAct(_mutex), _thread(iaStart, this)
 {
   _statusOfObject = OK;
-  _speed = 3;
   _running = false;
-  _vec = pos;
   _dead = false;
   _fileName = fileName;
   _act = 0;
-  _status = STANDBY;
-  _size = 0.7;
-
-  _obj = new Model(RES_MODEL "marvin.fbx");
-  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
-  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
-
-  _obj->createSubAnim(0, "standby", 0, 0);
-  _obj->createSubAnim(0, "walk", 42, 63);
-  _obj->createSubAnim(0, "stop_walking", 64, 121);
 
   _movePtr.push_back(&Ia::nothing);
   _movePtr.push_back(&Ia::moveUp);
