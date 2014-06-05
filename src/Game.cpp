@@ -96,13 +96,16 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   }
 
   //Delete every elements which are DESTROYs
-  while (!listMapToDelete.empty()) {
-      delete *listMapToDelete.front();
-      _currentMap->getMap().erase(listMapToDelete.front());
-      listMapToDelete.pop_front();
-  }
+
+    while (!listMapToDelete.empty()) {
+        delete *listMapToDelete.front();
+        _currentMap->getMap().erase(listMapToDelete.front());
+        listMapToDelete.pop_front();
+    }
+
   glm::vec2 playerPos = _players.front()->getPos();
   _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
+  // _cam->update(input, clock);
   _skybox.setPosition(_cam->getPosition());
   _skybox.rotate(glm::vec3(1, 1, 0.6), 0.02f);
 

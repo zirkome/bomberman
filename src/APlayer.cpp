@@ -1,9 +1,25 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer() : _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map) : _vec(pos), _map(map), _time(2)
 {
   _stock = 1;
+
+  _obj = new Model(RES_MODEL "marvin.fbx");
+
+  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
+  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+  _status = STANDBY;
+  _speed = 4;
+  _way = UP;
+  _size = 0.7;
+  _lvl = 1;
+
+  _obj->createSubAnim(0, "standby", 0, 0);
+  _obj->createSubAnim(0, "walk", 13, 63);
+  _obj->createSubAnim(0, "stop_walking", 64, 140);
+  _obj->setCurrentSubAnim("standby");
 }
 
 APlayer::~APlayer()
