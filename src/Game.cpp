@@ -120,11 +120,6 @@ void Game::drawGraphicObject(gdl::AShader* shader, gdl::Clock const &clock) cons
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   _ground->draw(shader, clock);
-
-  glm::mat4 tmpMat =  glm::translate(glm::mat4(1), glm::vec3(0.0f, 1.0f, 0.0f));
-  tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
-  tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
-  _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
 }
 
 void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
@@ -139,7 +134,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   glEnable(GL_CULL_FACE);
 
-  glViewport(0, 0, _win.x / 2, _win.y);
+ // glViewport(0, 0, _win.x / 2, _win.y);
 
   glDisable(GL_DEPTH_TEST);
   _skybox.draw(shader, clock);
@@ -157,7 +152,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
     }
   drawGraphicObject(shader, clock);
 
-  glViewport(_win.x / 2, 0, _win.x / 2, _win.y);
+ /* glViewport(_win.x / 2, 0, _win.x / 2, _win.y);
 
   shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -175,7 +170,7 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
     }
   drawGraphicObject(shader, clock);
 
-  glViewport(0, 0, _win.x, _win.y);
+  glViewport(0, 0, _win.x, _win.y);*/
 
 //Render object
   glEnable(GL_CULL_FACE);

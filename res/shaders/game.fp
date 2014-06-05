@@ -37,7 +37,7 @@ void main(void)
 {
   vec4 color = texture2D(fTexture0, fUv) * fColor;
   vec4 position = fPosition;
-  vec4 normal = fNormal;
+  vec4 normal = normalize(fNormal);
 
   vec4 lighting = ambientLight;
 
