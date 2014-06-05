@@ -4,7 +4,7 @@
 # include "IEntity.hpp"
 # include "Model.hpp"
 # include "Map.hpp"
-# include "Bomb.hpp"
+# include "Timer.hpp"
 
 class APlayer : public IEntity
 {
@@ -35,10 +35,17 @@ protected:
   Way		_way;
   Status	_status;
   BombList	_bombList;
+  size_t	_stock;
   IEntity::Status _statusOfObject;
+  Timer		_time;
+  int		_lvl;
+
+protected:
+  APlayer();
 
 public:
   virtual ~APlayer();
+  void createBomb();
 
 public:
   virtual const glm::vec2 &getPos() const;

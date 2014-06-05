@@ -93,12 +93,19 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   _cam->update(input, clock);
   _skybox.setPosition(_cam->getPosition());
   _skybox.rotate(glm::vec3(1, 1, 0.6), 0.02f);
-  /* TODO : move players, explose bomb, ... */
-  std::list<IEntity *>	&list = _currentMap->getMap();
 
-  for (std::list<IEntity *>::iterator it = list.begin() ; it != list.end() ; it++)
-    {
+  std::list<Map::iterator> listMapToDelete;
+  for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it) {
       (*it)->update(input, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+     	listMapToDelete.push_back(it);
+  }
+
+  //Delete every elements which are DESTROYs
+    while (!listMapToDelete.empty()) {
+        delete *listMapToDelete.front();
+        _currentMap->getMap().erase(listMapToDelete.front());
+        listMapToDelete.pop_front();
     }
   return true;
 }
@@ -117,22 +124,12 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 //game entities
   glm::vec2 posPlayer = _players[0]->getPos();
 
-  std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
     {
       posObject = (*it)->getPos();
       if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
 	(*it)->draw(shader, clock);
-      if ((*it)->getStatus() == IEntity::DESTROY)
-	listMapToDelete.push_back(it);
     }
-
-  //Delete every elements which are DESTROYs
-  while (!listMapToDelete.empty()) {
-      delete *listMapToDelete.front();
-      _currentMap->getMap().erase(listMapToDelete.front());
-      listMapToDelete.pop_front();
-  }
 
   glDisable(GL_CULL_FACE);
 //Graphic objects
