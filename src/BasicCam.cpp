@@ -3,7 +3,7 @@
 
 BasicCam::BasicCam(const glm::vec3 &toFollow, float elevation, float distance)
 {
-  _pos = glm::vec3(toFollow.x, elevation, toFollow.y - distance);
+  _pos = glm::vec3(0.0, elevation, -distance);
   _forward = glm::vec3(toFollow.x, 0.5, toFollow.y);
 
   _distance = distance;
