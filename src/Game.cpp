@@ -114,12 +114,19 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   gdl::AShader *shader = _ogl.getShader();
-  gdl::AShader *hudshader = _ogl.getHudShader();
   glm::vec2 posObject(0, 0);
   int rayon = 9;
 
-  _ogl.startFrame();
+  shader->bind();
+  shader->setUniform("camPos", _cam->getPosition());
   shader->setUniform("view", _cam->project());
+  shader->setUniform("projection", _ogl.getPerspectiveProj());
+  shader->setUniform("ambientLight", glm::vec4(0.005, 0.005, 0.005, 1.0));
+
+  glDisable(GL_DEPTH_TEST);
+  _skybox.draw(shader, clock);
+  glEnable(GL_DEPTH_TEST);
+
 
   glEnable(GL_CULL_FACE);
 //game entities
@@ -143,31 +150,14 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
   tmpMat = glm::scale(tmpMat, glm::vec3(16, 16, 16));
   tmpMat = glm::rotate(tmpMat, 63.0f, glm::vec3(0.5, 0.2, 0.3));
   _font->displayText("abcde", glm::vec4(1.0f, 0.0f, 0.0f, 0.6f), tmpMat, shader);
-
-
-//Render object
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glEnable(GL_CULL_FACE);
-  glDisable(GL_DEPTH_TEST);
-
-  hudshader->bind();
-
-  hudshader->setUniform("view", _cam->project());
-  hudshader->setUniform("projection", _ogl.getPerspectiveProj());
-
-  _skybox.draw(hudshader, clock);
-
-  _ogl.processFrame(_cam->getPosition(), glm::vec3(0.0f, 0.5f, 0.3f));
 
 //hud object
-  hudshader->bind();
-  hudshader->setUniform("view", _ortho);
-  hudshader->setUniform("projection", glm::mat4(1));
+  shader->setUniform("ambientLight", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+  shader->setUniform("view", _ortho);
+  shader->setUniform("projection", glm::mat4(1));
 
-
-  glm::mat4 textMat = glm::translate(glm::mat4(1), glm::vec3(0.0f, 0.5f, 0.3f));
-  textMat = glm::scale(textMat, glm::vec3(0.25, 0.25, 0.0));
-  textMat = glm::rotate(textMat, 45.0f, glm::vec3(0.3f, 0.5f, 0.6));
+  glm::mat4 textMat;
 
   std::stringstream ss;
   static double elapsed = 0.0;
@@ -179,7 +169,6 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
-  _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, hudshader);
+  _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
 
-  glEnable(GL_DEPTH_TEST);
 }
