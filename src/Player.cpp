@@ -26,10 +26,14 @@ Player::~Player()
 void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 {
   bool	hasMoved;
+  double distance;
 
+  distance = clock.getElapsed() * _speed;
+  if (distance > 1.0)
+    distance = 1.0;
   for (MovePtr::const_iterator it = _movePtr.begin(), end = _movePtr.end(); it != end; ++it)
     if (input.getKey(it->first)) {
-      hasMoved = (this->*_movePtr[it->first])(clock.getElapsed() * _speed);
+      hasMoved = (this->*_movePtr[it->first])(distance);
       if (_status != WALK && hasMoved)
 	{
 	  _status = WALK;

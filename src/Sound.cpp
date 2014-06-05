@@ -1,13 +1,3 @@
-//
-// Sound.cpp for Sound in /home/debas_e/Project/C++/bomberman
-//
-// Made by Etienne
-// Login   <debas_e@epitech.net>
-//
-// Started on  Wed Jun  4 23:18:49 2014 Etienne
-// Last update Thu Jun  5 15:32:19 2014 Etienne
-//
-
 #include "Sound.hpp"
 
 Sound::Sound(FMOD_SYSTEM *system, const std::string &path, int create_flags)
