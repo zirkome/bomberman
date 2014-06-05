@@ -17,20 +17,18 @@ Sound::~Sound()
 
 bool	Sound::play(bool loop)
 {
-  FMOD_RESULT res;
+  FMOD_RESULT	res;
+  int		repeat = (loop ? -1 : 0);
 
   /* is not playing ? */
   if (!_playing)
     {
-      if (loop)
+      res = FMOD_Sound_SetLoopCount(_sound, repeat);
+      if (res != FMOD_OK)
 	{
-	  res = FMOD_Sound_SetLoopCount(_sound, -1);
-	  if (res != FMOD_OK)
-	    {
-	      std::cerr << "FMOD_System_SetLoopCount : " +
-		std::string(FMOD_ErrorString(res)) << std::endl;
-	      return false;
-	    }
+	  std::cerr << "FMOD_System_SetLoopCount : " +
+	    std::string(FMOD_ErrorString(res)) << std::endl;
+	  return false;
 	}
       res = FMOD_System_PlaySound(_system, FMOD_CHANNEL_REUSE, _sound, 0, &_chan);
       if (res != FMOD_OK)
