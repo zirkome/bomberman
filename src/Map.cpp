@@ -1,5 +1,6 @@
 #include "EntitiesFactory.hpp"
 #include "Map.hpp"
+#include "Bomb.hpp"
 
 /*
 ** constructor random map

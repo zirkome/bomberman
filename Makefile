@@ -1,6 +1,8 @@
 
 SRC		=	main.cpp \
 			Game.cpp \
+			Intro.cpp \
+			Menu.cpp \
 			Fault.cpp \
 			Graphics.cpp \
 			FBORenderer.cpp \
@@ -10,7 +12,6 @@ SRC		=	main.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
 			Map.cpp \
-			Menu.cpp \
 			PThread.cpp \
 			PMutex.cpp \
 			PCondVar.cpp \
@@ -35,12 +36,16 @@ SRC		=	main.cpp \
 			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
+			Model.cpp \
+			PivotingCam.cpp \
 			Light.cpp \
 			Cube6Face.cpp \
 			SkyBox.cpp \
 			Model.cpp \
 			SoundManager.cpp \
 			Sound.cpp
+			Timer.cpp \
+			Fire.cpp
 
 CC		=	g++
 

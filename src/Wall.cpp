@@ -11,7 +11,6 @@ Wall::Wall(const glm::vec2 &pos) : _vec(pos)
 
 Wall::~Wall()
 {
-
 }
 
 const glm::vec2	&Wall::getPos() const
@@ -38,4 +37,14 @@ void	Wall::draw(gdl::AShader *shader, const gdl::Clock& clock)
 IEntity::Type Wall::getType() const
 {
   return IEntity::WALL;
+}
+
+IEntity::Status Wall::getStatus() const
+{
+  return OK;
+}
+
+void Wall::setStatus(UNUSED IEntity::Status status)
+{
+
 }

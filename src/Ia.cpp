@@ -77,6 +77,7 @@ void *iaStart(void *ptr)
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
 : _condAct(_mutex), _thread(iaStart, this)
 {
+  _statusOfObject = OK;
   _speed = 3;
   _running = false;
   _vec = pos;
@@ -135,8 +136,7 @@ void *Ia::init()
   try
     {
       _running = true;
-      luaL_dofile(_L,"script/test.lua");
-      //  luaL_dofile(_L,_fileName.c_str());
+      luaL_dofile(_L,_fileName.c_str());
     }
   catch (std::exception& e)
     {

@@ -42,3 +42,12 @@ IEntity::Type Ground::getType() const
 {
   return IEntity::GROUND;
 }
+
+IEntity::Status Ground::getStatus() const
+{
+  return OK;
+}
+
+void Ground::setStatus(UNUSED IEntity::Status status)
+{
+}

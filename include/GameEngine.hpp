@@ -1,5 +1,5 @@
-#ifndef INTRO_HPP_
-#define INTRO_HPP_
+#ifndef _GAMEENGINE_HPP_
+#define _GAMEENGINE_HPP_
 
 #include <iostream>
 
@@ -10,6 +10,7 @@
 #include <IRenderContext.hh>
 
 #include "SoundManager.hpp"
+#include "Intro.hpp"
 #include "Menu.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
@@ -24,9 +25,12 @@ public:
   virtual void draw();
 
 private:
-  bool _show;
+  enum {
+    Intro,
+    Game
+  } _state;
   bool _init;
-  Menu *_menu;
+  ::Intro *_intro;
   ::Game *_game;
   gdl::Clock _clock;
   gdl::Input _input;

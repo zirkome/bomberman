@@ -3,15 +3,6 @@
 Pan::Pan(const glm::vec2 &repeat)
   : _repeat(repeat)
 {
-}
-
-Pan::~Pan()
-{
-
-}
-
-bool Pan::initialize()
-{
   _geometry.pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
   _geometry.pushVertex(glm::vec3(-1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
   _geometry.pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
@@ -29,6 +20,15 @@ bool Pan::initialize()
   _geometry.pushUv(glm::vec2(0.0f, 0.0f));
 
   _geometry.build();
+}
+
+Pan::~Pan()
+{
+
+}
+
+bool Pan::initialize()
+{
   return (true);
 }
 
