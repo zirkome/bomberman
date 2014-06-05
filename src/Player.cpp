@@ -1,14 +1,10 @@
 #include "config.h"
 #include "Player.hpp"
 
-Player::Player(const glm::vec2 pos, Map *map) : APlayer()
+Player::Player(const glm::vec2 pos, Map *map) : APlayer(pos, map)
 {
   _statusOfObject = OK;
   // _obj = AssetsManager::getInstance()->getAssets<Model>(IEntity::PLAYER);
-  _obj = new Model(RES_MODEL "marvin.fbx");
-
-  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
-  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
   // Init pointer method
   _movePtr[SDLK_UP] = &Player::moveUp;
@@ -16,19 +12,6 @@ Player::Player(const glm::vec2 pos, Map *map) : APlayer()
   _movePtr[SDLK_RIGHT] = &Player::moveRight;
   _movePtr[SDLK_LEFT] = &Player::moveLeft;
   _movePtr[SDLK_SPACE] = &Player::bomb;
-
-  _status = STANDBY;
-  _vec = pos;
-  _map = map;
-  _speed = 4;
-  _way = UP;
-  _size = 0.7;
-  _lvl = 1;
-
-  _obj->createSubAnim(0, "standby", 0, 0);
-  _obj->createSubAnim(0, "walk", 13, 63);
-  _obj->createSubAnim(0, "stop_walking", 64, 140);
-  _obj->setCurrentSubAnim("standby");
 
   // Init bombList
   for (size_t i = 0; i < _stock; ++i) {

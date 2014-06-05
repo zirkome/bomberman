@@ -41,7 +41,7 @@ protected:
   int		_lvl;
 
 protected:
-  APlayer();
+  APlayer(const glm::vec2 &pos, Map *map);
 
 public:
   virtual ~APlayer();
