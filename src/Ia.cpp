@@ -16,6 +16,22 @@ int iaGetPos(lua_State *L)
   return 2; //number of return values
 }
 
+int iaGetSizeMap(lua_State *L)
+{
+  int argc = lua_gettop(L);
+  Ia *ptr;
+
+  if (argc != 1)
+    throw nFault("iaGetSizeMap need 1 argument (thisptr)");
+  ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
+  if (ptr == NULL)
+    throw nFault("thisptr can't be null");
+  lua_pop(L, 1);
+  lua_pushnumber(L, ptr->getMapX());
+  lua_pushnumber(L, ptr->getMapY());
+  return 2; //number of return values
+}
+
 int iaGetMap(lua_State *L)
 {
   int argc = lua_gettop(L);
@@ -118,6 +134,8 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   lua_setglobal(_L, "iaLaunch");
   lua_pushcfunction(_L, iaAction);
   lua_setglobal(_L, "iaAction");
+  lua_pushcfunction(_L, iaGetSizeMap);
+  lua_setglobal(_L, "iaGetSizeMap");
   lua_pushlightuserdata(_L, this);
   lua_setglobal(_L, "thisptr");
 
@@ -197,6 +215,16 @@ double Ia::getY() const
   return _vec.y;
 }
 
+double Ia::getMapX() const
+{
+  return _map->getDimension().x;
+}
+
+double Ia::getMapY() const
+{
+  return _map->getDimension().y;
+}
+
 void Ia::setX(const double x)
 {
   _vec.x = x;
@@ -213,6 +241,8 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   exec();
   distance = clock.getElapsed() * _speed;
+  if (distance > 1.0)
+    distance = 1.0;
   if (_act >= 0 && _act < 6)
     (this->*_movePtr[_act])(distance);
   else
