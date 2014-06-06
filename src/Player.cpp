@@ -4,16 +4,7 @@
 Player::Player(const glm::vec2 pos, Map *map) : APlayer(pos, map)
 {
   _statusOfObject = OK;
-  // _obj = AssetsManager::getInstance()->getAssets<Model>(IEntity::PLAYER);
 
-  // Init pointer method
-  _movePtr[SDLK_UP] = &Player::moveUp;
-  _movePtr[SDLK_DOWN] = &Player::moveDown;
-  _movePtr[SDLK_RIGHT] = &Player::moveRight;
-  _movePtr[SDLK_LEFT] = &Player::moveLeft;
-  _movePtr[SDLK_SPACE] = &Player::bomb;
-
-  // Init bombList
   for (size_t i = 0; i < _stock; ++i) {
       _bombList.push_back(_lvl);
   }
@@ -26,19 +17,28 @@ Player::~Player()
 void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 {
   double distance;
+  bool	hasMoved = false;
+  bool	validKey = false;
 
   distance = clock.getElapsed() * _speed;
   if (distance > 1.0)
     distance = 1.0;
-  for (MovePtr::const_iterator it = _movePtr.begin(), end = _movePtr.end(); it != end; ++it)
-    if (input.getKey(it->first))
-      {
-        (this->*_movePtr[it->first])(distance);
-	return ;
-      }
-  if (_status == WALK)
+  for (std::vector<int>::iterator it = _moveKey.begin(), end = _moveKey.end(); it != end; ++it)
     {
-      _obj->setCurrentSubAnim("stop_walking", false);
-      _status = STOP_WALK;
+      if (input.getKey(*it))
+	{
+	  hasMoved = this->movePlayer(_moveConf[*it], distance);
+	  validKey = true;
+	  updateAnim(hasMoved, validKey);
+	  return;
+	}
+    }
+  for (actionPtr::iterator it = _actionPtr.begin(); it != _actionPtr.end(); ++it)
+    {
+      if (input.getKey(it->first))
+	{
+	  (this->*_actionPtr[it->first])();
+	  return;
+	}
     }
 }

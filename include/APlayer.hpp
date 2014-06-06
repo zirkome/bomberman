@@ -6,6 +6,22 @@
 # include "Map.hpp"
 # include "Timer.hpp"
 
+struct          movementCoef
+{
+  movementCoef(double r, glm::vec2 direction, glm::vec3 trans,
+	       glm::vec2 distanceLeft, glm::vec2 distanceRight) {
+    rotate = r;
+    dir = direction;
+    translate = trans;
+    distLeft = distanceLeft;
+    distRight = distanceRight;
+  }
+  glm::vec2	dir;
+  double	rotate;
+  glm::vec3	translate;
+  glm::vec2	distLeft, distRight;
+};
+
 class APlayer : public IEntity
 {
   typedef std::list<int> BombList;
@@ -26,7 +42,13 @@ public:
       LEFT
     };
 
+  typedef bool (APlayer::*keyAction)();
+  typedef std::map<int, keyAction> actionPtr;
+
 protected:
+  actionPtr		_actionPtr;
+  std::vector<int>	_moveKey;
+
   glm::vec2	_vec;
   Model         *_obj;
   Map           *_map;
@@ -39,6 +61,7 @@ protected:
   IEntity::Status _statusOfObject;
   Timer		_time;
   int		_lvl;
+  std::map<int, movementCoef *>	_moveConf;
 
 protected:
   APlayer(const glm::vec2 &pos, Map *map);
@@ -58,13 +81,9 @@ public:
   virtual void setStatus(IEntity::Status status);
 
 protected:
-  virtual bool  moveUp(double const distance);
-  virtual bool  moveDown(double const distance);
-  virtual bool  moveLeft(double const distance);
-  virtual bool  moveRight(double const distance);
-  virtual bool	bomb(UNUSED double const distance);
-private:
-  virtual void	updateAnim(bool);
+  virtual bool	movePlayer(const movementCoef *mcoef, float const distance);
+  virtual bool	bomb();
+  virtual void	updateAnim(bool hasMoved, bool keyPressed = true);
 };
 
 #endif

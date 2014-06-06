@@ -16,6 +16,7 @@ public:
   enum Sample
     {
       INTRO = 0,
+      SWITCH_MENU,
       GAME,
       BOMB_EXPLOSION,
       GET_ITEM,
