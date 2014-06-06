@@ -1,25 +1,25 @@
 #ifndef GAME_HPP_
-#define GAME_HPP_
+# define GAME_HPP_
 
-#include <vector>
-#include <string>
-#include <list>
+# include <vector>
+# include <string>
+# include <list>
 
-#include <Input.hh>
-#include <Clock.hh>
-#include <Texture.hh>
-#include "Graphics.hpp"
-#include "ArmagetroCam.hpp"
-#include "BasicCam.hpp"
-#include "Map.hpp"
-#include "Ia.hpp"
-#include "Player.hpp"
-#include "Fault.hpp"
-#include "FontText.hpp"
-#include "Cube.hpp"
-#include "Pan.hpp"
-#include "Placement.hpp"
-#include "SkyBox.hpp"
+# include <Input.hh>
+# include <Clock.hh>
+# include <Texture.hh>
+# include "Graphics.hpp"
+# include "ArmagetroCam.hpp"
+# include "BasicCam.hpp"
+# include "Map.hpp"
+# include "Ia.hpp"
+# include "PlayerManager.hpp"
+# include "Fault.hpp"
+# include "FontText.hpp"
+# include "Cube.hpp"
+# include "Pan.hpp"
+# include "Placement.hpp"
+# include "SkyBox.hpp"
 
 class Game
 {

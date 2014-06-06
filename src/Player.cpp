@@ -1,7 +1,7 @@
 #include "config.h"
 #include "Player.hpp"
 
-Player::Player(const glm::vec2 pos, Map *map) : APlayer(pos, map)
+Player::Player(const glm::vec2& pos, Map *map) : APlayer(pos, map)
 {
   _statusOfObject = OK;
 

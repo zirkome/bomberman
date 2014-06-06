@@ -1,7 +1,6 @@
 #include "Ground.hpp"
 #include "Pan.hpp"
 
-
 Ground::Ground(const glm::vec2 &pos)
   : _vec(pos)
 {

@@ -13,6 +13,8 @@ public:
 
 public:
   virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
+
+protected:
 };
 
 #endif /* _SKYBOX_H_ */
