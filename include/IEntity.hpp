@@ -5,8 +5,6 @@
 # include <Input.hh>
 # include <AShader.hh>
 
-class	AObject;
-
 class IEntity
 {
 public:
@@ -16,6 +14,7 @@ public:
       WALL,
       BOMB,
       GROUND,
+      FIRE,
       MODEL,
       PLAYER,
       SKYBOX,

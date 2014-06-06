@@ -1,9 +1,25 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer() : _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map) : _vec(pos), _map(map), _time(2)
 {
   _stock = 1;
+
+  _obj = new Model(RES_MODEL "marvin.fbx");
+
+  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
+  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+  _status = STANDBY;
+  _speed = 4;
+  _way = UP;
+  _size = 0.7;
+  _lvl = 1;
+
+  _obj->createSubAnim(0, "standby", 0, 0);
+  _obj->createSubAnim(0, "walk", 13, 63);
+  _obj->createSubAnim(0, "stop_walking", 64, 140);
+  _obj->setCurrentSubAnim("standby");
 }
 
 APlayer::~APlayer()
@@ -29,6 +45,7 @@ bool	APlayer::moveUp(double const distance)
 {
   double rotate;
   int y, ya;
+  bool hasMoved = false;
 
   rotate = (_way - UP) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -39,15 +56,17 @@ bool	APlayer::moveUp(double const distance)
       _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == NONE)) {
     _vec.y += distance;
     _obj->translate(glm::vec3(0, 0, distance));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
 }
 
 bool	APlayer::moveDown(double const distance)
 {
   double rotate;
   int y, ya;
+  bool hasMoved = false;
 
   rotate = (_way - DOWN) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -58,15 +77,17 @@ bool	APlayer::moveDown(double const distance)
       _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == NONE)) {
     _vec.y -= distance;
     _obj->translate(glm::vec3(0, 0, -distance));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
 }
 
 bool	APlayer::moveLeft(double const distance)
 {
   double rotate;
   int x, xa;
+  bool hasMoved = false;
 
   rotate = (_way - LEFT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -77,15 +98,17 @@ bool	APlayer::moveLeft(double const distance)
       _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == NONE)) {
     _vec.x += distance;
     _obj->translate(glm::vec3(distance, 0, 0));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
 }
 
 bool	APlayer::moveRight(double const distance)
 {
   double rotate;
   int x, xa;
+  bool hasMoved = false;
 
   rotate = (_way - RIGHT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
@@ -96,9 +119,24 @@ bool	APlayer::moveRight(double const distance)
       _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == NONE)) {
     _vec.x -= distance;
     _obj->translate(glm::vec3(-distance, 0, 0));
-    return true;
+    hasMoved = true;
   }
-  return false;
+  updateAnim(hasMoved);
+  return hasMoved;
+}
+
+void	APlayer::updateAnim(bool hasMoved)
+{
+  if (_status != WALK && hasMoved)
+    {
+      _status = WALK;
+      _obj->setCurrentSubAnim("walk");
+    }
+  else if (_status == WALK && !hasMoved)
+    {
+      _obj->setCurrentSubAnim("stop_walking", false);
+      _status = STOP_WALK;
+    }
 }
 
 void APlayer::createBomb()

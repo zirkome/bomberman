@@ -11,6 +11,7 @@ private:
   glm::vec2	_vec;
   AObject	*_obj;
   IEntity::Status _status;
+  gdl::Texture	*_texture;
 
 public:
   Fire(const glm::vec2 &pos);
