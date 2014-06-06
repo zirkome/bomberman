@@ -99,12 +99,11 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _fileName = fileName;
   _act = 0;
 
-  _movePtr.push_back(&Ia::nothing);
-  _movePtr.push_back(&Ia::moveUp);
-  _movePtr.push_back(&Ia::moveDown);
-  _movePtr.push_back(&Ia::moveLeft);
-  _movePtr.push_back(&Ia::moveRight);
-  _movePtr.push_back(&Ia::bomb);
+  _actToSdlKey[1] = SDLK_UP;
+  _actToSdlKey[2] = SDLK_DOWN;
+  _actToSdlKey[3] = SDLK_LEFT;
+  _actToSdlKey[4] = SDLK_RIGHT;
+  _actToSdlKey[5] = SDLK_SPACE;
 
   _L = luaL_newstate();
   if (_L == NULL)
@@ -226,15 +225,43 @@ void Ia::setY(const double y)
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   double distance;
+  bool hasMoved;
 
   exec();
   distance = clock.getElapsed() * _speed;
   if (distance > 1.0)
     distance = 1.0;
-  if (_act >= 0 && _act < 6)
-    (this->*_movePtr[_act])(distance);
-  else
-    (this->*_movePtr[0])(distance);
+
+  std::map<int, int>::iterator key = _actToSdlKey.find(_act);
+
+  // si _act correspond a une key
+  if (key != _actToSdlKey.end())
+    {
+      int	sdlKey = key->second;
+      // sdlKey = *key;
+
+      std::map<int, movementCoef *>::iterator sdlKeyMove = _moveConf.find(sdlKey);
+
+      // si le key est pour move
+      if (sdlKeyMove != _moveConf.end())
+	{
+	  hasMoved = movePlayer(_moveConf[key->second], distance);
+	  updateAnim(hasMoved);
+	  return;
+	}
+      else
+	{
+	  // sinon on check dans le tableau de ptointeur sur fonction
+	  for (actionPtr::iterator it = _actionPtr.begin(); it != _actionPtr.end(); ++it)
+	    {
+	      if (it->first == sdlKey)
+		{
+		  (this->*_actionPtr[sdlKey])();
+		  return;
+		}
+	    }
+	}
+    }
 }
 
 bool Ia::nothing(UNUSED double const distance)

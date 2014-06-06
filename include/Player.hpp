@@ -10,12 +10,6 @@
 
 class Player : public APlayer
 {
-  typedef bool (Player::*move)(double const);
-  typedef std::map<int, move> MovePtr;
-
-private:
-  MovePtr	_movePtr;
-
 public:
   Player(glm::vec2 pos, Map *map);
   ~Player();

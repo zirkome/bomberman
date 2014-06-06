@@ -62,9 +62,15 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	    }
 	}
       else if (input.getKey(SDLK_UP, true))
-	_select = (selected)(_select - 1);
+	{
+	  _select = (selected)(_select - 1);
+	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+	}
       else if (input.getKey(SDLK_DOWN, true))
-	_select = (selected)(_select + 1);
+	{
+	  _select = (selected)(_select + 1);
+	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+	}
       if (_select < 0)
 	_select = Exit;
       if (_select > 2)
@@ -79,30 +85,44 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	  return true;
 	}
       else if (input.getKey(SDLK_UP, true))
-	_select = static_cast<selected>(_select - 1);
+	{
+	  _select = static_cast<selected>(_select - 1);
+	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+	}
       else if (input.getKey(SDLK_DOWN, true))
-	_select = static_cast<selected>(_select + 1);
+	{
+	  _select = static_cast<selected>(_select + 1);
+	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+	}
       else if (input.getKey(SDLK_RIGHT, true))
 	{
-	  if (_select == Player && _numberPlayer < 2)
+	  bool sound = false;
+
+	  if (_select == Player && _numberPlayer < 2 && (sound = true))
 	    _numberPlayer++;
-	  if (_select == Ia)
+	  if (_select == Ia && (sound = true))
 	    _numberIa++;
-	  if (_select == IaFile && _level < 2)
+	  if (_select == IaFile && _level < 2 && (sound = true))
 	    _level = static_cast<level>(_level + 1);
-	  if (_select == MapFile &&  _map < 5)
+	  if (_select == MapFile &&  _map < 5 && (sound = true))
 	    _map++;
+	  if (sound)
+	    SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
 	}
       else if (input.getKey(SDLK_LEFT, true))
 	{
-	  if (_select == Player && _numberPlayer > 1)
+	  bool sound = false;
+
+	  if (_select == Player && _numberPlayer > 1 && (sound = true))
 	    _numberPlayer--;
-	  if (_select == Ia && _numberIa > 0)
+	  if (_select == Ia && _numberIa > 0 && (sound = true))
 	    _numberIa--;
-	  if (_select == IaFile && _level > 0)
+	  if (_select == IaFile && _level > 0 && (sound = true))
 	    _level = static_cast<level>(_level - 1);
-	  if (_select == MapFile && _map > 0)
+	  if (_select == MapFile && _map > 0 && (sound = true))
 	    _map--;
+	  if (sound)
+	    SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
 	}
       if (_select < 3)
 	_select = Return;

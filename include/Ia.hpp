@@ -27,7 +27,8 @@ private:
   bool _dead;
   bool _running;
   std::string _fileName;
-  std::vector<bool (Ia::*)(double const)> _movePtr;
+  std::map<int, int> _actToSdlKey;
+
 public:
   int getMap(int x, int y) const;
   double getX() const;

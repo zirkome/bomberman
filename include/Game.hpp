@@ -17,6 +17,7 @@
 #include "Fault.hpp"
 #include "FontText.hpp"
 #include "Cube.hpp"
+#include "Pan.hpp"
 #include "Placement.hpp"
 #include "SkyBox.hpp"
 
@@ -38,10 +39,13 @@ public:
 private:
   void init(const glm::ivec2& win);
 
+  void drawGraphicObject(gdl::AShader *shader, gdl::Clock const &clock) const;
+
 private:
   std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?
   std::vector<Player *> _players; //Those are IEntity
   Map *_currentMap;
+  glm::ivec2 _win;
   Cube *_cube;
   ACamera* _cam;
   FontText *_font;

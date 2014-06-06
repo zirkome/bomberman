@@ -5,10 +5,7 @@ SRC		=	main.cpp \
 			Menu.cpp \
 			Fault.cpp \
 			Graphics.cpp \
-			FBORenderer.cpp \
-			FBOShader.cpp \
 			BasicShader.cpp \
-			PanShader.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
 			Map.cpp \
