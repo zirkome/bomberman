@@ -21,7 +21,7 @@
 class GameGraphics
 {
 public:
-  GameGraphics();
+  GameGraphics(bool splitScreen = false);
   virtual ~GameGraphics();
 
   virtual bool init(const glm::ivec2& win);
@@ -32,6 +32,7 @@ public:
 
 protected:
   float _fov;
+  bool  _splitScreen;
   glm::mat4 _proj;
   gdl::AShader* _shader;
 };
