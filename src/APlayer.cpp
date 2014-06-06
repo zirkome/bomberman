@@ -17,8 +17,8 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map) : _pos(pos), _map(map), _time(2
   _lvl = 1;
 
   _obj->createSubAnim(0, "standby", 0, 0);
-  _obj->createSubAnim(0, "walk", 13, 63);
-  _obj->createSubAnim(0, "stop_walking", 64, 140);
+  _obj->createSubAnim(0, "walk", 0, 30);
+  _obj->createSubAnim(0, "stop_walking", 30, 60);
   _obj->setCurrentSubAnim("standby");
 
   _moveKey.push_back(SDLK_UP);
