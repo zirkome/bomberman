@@ -1,7 +1,13 @@
 #ifndef MEDIAMANAGER_HPP_
 #define MEDIAMANAGER_HPP_
 
-//#include <config.h>
+#include <algorithm>
+#include <cctype>
+#include <iterator>
+#include <map>
+#include <string>
+#include <vector>
+
 #include <Fault.hpp>
 #include <Helper.hpp>
 #include <ILoader.hpp>
@@ -11,12 +17,8 @@
 #include <Singleton.hpp>
 #include <Texture.hpp>
 #include <TypeList.hpp>
-#include <algorithm>
-#include <cctype>
-#include <iterator>
-#include <map>
-#include <string>
-#include <vector>
+
+class Model;
 
 template<class T>
 struct MediaHolder
@@ -41,7 +43,7 @@ public:
     void registerLoader(ILoader<T>* loader, const std::string& extensions);
 
     template <class T>
-    SharedPointer<T> loadMediaFromFile(const std::string& path);
+    T* loadMediaFromFile(const std::string& path);
 
 private:
     MediaManager();
@@ -49,7 +51,7 @@ private:
 };
 
 template <class T>
-inline SharedPointer<T> MediaManager::loadMediaFromFile(const std::string& path)
+inline T* MediaManager::loadMediaFromFile(const std::string& path)
 {
     return findLoader<T>(path).loadFromFile(path);
 }

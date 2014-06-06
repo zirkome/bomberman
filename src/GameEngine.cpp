@@ -1,5 +1,21 @@
-#include "MediaManager.hpp"
-#include "GameEngine.hpp"
+#include <AssetsManager.hpp>
+#include <config.h>
+#include <glm/core/type.hpp>
+#include <glm/core/type_vec2.hpp>
+#include <GameEngine.hpp>
+#include <GL/glew.h>
+#include <ResourceManager.hpp>
+#include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_keycode.h>
+#include <SDL_mouse.h>
+#include <SDL_stdinc.h>
+#include <SDL_video.h>
+#include <SharedPointer.hpp>
+#include <Singleton.hpp>
+#include <Texture.hpp>
+#include <string>
+#include <vector>
 
 GameEngine::GameEngine()
   : _state(Intro), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext)
@@ -31,7 +47,7 @@ bool GameEngine::initialize()
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
-  MediaManager::getInstance();
+  ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "skybox.tga");
   AssetsManager::createAssets();
   SoundManager::getInstance()->loadSounds();
   SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);

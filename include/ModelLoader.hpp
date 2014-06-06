@@ -11,7 +11,7 @@ class Model;
 class ModelLoader : public ILoader<Model>
 {
 public:
-    virtual bomberman::SPModel loadFromFile(const std::string& filename);
+    virtual Model* loadFromFile(const std::string& filename);
 };
 
 

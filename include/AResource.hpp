@@ -1,12 +1,16 @@
 #ifndef _ARESOURCE_H_
 # define _ARESOURCE_H_
 
-# include <string>
+class AResource;
 
+#include <string>
+
+//template <typename T>
 class AResource
 {
 public:
   explicit AResource(const std::string& name);
+
   virtual ~AResource();
 
 private:

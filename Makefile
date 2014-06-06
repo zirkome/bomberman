@@ -43,6 +43,7 @@ SRC		=	main.cpp \
 			SkyBox.cpp \
 			SoundManager.cpp \
 			Sound.cpp \
+			SharedPointer.cpp \
 			Timer.cpp \
 			TextureLoader.cpp \
 			ModelLoader.cpp \
