@@ -1,7 +1,7 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map) : _vec(pos), _map(map), _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map) : _pos(pos), _map(map), _time(2)
 {
   _stock = 1;
 
@@ -51,12 +51,12 @@ APlayer::~APlayer()
 
 const glm::vec2	&APlayer::getPos() const
 {
-  return _vec;
+  return _pos;
 }
 
 void	APlayer::setPos(const glm::vec2 &new_pos)
 {
-  _vec = new_pos;
+  _pos = new_pos;
 }
 
 void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock)
@@ -75,18 +75,18 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   _obj->rotate(glm::vec3(0, 1, 0), mcoef->rotate);
 
   // get point to go left end right in front the player
-  toGoLeft = _vec + (mcoef->dir * distance) + mcoef->distLeft;
-  toGoRight = _vec + (mcoef->dir * distance) + mcoef->distRight;
+  toGoLeft = _pos + (mcoef->dir * distance) + mcoef->distLeft;
+  toGoRight = _pos + (mcoef->dir * distance) + mcoef->distRight;
 
   // if the points to go are on the same piece of field or
   // if the type to go is free --> move
 
-  if ((glm::ivec2(toGoLeft) == glm::ivec2(_vec + mcoef->distLeft) &&
-       glm::ivec2(toGoRight) == glm::ivec2(_vec + mcoef->distRight)) ||
+  if ((glm::ivec2(toGoLeft) == glm::ivec2(_pos + mcoef->distLeft) &&
+       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)) ||
       (_map->getTypeAt(toGoLeft.x, toGoLeft.y) == NONE &&
        _map->getTypeAt(toGoRight.x, toGoRight.y) == NONE))
     {
-      _vec += mcoef->dir * distance;
+      _pos += mcoef->dir * distance;
       _obj->translate(mcoef->translate * distance);
       hasMoved = true;
     }
@@ -123,8 +123,8 @@ void APlayer::createBomb()
 
 bool APlayer::bomb()
 {
-  int x = _vec.x + _size;
-  int y = _vec.y + _size;
+  int x = _pos.x + _size;
+  int y = _pos.y + _size;
   static int prevX = 0;
   static int prevY = 0;
 

@@ -1,8 +1,9 @@
 #include "Graphics.hpp"
 
-GameGraphics::GameGraphics()
+GameGraphics::GameGraphics(bool splitScreen)
 {
   _fov = 60.0;
+  _splitScreen = splitScreen;
 }
 
 GameGraphics::~GameGraphics()
@@ -11,7 +12,8 @@ GameGraphics::~GameGraphics()
 
 bool GameGraphics::init(const glm::ivec2& win)
 {
-  _proj = glm::perspective(_fov, (static_cast<float>(win.x)) / static_cast<float>(win.y),
+  _proj = glm::perspective(_fov, (static_cast<float>(win.x) / (_splitScreen + 1))
+                           / static_cast<float>(win.y),
                            0.5f, 100.0f);
 
   _shader = new BasicShader();
