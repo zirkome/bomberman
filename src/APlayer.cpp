@@ -1,7 +1,7 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map) : _vec(pos), _map(map), _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map) : _pos(pos), _map(map), _time(2)
 {
   _stock = 1;
 
@@ -28,12 +28,12 @@ APlayer::~APlayer()
 
 const glm::vec2	&APlayer::getPos() const
 {
-  return _vec;
+  return _pos;
 }
 
 void	APlayer::setPos(const glm::vec2 &new_pos)
 {
-  _vec = new_pos;
+  _pos = new_pos;
 }
 
 void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock)
@@ -50,11 +50,11 @@ bool	APlayer::moveUp(double const distance)
   rotate = (_way - UP) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = UP;
-  y = _vec.y + _size;
-  ya = _vec.y + distance + _size;
-  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y + distance + _size) == NONE &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == NONE)) {
-    _vec.y += distance;
+  y = _pos.y + _size;
+  ya = _pos.y + distance + _size;
+  if (y == ya || (_map->getTypeAt(_pos.x + _size, _pos.y + distance + _size) == NONE &&
+      _map->getTypeAt(_pos.x + 1 - _size, _pos.y + distance + _size) == NONE)) {
+    _pos.y += distance;
     _obj->translate(glm::vec3(0, 0, distance));
     hasMoved = true;
   }
@@ -71,11 +71,11 @@ bool	APlayer::moveDown(double const distance)
   rotate = (_way - DOWN) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = DOWN;
-  y = _vec.y + 1 -_size;
-  ya = _vec.y - distance + 1 - _size;
-  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y - distance + 1 - _size) == NONE &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == NONE)) {
-    _vec.y -= distance;
+  y = _pos.y + 1 -_size;
+  ya = _pos.y - distance + 1 - _size;
+  if (y == ya || (_map->getTypeAt(_pos.x + _size, _pos.y - distance + 1 - _size) == NONE &&
+      _map->getTypeAt(_pos.x + 1 - _size, _pos.y - distance + 1 - _size) == NONE)) {
+    _pos.y -= distance;
     _obj->translate(glm::vec3(0, 0, -distance));
     hasMoved = true;
   }
@@ -92,11 +92,11 @@ bool	APlayer::moveLeft(double const distance)
   rotate = (_way - LEFT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = LEFT;
-  x = _vec.x + _size;
-  xa = _vec.x + distance + _size;
-  if (x == xa || (_map->getTypeAt(_vec.x + distance + _size, _vec.y + _size) == NONE &&
-      _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == NONE)) {
-    _vec.x += distance;
+  x = _pos.x + _size;
+  xa = _pos.x + distance + _size;
+  if (x == xa || (_map->getTypeAt(_pos.x + distance + _size, _pos.y + _size) == NONE &&
+      _map->getTypeAt(_pos.x + distance + _size, _pos.y + 1 - _size) == NONE)) {
+    _pos.x += distance;
     _obj->translate(glm::vec3(distance, 0, 0));
     hasMoved = true;
   }
@@ -113,11 +113,11 @@ bool	APlayer::moveRight(double const distance)
   rotate = (_way - RIGHT) * 90;
   _obj->rotate(glm::vec3(0, 1, 0), rotate);
   _way = RIGHT;
-  x = _vec.x + 1 - _size;
-  xa = _vec.x - distance + 1 - _size;
-  if (x == xa || (_map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + _size) == NONE &&
-      _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == NONE)) {
-    _vec.x -= distance;
+  x = _pos.x + 1 - _size;
+  xa = _pos.x - distance + 1 - _size;
+  if (x == xa || (_map->getTypeAt(_pos.x - distance + 1 - _size, _pos.y + _size) == NONE &&
+      _map->getTypeAt(_pos.x - distance + 1 - _size, _pos.y + 1 - _size) == NONE)) {
+    _pos.x -= distance;
     _obj->translate(glm::vec3(-distance, 0, 0));
     hasMoved = true;
   }
@@ -146,8 +146,8 @@ void APlayer::createBomb()
 
 bool APlayer::bomb(UNUSED double const distance)
 {
-  int x = _vec.x + _size;
-  int y = _vec.y + _size;
+  int x = _pos.x + _size;
+  int y = _pos.y + _size;
   static int prevX = 0;
   static int prevY = 0;
 

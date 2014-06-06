@@ -10,9 +10,10 @@ int iaGetPos(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  const glm::vec2& pos = ptr->getPos();
   lua_pop(L, 1);
-  lua_pushnumber(L, ptr->getX());
-  lua_pushnumber(L, ptr->getY());
+  lua_pushnumber(L, pos.x);
+  lua_pushnumber(L, pos.y);
   return 2; //number of return values
 }
 
@@ -26,9 +27,10 @@ int iaGetSizeMap(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  const glm::vec2& mapDim = ptr->getMapDimension();
   lua_pop(L, 1);
-  lua_pushnumber(L, ptr->getMapX());
-  lua_pushnumber(L, ptr->getMapY());
+  lua_pushnumber(L, mapDim.x);
+  lua_pushnumber(L, mapDim.y);
   return 2; //number of return values
 }
 
@@ -142,7 +144,7 @@ void *Ia::init()
   try
     {
       _running = true;
-      luaL_dofile(_L,_fileName.c_str());
+      luaL_dofile(_L, _fileName.c_str());
     }
   catch (std::exception& e)
     {
@@ -193,34 +195,14 @@ void Ia::action(int act)
     }
 }
 
-double Ia::getX() const
+const glm::vec2& Ia::getPos() const
 {
-  return _vec.x;
+  return _pos;
 }
 
-double Ia::getY() const
+const glm::vec2& Ia::getMapDimension() const
 {
-  return _vec.y;
-}
-
-double Ia::getMapX() const
-{
-  return _map->getDimension().x;
-}
-
-double Ia::getMapY() const
-{
-  return _map->getDimension().y;
-}
-
-void Ia::setX(const double x)
-{
-  _vec.x = x;
-}
-
-void Ia::setY(const double y)
-{
-  _vec.y = y;
+  return _map->getDimension();
 }
 
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
