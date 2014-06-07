@@ -29,10 +29,10 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 	{
 	  hasMoved = this->movePlayer(_moveConf[*it], distance);
 	  validKey = true;
-	  updateAnim(hasMoved, validKey);
-	  return;
+	  break;
 	}
     }
+  updateAnim(hasMoved, validKey);
   for (actionPtr::iterator it = _actionPtr.begin(); it != _actionPtr.end(); ++it)
     {
       if (input.getKey(it->first))

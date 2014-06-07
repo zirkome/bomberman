@@ -98,10 +98,10 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
   if (keyPressed == false)
     {
       if (_status == WALK)
-	{
+        {
 	  _obj->setCurrentSubAnim("stop_walking", false);
-	  _status = STOP_WALK;
-	}
+          _status = STOP_WALK;
+        }
       return;
     }
   if (_status != WALK && hasMoved)
