@@ -150,9 +150,6 @@ void *Ia::init()
       std::cerr << e.what() << std::endl;
     }
   _running = false;
-  _mutex.lock();
-  _condAct.notifyAll();
-  _mutex.unlock();
   return NULL;
 }
 
@@ -170,7 +167,6 @@ int Ia::exec()
     {
       _mutex.lock();
       _condAct.notifyAll();
-      _condAct.wait();/* TODO : change that */
       _mutex.unlock();
     }
   return _act;
@@ -180,16 +176,11 @@ void Ia::action(int act)
 {
   _act = act;
   _mutex.lock();
-  if (_act != -1)
-    _condAct.notifyAll();
   _condAct.wait();
   _mutex.unlock();
   if (_dead)
     {
       _running = false;
-      _mutex.lock();
-      _condAct.notifyAll();
-      _mutex.unlock();
       pthread_exit(&act);
     }
 }
