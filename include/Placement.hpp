@@ -11,13 +11,13 @@ private:
   int _div;
   glm::ivec2 _mapSize;
   Map *_map;
-  glm::ivec2 const genNewPos();
+  glm::ivec2 genNewPos();
   bool checkSpace(glm::ivec2 const &pos, glm::ivec2 const &back, int rec);
-  glm::ivec2 const foundCloserGoodPlace(glm::ivec2 const &pos);
+  glm::ivec2 foundCloserGoodPlace(glm::ivec2 const &pos);
 public:
   Placement(Map *_map);
   ~Placement();
-  glm::vec2 const getNewPos();
+  glm::vec2 getNewPos();
 };
 
 #endif

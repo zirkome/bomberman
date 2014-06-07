@@ -31,9 +31,13 @@ void	Fire::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 
 }
 
-void	Fire::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void	Fire::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
   _texture->bind();
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   _obj->draw(shader, clock);
 }
 

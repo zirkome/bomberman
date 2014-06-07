@@ -12,7 +12,7 @@ Placement::~Placement()
 {
 }
 
-glm::ivec2 const Placement::genNewPos()
+glm::ivec2 Placement::genNewPos()
 {
   _numberPlayer++;
   switch (_numberPlayer)
@@ -62,7 +62,7 @@ bool Placement::checkSpace(glm::ivec2 const &pos, glm::ivec2 const &back, int re
   return false;
 }
 
-glm::ivec2 const Placement::foundCloserGoodPlace(glm::ivec2 const &pos)
+glm::ivec2 Placement::foundCloserGoodPlace(glm::ivec2 const &pos)
 {
   int rayon = 1;
 
@@ -91,7 +91,7 @@ glm::ivec2 const Placement::foundCloserGoodPlace(glm::ivec2 const &pos)
   throw nFault("No space available on the map for all players");
 }
 
-glm::vec2 const Placement::getNewPos()
+glm::vec2 Placement::getNewPos()
 {
   glm::ivec2 new_pos = genNewPos();
   new_pos = foundCloserGoodPlace(new_pos);

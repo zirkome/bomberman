@@ -57,6 +57,7 @@ void AssetsManager::createAssets()
 {
   AssetsManager *obj = AssetsManager::getInstance();
 
+  obj->loadAssets<Model>(RES_MODEL "marvin.fbx", IEntity::PLAYER);
   obj->loadAssets<gdl::Texture>(RES_TEXTURE "wall_texture.tga", IEntity::WALL);
   // obj->loadAssets<gdl::Texture>(RES_TEXTURE "brick_wall.tga", IEntity::WALL);
   obj->loadAssets<gdl::Texture>(RES_TEXTURE "box_texture.tga", IEntity::BOX);
@@ -65,6 +66,5 @@ void AssetsManager::createAssets()
   obj->loadAssets<gdl::Texture>(RES_TEXTURE "skybox.tga", IEntity::SKYBOX);
   obj->loadAssets<gdl::Texture>(RES_TEXTURE "fire.tga", IEntity::FIRE);
 
-  obj->loadAssets<Model>(RES_MODEL "marvin.fbx", IEntity::PLAYER);
   obj->loadAssets<Model>(RES_MODEL "bomb.fbx", IEntity::BOMB);
 }

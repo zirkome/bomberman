@@ -43,6 +43,8 @@ bool	SoundManager::loadSounds()
 				   FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM | FMOD_LOOP_NORMAL);
 	  _music[BOMB_EXPLOSION] = new Sound(_system, RES_SOUND "bomb.wav",
 	  			   FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
+	  _music[SWITCH_MENU] = new Sound(_system, RES_SOUND "switch_menu.wav",
+	  			   FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
 	}
       catch (std::exception& e)
 	{
