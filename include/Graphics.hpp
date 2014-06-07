@@ -33,6 +33,8 @@ public:
 
   bool init(const glm::ivec2& win, const glm::ivec2& mapSize, bool splitScreen);
 
+  void updateGraphic(gdl::Clock const &clock);
+
   void drawGame(gdl::Clock const &clock, const Map& map,
                 const std::vector<PlayerManager*>& players) const;
 

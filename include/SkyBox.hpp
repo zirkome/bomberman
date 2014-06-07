@@ -12,9 +12,12 @@ public:
   virtual ~SkyBox();
 
 public:
-  virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
+  void update(gdl::Clock const &clock);
+  void draw(gdl::AShader *shader, const gdl::Clock &clock,
+            const glm::vec3& pos) const;
 
 protected:
+  Cube6Face _cube;
 };
 
 #endif /* _SKYBOX_H_ */

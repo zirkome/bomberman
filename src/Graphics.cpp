@@ -66,11 +66,15 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
   return true;
 }
 
+void GameGraphics::updateGraphic(gdl::Clock const &clock)
+{
+  _skybox.update(clock);
+}
+
 
 void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
                             const std::vector<PlayerManager*>& players) const
 {
-      _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
 
   int i = 0;
   for (std::vector<PlayerManager*>::const_iterator it = players.begin(), end = players.end();
@@ -78,6 +82,7 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
     {
       ACamera& cam = (*it)->getCam();
 
+      _shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
       _shader->setUniform("camPos", cam.getPosition());
       _shader->setUniform("view", cam.project());
       _shader->setUniform("projection", _proj);
@@ -88,8 +93,10 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
         glViewport((_win.x / 2) * i, 0, _win.x / 2, _win.y);
 
       glDisable(GL_DEPTH_TEST);
-      // _skybox.draw(_shader, clock);
+      _skybox.draw(_shader, clock, cam.getPosition());
       glEnable(GL_DEPTH_TEST);
+
+      _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
 
       for (Map::const_iterator it = map.begin(), end = map.end(); it != end; ++it)
         (*it)->draw(_shader, clock);

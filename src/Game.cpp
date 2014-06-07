@@ -86,6 +86,8 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
     {
       (*it)->update();
     }
+
+  _ogl.updateGraphic(clock);
   return true;
 }
 
