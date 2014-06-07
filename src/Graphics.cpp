@@ -70,6 +70,9 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
 void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
                             const std::vector<PlayerManager*>& players) const
 {
+      _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
+
+  int i = 0;
   for (std::vector<PlayerManager*>::const_iterator it = players.begin(), end = players.end();
        it != end; ++it)
     {
@@ -81,51 +84,26 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
 
       glEnable(GL_CULL_FACE);
 
-// glViewport(0, 0, _win.x / 2, _win.y);
+      if (_splitScreen)
+        glViewport((_win.x / 2) * i, 0, _win.x / 2, _win.y);
 
       glDisable(GL_DEPTH_TEST);
-     // _skybox.draw(_shader, clock);
+      // _skybox.draw(_shader, clock);
       glEnable(GL_DEPTH_TEST);
-
-      _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
-//game entities
 
       for (Map::const_iterator it = map.begin(), end = map.end(); it != end; ++it)
         (*it)->draw(_shader, clock);
 
       glDisable(GL_CULL_FACE);
-//Graphic objects
+
       AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       _ground->draw(_shader, clock);
+      ++i;
     }
-
-  /* glViewport(_win.x / 2, 0, _win.x / 2, _win.y);
-
-   _shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
-
-   glDisable(GL_DEPTH_TEST);
-   _skybox.draw(_shader, clock);
-   glEnable(GL_DEPTH_TEST);
-
-   _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
-  //game entities
-   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
-     {
-       posObject = (*it)->getPos();
-       if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-         (*it)->draw(_shader, clock);
-     }
-
-       glDisable(GL_CULL_FACE);
-  //Graphic objects
-  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  _ground->draw(shader, clock);
-
-   glViewport(0, 0, _win.x, _win.y);*/
+  if (_splitScreen)
+    glViewport(0, 0, _win.x, _win.y);
 }
 
 void GameGraphics::setHudProj() const
