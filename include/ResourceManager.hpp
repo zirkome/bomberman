@@ -33,23 +33,18 @@ private:
   ResMap_t _resources;
 };
 
-inline void ResourceManager::add(const std::string& name, AResource* resource)
-{
-    _resources[name] = resource;
-}
-
 template<class T>
 SharedPointer<T> ResourceManager::get(const std::string& name)
 {
-    ResMap_t::iterator it = _resources.find(name);
+  ResMap_t::iterator it = _resources.find(name);
 
-    if (it == _resources.end())
+  if (it == _resources.end())
     {
-        AResource* res = MediaManager::getInstance()->loadMediaFromFile<T>(name);
-        add(name, res);
-        return SharedPointer<T>(dynamic_cast<T*>(res));
+      AResource* res = MediaManager::getInstance()->loadMediaFromFile<T>(name);
+      add(name, res);
+      return SharedPointer<T>(dynamic_cast<T*>(res));
     }
-	return SharedPointer<T>(dynamic_cast<T*>(it->second));
+  return SharedPointer<T>(dynamic_cast<T*>(it->second));
 }
 
 #endif /* _RESOURCEMANAGER_H_ */

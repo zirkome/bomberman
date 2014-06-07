@@ -12,6 +12,7 @@
 #include "TrackCam.hpp"
 #include "OrthoCam.hpp"
 #include "config.h"
+#include "BasicCam.hpp"
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
 {
@@ -66,6 +67,9 @@ void Game::init(const glm::ivec2& win)
   _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
   //_cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
 
+  _groundTex = ResourceManager::getInstance()->
+                  get<Texture>(RES_TEXTURE "ground_texture.tga");
+
   _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
 
   _ground->initialize();
@@ -117,7 +121,7 @@ void Game::drawGraphicObject(gdl::AShader* shader, gdl::Clock const &clock) cons
 {
   glDisable(GL_CULL_FACE);
 //Graphic objects
-  ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "ground_texture.tga")->bind();
+  _groundTex->bind();
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   _ground->draw(shader, clock);

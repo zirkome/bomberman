@@ -1,25 +1,20 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
-#include <vector>
 #include <string>
-#include <list>
+#include <vector>
 
-#include <Input.hh>
-#include <Clock.hh>
-#include <Texture.hh>
-#include "Graphics.hpp"
-#include "ArmagetroCam.hpp"
-#include "BasicCam.hpp"
-#include "Map.hpp"
-#include "Ia.hpp"
-#include "Player.hpp"
-#include "Fault.hpp"
-#include "FontText.hpp"
-#include "Cube.hpp"
+#include <Graphics.hpp>
+#include <Ia.hpp>
+#include <Player.hpp>
+#include <SkyBox.hpp>
+#include <Texture.hpp>
 #include "Pan.hpp"
 #include "Placement.hpp"
-#include "SkyBox.hpp"
+#include "FontText.hpp"
+
+class ACamera;
+class FontText;
 
 class Game
 {
@@ -49,7 +44,7 @@ private:
   Cube *_cube;
   ACamera* _cam;
   FontText *_font;
-  gdl::Texture	_text_texture;
+  SharedPointer<Texture> _groundTex;
   GameGraphics _ogl;
   glm::mat4 _ortho;
   Pan *_ground;
