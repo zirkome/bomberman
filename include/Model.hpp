@@ -9,7 +9,7 @@
 # include "AObject.hpp"
 # include "AResource.hpp"
 
-class Model : public AObject, public gdl::Model, public AResource//<Model>
+class Model : public AObject, public gdl::Model, public AResource
 {
 public:
   Model(const std::string &path);
