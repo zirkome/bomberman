@@ -11,6 +11,7 @@ public:
   enum Type
     {
       BOX = 0,
+      BONUS,
       WALL,
       BOMB,
       GROUND,
@@ -31,7 +32,8 @@ public:
     {
       OK = 0,
       BURNING,
-      DESTROY
+      DESTROY,
+      REMOVE
     };
 
   virtual ~IEntity() {}

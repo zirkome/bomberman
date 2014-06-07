@@ -76,10 +76,16 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   //Delete every elements which are DESTROYs
   while (!listMapToDelete.empty()) {
-      delete *listMapToDelete.front();
-      _currentMap->getMap().erase(listMapToDelete.front());
-      listMapToDelete.pop_front();
-    }
+    //create bonus id box is destroyed
+    std::list<IEntity *>::iterator it = listMapToDelete.front();
+    if ((*it)->getType() == IEntity::BOX)
+      {
+	_currentMap->addEntity(new BonusWalk(ABonus::SLOWLY, (*it)->getPos(), 10));
+      }
+    delete *it;
+    _currentMap->getMap().erase(it);
+    listMapToDelete.pop_front();
+  }
 
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)

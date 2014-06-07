@@ -52,14 +52,13 @@ protected:
   glm::vec2 _pos;
   Model *_obj;
   Map *_map;
-  int _speed;
+  double _speed;
   double _size;
   Way _way;
   Status _status;
   BombList _bombList;
   size_t _stock;
   IEntity::Status _statusOfObject;
-  Timer _time;
   int _lvl;
   std::map<int, movementCoef*> _moveConf;
 
@@ -79,6 +78,8 @@ public:
   virtual void setStatus(APlayer::Status);
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);
+  double       getSpeed() const;
+  void	       setSpeed(double newSpeed);
 
 protected:
   virtual bool	movePlayer(const movementCoef *mcoef, float const distance);

@@ -42,7 +42,9 @@ SRC		=	main.cpp \
 			SoundManager.cpp \
 			Sound.cpp \
 			Timer.cpp \
-			Fire.cpp
+			Fire.cpp \
+			ABonus.cpp \
+			BonusWalk.cpp
 
 CC		=	g++
 

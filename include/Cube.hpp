@@ -17,6 +17,7 @@ public:
   const Cube& operator=(const Cube& c);
 
   Cube();
+  Cube(const glm::vec4 &color);
   virtual ~Cube();
 
   virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);

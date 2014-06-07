@@ -21,6 +21,8 @@
 # include "Placement.hpp"
 # include "SkyBox.hpp"
 
+#include "BonusWalk.hpp"
+
 class Game
 {
 public:

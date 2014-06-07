@@ -2,7 +2,7 @@
 # include "Bomb.hpp"
 
 APlayer::APlayer(const glm::vec2 &pos, Map *map)
-  : _pos(pos), _map(map), _time(2)
+  : _pos(pos), _map(map)
 {
   _stock = 1;
 
@@ -162,4 +162,14 @@ IEntity::Status APlayer::getStatus() const
 void APlayer::setStatus(IEntity::Status status)
 {
   _statusOfObject = status;
+}
+
+double APlayer::getSpeed() const
+{
+  return _speed;
+}
+
+void	APlayer::setSpeed(double speed)
+{
+  _speed = speed;
 }
