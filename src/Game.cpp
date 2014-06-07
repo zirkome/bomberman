@@ -1,6 +1,8 @@
 #include <sstream>
 #include <iomanip>
+#include <Geometry.hh>
 
+#include "ResourceManager.hpp"
 #include "EntitiesFactory.hpp"
 #include "Game.hpp"
 #include "AShader.hh"
@@ -10,7 +12,6 @@
 #include "TrackCam.hpp"
 #include "OrthoCam.hpp"
 #include "config.h"
-#include <Geometry.hh>
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
 {
@@ -116,7 +117,7 @@ void Game::drawGraphicObject(gdl::AShader* shader, gdl::Clock const &clock) cons
 {
   glDisable(GL_CULL_FACE);
 //Graphic objects
-  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
+  ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "ground_texture.tga")->bind();
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   _ground->draw(shader, clock);

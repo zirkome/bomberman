@@ -1,3 +1,4 @@
+#include "ResourceManager.hpp"
 #include "PivotingCam.hpp"
 #include "Intro.hpp"
 
@@ -20,7 +21,8 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
   _logo->translate(_pos);
   _logo->scale(glm::vec3(5.0f, 1.0f, 2.0f));
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);
-  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::LOGO);
+
+  _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "bomberman.tga");
 
   init(win);
   /*  if (menu)

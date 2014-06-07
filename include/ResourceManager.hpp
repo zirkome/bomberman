@@ -3,25 +3,14 @@
 
 #include <AResource.hpp>
 #include <MediaManager.hpp>
-//#include <Model.hpp>
-//#include <ScatteredHierarchy.hpp>
 #include <SharedPointer.hpp>
 #include <Singleton.hpp>
 #include <Texture.hpp>
-//#include <TypeList.hpp>
 #include <map>
 #include <string>
 #include <utility>
 
 class AResource;
-//template<class T>
-//struct ResourceHolder
-//{
-//    typedef std::map<std::string, SharedPointer<T> > ResMap;
-//    ResMap _resources;
-//};
-//
-//typedef TYPELIST_2(Texture, Model) Resource;
 
 class ResourceManager : public Singleton<ResourceManager>
 {

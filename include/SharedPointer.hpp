@@ -42,12 +42,12 @@ public:
       }
   }
 
-  T& operator*()
+  T& operator*() const
   {
     return *_ptr;
   }
 
-  T* operator->()
+  T* operator->() const
   {
     return _ptr;
   }

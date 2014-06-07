@@ -1,6 +1,8 @@
 #ifndef BOX_HPP_
 # define BOX_HPP_
 
+# include "Texture.hpp"
+# include "SharedPointer.hpp"
 # include "Cube.hpp"
 # include "IEntity.hpp"
 
@@ -9,7 +11,7 @@ class Box : public IEntity
 private:
   glm::vec2	_vec;
   AObject	*_obj;
-  gdl::Texture	*_texture;
+  SharedPointer<Texture> _texture;
   IEntity::Status _status;
 
 public:

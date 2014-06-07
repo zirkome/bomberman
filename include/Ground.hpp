@@ -1,16 +1,18 @@
 #ifndef _GROUND_H_
 #define _GROUND_H_
 
-# include <Texture.hh>
+# include "SharedPointer.hpp"
+# include "Texture.hpp"
 # include "IEntity.hpp"
 # include "AObject.hpp"
 
 class Ground : public IEntity
 {
 private:
-  glm::vec2	_vec;
-  AObject	*_obj;
-  gdl::Texture	*_texture;
+  glm::vec2 _vec;
+  AObject *_obj;
+  SharedPointer<Texture> _texture;
+
 public:
   Ground(const glm::vec2 &pos);
   virtual ~Ground();

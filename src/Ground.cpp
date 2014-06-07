@@ -1,3 +1,4 @@
+#include "ResourceManager.hpp"
 #include "Ground.hpp"
 #include "Pan.hpp"
 
@@ -9,7 +10,8 @@ Ground::Ground(const glm::vec2 &pos)
   _obj->translate(glm::vec3(pos.x, -0.5f, pos.y));
   _obj->scale(glm::vec3(0.5f, 0.5f, 1.0));
   _obj->rotate(glm::vec3(1, 0, 0), 90.0);
-  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND);
+
+  _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "ground_texture.tga");
 }
 
 Ground::~Ground()
