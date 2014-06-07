@@ -3,8 +3,6 @@
 
 Player::Player(const glm::vec2& pos, Map *map) : APlayer(pos, map)
 {
-  _statusOfObject = OK;
-
   for (size_t i = 0; i < _stock; ++i) {
       _bombList.push_back(_lvl);
   }

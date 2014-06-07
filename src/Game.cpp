@@ -76,7 +76,11 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   Map::LMap playerList = _currentMap->getPlayerList();
   for (Map::iterator it = playerList.begin(), end = playerList.end(); it != end; ++it) {
-      (*it)->update(input, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY) {
+	  //TODO HANDLE DEFEAT
+      }
+      else
+	(*it)->update(input, clock);
   }
 
   //Delete every elements which are DESTROYs

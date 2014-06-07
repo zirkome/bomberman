@@ -19,7 +19,8 @@ void PlayerManager::update(const Map& map)
 {
   glm::vec2 playerPos = _player.getPos();
 
-  _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
+  if (_player.getStatus() != IEntity::DESTROY)
+    _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
   updateNearList(map);
 }
 
@@ -38,4 +39,12 @@ void PlayerManager::updateNearList(const Map& map)
       if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
         _nearEntity.push_front((*it));
     }
+
+  for (Map::const_iterator it = map.playerBegin(), end = map.playerEnd();
+         it != end; ++it)
+      {
+        posObject = (*it)->getPos();
+        if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+          _nearEntity.push_front((*it));
+      }
 }
