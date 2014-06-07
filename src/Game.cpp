@@ -74,6 +74,11 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
         listMapToDelete.push_back(it);
     }
 
+  Map::LMap playerList = _currentMap->getPlayerList();
+  for (Map::iterator it = playerList.begin(), end = playerList.end(); it != end; ++it) {
+      (*it)->update(input, clock);
+  }
+
   //Delete every elements which are DESTROYs
   while (!listMapToDelete.empty()) {
       delete *listMapToDelete.front();

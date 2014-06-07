@@ -31,6 +31,7 @@ void	Bomb::setPos(const glm::vec2 &new_pos)
 
 void	Bomb::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
+  _obj->scale(glm::vec3(1.005f, 1.005f, 1.005f));
   if (_status == BURNING || _time.update(clock.getElapsed()))
     {
       this->explode(clock);

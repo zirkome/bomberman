@@ -206,6 +206,11 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
   return type;
 }
 
+Map::LMap		&Map::getPlayerList()
+{
+  return _playerList;
+}
+
 /*
 ** Add an entity in the map if it's possible, else return false
 */
@@ -218,7 +223,10 @@ bool		Map::addEntity(IEntity *entity)
     if ((*(*it)).getPos().x == (*entity).getPos().x &&
 	(*(*it)).getPos().y == (*entity).getPos().y)
 	return false;*/ /* We can have more than one think one the map */
-  _map.push_back(entity);
+  if (entity->getType() == IEntity::PLAYER)
+    _playerList.push_back(entity);
+  else
+    _map.push_back(entity);
   return true;
 }
 

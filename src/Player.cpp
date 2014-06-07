@@ -10,6 +10,7 @@ Player::Player(const glm::vec2& pos, Map *map) : APlayer(pos, map)
   }
 }
 
+
 Player::~Player()
 {
 }
