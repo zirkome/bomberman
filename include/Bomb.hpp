@@ -24,6 +24,7 @@ private:
   Map *_map;
   FireList _fireList;
   Timer _time;
+  Timer _staytime;
   double _range;
   IEntity::Status _status;
   int _speed;
