@@ -6,6 +6,14 @@ AObject::AObject() :
   calculate_matrix();
 }
 
+void AObject::resetTransformation()
+{
+  _position = glm::vec3(0, 0, 0);
+  _rotation = glm::vec3(0, 0, 0);
+  _scale = glm::vec3(1, 1, 1);
+  _modified = true;
+}
+
 void AObject::translate(const glm::vec3& v)
 {
   _position += v;
