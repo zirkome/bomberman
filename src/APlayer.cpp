@@ -1,7 +1,8 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map) : _pos(pos), _map(map), _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map)
+  : _pos(pos), _map(map), _time(2)
 {
   _stock = 1;
 
@@ -29,20 +30,24 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map) : _pos(pos), _map(map), _time(2
   _actionPtr[SDLK_SPACE] = &APlayer::bomb;
 
   _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
-					glm::vec3(0, 0, 1),
-					glm::vec2(0.7, 0.7), glm::vec2(0.2, 0.7));
+                                        glm::vec3(0, 0, 1),
+                                        glm::vec2(0.7, 0.7),
+                                        glm::vec2(0.2, 0.7));
 
   _moveConf[SDLK_DOWN] = new movementCoef(180, glm::vec2(0.0, -1.0),
-					  glm::vec3(0, 0, -1),
-					  glm::vec2(0.7, 0.2), glm::vec2(0.2, 0.2));
+                                          glm::vec3(0, 0, -1),
+                                          glm::vec2(0.7, 0.2),
+                                          glm::vec2(0.2, 0.2));
 
   _moveConf[SDLK_RIGHT] = new movementCoef(-90, glm::vec2(-1.0, 0.0),
-					   glm::vec3(-1, 0, 0),
-					   glm::vec2(0.2, 0.7), glm::vec2(0.2, 0.2));
+      glm::vec3(-1, 0, 0),
+      glm::vec2(0.2, 0.7),
+      glm::vec2(0.2, 0.2));
 
   _moveConf[SDLK_LEFT] = new movementCoef(90, glm::vec2(1.0, 0.0),
-					  glm::vec3(1, 0, 0),
-					  glm::vec2(0.7, 0.7), glm::vec2(0.7, 0.2));
+                                          glm::vec3(1, 0, 0),
+                                          glm::vec2(0.7, 0.7),
+                                          glm::vec2(0.7, 0.2));
 }
 
 APlayer::~APlayer()
@@ -71,7 +76,7 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   bool	hasMoved = false;
 
   // reset rotation
-  _obj->setRotation(glm::vec3(0,0,0));
+  _obj->setRotation(glm::vec3(0, 0, 0));
   _obj->rotate(glm::vec3(0, 1, 0), mcoef->rotate);
 
   // get point to go left end right in front the player
@@ -99,7 +104,7 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
     {
       if (_status == WALK)
         {
-	  _obj->setCurrentSubAnim("stop_walking", false);
+          _obj->setCurrentSubAnim("stop_walking", false);
           _status = STOP_WALK;
         }
       return;
@@ -135,7 +140,7 @@ bool APlayer::bomb()
       _bombList.pop_front();
       prevX = x;
       prevY = y;
-  }
+    }
   return false;
 }
 
