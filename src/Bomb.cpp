@@ -136,17 +136,17 @@ bool	Bomb::spreadRight()
   return true;
 }
 
-void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void	Bomb::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
   if (_status == OK)
     _obj->draw(shader, clock);
 
   // draw flames
-  while (_status == BURNING && !_fireList.empty()) {
+  /*while (_status == BURNING && !_fireList.empty()) {
       _fireList.front()->draw(shader, clock);
       delete _fireList.front();
       _fireList.pop_front();
-    }
+    }*/
 }
 
 IEntity::Type Bomb::getType() const

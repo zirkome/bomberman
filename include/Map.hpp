@@ -21,6 +21,7 @@ class Map
 
 public:
   typedef std::list<IEntity *>::iterator iterator;
+  typedef std::list<IEntity *>::const_iterator const_iterator;
 
 private:
   // int		_x;
@@ -42,7 +43,9 @@ public:
   bool		deleteEntityAt(const int x, const int y);
   IEntity::Type	getTypeAt(const int x, const int y) const;
   Map::iterator	begin();
+  Map::const_iterator	begin() const;
   Map::iterator	end();
+  Map::const_iterator	end() const;
 
 private:
   bool		loadMapFromFile(std::string const &fileName);

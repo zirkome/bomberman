@@ -33,6 +33,7 @@ SRC		=	main.cpp \
 			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
+			PlayerManager.cpp \
 			Model.cpp \
 			PivotingCam.cpp \
 			Light.cpp \

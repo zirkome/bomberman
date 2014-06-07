@@ -1,25 +1,25 @@
 #ifndef GAME_HPP_
-#define GAME_HPP_
+# define GAME_HPP_
 
-#include <vector>
-#include <string>
-#include <list>
+# include <vector>
+# include <string>
+# include <list>
 
-#include <Input.hh>
-#include <Clock.hh>
-#include <Texture.hh>
-#include "Graphics.hpp"
-#include "ArmagetroCam.hpp"
-#include "BasicCam.hpp"
-#include "Map.hpp"
-#include "Ia.hpp"
-#include "Player.hpp"
-#include "Fault.hpp"
-#include "FontText.hpp"
-#include "Cube.hpp"
-#include "Pan.hpp"
-#include "Placement.hpp"
-#include "SkyBox.hpp"
+# include <Input.hh>
+# include <Clock.hh>
+# include <Texture.hh>
+# include "Graphics.hpp"
+# include "ArmagetroCam.hpp"
+# include "BasicCam.hpp"
+# include "Map.hpp"
+# include "Ia.hpp"
+# include "PlayerManager.hpp"
+# include "Fault.hpp"
+# include "FontText.hpp"
+# include "Cube.hpp"
+# include "Pan.hpp"
+# include "Placement.hpp"
+# include "SkyBox.hpp"
 
 class Game
 {
@@ -34,26 +34,19 @@ public:
 
 public:
   bool updateGame(gdl::Input &input, const gdl::Clock &clock);
-  void drawGame(gdl::Input &input, gdl::Clock const &clock);
+  void drawGame(gdl::Clock const &clock);
 
 private:
   void init(const glm::ivec2& win);
 
-  void drawGraphicObject(gdl::AShader *shader, gdl::Clock const &clock) const;
+  void drawHud(gdl::AShader *shader, gdl::Clock const &clock) const;
 
 private:
   std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?
-  std::vector<Player *> _players; //Those are IEntity
+  std::vector<PlayerManager*> _players;
+
   Map *_currentMap;
-  glm::ivec2 _win;
-  Cube *_cube;
-  ACamera* _cam;
-  FontText *_font;
-  gdl::Texture	_text_texture;
   GameGraphics _ogl;
-  glm::mat4 _ortho;
-  Pan *_ground;
-  SkyBox _skybox;
 };
 
 #endif

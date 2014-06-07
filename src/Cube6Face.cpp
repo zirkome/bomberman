@@ -6,7 +6,7 @@ Cube6Face::Cube6Face(gdl::Geometry* geometry)
 }
 
 Cube6Face::Cube6Face(const Cube6Face& c)
-  : _geometry(c._geometry)
+  : AObject::AObject(c), _geometry(c._geometry)
 {
 }
 

@@ -1,7 +1,6 @@
 #include "Ground.hpp"
 #include "Pan.hpp"
 
-
 Ground::Ground(const glm::vec2 &pos)
   : _vec(pos)
 {
@@ -32,7 +31,7 @@ void Ground::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 
 }
 
-void Ground::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void Ground::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
   _texture->bind();
   _obj->draw(shader, clock);
