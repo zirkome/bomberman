@@ -1,19 +1,19 @@
 #ifndef IA_HPP_
-#define IA_HPP_
+# define IA_HPP_
 
-#include <string>
+# include <string>
 
 extern "C" {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+# include <lua.h>
+# include <lualib.h>
+# include <lauxlib.h>
 }
 
-#include "Fault.hpp"
-#include "PMutex.hpp"
-#include "PCondVar.hpp"
-#include "PThread.hpp"
-#include "APlayer.hpp"
+# include "Fault.hpp"
+# include "PMutex.hpp"
+# include "PCondVar.hpp"
+# include "PThread.hpp"
+# include "APlayer.hpp"
 
 class Ia : public APlayer
 {

@@ -24,6 +24,8 @@ public:
   void setRotation(const glm::vec3& rot);
   void setScale(const glm::vec3& scl);
 
+  void resetTransformation();
+
   const glm::mat4 &getTransformation();
 
 private:
