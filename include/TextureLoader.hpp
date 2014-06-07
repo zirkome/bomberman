@@ -1,12 +1,12 @@
 #ifndef TEXTURELOADER_HPP_
-#define TEXTURELOADER_HPP_
+# define TEXTURELOADER_HPP_
 
-#include <string>
+# include <string>
 
-#include "config.h"
-#include "ILoader.hpp"
-#include "SharedPointer.hpp"
-#include "Texture.hpp"
+# include "config.h"
+# include "ILoader.hpp"
+# include "SharedPointer.hpp"
+# include "Texture.hpp"
 
 class TextureLoader : public ILoader<Texture>
 {

@@ -1,5 +1,6 @@
 #include "ResourceManager.hpp"
 #include "Box.hpp"
+#include "config.h"
 
 Box::Box(const glm::vec2 &pos) : _vec(pos)
 {

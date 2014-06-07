@@ -28,7 +28,6 @@ SRC		=	main.cpp \
 			OrthoCam.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
-			AssetsManager.cpp \
 			Pan.cpp \
 			Ground.cpp \
 			Placement.cpp \

@@ -1,7 +1,7 @@
 #include "ResourceManager.hpp"
 #include "Ground.hpp"
 #include "Pan.hpp"
-
+#include "config.h"
 
 Ground::Ground(const glm::vec2 &pos)
   : _vec(pos)

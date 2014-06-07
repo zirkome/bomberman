@@ -1,5 +1,5 @@
 #ifndef APLAYER_HPP_
-#define APLAYER_HPP_
+# define APLAYER_HPP_
 
 # include "IEntity.hpp"
 # include "Model.hpp"

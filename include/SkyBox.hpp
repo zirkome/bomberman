@@ -1,9 +1,9 @@
 #ifndef _SKYBOX_H_
 # define _SKYBOX_H_
 
-#include <Cube6Face.hpp>
-#include <SharedPointer.hpp>
-#include <Texture.hpp>
+# include "Cube6Face.hpp"
+# include "SharedPointer.hpp"
+# include "Texture.hpp"
 
 class SkyBox : public Cube6Face
 {

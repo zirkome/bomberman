@@ -1,4 +1,5 @@
 #include "Cube6Face.hpp"
+#include "config.h"
 
 Cube6Face::Cube6Face(gdl::Geometry* geometry)
   : _geometry(geometry)

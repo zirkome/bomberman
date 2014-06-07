@@ -1,8 +1,8 @@
 #ifndef PLACEMENT_HPP_
-#define PLACEMENT_HPP_
+# define PLACEMENT_HPP_
 
-#include "Map.hpp"
-#include "Fault.hpp"
+# include "Map.hpp"
+# include "Fault.hpp"
 
 class Placement
 {

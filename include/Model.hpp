@@ -1,9 +1,9 @@
 #ifndef _MODEL_H_
-#define _MODEL_H_
+# define _MODEL_H_
 
 # include <string>
-# include <Model.hh>
 # include <stdexcept>
+# include <Model.hh>
 
 # include "Model.hpp"
 # include "AObject.hpp"

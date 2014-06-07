@@ -1,11 +1,8 @@
 #ifndef _ARESOURCE_H_
 # define _ARESOURCE_H_
 
-class AResource;
+# include <string>
 
-#include <string>
-
-//template <typename T>
 class AResource
 {
 public:

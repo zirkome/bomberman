@@ -1,17 +1,17 @@
 #ifndef GAME_HPP_
-#define GAME_HPP_
+# define GAME_HPP_
 
-#include <string>
-#include <vector>
+# include <string>
+# include <vector>
 
-#include <Graphics.hpp>
-#include <Ia.hpp>
-#include <Player.hpp>
-#include <SkyBox.hpp>
-#include <Texture.hpp>
-#include "Pan.hpp"
-#include "Placement.hpp"
-#include "FontText.hpp"
+# include "Graphics.hpp"
+# include "Ia.hpp"
+# include "Player.hpp"
+# include "SkyBox.hpp"
+# include "Texture.hpp"
+# include "Pan.hpp"
+# include "Placement.hpp"
+# include "FontText.hpp"
 
 class ACamera;
 class FontText;

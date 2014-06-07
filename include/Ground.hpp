@@ -1,5 +1,5 @@
 #ifndef _GROUND_H_
-#define _GROUND_H_
+# define _GROUND_H_
 
 # include "SharedPointer.hpp"
 # include "Texture.hpp"

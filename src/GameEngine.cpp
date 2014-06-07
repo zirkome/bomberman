@@ -1,4 +1,4 @@
-#include <AssetsManager.hpp>
+
 #include <config.h>
 #include <glm/core/type.hpp>
 #include <glm/core/type_vec2.hpp>

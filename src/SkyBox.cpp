@@ -1,6 +1,7 @@
 #include "ResourceManager.hpp"
 #include "Texture.hpp"
 #include "SkyBox.hpp"
+#include "config.h"
 
 SkyBox::SkyBox()
 {

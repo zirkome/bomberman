@@ -1,4 +1,5 @@
 #include "Cube.hpp"
+#include "config.h"
 
 static gdl::Geometry* geometry = NULL;
 
@@ -110,4 +111,3 @@ void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock &clock)
 {
   _geometry->draw(*shader, getTransformation(), GL_TRIANGLES);
 }
-

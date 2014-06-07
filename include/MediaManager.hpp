@@ -1,22 +1,22 @@
 #ifndef MEDIAMANAGER_HPP_
-#define MEDIAMANAGER_HPP_
+# define MEDIAMANAGER_HPP_
 
-#include <algorithm>
-#include <cctype>
-#include <iterator>
-#include <map>
-#include <string>
-#include <vector>
+# include <algorithm>
+# include <cctype>
+# include <iterator>
+# include <map>
+# include <string>
+# include <vector>
 
-#include <Fault.hpp>
-#include <Helper.hpp>
-#include <ILoader.hpp>
-#include <Model.hpp>
-#include <ScatteredHierarchy.hpp>
-#include <SharedPointer.hpp>
-#include <Singleton.hpp>
-#include <Texture.hpp>
-#include <TypeList.hpp>
+# include "Fault.hpp"
+# include "Helper.hpp"
+# include "ILoader.hpp"
+# include "Model.hpp"
+# include "ScatteredHierarchy.hpp"
+# include "SharedPointer.hpp"
+# include "Singleton.hpp"
+# include "Texture.hpp"
+# include "TypeList.hpp"
 
 class Model;
 
@@ -85,4 +85,5 @@ inline void MediaManager::registerLoader(ILoader<T>* loader,
         MediaHolder<T>::_loaders[*i] = ptr;
     }
 }
+
 #endif /* MEDIAMANAGER_HPP_ */

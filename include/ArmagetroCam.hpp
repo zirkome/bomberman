@@ -1,8 +1,9 @@
 #ifndef _ARMAGETROCAM_H_
-#define _ARMAGETROCAM_H_
+# define _ARMAGETROCAM_H_
 
-#include <list>
-#include "ACamera.hpp"
+# include <list>
+
+# include "ACamera.hpp"
 
 class	ArmagetroCam : public ACamera
 {

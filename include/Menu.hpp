@@ -1,12 +1,13 @@
 #ifndef MENU_HPP_
-#define MENU_HPP_
+# define MENU_HPP_
 
-#include <Clock.hh>
-#include "Game.hpp"
-#include "Graphics.hpp"
-#include "ACamera.hpp"
-#include "PivotingCam.hpp"
-#include "Graphics.hpp"
+# include <Clock.hh>
+
+# include "Game.hpp"
+# include "Graphics.hpp"
+# include "ACamera.hpp"
+# include "PivotingCam.hpp"
+# include "Graphics.hpp"
 
 class Menu
 {

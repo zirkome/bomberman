@@ -1,14 +1,15 @@
 #ifndef _RESOURCEMANAGER_H_
 # define _RESOURCEMANAGER_H_
 
-#include <AResource.hpp>
-#include <MediaManager.hpp>
-#include <SharedPointer.hpp>
-#include <Singleton.hpp>
-#include <Texture.hpp>
-#include <map>
-#include <string>
-#include <utility>
+# include <map>
+# include <string>
+# include <utility>
+
+# include "AResource.hpp"
+# include "MediaManager.hpp"
+# include "SharedPointer.hpp"
+# include "Singleton.hpp"
+# include "Texture.hpp"
 
 class AResource;
 

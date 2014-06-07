@@ -1,4 +1,5 @@
 #include "Fire.hpp"
+#include "config.h"
 
 Fire::Fire(const glm::vec2 &pos) : _vec(pos)
 {

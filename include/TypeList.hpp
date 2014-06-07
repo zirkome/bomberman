@@ -1,5 +1,5 @@
 #ifndef TYPELIST_HPP_
-#define TYPELIST_HPP_
+# define TYPELIST_HPP_
 
 template <class T1, class T2>
 struct TypeList

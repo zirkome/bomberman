@@ -1,5 +1,6 @@
 #include "Wall.hpp"
 #include "Cube.hpp"
+#include "config.h"
 
 Wall::Wall(const glm::vec2 &pos) : _vec(pos)
 {

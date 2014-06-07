@@ -1,8 +1,9 @@
 #ifndef _GRAPHICPLAYER_H_
-#define _GRAPHICPLAYER_H_
+# define _GRAPHICPLAYER_H_
 
-#include "AObject.hpp"
-#include <string>
+# include <string>
+
+# include "AObject.hpp"
 
 class GraphicPlayer : public AObject
 {

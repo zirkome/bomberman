@@ -1,10 +1,9 @@
 #ifndef SCATTEREDHIERARCHY_HPP_
-#define SCATTEREDHIERARCHY_HPP_
+# define SCATTEREDHIERARCHY_HPP_
 
-#include "TypeList.hpp"
+# include "TypeList.hpp"
 
 template <class TList, template <class> class Handler> class ScatteredHierarchy;
-
 
 template
 <

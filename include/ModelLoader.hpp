@@ -1,10 +1,11 @@
 #ifndef MODELLOADER_HPP_
-#define MODELLOADER_HPP_
+# define MODELLOADER_HPP_
 
-#include <config.h>
-#include <ILoader.hpp>
-#include <Model.hpp>
-#include <string>
+# include <string>
+
+# include "config.h"
+# include "ILoader.hpp"
+# include "Model.hpp"
 
 class Model;
 

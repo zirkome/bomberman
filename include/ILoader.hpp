@@ -1,7 +1,7 @@
 #ifndef ILOADER_HPP_
-#define ILOADER_HPP_
+# define ILOADER_HPP_
 
-#include "SharedPointer.hpp"
+# include "SharedPointer.hpp"
 
 template <class T>
 class ILoader
