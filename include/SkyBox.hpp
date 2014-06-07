@@ -5,7 +5,7 @@
 # include "SharedPointer.hpp"
 # include "Texture.hpp"
 
-class SkyBox : public Cube6Face
+class SkyBox
 {
 public:
   explicit SkyBox();

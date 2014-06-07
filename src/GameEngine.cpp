@@ -45,6 +45,7 @@ bool GameEngine::initialize()
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
+
   SoundManager::getInstance()->loadSounds();
   SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
   // SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY, true);

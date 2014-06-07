@@ -5,7 +5,7 @@
 
 SkyBox::SkyBox()
 {
-  scale(glm::vec3(-2.0f, -2.0f, -2.0f));
+  _cube.scale(glm::vec3(-2.0f, -2.0f, -2.0f));
   _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "skybox.tga");
 }
 
