@@ -57,34 +57,12 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
 
 void Game::init(const glm::ivec2& win)
 {
-  /* TODO : init game and load 3d models */
-  _win = win;
-  glm::vec2 playerPos = _players.front()->getPos();
-
-  //_cam = new FreeCam;
-  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
-  //_cam = new TrackCam(glm::vec3(_currentMap->getDimension().x / 2, 0.0, _currentMap->getDimension().y / 2));
-
-  _ground = new Pan(_currentMap->getDimension() / glm::vec2(4, 4));
-
-  _ground->initialize();
-  _ground->scale(glm::vec3(0.5f, 0.5f, 1.0f));
-  _ground->translate(glm::vec3(-0.5f, 0, -0.5f));
-  _ground->scale(glm::vec3(_currentMap->getDimension().x, _currentMap->getDimension().y, 1.0f));
-
-  _ground->translate(glm::vec3(static_cast<float>(_currentMap->getDimension().x) / 2.0, -0.5f,
-                               static_cast<float>(_currentMap->getDimension().y) / 2.0));
-  _ground->rotate(glm::vec3(1, 0, 0), 90.0);
-
-  _ortho = glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0, -1.0, -1.0)), glm::vec3(2.0, 2.0, 2.0));
-
-  _font = new FontText(RES_TEXTURE "font.tga");
-  _ogl.init(win);
+  glm::vec2 mapDim = _currentMap->getDimension();
+  _ogl.init(win, glm::ivec2(mapDim.x, mapDim.y), (_players.size() == 2));
 }
 
 Game::~Game()
 {
-  delete _cam;
 }
 
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
@@ -103,83 +81,25 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
       listMapToDelete.pop_front();
     }
 
-  glm::vec2 playerPos = _players.front()->getPos();
-  _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
-  // _cam->update(input, clock);
-  _skybox.setPosition(_cam->getPosition());
-  _skybox.rotate(glm::vec3(1, 1, 0.6), 0.02f);
-
+  for (std::vector<PlayerManager*>::iterator it = _players.begin();
+       it != _players.end(); ++it)
+    {
+      (*it)->update();
+    }
   return true;
 }
 
-void Game::drawGraphicObject(gdl::AShader* shader, gdl::Clock const &clock) const
+void Game::drawGame(gdl::Clock const &clock)
 {
-  glDisable(GL_CULL_FACE);
-//Graphic objects
-  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  _ground->draw(shader, clock);
+  _ogl.drawGame(clock, *_currentMap, _players);
+  drawHud(_ogl.getShader(), clock);
 }
 
-void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
+void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
 {
-  gdl::AShader *shader = _ogl.getShader();
-  glm::vec2 posObject(0, 0);
-  int rayon = 9;
+  _ogl.setHudProj();
 
-  shader->setUniform("camPos", _cam->getPosition());
-  shader->setUniform("view", _cam->project());
-  shader->setUniform("projection", _ogl.getPerspectiveProj());
-
-  glEnable(GL_CULL_FACE);
-
- // glViewport(0, 0, _win.x / 2, _win.y);
-
-  glDisable(GL_DEPTH_TEST);
-  _skybox.draw(shader, clock);
-  glEnable(GL_DEPTH_TEST);
-
-  shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
-//game entities
-  glm::vec2 posPlayer = _players[0]->getPos();
-
-  for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
-    {
-      posObject = (*it)->getPos();
-      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-        (*it)->draw(shader, clock);
-    }
-  drawGraphicObject(shader, clock);
-
- /* glViewport(_win.x / 2, 0, _win.x / 2, _win.y);
-
-  shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
-
-  glDisable(GL_DEPTH_TEST);
-  _skybox.draw(shader, clock);
-  glEnable(GL_DEPTH_TEST);
-
-  shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
-//game entities
-  for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
-    {
-      posObject = (*it)->getPos();
-      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-        (*it)->draw(shader, clock);
-    }
-  drawGraphicObject(shader, clock);
-
-  glViewport(0, 0, _win.x, _win.y);*/
-
-//Render object
-  glEnable(GL_CULL_FACE);
-
-//hud object
-  shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
-  shader->setUniform("view", _ortho);
-  shader->setUniform("projection", glm::mat4(1));
-
+  const FontText& font = _ogl.getTextWriter();
   glm::mat4 textMat;
 
   std::stringstream ss;
@@ -192,6 +112,5 @@ void Game::drawGame(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
   textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
-  _font->displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
-
+  font.displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
 }

@@ -1,20 +1,31 @@
 #include "Graphics.hpp"
 
-GameGraphics::GameGraphics(bool splitScreen)
+GameGraphics::GameGraphics()
 {
-  _fov = 60.0;
-  _splitScreen = splitScreen;
+  _init = false;
 }
 
 GameGraphics::~GameGraphics()
 {
+  if (_init)
+    {
+      delete _font;
+      delete _ground;
+      delete _shader;
+    }
 }
 
-bool GameGraphics::init(const glm::ivec2& win)
+bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool splitScreen)
 {
+
+  _init = true;
+  _fov = 60.0;
+  _splitScreen = splitScreen;
+
   _proj = glm::perspective(_fov, (static_cast<float>(win.x) / (_splitScreen + 1))
                            / static_cast<float>(win.y),
                            0.5f, 100.0f);
+  _ortho = glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0, -1.0, -1.0)), glm::vec3(2.0, 2.0, 2.0));
 
   _shader = new BasicShader();
 
@@ -36,16 +47,102 @@ bool GameGraphics::init(const glm::ivec2& win)
   glClearDepth(1.0f);
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+  _win = win;
+
+  glm::ivec2 panSize = mapSize / glm::ivec2(4, 4);
+  _ground = new Pan(glm::vec2(panSize.x, panSize.y));
+
+  _ground->initialize();
+  _ground->scale(glm::vec3(0.5f, 0.5f, 1.0f));
+  _ground->translate(glm::vec3(-0.5f, 0, -0.5f));
+  _ground->scale(glm::vec3(mapSize.x, mapSize.y, 1.0f));
+
+  _ground->translate(glm::vec3(static_cast<float>(mapSize.x) / 2.0, -0.5f,
+                               static_cast<float>(mapSize.y) / 2.0));
+  _ground->rotate(glm::vec3(1, 0, 0), 90.0);
+
+  _font = new FontText(RES_TEXTURE "font.tga");
+
   return true;
 }
 
+
+void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
+                            const std::vector<PlayerManager*>& players) const
+{
+  for (std::vector<PlayerManager*>::const_iterator it = players.begin(), end = players.end();
+       it != end; ++it)
+    {
+      ACamera& cam = (*it)->getCam();
+
+      _shader->setUniform("camPos", cam.getPosition());
+      _shader->setUniform("view", cam.project());
+      _shader->setUniform("projection", _proj);
+
+      glEnable(GL_CULL_FACE);
+
+// glViewport(0, 0, _win.x / 2, _win.y);
+
+      glDisable(GL_DEPTH_TEST);
+     // _skybox.draw(_shader, clock);
+      glEnable(GL_DEPTH_TEST);
+
+      _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
+//game entities
+
+      for (Map::const_iterator it = map.begin(), end = map.end(); it != end; ++it)
+        (*it)->draw(_shader, clock);
+
+      glDisable(GL_CULL_FACE);
+//Graphic objects
+      AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+      _ground->draw(_shader, clock);
+    }
+
+  /* glViewport(_win.x / 2, 0, _win.x / 2, _win.y);
+
+   _shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
+
+   glDisable(GL_DEPTH_TEST);
+   _skybox.draw(_shader, clock);
+   glEnable(GL_DEPTH_TEST);
+
+   _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
+  //game entities
+   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it)
+     {
+       posObject = (*it)->getPos();
+       if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+         (*it)->draw(_shader, clock);
+     }
+
+       glDisable(GL_CULL_FACE);
+  //Graphic objects
+  AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  _ground->draw(shader, clock);
+
+   glViewport(0, 0, _win.x, _win.y);*/
+}
+
+void GameGraphics::setHudProj() const
+{
+  glEnable(GL_CULL_FACE);
+
+  _shader->setUniform("lightDir", glm::vec3(0.0f, 0.0f, 0.0f));
+  _shader->setUniform("view", _ortho);
+  _shader->setUniform("projection", glm::mat4(1));
+}
 
 gdl::AShader *GameGraphics::getShader() const
 {
   return _shader;
 }
 
-const glm::mat4 &GameGraphics::getPerspectiveProj() const
+const FontText& GameGraphics::getTextWriter() const
 {
-  return _proj;
+  return *_font;
 }

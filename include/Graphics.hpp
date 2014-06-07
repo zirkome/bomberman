@@ -28,20 +28,32 @@
 class GameGraphics
 {
 public:
-  GameGraphics(bool splitScreen = false);
-  virtual ~GameGraphics();
+  GameGraphics();
+  ~GameGraphics();
 
-  virtual bool init(const glm::ivec2& win);
+  bool init(const glm::ivec2& win, const glm::ivec2& mapSize, bool splitScreen);
 
-  const glm::mat4 &getPerspectiveProj() const;
+  void drawGame(gdl::Clock const &clock, const Map& map,
+                const std::vector<PlayerManager*>& players) const;
 
+  const FontText& getTextWriter() const;
   gdl::AShader *getShader() const;
 
+  void setHudProj() const;
+
 protected:
+  bool _init;
+
   float _fov;
   bool  _splitScreen;
+  glm::ivec2 _win;
+
   glm::mat4 _proj;
   gdl::AShader* _shader;
+  Pan *_ground;
+  SkyBox _skybox;
+  FontText *_font;
+  glm::mat4 _ortho;
 };
 
 #endif
