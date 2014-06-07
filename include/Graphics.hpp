@@ -35,8 +35,7 @@ public:
 
   void updateGraphic(gdl::Clock const &clock);
 
-  void drawGame(gdl::Clock const &clock, const Map& map,
-                const std::vector<PlayerManager*>& players) const;
+  void drawGame(gdl::Clock const &clock, const std::vector<PlayerManager*>& players) const;
 
   const FontText& getTextWriter() const;
   gdl::AShader *getShader() const;

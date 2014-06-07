@@ -72,10 +72,8 @@ void GameGraphics::updateGraphic(gdl::Clock const &clock)
 }
 
 
-void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
-                            const std::vector<PlayerManager*>& players) const
+void GameGraphics::drawGame(gdl::Clock const& clock, const std::vector<PlayerManager*>& players) const
 {
-
   int i = 0;
   for (std::vector<PlayerManager*>::const_iterator it = players.begin(), end = players.end();
        it != end; ++it)
@@ -98,8 +96,10 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const Map& map,
 
       _shader->setUniform("lightDir", glm::vec3(0.1, 0.6, -0.3));
 
-      for (Map::const_iterator it = map.begin(), end = map.end(); it != end; ++it)
-        (*it)->draw(_shader, clock);
+      const std::list<IEntity*>& ent = (*it)->getNearList();
+
+      for (std::list<IEntity*>::const_iterator itt = ent.begin(), end = ent.end(); itt != end; ++itt)
+        (*itt)->draw(_shader, clock);
 
       glDisable(GL_CULL_FACE);
 

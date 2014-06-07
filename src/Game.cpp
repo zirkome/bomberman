@@ -83,9 +83,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)
-    {
-      (*it)->update();
-    }
+    (*it)->update(*_currentMap);
 
   _ogl.updateGraphic(clock);
   return true;
@@ -93,7 +91,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
 void Game::drawGame(gdl::Clock const &clock)
 {
-  _ogl.drawGame(clock, *_currentMap, _players);
+  _ogl.drawGame(clock, _players);
   drawHud(_ogl.getShader(), clock);
 }
 
