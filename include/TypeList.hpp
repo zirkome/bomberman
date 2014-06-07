@@ -4,8 +4,8 @@
 template <class T1, class T2>
 struct TypeList
 {
-    typedef T1 Head;
-    typedef T2 Tail;
+  typedef T1 Head;
+  typedef T2 Tail;
 };
 
 struct NullType {};

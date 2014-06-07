@@ -79,18 +79,18 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   Map::LMap playerList = _currentMap->getPlayerList();
   for (Map::iterator it = playerList.begin(), end = playerList.end(); it != end; ++it) {
       if ((*it)->getStatus() == IEntity::DESTROY) {
-	  //TODO HANDLE DEFEAT
-      }
+          //TODO HANDLE DEFEAT
+        }
       else
-	(*it)->update(input, clock);
-  }
+        (*it)->update(input, clock);
+    }
 
   //Delete every elements which are DESTROYs
   while (!listMapToDelete.empty()) {
       delete *listMapToDelete.front();
       _currentMap->getMap().erase(listMapToDelete.front());
       listMapToDelete.pop_front();
-  }
+    }
 
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)

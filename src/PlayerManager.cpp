@@ -41,10 +41,10 @@ void PlayerManager::updateNearList(const Map& map)
     }
 
   for (Map::const_iterator it = map.playerBegin(), end = map.playerEnd();
-         it != end; ++it)
-      {
-        posObject = (*it)->getPos();
-        if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
-          _nearEntity.push_front((*it));
-      }
+       it != end; ++it)
+    {
+      posObject = (*it)->getPos();
+      if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
+        _nearEntity.push_front((*it));
+    }
 }

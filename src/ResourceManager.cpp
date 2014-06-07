@@ -9,8 +9,8 @@ void ResourceManager::remove(const std::string& name)
 
 ResourceManager::ResourceManager()
 {
-    MediaManager::getInstance()->registerLoader(new TextureLoader, "tga");
-    MediaManager::getInstance()->registerLoader(new ModelLoader, "obj,fbx,dae");
+  MediaManager::getInstance()->registerLoader(new TextureLoader, "tga");
+  MediaManager::getInstance()->registerLoader(new ModelLoader, "obj,fbx,dae");
 }
 
 ResourceManager::~ResourceManager()

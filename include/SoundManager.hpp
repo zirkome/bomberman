@@ -15,25 +15,25 @@ class SoundManager : public Singleton<SoundManager>
 public:
 
   enum Sample
-    {
-      INTRO = 0,
-      SWITCH_MENU,
-      GAME,
-      BOMB_EXPLOSION,
-      GET_ITEM,
-      TIC_TAC,
-    };
+  {
+    INTRO = 0,
+    SWITCH_MENU,
+    GAME,
+    BOMB_EXPLOSION,
+    GET_ITEM,
+    TIC_TAC,
+  };
 
   enum ManageType
-    {
-      PLAY = 0,
-      PAUSE,
-      STOP,
-    };
+  {
+    PLAY = 0,
+    PAUSE,
+    STOP,
+  };
 
   virtual bool manageSound(Sample sample,
-			   ManageType type,
-			   bool loop = false);
+                           ManageType type,
+                           bool loop = false);
 
   // virtual void stopMusic(bool fadeOut = false);
 

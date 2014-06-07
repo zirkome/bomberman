@@ -14,21 +14,21 @@ private:
 
 public:
   SharedPointer()
-  : _ptr(NULL), _ref(NULL)
+    : _ptr(NULL), _ref(NULL)
   {
     _ref = new R();
     _ref->addReference();
   }
 
   SharedPointer(T *value)
-  : _ptr(value), _ref(NULL)
+    : _ptr(value), _ref(NULL)
   {
     _ref = new R();
     _ref->addReference();
   }
 
   SharedPointer(const SharedPointer<T>& sp)
-  : _ptr(sp._ptr), _ref(sp._ref)
+    : _ptr(sp._ptr), _ref(sp._ref)
   {
     _ref->addReference();
   }
@@ -37,8 +37,8 @@ public:
   {
     if (_ref->release() == 0)
       {
-		delete _ptr;
-		delete _ref;
+        delete _ptr;
+        delete _ref;
       }
   }
 
@@ -56,14 +56,14 @@ public:
   {
     if (this != &sp)
       {
-		if (_ref->release() == 0)
-		  {
-			delete _ptr;
-			delete _ref;
-		  }
-		_ptr = sp._ptr;
-		_ref = sp._ref;
-		_ref->addReference();
+        if (_ref->release() == 0)
+          {
+            delete _ptr;
+            delete _ref;
+          }
+        _ptr = sp._ptr;
+        _ref = sp._ref;
+        _ref->addReference();
       }
     return *this;
   }

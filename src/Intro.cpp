@@ -84,11 +84,11 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         {
           _pos.x += -(clock.getElapsed() * _speed);
           _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
-	  if (input.getKey(SDLK_RETURN, true))
-	    {
-	      _logo->translate(glm::vec3(-(_pos.x), 0, 0));
-	      _pos.x = 0.0;
-	    }
+          if (input.getKey(SDLK_RETURN, true))
+            {
+              _logo->translate(glm::vec3(-(_pos.x), 0, 0));
+              _pos.x = 0.0;
+            }
         }
       else
         {
@@ -100,7 +100,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
   else if (_state == Menu)
     {
       if (_menu->finish())
-	_state = Finished;
+        _state = Finished;
       if (_pos.y < 4.0)
         {
           _pos.y += clock.getElapsed() * _speed;

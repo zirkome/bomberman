@@ -15,8 +15,8 @@ class AResource;
 
 class ResourceManager : public Singleton<ResourceManager>
 {
-    friend ResourceManager* Singleton<ResourceManager>::getInstance();
-    friend void Singleton<ResourceManager>::kill();
+  friend ResourceManager* Singleton<ResourceManager>::getInstance();
+  friend void Singleton<ResourceManager>::kill();
 
 public:
   template <class T> SharedPointer<T> get(const std::string& name);

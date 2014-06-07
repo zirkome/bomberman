@@ -8,14 +8,14 @@ class Texture;
 # include "AResource.hpp"
 
 class Texture : public gdl::Texture,
-                public AResource
+  public AResource
 {
 public:
-    Texture(const std::string &path);
-    virtual ~Texture() {};
+  Texture(const std::string &path);
+  virtual ~Texture() {};
 
 public:
-    void bind() const;
+  void bind() const;
 
 };
 

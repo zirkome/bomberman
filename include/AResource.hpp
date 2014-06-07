@@ -11,7 +11,7 @@ public:
   virtual ~AResource();
 
 private:
-	std::string _name;
+  std::string _name;
 };
 
 #endif /* _IRESOURCE_H_ */

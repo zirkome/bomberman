@@ -1,4 +1,3 @@
-
 #include <config.h>
 #include <glm/core/type.hpp>
 #include <glm/core/type_vec2.hpp>
@@ -27,9 +26,9 @@ GameEngine::~GameEngine()
   if (_init)
     {
       if (_state == Game)
-	delete _game;
+        delete _game;
       else
-	delete _intro;
+        delete _intro;
       _context->stop();
       delete _context;
     }
@@ -73,12 +72,12 @@ bool GameEngine::update()
   if (_input.getKey(SDLK_ESCAPE, true))
     {
       if (_state == Game)
-	{
-	  _state = Intro;
-	  _intro = new ::Intro(glm::ivec2(1024, 900), true);
-	}
+        {
+          _state = Intro;
+          _intro = new ::Intro(glm::ivec2(1024, 900), true);
+        }
       else
-	return false;
+        return false;
     }
   if (_input.getInput(SDL_QUIT))
     return false;

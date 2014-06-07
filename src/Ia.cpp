@@ -217,23 +217,23 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 
       // si le key est pour move
       if (sdlKeyMove != _moveConf.end())
-	{
-	  hasMoved = movePlayer(_moveConf[key->second], distance);
-	  updateAnim(hasMoved);
-	  return;
-	}
+        {
+          hasMoved = movePlayer(_moveConf[key->second], distance);
+          updateAnim(hasMoved);
+          return;
+        }
       else
-	{
-	  // sinon on check dans le tableau de ptointeur sur fonction
-	  for (actionPtr::iterator it = _actionPtr.begin(); it != _actionPtr.end(); ++it)
-	    {
-	      if (it->first == sdlKey)
-		{
-		  (this->*_actionPtr[sdlKey])();
-		  return;
-		}
-	    }
-	}
+        {
+          // sinon on check dans le tableau de ptointeur sur fonction
+          for (actionPtr::iterator it = _actionPtr.begin(); it != _actionPtr.end(); ++it)
+            {
+              if (it->first == sdlKey)
+                {
+                  (this->*_actionPtr[sdlKey])();
+                  return;
+                }
+            }
+        }
     }
 }
 

@@ -137,7 +137,7 @@ bool APlayer::bomb()
   if (!_bombList.empty()) {
       _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
       _bombList.pop_front();
-  }
+    }
   return false;
 }
 
