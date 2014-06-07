@@ -23,14 +23,17 @@ bool GameEngine::initialize()
   const int width = 1024;
   const int heigth = 900;
 
-  if (!_context->start(width, heigth, "Bomberman",
-                       SDL_INIT_VIDEO, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL))
+  if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, /*SDL_WINDOW_FULLSCREEN |*/ SDL_WINDOW_OPENGL))
     return false;
   SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
   AssetsManager::createAssets();
+  SoundManager::getInstance()->loadSounds();
+  SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
+  // SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY, true);
+  // _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
   _intro = new ::Intro(glm::ivec2(width, heigth));
   //_game = new ::Game(glm::ivec2(width, heigth), 1, 0, "script/medium.lua", "map/2.map");
   return true;
@@ -83,7 +86,7 @@ void GameEngine::draw()
       break;
     case Game:
     default:
-      _game->drawGame(_input, _clock);
+      _game->drawGame(_clock);
       break;
     }
   _context->flush();

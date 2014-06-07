@@ -1,9 +1,53 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer() : _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map)
+  : _pos(pos), _map(map), _time(2)
 {
   _stock = 1;
+
+  _obj = new Model(RES_MODEL "marvin.fbx");
+
+  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
+  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+  _status = STANDBY;
+  _speed = 4;
+  _way = UP;
+  _size = 0.7;
+  _lvl = 1;
+
+  _obj->createSubAnim(0, "standby", 0, 0);
+  _obj->createSubAnim(0, "walk", 0, 30);
+  _obj->createSubAnim(0, "stop_walking", 30, 60);
+  _obj->setCurrentSubAnim("standby");
+
+  _moveKey.push_back(SDLK_UP);
+  _moveKey.push_back(SDLK_DOWN);
+  _moveKey.push_back(SDLK_LEFT);
+  _moveKey.push_back(SDLK_RIGHT);
+
+  _actionPtr[SDLK_SPACE] = &APlayer::bomb;
+
+  _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
+                                        glm::vec3(0, 0, 1),
+                                        glm::vec2(0.7, 0.7),
+                                        glm::vec2(0.2, 0.7));
+
+  _moveConf[SDLK_DOWN] = new movementCoef(180, glm::vec2(0.0, -1.0),
+                                          glm::vec3(0, 0, -1),
+                                          glm::vec2(0.7, 0.2),
+                                          glm::vec2(0.2, 0.2));
+
+  _moveConf[SDLK_RIGHT] = new movementCoef(-90, glm::vec2(-1.0, 0.0),
+      glm::vec3(-1, 0, 0),
+      glm::vec2(0.2, 0.7),
+      glm::vec2(0.2, 0.2));
+
+  _moveConf[SDLK_LEFT] = new movementCoef(90, glm::vec2(1.0, 0.0),
+                                          glm::vec3(1, 0, 0),
+                                          glm::vec2(0.7, 0.7),
+                                          glm::vec2(0.7, 0.2));
 }
 
 APlayer::~APlayer()
@@ -12,93 +56,69 @@ APlayer::~APlayer()
 
 const glm::vec2	&APlayer::getPos() const
 {
-  return _vec;
+  return _pos;
 }
 
 void	APlayer::setPos(const glm::vec2 &new_pos)
 {
-  _vec = new_pos;
+  _pos = new_pos;
 }
 
-void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
   _obj->draw(shader, clock);
 }
 
-bool	APlayer::moveUp(double const distance)
+bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
 {
-  double rotate;
-  int y, ya;
+  glm::vec2	toGoLeft;
+  glm::vec2	toGoRight;
+  bool	hasMoved = false;
 
-  rotate = (_way - UP) * 90;
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = UP;
-  y = _vec.y + _size;
-  ya = _vec.y + distance + _size;
-  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y + distance + _size) == NONE &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y + distance + _size) == NONE)) {
-    _vec.y += distance;
-    _obj->translate(glm::vec3(0, 0, distance));
-    return true;
-  }
-  return false;
+  // reset rotation
+  _obj->setRotation(glm::vec3(0, 0, 0));
+  _obj->rotate(glm::vec3(0, 1, 0), mcoef->rotate);
+
+  // get point to go left end right in front the player
+  toGoLeft = _pos + (mcoef->dir * distance) + mcoef->distLeft;
+  toGoRight = _pos + (mcoef->dir * distance) + mcoef->distRight;
+
+  // if the points to go are on the same piece of field or
+  // if the type to go is free --> move
+
+  if ((glm::ivec2(toGoLeft) == glm::ivec2(_pos + mcoef->distLeft) &&
+       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)) ||
+      (_map->getTypeAt(toGoLeft.x, toGoLeft.y) == NONE &&
+       _map->getTypeAt(toGoRight.x, toGoRight.y) == NONE))
+    {
+      _pos += mcoef->dir * distance;
+      _obj->translate(mcoef->translate * distance);
+      hasMoved = true;
+    }
+  return hasMoved;
 }
 
-bool	APlayer::moveDown(double const distance)
+void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
 {
-  double rotate;
-  int y, ya;
-
-  rotate = (_way - DOWN) * 90;
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = DOWN;
-  y = _vec.y + 1 -_size;
-  ya = _vec.y - distance + 1 - _size;
-  if (y == ya || (_map->getTypeAt(_vec.x + _size, _vec.y - distance + 1 - _size) == NONE &&
-      _map->getTypeAt(_vec.x + 1 - _size, _vec.y - distance + 1 - _size) == NONE)) {
-    _vec.y -= distance;
-    _obj->translate(glm::vec3(0, 0, -distance));
-    return true;
-  }
-  return false;
-}
-
-bool	APlayer::moveLeft(double const distance)
-{
-  double rotate;
-  int x, xa;
-
-  rotate = (_way - LEFT) * 90;
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = LEFT;
-  x = _vec.x + _size;
-  xa = _vec.x + distance + _size;
-  if (x == xa || (_map->getTypeAt(_vec.x + distance + _size, _vec.y + _size) == NONE &&
-      _map->getTypeAt(_vec.x + distance + _size, _vec.y + 1 - _size) == NONE)) {
-    _vec.x += distance;
-    _obj->translate(glm::vec3(distance, 0, 0));
-    return true;
-  }
-  return false;
-}
-
-bool	APlayer::moveRight(double const distance)
-{
-  double rotate;
-  int x, xa;
-
-  rotate = (_way - RIGHT) * 90;
-  _obj->rotate(glm::vec3(0, 1, 0), rotate);
-  _way = RIGHT;
-  x = _vec.x + 1 - _size;
-  xa = _vec.x - distance + 1 - _size;
-  if (x == xa || (_map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + _size) == NONE &&
-      _map->getTypeAt(_vec.x - distance + 1 - _size, _vec.y + 1 - _size) == NONE)) {
-    _vec.x -= distance;
-    _obj->translate(glm::vec3(-distance, 0, 0));
-    return true;
-  }
-  return false;
+  if (keyPressed == false)
+    {
+      if (_status == WALK)
+        {
+          _obj->setCurrentSubAnim("stop_walking", false);
+          _status = STOP_WALK;
+        }
+      return;
+    }
+  if (_status != WALK && hasMoved)
+    {
+      _status = WALK;
+      _obj->setCurrentSubAnim("walk");
+    }
+  else if (_status == WALK && !hasMoved)
+    {
+      _obj->setCurrentSubAnim("stop_walking", false);
+      _status = STOP_WALK;
+    }
 }
 
 void APlayer::createBomb()
@@ -106,10 +126,10 @@ void APlayer::createBomb()
   _bombList.push_back(_lvl);
 }
 
-bool APlayer::bomb(UNUSED double const distance)
+bool APlayer::bomb()
 {
-  int x = _vec.x + _size;
-  int y = _vec.y + _size;
+  int x = _pos.x + _size;
+  int y = _pos.y + _size;
   static int prevX = 0;
   static int prevY = 0;
 
@@ -120,7 +140,7 @@ bool APlayer::bomb(UNUSED double const distance)
       _bombList.pop_front();
       prevX = x;
       prevY = y;
-  }
+    }
   return false;
 }
 

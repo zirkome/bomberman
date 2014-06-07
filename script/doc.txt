@@ -2,6 +2,10 @@ iaGetPos get the current pos of player
 	 need thisptr in arg
 	 return x and y
 
+iaGetPos get size of the map
+	 need thisptr in arg
+	 return x and y
+
 iaGetMap get an object on a case of the map in args
 	 need x, y and thisptr
 	 return the id of the object on x and y

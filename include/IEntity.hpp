@@ -5,8 +5,6 @@
 # include <Input.hh>
 # include <AShader.hh>
 
-class	AObject;
-
 class IEntity
 {
 public:
@@ -16,6 +14,7 @@ public:
       WALL,
       BOMB,
       GROUND,
+      FIRE,
       MODEL,
       PLAYER,
       SKYBOX,
@@ -39,7 +38,7 @@ public:
   virtual const glm::vec2 &getPos() const = 0;
   virtual void setPos(const glm::vec2 &new_pos) = 0;
   virtual void update(gdl::Input &input, gdl::Clock const &clock) = 0;
-  virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) = 0;
+  virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) const = 0;
   virtual IEntity::Type getType() const = 0;
   virtual IEntity::Status getStatus() const = 0;
   virtual void setStatus(IEntity::Status status) = 0;

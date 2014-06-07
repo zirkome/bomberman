@@ -10,6 +10,7 @@
 # include "Timer.hpp"
 # include "Fire.hpp"
 # include "APlayer.hpp"
+# include "SoundManager.hpp"
 
 class Bomb : public IEntity
 {
@@ -23,6 +24,7 @@ private:
   Map *_map;
   FireList _fireList;
   Timer _time;
+  Timer _staytime;
   double _range;
   IEntity::Status _status;
   int _speed;
@@ -34,7 +36,7 @@ public:
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
   virtual void	update(gdl::Input &input, gdl::Clock const &clock);
-  virtual void  draw(gdl::AShader *shader, const gdl::Clock& clock);
+  virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) const;
   virtual IEntity::Type getType() const;
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);

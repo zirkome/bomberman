@@ -11,6 +11,7 @@ private:
   glm::vec2	_vec;
   AObject	*_obj;
   IEntity::Status _status;
+  gdl::Texture	*_texture;
 
 public:
   Fire(const glm::vec2 &pos);
@@ -18,7 +19,7 @@ public:
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
-  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
+  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock) const;
   virtual IEntity::Type getType() const;
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);

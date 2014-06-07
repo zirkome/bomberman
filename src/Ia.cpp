@@ -10,9 +10,27 @@ int iaGetPos(lua_State *L)
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
     throw nFault("thisptr can't be null");
+  const glm::vec2& pos = ptr->getPos();
   lua_pop(L, 1);
-  lua_pushnumber(L, ptr->getX());
-  lua_pushnumber(L, ptr->getY());
+  lua_pushnumber(L, pos.x);
+  lua_pushnumber(L, pos.y);
+  return 2; //number of return values
+}
+
+int iaGetSizeMap(lua_State *L)
+{
+  int argc = lua_gettop(L);
+  Ia *ptr;
+
+  if (argc != 1)
+    throw nFault("iaGetSizeMap need 1 argument (thisptr)");
+  ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
+  if (ptr == NULL)
+    throw nFault("thisptr can't be null");
+  const glm::vec2& mapDim = ptr->getMapDimension();
+  lua_pop(L, 1);
+  lua_pushnumber(L, mapDim.x);
+  lua_pushnumber(L, mapDim.y);
   return 2; //number of return values
 }
 
@@ -75,32 +93,19 @@ void *iaStart(void *ptr)
 }
 
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
-: _condAct(_mutex), _thread(iaStart, this)
+  : APlayer(pos, currentMap), _condAct(_mutex), _thread(iaStart, this)
 {
   _statusOfObject = OK;
-  _speed = 3;
   _running = false;
-  _vec = pos;
   _dead = false;
   _fileName = fileName;
   _act = 0;
-  _status = STANDBY;
-  _size = 0.7;
 
-  _obj = new Model(RES_MODEL "marvin.fbx");
-  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
-  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
-
-  _obj->createSubAnim(0, "standby", 0, 0);
-  _obj->createSubAnim(0, "walk", 42, 63);
-  _obj->createSubAnim(0, "stop_walking", 64, 121);
-
-  _movePtr.push_back(&Ia::nothing);
-  _movePtr.push_back(&Ia::moveUp);
-  _movePtr.push_back(&Ia::moveDown);
-  _movePtr.push_back(&Ia::moveLeft);
-  _movePtr.push_back(&Ia::moveRight);
-  _movePtr.push_back(&Ia::bomb);
+  _actToSdlKey[1] = SDLK_UP;
+  _actToSdlKey[2] = SDLK_DOWN;
+  _actToSdlKey[3] = SDLK_LEFT;
+  _actToSdlKey[4] = SDLK_RIGHT;
+  _actToSdlKey[5] = SDLK_SPACE;
 
   _L = luaL_newstate();
   if (_L == NULL)
@@ -118,6 +123,8 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   lua_setglobal(_L, "iaLaunch");
   lua_pushcfunction(_L, iaAction);
   lua_setglobal(_L, "iaAction");
+  lua_pushcfunction(_L, iaGetSizeMap);
+  lua_setglobal(_L, "iaGetSizeMap");
   lua_pushlightuserdata(_L, this);
   lua_setglobal(_L, "thisptr");
 
@@ -136,16 +143,13 @@ void *Ia::init()
   try
     {
       _running = true;
-      luaL_dofile(_L,_fileName.c_str());
+      luaL_dofile(_L, _fileName.c_str());
     }
   catch (std::exception& e)
     {
       std::cerr << e.what() << std::endl;
     }
   _running = false;
-  _mutex.lock();
-  _condAct.notifyAll();
-  _mutex.unlock();
   return NULL;
 }
 
@@ -163,7 +167,6 @@ int Ia::exec()
     {
       _mutex.lock();
       _condAct.notifyAll();
-      _condAct.wait();/* TODO : change that */
       _mutex.unlock();
     }
   return _act;
@@ -173,50 +176,65 @@ void Ia::action(int act)
 {
   _act = act;
   _mutex.lock();
-  if (_act != -1)
-    _condAct.notifyAll();
   _condAct.wait();
   _mutex.unlock();
   if (_dead)
     {
       _running = false;
-      _mutex.lock();
-      _condAct.notifyAll();
-      _mutex.unlock();
       pthread_exit(&act);
     }
 }
 
-double Ia::getX() const
+const glm::vec2& Ia::getPos() const
 {
-  return _vec.x;
+  return _pos;
 }
 
-double Ia::getY() const
+const glm::vec2& Ia::getMapDimension() const
 {
-  return _vec.y;
-}
-
-void Ia::setX(const double x)
-{
-  _vec.x = x;
-}
-
-void Ia::setY(const double y)
-{
-  _vec.y = y;
+  return _map->getDimension();
 }
 
 void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
   double distance;
+  bool hasMoved;
 
   exec();
   distance = clock.getElapsed() * _speed;
-  if (_act >= 0 && _act < 6)
-    (this->*_movePtr[_act])(distance);
-  else
-    (this->*_movePtr[0])(distance);
+  if (distance > 1.0)
+    distance = 1.0;
+
+  std::map<int, int>::iterator key = _actToSdlKey.find(_act);
+
+  // si _act correspond a une key
+  if (key != _actToSdlKey.end())
+    {
+      int	sdlKey = key->second;
+      // sdlKey = *key;
+
+      std::map<int, movementCoef *>::iterator sdlKeyMove = _moveConf.find(sdlKey);
+
+      // si le key est pour move
+      if (sdlKeyMove != _moveConf.end())
+	{
+	  hasMoved = movePlayer(_moveConf[key->second], distance);
+	  updateAnim(hasMoved);
+	  return;
+	}
+      else
+	{
+	  // sinon on check dans le tableau de ptointeur sur fonction
+	  for (actionPtr::iterator it = _actionPtr.begin(); it != _actionPtr.end(); ++it)
+	    {
+	      if (it->first == sdlKey)
+		{
+		  (this->*_actionPtr[sdlKey])();
+		  return;
+		}
+	    }
+	}
+    }
 }
 
 bool Ia::nothing(UNUSED double const distance)
