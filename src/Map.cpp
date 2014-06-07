@@ -246,7 +246,17 @@ Map::iterator	Map::begin()
   return _map.begin();
 }
 
+Map::const_iterator	Map::begin() const
+{
+  return _map.begin();
+}
+
 Map::iterator	Map::end()
+{
+  return _map.end();
+}
+
+Map::const_iterator	Map::end() const
 {
   return _map.end();
 }

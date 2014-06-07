@@ -41,14 +41,14 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new Player(place.getNewPos(), _currentMap));
+      _players.push_back(new PlayerManager(place.getNewPos(), _currentMap));
       i++;
     }
   for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)
     if (_currentMap->addEntity(*it) != true)
       throw nFault("Error in the initializiation of the map");
-  for (std::vector<Player *>::iterator it = _players.begin() ; it != _players.end(); ++it)
-    if (_currentMap->addEntity(*it) != true)
+  for (std::vector<PlayerManager*>::iterator it = _players.begin() ; it != _players.end(); ++it)
+    if (_currentMap->addEntity(&(*it)->getPlayer()) != true)
       throw nFault("Error in the initializiation of the map");
 
 

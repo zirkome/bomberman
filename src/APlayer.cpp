@@ -59,7 +59,7 @@ void	APlayer::setPos(const glm::vec2 &new_pos)
   _pos = new_pos;
 }
 
-void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
   _obj->draw(shader, clock);
 }

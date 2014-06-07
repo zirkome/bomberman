@@ -5,12 +5,19 @@
 # include <exception>
 # include <stdexcept>
 
+# include <Clock.hh>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
 # include <Geometry.hh>
 # include <Texture.hh>
 # include <BasicShader.hpp>
 # include <Model.hh>
+
+# include "Map.hpp"
+# include "Pan.hpp"
+# include "SkyBox.hpp"
+# include "FontText.hpp"
+# include "PlayerManager.hpp"
 
 # include "config.h"
 
