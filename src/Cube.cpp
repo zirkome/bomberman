@@ -9,8 +9,8 @@ Cube::Cube(gdl::Geometry* geometry)
 }
 
 Cube::Cube(const Cube& c)
+  : AObject::AObject(c), _geometry(c._geometry)
 {
-  _geometry = c._geometry;
 }
 
 const Cube& Cube::operator=(const Cube& c)

@@ -29,7 +29,7 @@ void	Wall::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 
 }
 
-void	Wall::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void	Wall::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
   _texture->bind();
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

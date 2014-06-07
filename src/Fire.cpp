@@ -29,10 +29,9 @@ void	Fire::setPos(const glm::vec2 &new_pos)
 
 void	Fire::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
-
 }
 
-void	Fire::draw(gdl::AShader *shader, const gdl::Clock& clock)
+void	Fire::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
   _texture->bind();
   _obj->draw(shader, clock);

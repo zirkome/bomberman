@@ -12,9 +12,8 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
   _player->scale(glm::vec3(0.003, 0.003, 0.003));
   _player->createSubAnim(0, "standby", 0, 0);
-  _player->createSubAnim(0, "start_walking", 0, 41);
-  _player->createSubAnim(0, "walk", 42, 63);
-  _player->createSubAnim(0, "stop_walking", 64, 121);
+  _player->createSubAnim(0, "stop_walking", 30, 60);
+  _player->createSubAnim(0, "walk", 0, 30);
   _player->setCurrentSubAnim("walk");
 
   _logo = new Pan();

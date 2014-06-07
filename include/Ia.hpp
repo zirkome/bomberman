@@ -6,9 +6,9 @@
 # include "config.h"
 
 extern "C" {
-# include "lua.h"
-# include "lualib.h"
-# include "lauxlib.h"
+# include <lua.h>
+# include <lualib.h>
+# include <lauxlib.h>
 }
 
 # include "Fault.hpp"
@@ -33,16 +33,13 @@ private:
 
 public:
   int getMap(int x, int y) const;
-  double getX() const;
-  double getY() const;
-  void setX(const double x);
-  void setY(const double y);
+  const glm::vec2& getPos() const;
+
   void update(gdl::Input &input, gdl::Clock const &clock);
   void action(int act);
   void *init();
   bool nothing(UNUSED double const distance);
-  double getMapX() const;
-  double getMapY() const;
+  const glm::vec2& getMapDimension() const;
 public:
   Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName);
   ~Ia();

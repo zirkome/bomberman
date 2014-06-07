@@ -19,7 +19,7 @@ public:
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
   virtual void	update(gdl::Input &input, gdl::Clock const &clock);
-  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
+  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock) const;
   virtual IEntity::Type getType() const;
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);

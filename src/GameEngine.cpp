@@ -102,7 +102,7 @@ void GameEngine::draw()
       break;
     case Game:
     default:
-      _game->drawGame(_input, _clock);
+      _game->drawGame(_clock);
       break;
     }
   _context->flush();
