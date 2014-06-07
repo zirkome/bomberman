@@ -31,6 +31,7 @@ void	Bomb::setPos(const glm::vec2 &new_pos)
 
 void	Bomb::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 {
+  _obj->scale(glm::vec3(1.005f, 1.005f, 1.005f));
   if (_status == BURNING || _time.update(clock.getElapsed()))
     {
       this->explode(clock);
@@ -43,6 +44,8 @@ void	Bomb::explode(gdl::Clock const &clock)
     return ;
   _status = BURNING;
   _distance += clock.getElapsed() * _speed;
+  if (_distance >= _range)
+    _distance = _range;
   this->spreadTop();
   this->spreadLeft();
   this->spreadDown();
@@ -62,13 +65,17 @@ bool	Bomb::destroyEntity(int x, int y) const
 
   entity = _map->getEntityAt(x, y);
   if (!entity || entity == this)
+    entity = _map->getPlayerAt(x, y);
+  if (!entity)
     return true;
   if (entity->getType() == WALL)
     return false;
-  if (entity->getType() == BOX)
+  if (entity->getType() != BOMB)
     entity->setStatus(DESTROY);
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
+  if (entity->getType() == BOX)
+    return false;
   return true;
 }
 
@@ -77,8 +84,6 @@ bool	Bomb::spreadTop()
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  if (_distance >= _range)
-    _distance = _range;
   while (cpy.y < _distance + _vec.y) {
       if (!this->destroyEntity(cpy.x, cpy.y))
         return false;
@@ -94,8 +99,6 @@ bool	Bomb::spreadLeft()
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  if (_distance >= _range)
-    _distance = _range;
   while (cpy.x < _distance + _vec.x) {
       if (!this->destroyEntity(cpy.x, cpy.y))
         return true;
@@ -111,8 +114,6 @@ bool	Bomb::spreadDown()
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  if (_distance >= _range)
-    _distance = _range;
   while (cpy.y > _vec.y - _distance) {
       if (!this->destroyEntity(cpy.x, cpy.y))
         return false;
@@ -128,8 +129,6 @@ bool	Bomb::spreadRight()
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  if (_distance >= _range)
-    _distance = _range;
   while (cpy.x > _vec.x - _distance) {
       if (!this->destroyEntity(cpy.x, cpy.y))
         return false;

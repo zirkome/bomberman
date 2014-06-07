@@ -187,6 +187,19 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
   return NULL;
 }
 
+IEntity	*Map::getPlayerAt(const int x, const int y) const
+{
+  int x1, y1;
+
+  for (LMap::const_iterator it = _playerList.begin(), end = _playerList.end(); it != end; ++it) {
+      x1 = (*it)->getPos().x + 0.7;
+      y1 = (*it)->getPos().y + 0.7;
+      if (x1 == x && y1 == y)
+	return *it;
+  }
+  return NULL;
+}
+
 /*
 ** Return the Type of an Entity at coor(x, y)
 */
@@ -206,6 +219,11 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
   return type;
 }
 
+Map::LMap		&Map::getPlayerList()
+{
+  return _playerList;
+}
+
 /*
 ** Add an entity in the map if it's possible, else return false
 */
@@ -218,7 +236,10 @@ bool		Map::addEntity(IEntity *entity)
     if ((*(*it)).getPos().x == (*entity).getPos().x &&
 	(*(*it)).getPos().y == (*entity).getPos().y)
 	return false;*/ /* We can have more than one think one the map */
-  _map.push_back(entity);
+  if (entity->getType() == IEntity::PLAYER)
+    _playerList.push_back(entity);
+  else
+    _map.push_back(entity);
   return true;
 }
 
@@ -251,6 +272,17 @@ Map::const_iterator	Map::begin() const
   return _map.begin();
 }
 
+Map::iterator	Map::playerBegin()
+{
+  return _playerList.begin();
+}
+
+Map::const_iterator	Map::playerBegin() const
+{
+  return _playerList.begin();
+}
+
+
 Map::iterator	Map::end()
 {
   return _map.end();
@@ -259,4 +291,14 @@ Map::iterator	Map::end()
 Map::const_iterator	Map::end() const
 {
   return _map.end();
+}
+
+Map::iterator	Map::playerEnd()
+{
+  return _playerList.end();
+}
+
+Map::const_iterator	Map::playerEnd() const
+{
+  return _playerList.end();
 }

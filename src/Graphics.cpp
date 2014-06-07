@@ -99,7 +99,8 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const std::vector<PlayerMan
       const std::list<IEntity*>& ent = (*it)->getNearList();
 
       for (std::list<IEntity*>::const_iterator itt = ent.begin(), end = ent.end(); itt != end; ++itt)
-        (*itt)->draw(_shader, clock);
+        if ((*itt)->getStatus() != IEntity::DESTROY)
+          (*itt)->draw(_shader, clock);
 
       glDisable(GL_CULL_FACE);
 
