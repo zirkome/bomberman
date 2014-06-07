@@ -1,4 +1,6 @@
+#include "ResourceManager.hpp"
 #include "Box.hpp"
+#include "config.h"
 
 Box::Box(const glm::vec2 &pos) : _vec(pos)
 {
@@ -6,7 +8,8 @@ Box::Box(const glm::vec2 &pos) : _vec(pos)
   _obj = new Cube();
   _obj->scale(glm::vec3(.5f, .5f, .5f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
-  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::BOX);
+
+  _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "box_texture.tga");
 }
 
 Box::~Box()

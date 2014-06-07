@@ -1,4 +1,5 @@
 #include "Cube.hpp"
+#include "config.h"
 
 static gdl::Geometry* geometry = NULL;
 

@@ -1,11 +1,11 @@
 #ifndef TRACKCAM_H
 # define TRACKCAM_H
 
-# include "config.h"
-# include "ACamera.hpp"
+# include <SdlContext.hh>
 # include <glm/gtx/rotate_vector.hpp>
 
-# include <SdlContext.hh>
+# include "config.h"
+# include "ACamera.hpp"
 
 class TrackCam : public ACamera
 {

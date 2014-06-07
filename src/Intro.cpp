@@ -1,3 +1,4 @@
+#include "ResourceManager.hpp"
 #include "PivotingCam.hpp"
 #include "Intro.hpp"
 
@@ -19,7 +20,8 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
   _logo->translate(_pos);
   _logo->scale(glm::vec3(5.0f, 1.0f, 2.0f));
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);
-  _texture = AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::LOGO);
+
+  _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "bomberman.tga");
 
   init(win);
   /*  if (menu)
@@ -82,11 +84,11 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         {
           _pos.x += -(clock.getElapsed() * _speed);
           _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
-	  if (input.getKey(SDLK_RETURN, true))
-	    {
-	      _logo->translate(glm::vec3(-(_pos.x), 0, 0));
-	      _pos.x = 0.0;
-	    }
+          if (input.getKey(SDLK_RETURN, true))
+            {
+              _logo->translate(glm::vec3(-(_pos.x), 0, 0));
+              _pos.x = 0.0;
+            }
         }
       else
         {
@@ -98,7 +100,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
   else if (_state == Menu)
     {
       if (_menu->finish())
-	_state = Finished;
+        _state = Finished;
       if (_pos.y < 4.0)
         {
           _pos.y += clock.getElapsed() * _speed;

@@ -1,13 +1,12 @@
 #ifndef _CUBE6FACE_H_
 # define _CUBE6FACE_H_
 
+# include <iostream>
 # include <Texture.hh>
 # include <Geometry.hh>
-# include <iostream>
 
 # include "IEntity.hpp"
 # include "AObject.hpp"
-# include "AssetsManager.hpp"
 
 class Cube6Face : public AObject
 {

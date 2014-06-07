@@ -3,8 +3,9 @@
 
 # include <Input.hh>
 # include <Clock.hh>
-# include <Texture.hh>
 
+# include "SharedPointer.hpp"
+# include "Texture.hpp"
 # include "Model.hpp"
 # include "FontText.hpp"
 # include "ACamera.hpp"
@@ -33,7 +34,7 @@ private:
   Model *_player;
   AObject *_logo;
   glm::mat4 _proj;
-  gdl::Texture *_texture;
+  SharedPointer<Texture> _texture;
   gdl::AShader *_shader;
   int _speed;
   glm::vec3 _pos;

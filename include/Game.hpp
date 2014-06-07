@@ -44,11 +44,12 @@ private:
   void drawHud(gdl::AShader *shader, gdl::Clock const &clock) const;
 
 private:
-  std::vector<Ia *> _listIA; //Why not Ia and player doesn't hineretaded from the same class ?
+  std::vector<Ia *> _listIA;
   std::vector<PlayerManager*> _players;
 
   Map *_currentMap;
   GameGraphics _ogl;
+  SharedPointer<Texture> _groundTex;
 };
 
 #endif

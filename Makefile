@@ -28,7 +28,6 @@ SRC		=	main.cpp \
 			OrthoCam.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
-			AssetsManager.cpp \
 			Pan.cpp \
 			Ground.cpp \
 			Placement.cpp \
@@ -41,10 +40,19 @@ SRC		=	main.cpp \
 			SkyBox.cpp \
 			SoundManager.cpp \
 			Sound.cpp \
+			SharedPointer.cpp \
 			Timer.cpp \
-			Fire.cpp \
 			ABonus.cpp \
-			BonusWalk.cpp
+			BonusWalk.cpp \
+			TextureLoader.cpp \
+			ModelLoader.cpp \
+			ReferenceCounter.cpp \
+			Helper.cpp \
+			AResource.cpp \
+			Texture.cpp \
+			MediaManager.cpp \
+			ResourceManager.cpp \
+			Fire.cpp
 
 CC		=	g++
 

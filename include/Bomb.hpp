@@ -2,7 +2,7 @@
 # define BOMB_HPP_
 
 # include <Texture.hh>
-# include <AssetsManager.hpp>
+
 # include "Map.hpp"
 # include "Cube.hpp"
 # include "config.h"

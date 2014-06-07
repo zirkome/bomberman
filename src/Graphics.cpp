@@ -62,7 +62,9 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
   _ground->rotate(glm::vec3(1, 0, 0), 90.0);
 
   _font = new FontText(RES_TEXTURE "font.tga");
-
+  _groundTex =
+    ResourceManager::getInstance()->get<Texture>(
+      RES_TEXTURE "ground_texture.tga");
   return true;
 }
 
@@ -99,11 +101,12 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const std::vector<PlayerMan
       const std::list<IEntity*>& ent = (*it)->getNearList();
 
       for (std::list<IEntity*>::const_iterator itt = ent.begin(), end = ent.end(); itt != end; ++itt)
-        (*itt)->draw(_shader, clock);
+        if ((*itt)->getStatus() != IEntity::DESTROY)
+          (*itt)->draw(_shader, clock);
 
       glDisable(GL_CULL_FACE);
 
-      AssetsManager::getInstance()->getAssets<gdl::Texture>(IEntity::GROUND)->bind();
+      _groundTex->bind();
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       _ground->draw(_shader, clock);

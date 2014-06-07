@@ -55,6 +55,7 @@ protected:
   SkyBox _skybox;
   FontText *_font;
   glm::mat4 _ortho;
+  SharedPointer<Texture> _groundTex;
 };
 
 #endif

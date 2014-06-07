@@ -11,8 +11,9 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
+  _statusOfObject = OK;
   _status = STANDBY;
-  _speed = 4;
+  _speed = 3;
   _way = UP;
   _size = 0.7;
   _lvl = 1;
@@ -130,16 +131,12 @@ bool APlayer::bomb()
 {
   int x = _pos.x + _size;
   int y = _pos.y + _size;
-  static int prevX = 0;
-  static int prevY = 0;
 
-  if (prevX == x && prevY == y)
+  if (_map->getTypeAt(x, y) != NONE)
     return false;
   if (!_bombList.empty()) {
       _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
       _bombList.pop_front();
-      prevX = x;
-      prevY = y;
     }
   return false;
 }

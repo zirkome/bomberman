@@ -18,12 +18,12 @@ public:
   {
     if (_singleton == NULL)
       {
-	ScopeLock lock(*_mutex);
+        ScopeLock lock(*_mutex);
         if (_singleton == NULL)
-	  {
-	    _singleton = static_cast<T*>(operator new(sizeof(T)));
-	    new (_singleton) T;
-	  }
+          {
+            _singleton = static_cast<T*>(operator new(sizeof(T)));
+            new (_singleton) T;
+          }
       }
     return _singleton;
   }

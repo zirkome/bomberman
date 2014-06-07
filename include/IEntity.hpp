@@ -1,5 +1,5 @@
 #ifndef IENTITY_HPP_
-#define IENTITY_HPP_
+# define IENTITY_HPP_
 
 # include <Clock.hh>
 # include <Input.hh>
@@ -22,12 +22,14 @@ public:
       LOGO,
       NONE
     };
+
   enum Symbol
-    {
-      S_BOX = 'o',
-      S_WALL = '#',
-      S_NONE = ' '
-    };
+  {
+    S_BOX = 'o',
+    S_WALL = '#',
+    S_NONE = ' '
+  };
+
   enum Status
     {
       OK = 0,

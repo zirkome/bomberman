@@ -1,6 +1,8 @@
 #include <sstream>
 #include <iomanip>
+#include <Geometry.hh>
 
+#include "ResourceManager.hpp"
 #include "EntitiesFactory.hpp"
 #include "Game.hpp"
 #include "AShader.hh"
@@ -10,7 +12,7 @@
 #include "TrackCam.hpp"
 #include "OrthoCam.hpp"
 #include "config.h"
-#include <Geometry.hh>
+#include "BasicCam.hpp"
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
 {
@@ -72,6 +74,15 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
       (*it)->update(input, clock);
       if ((*it)->getStatus() == IEntity::DESTROY)
         listMapToDelete.push_back(it);
+    }
+
+  Map::LMap playerList = _currentMap->getPlayerList();
+  for (Map::iterator it = playerList.begin(), end = playerList.end(); it != end; ++it) {
+      if ((*it)->getStatus() == IEntity::DESTROY) {
+          //TODO HANDLE DEFEAT
+        }
+      else
+        (*it)->update(input, clock);
     }
 
   //Delete every elements which are DESTROYs

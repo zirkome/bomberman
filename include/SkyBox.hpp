@@ -1,11 +1,11 @@
 #ifndef _SKYBOX_H_
 # define _SKYBOX_H_
 
-# include <Clock.hh>
-
 # include "Cube6Face.hpp"
+# include "SharedPointer.hpp"
+# include "Texture.hpp"
 
-class SkyBox : public Cube6Face
+class SkyBox
 {
 public:
   explicit SkyBox();
@@ -17,6 +17,7 @@ public:
             const glm::vec3& pos) const;
 
 protected:
+  SharedPointer<Texture> _texture;
   Cube6Face _cube;
 };
 
