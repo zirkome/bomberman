@@ -1,5 +1,5 @@
 #ifndef IENTITY_HPP_
-#define IENTITY_HPP_
+# define IENTITY_HPP_
 
 # include <Clock.hh>
 # include <Input.hh>

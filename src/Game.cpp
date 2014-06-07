@@ -1,6 +1,8 @@
 #include <sstream>
 #include <iomanip>
+#include <Geometry.hh>
 
+#include "ResourceManager.hpp"
 #include "EntitiesFactory.hpp"
 #include "Game.hpp"
 #include "AShader.hh"
@@ -10,7 +12,7 @@
 #include "TrackCam.hpp"
 #include "OrthoCam.hpp"
 #include "config.h"
-#include <Geometry.hh>
+#include "BasicCam.hpp"
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
 {

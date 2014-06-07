@@ -1,7 +1,7 @@
 #ifndef _BASICCAM_H_
-#define _BASICCAM_H_
+# define _BASICCAM_H_
 
-#include "ACamera.hpp"
+# include "ACamera.hpp"
 
 class BasicCam : public ACamera
 {

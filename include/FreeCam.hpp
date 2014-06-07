@@ -1,8 +1,9 @@
 #ifndef FREECAM_H
 # define FREECAM_H
 
-# include "ACamera.hpp"
 # include <SdlContext.hh>
+
+# include "ACamera.hpp"
 
 class FreeCam : public ACamera
 {

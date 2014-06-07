@@ -47,6 +47,7 @@ private:
 
   Map *_currentMap;
   GameGraphics _ogl;
+  SharedPointer<Texture> _groundTex;
 };
 
 #endif

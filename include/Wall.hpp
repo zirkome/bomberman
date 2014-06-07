@@ -1,7 +1,9 @@
 #ifndef WALL_HPP_
 # define WALL_HPP_
 
-# include "Texture.hh"
+# include "Texture.hpp"
+# include "SharedPointer.hpp"
+# include "ResourceManager.hpp"
 # include "IEntity.hpp"
 # include "AObject.hpp"
 
@@ -10,7 +12,7 @@ class Wall : public IEntity
 private:
   glm::vec2	_vec;
   AObject	*_obj;
-  gdl::Texture	*_texture;
+  SharedPointer<Texture> _texture;
 
 public:
   Wall(const glm::vec2 &pos);

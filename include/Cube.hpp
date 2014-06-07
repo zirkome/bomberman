@@ -1,13 +1,12 @@
 #ifndef _CUBE_H_
 # define _CUBE_H_
 
+# include <iostream>
 # include <Texture.hh>
 # include <Geometry.hh>
-# include <iostream>
 
 # include "IEntity.hpp"
 # include "AObject.hpp"
-# include "AssetsManager.hpp"
 
 class Cube : public AObject
 {

@@ -4,8 +4,8 @@
 # include <string>
 # include <map>
 # include <list>
+
 # include "APlayer.hpp"
-# include "AssetsManager.hpp"
 # include "Bomb.hpp"
 
 class Player : public APlayer
