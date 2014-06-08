@@ -14,7 +14,7 @@ GameModel::GameModel(const SharedPointer<Model>& mod)
 }
 
 GameModel::GameModel(const std::string& path)
-  : _model(MediaManager::getInstance()->loadMediaFromFile<T>(path))
+  : _model(MediaManager::getInstance()->loadMediaFromFile<Model>(path))
 {
 
 }
@@ -24,13 +24,7 @@ void GameModel::draw(gdl::AShader *shader, const gdl::Clock& clock)
   _model->draw(*shader, getTransformation(), clock.getElapsed());
 }
 
-Model& GameModel::operator->()
+Model* GameModel::operator->() const
 {
-  return *_model;
+  return _model.ptr();
 }
-
-const Model& GameModel::operator->() const
-{
-  return *_model;
-}
-

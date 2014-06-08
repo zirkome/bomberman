@@ -21,13 +21,13 @@ class Bomb : public IEntity
 private:
   APlayer *_player;
   glm::vec2 _vec;
-  SharedPointer<Model> _obj;
   int _lvl;
   Map *_map;
   FireList _fireList;
   Timer _time;
   Timer _staytime;
   double _range;
+  GameModel *_obj;
   IEntity::Status _status;
   int _speed;
   double _distance;

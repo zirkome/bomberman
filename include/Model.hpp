@@ -24,10 +24,9 @@ public:
   GameModel(const std::string& path);
   virtual ~GameModel() {};
 
-  virtual void	draw(gdl::AShader *shader, const gdl::Clock& clock);
+  virtual void draw(gdl::AShader *shader, const gdl::Clock& clock);
 
-  Model& operator->();
-  const Model& operator->() const;
+  Model* operator->() const;
 
 private:
   SharedPointer<Model> _model;
