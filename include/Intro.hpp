@@ -32,7 +32,7 @@ private:
   ::Menu *_menu;
   PivotingCam *_cam;
   Model *_player;
-  Model *_bomb;
+  SharedPointer<Model> _bomb;
   AObject *_logo;
   glm::mat4 _proj;
   SharedPointer<Texture> _texture;

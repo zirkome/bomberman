@@ -16,14 +16,14 @@ public:
   SharedPointer()
     : _ptr(NULL), _ref(NULL)
   {
-    _ref = new R();
+    _ref = new R;
     _ref->addReference();
   }
 
   SharedPointer(T *value)
     : _ptr(value), _ref(NULL)
   {
-    _ref = new R();
+    _ref = new R;
     _ref->addReference();
   }
 
@@ -42,7 +42,7 @@ public:
 
   ~SharedPointer()
   {
-    if (_ref && _ref->release() == 0)
+    if (_ref->release() == 0)
       {
         delete _ptr;
         delete _ref;

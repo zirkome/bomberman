@@ -9,15 +9,14 @@ Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map) :
   _status = OK;
   _speed = _range * 10;
   _distance = 0;
-  _obj = new Model(RES_MODEL "bomb.fbx");
+  _obj = ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx");
   _obj->scale(glm::vec3(0.0025f, 0.0025f, 0.0025f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
 }
 
 Bomb::~Bomb()
 {
-  delete _obj;
-}
+ }
 
 const glm::vec2	&Bomb::getPos() const
 {
