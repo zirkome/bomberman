@@ -18,7 +18,7 @@ Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map) :
 
 Bomb::~Bomb()
 {
-
+  delete _obj;
 }
 
 const glm::vec2	&Bomb::getPos() const

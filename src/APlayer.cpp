@@ -53,6 +53,12 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
 
 APlayer::~APlayer()
 {
+  delete _obj;
+  for (std::map<int, movementCoef*>::iterator it = _moveConf.begin();
+       it != _moveConf.end(); ++it)
+    {
+      delete it->second;
+    }
 }
 
 const glm::vec2	&APlayer::getPos() const

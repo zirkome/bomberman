@@ -6,7 +6,8 @@
 ** constructor random map
 */
 
-Map::Map(const int x, const int y) : _dim(x, y), _mutex(new PMutex)
+Map::Map(const int x, const int y)
+  : _dim(x, y)
 {
   srand(time(NULL));
 
@@ -20,7 +21,8 @@ Map::Map(const int x, const int y) : _dim(x, y), _mutex(new PMutex)
 ** constructor map with fileName
 */
 
-Map::Map(std::string const &mapFileName) : _dim(0, 0), _mutex(new PMutex)
+Map::Map(std::string const &mapFileName)
+  : _dim(0, 0)
 {
   _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
   _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
@@ -37,7 +39,6 @@ Map::~Map()
       delete entity;
       _map.pop_front();
     }
-  delete _mutex;
 }
 
 /*
@@ -179,8 +180,6 @@ const glm::vec2 &Map::getDimension() const
 
 IEntity		*Map::getEntityAt(const int x, const int y) const
 {
-  ScopeLock	lk(*_mutex);
-
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y)
       return *it;
@@ -194,6 +193,10 @@ IEntity	*Map::getPlayerAt(const int x, const int y) const
   for (LMap::const_iterator it = _playerList.begin(), end = _playerList.end(); it != end; ++it) {
       x1 = (*it)->getPos().x + 0.7;
       y1 = (*it)->getPos().y + 0.7;
+      if (x1 == x && y1 == y)
+        return *it;
+      x1 = (*it)->getPos().x + 0.3;
+      y1 = (*it)->getPos().y + 0.3;
       if (x1 == x && y1 == y)
         return *it;
     }
@@ -230,8 +233,6 @@ Map::LMap		&Map::getPlayerList()
 
 bool		Map::addEntity(IEntity *entity)
 {
-  ScopeLock	lk(*_mutex);
-
   /*  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == (*entity).getPos().x &&
   (*(*it)).getPos().y == (*entity).getPos().y)
@@ -249,7 +250,6 @@ bool		Map::addEntity(IEntity *entity)
 
 bool	Map::deleteEntityAt(const int x, const int y)
 {
-  ScopeLock	lk(*_mutex);
   IEntity	*entity;
 
   for (LMap::iterator it = _map.begin(); it != _map.end(); ++it)

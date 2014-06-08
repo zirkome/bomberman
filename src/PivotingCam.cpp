@@ -9,7 +9,7 @@ PivotingCam::PivotingCam(const glm::vec2 &toFollow, float elevation, float dista
   _elevation = elevation;
 }
 
-void		PivotingCam::update(const glm::vec2 &toFollow)
+void PivotingCam::update(const glm::vec2 &toFollow)
 {
   _forward = glm::vec3(toFollow.x, 0.5, toFollow.y);
 }

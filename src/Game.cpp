@@ -65,6 +65,13 @@ void Game::init(const glm::ivec2& win)
 
 Game::~Game()
 {
+  for (std::vector<Ia*>::iterator it = _listIA.begin();
+       it != _listIA.end(); ++it)
+    delete *it;
+  for (std::vector<PlayerManager*>::iterator it = _players.begin();
+       it != _players.end(); ++it)
+    delete *it;
+  delete _currentMap;
 }
 
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
@@ -132,3 +139,4 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
   font.displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
 }
+

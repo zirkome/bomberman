@@ -12,6 +12,7 @@ Wall::Wall(const glm::vec2 &pos) : _vec(pos)
 
 Wall::~Wall()
 {
+  delete _obj;
 }
 
 const glm::vec2	&Wall::getPos() const

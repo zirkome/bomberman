@@ -33,13 +33,30 @@ public:
     _ref->addReference();
   }
 
+  template <class U>
+  SharedPointer(const SharedPointer<U>& sp)
+    : _ptr(static_cast<T*>(sp.ptr())), _ref(sp.ref())
+  {
+    _ref->addReference();
+  }
+
   ~SharedPointer()
   {
-    if (_ref->release() == 0)
+    if (_ref && _ref->release() == 0)
       {
         delete _ptr;
         delete _ref;
       }
+  }
+
+  R* ref() const
+  {
+      return _ref;
+  }
+
+  T* ptr() const
+  {
+      return _ptr;
   }
 
   T& operator*() const
@@ -51,6 +68,7 @@ public:
   {
     return _ptr;
   }
+
 
   SharedPointer<T>& operator=(const SharedPointer<T>& sp)
   {

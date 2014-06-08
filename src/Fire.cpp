@@ -13,7 +13,7 @@ Fire::Fire(const glm::vec2 &pos) : _vec(pos)
 
 Fire::~Fire()
 {
-
+  delete _obj;
 }
 
 const glm::vec2	&Fire::getPos() const
@@ -39,7 +39,7 @@ void	Fire::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 
 IEntity::Type Fire::getType() const
 {
-  return IEntity::WALL;
+  return IEntity::FIRE;
 }
 
 IEntity::Status Fire::getStatus() const

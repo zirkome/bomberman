@@ -16,7 +16,7 @@ Ground::Ground(const glm::vec2 &pos)
 
 Ground::~Ground()
 {
-
+  delete _obj;
 }
 
 const glm::vec2	&Ground::getPos() const
