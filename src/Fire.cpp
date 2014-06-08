@@ -13,7 +13,7 @@ Fire::Fire(const glm::vec2 &pos) : _vec(pos)
 
 Fire::~Fire()
 {
-
+  delete _obj;
 }
 
 const glm::vec2	&Fire::getPos() const

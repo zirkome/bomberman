@@ -24,6 +24,7 @@ Menu::Menu(PivotingCam *cam)
 
 Menu::~Menu()
 {
+  delete _font;
 }
 
 void Menu::init()

@@ -6,7 +6,7 @@ Box::Box(const glm::vec2 &pos) : _vec(pos)
 {
   _status = OK;
   _obj = new Cube();
-  _obj->scale(glm::vec3(.5f, .5f, .5f));
+  _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
 
   _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "box_texture.tga");
@@ -14,6 +14,7 @@ Box::Box(const glm::vec2 &pos) : _vec(pos)
 
 Box::~Box()
 {
+  delete _obj;
 }
 
 const glm::vec2	&Box::getPos() const

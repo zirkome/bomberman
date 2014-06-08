@@ -21,6 +21,9 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
   _logo->scale(glm::vec3(5.0f, 1.0f, 2.0f));
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);
 
+  _bomb = new Model(RES_MODEL "bomb.fbx");
+  _bomb->scale(glm::vec3(0.025f, 0.025f, 0.025f));
+
   _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "bomberman.tga");
 
   init(win);
@@ -33,6 +36,9 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
 
 Intro::~Intro()
 {
+  delete _player;
+  delete _logo;
+  delete _bomb;
   if (_menu != NULL)
     delete _menu;
 }
@@ -131,6 +137,7 @@ void Intro::drawIntro(gdl::Clock const &clock) const
   _shader->setUniform("projection", _proj);
 
   _player->draw(_shader, clock);
+  _bomb->draw(_shader, clock);
 
   _texture->bind();
   _logo->draw(_shader, clock);
