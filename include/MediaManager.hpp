@@ -67,7 +67,7 @@ inline ILoader<T>& MediaManager::findLoader(const std::string& filename)
 
   if (it != MediaHolder<T>::_loaders.end())
     return *it->second;
-  throw nFault("No such loader for this type of file.");
+  throw nFault(std::string("No loader for file: ") + filename);
 }
 
 template<class T>

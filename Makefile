@@ -50,7 +50,8 @@ SRC		=	main.cpp \
 			Texture.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
-			Fire.cpp
+			Fire.cpp \
+			PreLoader.cpp
 
 CC		=	g++
 
