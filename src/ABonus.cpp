@@ -1,7 +1,7 @@
 # include "ABonus.hpp"
 
 ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
-  : _pos(pos), _toDisplay(10), _effectTime(effectTime)
+  : _pos(pos), _toDisplay(100), _effectTime(effectTime)
 {
   _status = OK;
 

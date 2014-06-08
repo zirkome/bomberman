@@ -12,6 +12,8 @@
 # include "APlayer.hpp"
 # include "SoundManager.hpp"
 
+#include "BonusWalk.hpp"
+
 class Bomb : public IEntity
 {
   typedef std::list<Fire *> FireList;
@@ -30,6 +32,7 @@ private:
   int _speed;
   double _distance;
 
+  std::vector<ABonus *> _generatedBonus;
 public:
   Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map);
   virtual ~Bomb();
@@ -43,7 +46,7 @@ public:
 
 private:
   void	explode(gdl::Clock const &clock);
-  bool	destroyEntity(int x, int y) const;
+  bool	destroyEntity(const glm::vec2 &pos);
   bool	spreadTop();
   bool	spreadLeft();
   bool	spreadDown();

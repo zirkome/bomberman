@@ -8,7 +8,9 @@ Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map) :
   _player = player;
   _status = OK;
   _speed = _range * 10;
+
   _distance = 0;
+
   _obj = new Model(RES_MODEL "bomb.fbx");
   _obj->scale(glm::vec3(0.0025f, 0.0025f, 0.0025f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
@@ -56,16 +58,22 @@ void	Bomb::explode(gdl::Clock const &clock)
       _status = DESTROY;
       _player->createBomb();
       SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
+      for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(), end = _generatedBonus.end();
+	   it != end; it++)
+	{
+	  _map->addEntity(*it);
+	}
+      _generatedBonus.clear();
     }
 }
 
-bool	Bomb::destroyEntity(int x, int y) const
+bool	Bomb::destroyEntity(const glm::vec2 &pos)
 {
   IEntity *entity;
 
-  entity = _map->getEntityAt(x, y);
+  entity = _map->getEntityAt(pos.x, pos.y);
   if (!entity || entity == this)
-    entity = _map->getPlayerAt(x, y);
+    entity = _map->getPlayerAt(pos.x, pos.y);
   if (!entity)
     return true;
   if (entity->getType() == WALL)
@@ -75,7 +83,10 @@ bool	Bomb::destroyEntity(int x, int y) const
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
   if (entity->getType() == BOX)
-    return false;
+    {
+      _generatedBonus.push_back(new BonusWalk(ABonus::SLOWLY, entity->getPos(), 10));
+      return false;
+    }
   return true;
 }
 
@@ -85,8 +96,8 @@ bool	Bomb::spreadTop()
   Fire fire(_vec);
 
   while (cpy.y < _distance + _vec.y) {
-      if (!this->destroyEntity(cpy.x, cpy.y))
-        return false;
+    if (!this->destroyEntity(cpy))
+	break;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y += 1;
@@ -100,8 +111,8 @@ bool	Bomb::spreadLeft()
   Fire fire(_vec);
 
   while (cpy.x < _distance + _vec.x) {
-      if (!this->destroyEntity(cpy.x, cpy.y))
-        return true;
+      if (!this->destroyEntity(cpy))
+	break;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.x += 1;
@@ -115,8 +126,8 @@ bool	Bomb::spreadDown()
   Fire fire(_vec);
 
   while (cpy.y > _vec.y - _distance) {
-      if (!this->destroyEntity(cpy.x, cpy.y))
-        return false;
+      if (!this->destroyEntity(cpy))
+	break;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y -= 1;
@@ -130,8 +141,8 @@ bool	Bomb::spreadRight()
   Fire fire(_vec);
 
   while (cpy.x > _vec.x - _distance) {
-      if (!this->destroyEntity(cpy.x, cpy.y))
-        return false;
+      if (!this->destroyEntity(cpy))
+	break;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.x -= 1;

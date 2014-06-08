@@ -302,4 +302,3 @@ Map::const_iterator	Map::playerEnd() const
 {
   return _playerList.end();
 }
-

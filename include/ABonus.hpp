@@ -2,9 +2,13 @@
 #define _ABONUS_H_
 
 # include <Clock.hh>
+# include "config.h"
+
+# include "Texture.hpp"
+# include "SharedPointer.hpp"
+# include "ResourceManager.hpp"
 # include "APlayer.hpp"
 # include "Timer.hpp"
-
 
 struct bonusConf
 {
@@ -34,6 +38,7 @@ private:
   AObject	*_obj;
   double	_cube_speed;
   std::map<int, bonusConf *>	_typeConf;
+  SharedPointer<Texture> _texture;
 protected:
   IEntity::Status _status;
   Timer		_toDisplay, _effectTime;

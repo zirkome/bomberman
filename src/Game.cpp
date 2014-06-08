@@ -92,6 +92,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
     if ((*it)->getType() == IEntity::BOX)
       {
 	_currentMap->addEntity(new BonusWalk(ABonus::SLOWLY, (*it)->getPos(), 10));
+	// _currentMap->addEntity(new Wall((*it)->getPos()));
       }
     delete *it;
     _currentMap->getMap().erase(it);
