@@ -17,8 +17,9 @@ void	BonusWalk::start(APlayer *player)
   if (_typeWalk == FASTER)
     _increaseSpeed = 3;
   else
-    _increaseSpeed = ((currentSpeed - 3) <= 0 ? 0 : -3);
+    _increaseSpeed = -(currentSpeed - currentSpeed * 0.7);
 
+  std::cout << "speed now at : " << currentSpeed + _increaseSpeed << std::endl;
   player->setSpeed(currentSpeed + _increaseSpeed);
   _status = REMOVE;
 }

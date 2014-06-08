@@ -179,13 +179,16 @@ void Bomb::setStatus(IEntity::Status status)
 
 void	Bomb::createBonus(const glm::vec2 &pos)
 {
+  int	random;
+
   for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(); it != _generatedBonus.end(); ++it)
     {
       if ((*it)->getPos() == pos)
 	return;
     }
-  if (rand() % 2)
-    {
+  // if (!(random = rand() % 5))
+  //   {
+  //     std::cout << "random = " << random << std::endl;
       _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 2));
-    }
+    // }
 }

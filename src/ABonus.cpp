@@ -6,8 +6,11 @@ ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
   _status = OK;
 
   // _typeConf[SLOWLY] = new bonusConf(glm::vec4(1,0,0,1), 10);
-  // _typeConf[FASTER] = new bonusConf(glm::vec4(0,1,0,1), 10);
+  _bonusImg[FASTER] = "bonus_speed_up.tga";
+  _bonusImg[SLOWLY] = "bonus_speed_down.tga";
 
+  std::string path = std::string(RES_TEXTURE) + _bonusImg[type];
+  _texture = ResourceManager::getInstance()->get<Texture>(path);
   _obj = new Cube;
 
 
@@ -44,6 +47,11 @@ void	ABonus::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 
 void	ABonus::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
+  _texture->bind();
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   _obj->draw(shader, clock);
 }
 

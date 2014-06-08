@@ -40,6 +40,7 @@ private:
   AObject	*_obj;
   double	_cube_speed;
   SharedPointer<Texture> _texture;
+  std::map<BonusType, std::string> _bonusImg;
 protected:
   IEntity::Status _status;
   Timer		_toDisplay, _effectTime;
