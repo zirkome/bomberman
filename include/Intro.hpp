@@ -38,6 +38,7 @@ private:
   SharedPointer<Texture> _texture;
   gdl::AShader *_shader;
   int _speed;
+  bool _skipMenu;
   glm::vec3 _pos;
   glm::vec3 _pos2;
   enum {

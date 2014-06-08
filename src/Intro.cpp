@@ -2,11 +2,11 @@
 #include "PivotingCam.hpp"
 #include "Intro.hpp"
 
-Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
+Intro::Intro(const glm::ivec2& win, bool menu)
   : _speed(4), _pos(25.0, 0.0f, 0.0), _pos2(25.0, 0.0f, 0.0f), _state(Running)
 {
   _menu = NULL;
-
+  _skipMenu = menu;
   _player = new Model(RES_MODEL "marvin.fbx");
   _player->translate(glm::vec3(20.0, -0.5f, 0.0));
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
@@ -94,7 +94,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
           _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
           _bomb->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
           // _bomb->rotate(glm::vec3(0, 1, 0), 1.0f);
-          if (input.getKey(SDLK_RETURN, true))
+          if (input.getKey(SDLK_RETURN, true) || _skipMenu)
             {
               _logo->translate(glm::vec3(-(_pos.x), 0, 0));
               _bomb->translate(glm::vec3(-(_pos.x), 0, 0));
