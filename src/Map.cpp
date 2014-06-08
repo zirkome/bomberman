@@ -49,6 +49,7 @@ IEntity::Type	Map::getType(const char c) const
 {
   IEntity::Type	type = IEntity::NONE;
 
+  type = IEntity::NONE;
   try
     {
       type = _charToIEntity.at(c);

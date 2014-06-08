@@ -240,7 +240,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 bool Ia::nothing(UNUSED double const distance)
 {
   if (_status != STOP_WALK)
-    _obj->setCurrentSubAnim("stop_walk");
+    (*_obj)->setCurrentSubAnim("stop_walk");
   _status = STOP_WALK;
   return true;
 }

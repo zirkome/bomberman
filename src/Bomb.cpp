@@ -2,16 +2,16 @@
 #include "Bomb.hpp"
 #include <unistd.h>
 
-Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map) :
-  _vec(pos), _lvl(lvl), _map(map), _time(2), _staytime(0.25), _range(2 + lvl)
+Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map)
+  : _vec(pos), _lvl(lvl), _map(map), _time(2), _staytime(0.25), _range(2 + lvl)
+
 {
+  _obj = new GameModel(ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx"));
   _player = player;
   _status = OK;
   _speed = _range * 10;
 
   _distance = 0;
-
-  _obj = ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx");
 
   _obj->scale(glm::vec3(0.0025f, 0.0025f, 0.0025f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
@@ -19,9 +19,10 @@ Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map) :
 
 Bomb::~Bomb()
 {
- }
+  delete _obj;
+}
 
-const glm::vec2	&Bomb::getPos() const
+const glm::vec2	& Bomb::getPos() const
 {
   return _vec;
 }

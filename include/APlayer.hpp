@@ -52,7 +52,6 @@ protected:
   std::vector<int> _moveKey;
 
   glm::vec2 _pos;
-  Model *_obj;
   Map *_map;
   double _speed;
   double _size;
@@ -61,6 +60,7 @@ protected:
   BombList _bombList;
   size_t _stock;
   IEntity::Status _statusOfObject;
+  GameModel* _obj;
   int _lvl;
   std::map<int, movementCoef*> _moveConf;
   std::vector<ABonus *>		_bonus;

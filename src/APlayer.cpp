@@ -6,8 +6,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
 {
   _stock = 1;
 
-  _obj = new Model(RES_MODEL "marvin.fbx");
-
+  _obj = new GameModel(RES_MODEL "marvin.fbx");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
@@ -18,10 +17,10 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
   _size = 0.7;
   _lvl = 1;
 
-  _obj->createSubAnim(0, "standby", 0, 0);
-  _obj->createSubAnim(0, "walk", 0, 30);
-  _obj->createSubAnim(0, "stop_walking", 30, 60);
-  _obj->setCurrentSubAnim("standby");
+  (*_obj)->createSubAnim(0, "standby", 0, 0);
+  (*_obj)->createSubAnim(0, "walk", 0, 30);
+  (*_obj)->createSubAnim(0, "stop_walking", 30, 60);
+  (*_obj)->setCurrentSubAnim("standby");
 
   _moveKey.push_back(SDLK_UP);
   _moveKey.push_back(SDLK_DOWN);
@@ -139,7 +138,7 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
     {
       if (_status == WALK)
         {
-          _obj->setCurrentSubAnim("stop_walking", false);
+          (*_obj)->setCurrentSubAnim("stop_walking", false);
           _status = STOP_WALK;
         }
       return;
@@ -147,11 +146,11 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
   if (_status != WALK && hasMoved)
     {
       _status = WALK;
-      _obj->setCurrentSubAnim("walk");
+      (*_obj)->setCurrentSubAnim("walk");
     }
   else if (_status == WALK && !hasMoved)
     {
-      _obj->setCurrentSubAnim("stop_walking", false);
+      (*_obj)->setCurrentSubAnim("stop_walking", false);
       _status = STOP_WALK;
     }
 }
