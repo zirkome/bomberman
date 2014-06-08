@@ -47,7 +47,7 @@ Map::~Map()
 
 IEntity::Type	Map::getType(const char c) const
 {
-  IEntity::Type	type;
+  IEntity::Type	type = IEntity::NONE;
 
   try
     {

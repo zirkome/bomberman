@@ -81,6 +81,7 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   glm::vec2	toGoLeft;
   glm::vec2	toGoRight;
   bool	hasMoved = false;
+  bool	isBonus = false;
 
   // reset rotation
   _obj->setRotation(glm::vec3(0, 0, 0));
@@ -94,9 +95,36 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   // if the type to go is free --> move
 
   if ((glm::ivec2(toGoLeft) == glm::ivec2(_pos + mcoef->distLeft) &&
-       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)) ||
-      (_map->getTypeAt(toGoLeft.x, toGoLeft.y) == NONE &&
-       _map->getTypeAt(toGoRight.x, toGoRight.y) == NONE))
+       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)))
+    {
+      _pos += mcoef->dir * distance;
+      _obj->translate(mcoef->translate * distance);
+      return true;
+    }
+  IEntity *left = _map->getEntityAt(toGoLeft.x, toGoLeft.y);
+  IEntity *right = _map->getEntityAt(toGoRight.x, toGoRight.y);
+
+  if (left && left->getType() == IEntity::BONUS && left->getStatus() != IEntity::REMOVE)
+    {
+      // std::cout << "i take left" << std::endl;
+      ABonus *bonus = static_cast<ABonus *>(left);
+
+      bonus->start(this);
+      _bonus.push_back(bonus);
+      hasMoved = true;
+      isBonus = true;
+    }
+  if (right && right->getType() == IEntity::BONUS && right->getStatus() != IEntity::REMOVE)
+    {
+      // std::cout << "i take right" << std::endl;
+      ABonus *bonus = static_cast<ABonus *>(right);
+
+      bonus->start(this);
+      _bonus.push_back(bonus);
+      hasMoved = true;
+      isBonus = true;
+    }
+  if ((!left && !right) || isBonus)
     {
       _pos += mcoef->dir * distance;
       _obj->translate(mcoef->translate * distance);
@@ -145,6 +173,19 @@ bool APlayer::bomb()
       _bombList.pop_front();
     }
   return false;
+}
+
+void	APlayer::updateBonus(const gdl::Clock &clock)
+{
+  for (std::vector<ABonus *>::iterator it = _bonus.begin(), end = _bonus.end(); it != end; it++)
+    {
+      (*it)->update(this, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+	{
+	  delete (*it);
+	  _bonus.erase(it);
+	}
+    }
 }
 
 IEntity::Type APlayer::getType() const

@@ -22,6 +22,7 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
   distance = clock.getElapsed() * _speed;
   if (distance > 1.0)
     distance = 1.0;
+  updateBonus(clock);
   for (std::vector<int>::iterator it = _moveKey.begin(), end = _moveKey.end(); it != end; ++it)
     {
       if (input.getKey(*it))

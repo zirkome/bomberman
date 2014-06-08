@@ -1,7 +1,7 @@
 # include "ABonus.hpp"
 
 ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
-  : _pos(pos), _toDisplay(100), _effectTime(effectTime)
+  : _pos(pos), _toDisplay(10), _effectTime(effectTime)
 {
   _status = OK;
 
@@ -37,6 +37,9 @@ void	ABonus::setPos(const glm::vec2 &new_pos)
 void	ABonus::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
   _obj->rotate(glm::vec3(0,1,0), clock.getElapsed() * _cube_speed);
+
+  if (_toDisplay.update(clock.getElapsed()))
+    _status = DESTROY;
 }
 
 void	ABonus::draw(gdl::AShader *shader, const gdl::Clock& clock) const

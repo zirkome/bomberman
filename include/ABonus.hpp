@@ -4,11 +4,13 @@
 # include <Clock.hh>
 # include "config.h"
 
+# include "IEntity.hpp"
 # include "Texture.hpp"
 # include "SharedPointer.hpp"
 # include "ResourceManager.hpp"
-# include "APlayer.hpp"
 # include "Timer.hpp"
+# include "Cube.hpp"
+# include "APlayer.hpp"
 
 struct bonusConf
 {
@@ -58,10 +60,9 @@ public:
   virtual void update(APlayer *player, const gdl::Clock &) = 0;
   virtual std::string toString() = 0;
 
+  // static ABonus getRandomBonus() const;
 protected:
   virtual void stop(APlayer *player) = 0;
-// private:
-//   BonusType getRandomBonus() const;
 };
 
 #endif /* _ABONUS_H_ */

@@ -2,6 +2,7 @@
 # define BOMB_HPP_
 
 # include <Texture.hh>
+# include <stdlib.h>
 
 # include "Map.hpp"
 # include "Cube.hpp"
@@ -43,8 +44,8 @@ public:
   virtual IEntity::Type getType() const;
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);
-
 private:
+  void	createBonus(const glm::vec2 &pos);
   void	explode(gdl::Clock const &clock);
   bool	destroyEntity(const glm::vec2 &pos);
   bool	spreadTop();

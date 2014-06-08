@@ -79,7 +79,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it) {
       (*it)->update(input, clock);
-      if ((*it)->getStatus() == IEntity::DESTROY)
+      if ((*it)->getStatus() == IEntity::DESTROY || (*it)->getStatus() == IEntity::REMOVE)
         listMapToDelete.push_back(it);
     }
 
@@ -89,19 +89,20 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
           //TODO HANDLE DEFEAT
         }
       else
-        (*it)->update(input, clock);
-    }
+	{
+	  (*it)->update(input, clock);
+	}
+  }
 
   //Delete every elements which are DESTROYs
   while (!listMapToDelete.empty()) {
     //create bonus id box is destroyed
     std::list<IEntity *>::iterator it = listMapToDelete.front();
+
     if ((*it)->getType() == IEntity::BOX)
-      {
-	_currentMap->addEntity(new BonusWalk(ABonus::SLOWLY, (*it)->getPos(), 10));
-	// _currentMap->addEntity(new Wall((*it)->getPos()));
-      }
-    delete *it;
+      std::cout << "bonus" << std::endl;
+    if ((*it)->getStatus() == IEntity::DESTROY)
+      delete *it;
     _currentMap->getMap().erase(it);
     listMapToDelete.pop_front();
   }
@@ -139,4 +140,3 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
   font.displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
 }
-

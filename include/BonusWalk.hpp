@@ -1,7 +1,6 @@
 #ifndef _BONUSWALK_H_
 #define _BONUSWALK_H_
 
-# include "APlayer.hpp"
 # include "ABonus.hpp"
 # include <string>
 # include <sstream>
@@ -10,7 +9,6 @@ class BonusWalk : public ABonus
 {
 private:
   double	_increaseSpeed;
-  bool		_taken;
   BonusType	_typeWalk;
 public:
   BonusWalk(BonusType typeWalk, glm::vec2 pos, double effectTime);

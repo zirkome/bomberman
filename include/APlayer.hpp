@@ -6,6 +6,8 @@
 # include "Map.hpp"
 # include "Timer.hpp"
 
+class ABonus;
+
 struct movementCoef
 {
   movementCoef(double r, glm::vec2 direction, glm::vec3 trans,
@@ -61,6 +63,7 @@ protected:
   IEntity::Status _statusOfObject;
   int _lvl;
   std::map<int, movementCoef*> _moveConf;
+  std::vector<ABonus *>		_bonus;
 
 protected:
   APlayer(const glm::vec2 &pos, Map *map);
@@ -85,6 +88,7 @@ protected:
   virtual bool	movePlayer(const movementCoef *mcoef, float const distance);
   virtual bool	bomb();
   virtual void	updateAnim(bool hasMoved, bool keyPressed = true);
+  void		updateBonus(const gdl::Clock &clock);
 };
 
 #endif
