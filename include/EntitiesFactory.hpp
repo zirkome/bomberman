@@ -1,12 +1,13 @@
 #ifndef _OBJECTFACTORY_H_
-#define _OBJECTFACTORY_H_
+# define _OBJECTFACTORY_H_
 
-#include <Texture.hh>
-#include <map>
-#include "Box.hpp"
-#include "Wall.hpp"
-#include "Ground.hpp"
-#include "IEntity.hpp"
+# include <map>
+# include <Texture.hh>
+
+# include "Box.hpp"
+# include "Wall.hpp"
+# include "Ground.hpp"
+# include "IEntity.hpp"
 
 class			EntitiesFactory
 {

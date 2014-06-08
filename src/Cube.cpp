@@ -1,4 +1,5 @@
 #include "Cube.hpp"
+#include "config.h"
 
 static gdl::Geometry* geometry = NULL;
 
@@ -8,8 +9,8 @@ Cube::Cube(gdl::Geometry* geometry)
 }
 
 Cube::Cube(const Cube& c)
+  : AObject::AObject(c), _geometry(c._geometry)
 {
-  _geometry = c._geometry;
 }
 
 const Cube& Cube::operator=(const Cube& c)
@@ -110,4 +111,3 @@ void Cube::draw(gdl::AShader *shader, UNUSED const gdl::Clock &clock)
 {
   _geometry->draw(*shader, getTransformation(), GL_TRIANGLES);
 }
-

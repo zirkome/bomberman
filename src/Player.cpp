@@ -1,38 +1,13 @@
 #include "config.h"
 #include "Player.hpp"
 
-Player::Player(const glm::vec2 pos, Map *map)
+Player::Player(const glm::vec2& pos, Map *map) : APlayer(pos, map)
 {
-  // _obj = AssetsManager::getInstance()->getAssets<Model>(IEntity::PLAYER);
-  _obj = new Model(RES_MODEL "marvin.fbx");
-
-  _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
-  _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
-
-  // Init pointer method
-  _movePtr[SDLK_UP] = &Player::moveUp;
-  _movePtr[SDLK_DOWN] = &Player::moveDown;
-  _movePtr[SDLK_RIGHT] = &Player::moveRight;
-  _movePtr[SDLK_LEFT] = &Player::moveLeft;
-  _movePtr[SDLK_SPACE] = &Player::bomb;
-
-  _status = STANDBY;
-  _vec = pos;
-  _map = map;
-  _speed = 4;
-  _way = UP;
-  _size = 0.7;
-
-  _obj->createSubAnim(0, "standby", 0, 0);
-  _obj->createSubAnim(0, "walk", 42, 63);
-  _obj->createSubAnim(0, "stop_walking", 64, 121);
-  _obj->setCurrentSubAnim("standby");
-
-  // Init bombList
-  _xBomb = -1;
-  _yBomb = -1;
-  _bombList.push_back(1);
+  for (size_t i = 0; i < _stock; ++i) {
+      _bombList.push_back(_lvl);
+    }
 }
+
 
 Player::~Player()
 {
@@ -40,26 +15,29 @@ Player::~Player()
 
 void	Player::update(gdl::Input &input, gdl::Clock const &clock)
 {
-  bool	hasMoved;
+  double distance;
+  bool	hasMoved = false;
+  bool	validKey = false;
 
-  for (MovePtr::const_iterator it = _movePtr.begin(), end = _movePtr.end(); it != end; ++it)
-    if (input.getKey(it->first)) {
-      hasMoved = (this->*_movePtr[it->first])(clock.getElapsed() * _speed);
-      if (_status != WALK && hasMoved)
-	{
-	  _status = WALK;
-	  _obj->setCurrentSubAnim("walk");
-	}
-      else if (_status == WALK && !hasMoved)
-	{
-	  _obj->setCurrentSubAnim("stop_walking", false);
-	  _status = STOP_WALK;
-	}
-      return ;
-    }
-  if (_status == WALK)
+  distance = clock.getElapsed() * _speed;
+  if (distance > 1.0)
+    distance = 1.0;
+  for (std::vector<int>::iterator it = _moveKey.begin(), end = _moveKey.end(); it != end; ++it)
     {
-      _obj->setCurrentSubAnim("stop_walking", false);
-      _status = STOP_WALK;
+      if (input.getKey(*it))
+        {
+          hasMoved = this->movePlayer(_moveConf[*it], distance);
+          validKey = true;
+          break;
+        }
+    }
+  updateAnim(hasMoved, validKey);
+  for (actionPtr::iterator it = _actionPtr.begin(); it != _actionPtr.end(); ++it)
+    {
+      if (input.getKey(it->first))
+        {
+          (this->*_actionPtr[it->first])();
+          return;
+        }
     }
 }

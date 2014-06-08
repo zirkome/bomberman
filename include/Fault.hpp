@@ -1,12 +1,12 @@
 #ifndef FAULT_H
-#define FAULT_H
+# define FAULT_H
 
-#include <exception>
-#include <string>
+# include <exception>
+# include <string>
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
-#define AT_HERE __FILE__ ":" TOSTRING(__LINE__)
+# define STRINGIFY(x) #x
+# define TOSTRING(x) STRINGIFY(x)
+# define AT_HERE __FILE__ ":" TOSTRING(__LINE__)
 
 class Fault: public std::exception
 {

@@ -8,20 +8,17 @@
 # include <stdexcept>
 # include <glm/glm.hpp>
 # include <glm/gtc/matrix_transform.hpp>
-
 # include <AShader.hh>
-# include <Texture.hh>
+
+# include "ResourceManager.hpp"
+# include "SharedPointer.hpp"
+# include "Texture.hpp"
 
 class FontText
 {
 private:
-  gdl::Texture	_texture;
-  GLuint	_textureID;
-  GLuint        _shaderID;
-  GLuint        _uniformID;
-  GLuint        _vertexBuffID;
-  GLuint        _UVBuffID;
-  const int	_sizeCharPix;
+  SharedPointer<Texture> _texture;
+  const int _sizeCharPix;
 
 public:
   FontText(const std::string &path, int sizeCharPix = 16);

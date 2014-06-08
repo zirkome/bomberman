@@ -1,11 +1,13 @@
 #include "EntitiesFactory.hpp"
 #include "Map.hpp"
+#include "Bomb.hpp"
 
 /*
 ** constructor random map
 */
 
-Map::Map(const int x, const int y) : _dim(x, y), _mutex(new PMutex)
+Map::Map(const int x, const int y)
+  : _dim(x, y)
 {
   srand(time(NULL));
 
@@ -19,7 +21,8 @@ Map::Map(const int x, const int y) : _dim(x, y), _mutex(new PMutex)
 ** constructor map with fileName
 */
 
-Map::Map(std::string const &mapFileName) : _dim(0, 0), _mutex(new PMutex)
+Map::Map(std::string const &mapFileName)
+  : _dim(0, 0)
 {
   _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
   _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
@@ -32,11 +35,10 @@ Map::~Map()
   IEntity	*entity;
 
   while (!_map.empty()) {
-    entity = *(_map.begin());
-    delete entity;
-    _map.pop_front();
-  }
-  delete _mutex;
+      entity = *(_map.begin());
+      delete entity;
+      _map.pop_front();
+    }
 }
 
 /*
@@ -73,15 +75,15 @@ bool		Map::loadMapFromFile(std::string const &fileName)
   IEntity	*entity;
 
   while (std::getline(file, line)) {
-    y = 0;
-    for (std::string::const_iterator it = line.begin(), end = line.end();
-	 it != end; ++it) {
-      if ((entity = this->getEntityForMap(x, y, this->getType(*it))))
-	_map.push_back(entity);
-      ++y;
+      y = 0;
+      for (std::string::const_iterator it = line.begin(), end = line.end();
+           it != end; ++it) {
+          if ((entity = this->getEntityForMap(x, y, this->getType(*it))))
+            _map.push_back(entity);
+          ++y;
+        }
+      ++x;
     }
-    ++x;
-  }
   _dim.y = y;
   _dim.x = x;
   file.close();
@@ -94,16 +96,16 @@ void		Map::loadRandomMap()
   IEntity::Type	type;
 
   for (int i = 0; i < _dim.x; ++i) {
-    if (i && (i != _dim.x - 1))
-      for (int j = 0; j < _dim.y; ++j) {
-	if (j && (j != _dim.y - 1)) {
-	  type = static_cast<IEntity::Type>(((rand() % 10) - 3) % 10);
-	  entity = this->getEntityForMap(i, j, type);
-	  if (entity)
-	    _map.push_back(entity);
-	}
-      }
-  }
+      if (i && (i != _dim.x - 1))
+        for (int j = 0; j < _dim.y; ++j) {
+            if (j && (j != _dim.y - 1)) {
+                type = static_cast<IEntity::Type>(((rand() % 10) - 3) % 10);
+                entity = this->getEntityForMap(i, j, type);
+                if (entity)
+                  _map.push_back(entity);
+              }
+          }
+    }
 }
 
 IEntity		*Map::getEntityForMap(const int x, const int y, const IEntity::Type i) const
@@ -124,28 +126,28 @@ void	Map::displayDebugMap() const
   bool	check;
 
   if (_map.size() > 0) {
-    for (int i = 0; i < _dim.x; ++i) {
-      for (int j = 0; j < _dim.y; ++j) {
-  	check = false;
-  	for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
-  	  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
-  	    if (dynamic_cast<Box *>(*it) != NULL)
-  	      std::cerr << "o";
-  	    else if (dynamic_cast<Wall *>(*it) != NULL)
-  	      std::cerr << "#";
-  	    else if (dynamic_cast<Ground *>(*it) != NULL)
-  	      std::cerr << " ";
-  	    else
-  	      std::cerr << "*";
-  	    check = true;
-  	  }
-  	}
-  	if (check == false)
-  	  std::cerr << " ";
-      }
-      std::cerr << std::endl;
+      for (int i = 0; i < _dim.x; ++i) {
+          for (int j = 0; j < _dim.y; ++j) {
+              check = false;
+              for (LMap::const_iterator it = _map.begin(); it != _map.end(); ++it) {
+                  if ((*(*it)).getPos().x == i && (*(*it)).getPos().y == j) {
+                      if (dynamic_cast<Box *>(*it) != NULL)
+                        std::cerr << "o";
+                      else if (dynamic_cast<Wall *>(*it) != NULL)
+                        std::cerr << "#";
+                      else if (dynamic_cast<Ground *>(*it) != NULL)
+                        std::cerr << " ";
+                      else
+                        std::cerr << "*";
+                      check = true;
+                    }
+                }
+              if (check == false)
+                std::cerr << " ";
+            }
+          std::cerr << std::endl;
+        }
     }
-  }
 }
 
 /*
@@ -178,11 +180,26 @@ const glm::vec2 &Map::getDimension() const
 
 IEntity		*Map::getEntityAt(const int x, const int y) const
 {
-  ScopeLock	lk(*_mutex);
-
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y)
       return *it;
+  return NULL;
+}
+
+IEntity	*Map::getPlayerAt(const int x, const int y) const
+{
+  int x1, y1;
+
+  for (LMap::const_iterator it = _playerList.begin(), end = _playerList.end(); it != end; ++it) {
+      x1 = (*it)->getPos().x + 0.7;
+      y1 = (*it)->getPos().y + 0.7;
+      if (x1 == x && y1 == y)
+        return *it;
+      x1 = (*it)->getPos().x + 0.3;
+      y1 = (*it)->getPos().y + 0.3;
+      if (x1 == x && y1 == y)
+        return *it;
+    }
   return NULL;
 }
 
@@ -196,13 +213,18 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
 
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
-      type = (*it)->getType();
-      if (type == IEntity::PLAYER)
-	type = IEntity::NONE;
-      if (type != IEntity::NONE)
-	return type;
-    }
+        type = (*it)->getType();
+        if (type == IEntity::PLAYER)
+          type = IEntity::NONE;
+        if (type != IEntity::NONE)
+          return type;
+      }
   return type;
+}
+
+Map::LMap		&Map::getPlayerList()
+{
+  return _playerList;
 }
 
 /*
@@ -211,13 +233,14 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
 
 bool		Map::addEntity(IEntity *entity)
 {
-  ScopeLock	lk(*_mutex);
-
   /*  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == (*entity).getPos().x &&
-	(*(*it)).getPos().y == (*entity).getPos().y)
-	return false;*/ /* We can have more than one think one the map */
-  _map.push_back(entity);
+  (*(*it)).getPos().y == (*entity).getPos().y)
+  return false;*/ /* We can have more than one think one the map */
+  if (entity->getType() == IEntity::PLAYER)
+    _playerList.push_back(entity);
+  else
+    _map.push_back(entity);
   return true;
 }
 
@@ -227,16 +250,15 @@ bool		Map::addEntity(IEntity *entity)
 
 bool	Map::deleteEntityAt(const int x, const int y)
 {
-  ScopeLock	lk(*_mutex);
   IEntity	*entity;
 
   for (LMap::iterator it = _map.begin(); it != _map.end(); ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
-      entity = *it;
-      delete entity;
-      _map.erase(it);
-      return true;
-    }
+        entity = *it;
+        delete entity;
+        _map.erase(it);
+        return true;
+      }
   return false;
 }
 
@@ -245,7 +267,39 @@ Map::iterator	Map::begin()
   return _map.begin();
 }
 
+Map::const_iterator	Map::begin() const
+{
+  return _map.begin();
+}
+
+Map::iterator	Map::playerBegin()
+{
+  return _playerList.begin();
+}
+
+Map::const_iterator	Map::playerBegin() const
+{
+  return _playerList.begin();
+}
+
+
 Map::iterator	Map::end()
 {
   return _map.end();
 }
+
+Map::const_iterator	Map::end() const
+{
+  return _map.end();
+}
+
+Map::iterator	Map::playerEnd()
+{
+  return _playerList.end();
+}
+
+Map::const_iterator	Map::playerEnd() const
+{
+  return _playerList.end();
+}
+

@@ -1,16 +1,14 @@
 
 SRC		=	main.cpp \
 			Game.cpp \
+			Intro.cpp \
+			Menu.cpp \
 			Fault.cpp \
 			Graphics.cpp \
-			FBORenderer.cpp \
-			FBOShader.cpp \
 			BasicShader.cpp \
-			PanShader.cpp \
 			Ia.cpp \
 			GameEngine.cpp \
 			Map.cpp \
-			Menu.cpp \
 			PThread.cpp \
 			PMutex.cpp \
 			PCondVar.cpp \
@@ -30,15 +28,30 @@ SRC		=	main.cpp \
 			OrthoCam.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
-			AssetsManager.cpp \
 			Pan.cpp \
 			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
+			PlayerManager.cpp \
+			Model.cpp \
+			PivotingCam.cpp \
 			Light.cpp \
 			Cube6Face.cpp \
 			SkyBox.cpp \
-			Model.cpp
+			SoundManager.cpp \
+			Sound.cpp \
+			SharedPointer.cpp \
+			Timer.cpp \
+			TextureLoader.cpp \
+			ModelLoader.cpp \
+			ReferenceCounter.cpp \
+			Helper.cpp \
+			AResource.cpp \
+			Texture.cpp \
+			MediaManager.cpp \
+			ResourceManager.cpp \
+			Fire.cpp \
+			PreLoader.cpp
 
 CC		=	g++
 
@@ -54,12 +67,11 @@ INCDIR		=	include/
 
 CFLAGS		+=	-I$(INCDIR) -Ilib/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe
+CFLAGS		+=	-Wunused-function -pipe -O2
 
 LDFLAGS		+=	-Wl,-O1
-LDFLAGS		+=	-lpthread
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
-LDFLAGS		+=	-Llib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2
+LDFLAGS		+=	-Llib -lgdl_gl -lGL -lpthread -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2 -lfmodex64
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
 DEPS		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.d, $(SRC))
