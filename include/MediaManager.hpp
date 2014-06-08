@@ -29,7 +29,7 @@ struct MediaHolder
 
 typedef TYPELIST_2(Texture, Model) Medias;
 
-class MediaManager: public Singleton<MediaManager>,
+class MediaManager : public Singleton<MediaManager>,
   public ScatteredHierarchy<Medias, MediaHolder>
 {
   friend MediaManager* Singleton<MediaManager>::getInstance();

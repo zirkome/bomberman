@@ -22,12 +22,12 @@ SoundManager::~SoundManager()
 {
   if (_init)
     {
-      FMOD_System_Close(_system);
-      FMOD_System_Release(_system);
       for (std::map<Sample, Sound *>::iterator it = _music.begin(); it !=  _music.end(); it++)
         {
           delete it->second;
         }
+      FMOD_System_Close(_system);
+      FMOD_System_Release(_system);
     }
 }
 

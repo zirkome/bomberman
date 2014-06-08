@@ -16,6 +16,10 @@ int main()
       SharedPointer<Texture> _ = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "fire.tga");
       while (game.update() == true)
         game.draw();
+      SoundManager::kill();
+      PreLoader::kill();
+      MediaManager::kill();
+      ResourceManager::kill();
     }
   catch (std::exception& e)
     {
