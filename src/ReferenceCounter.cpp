@@ -1,6 +1,7 @@
 #include "ReferenceCounter.hpp"
 
 ReferenceCounter::ReferenceCounter()
+  : _count(0)
 {
 }
 

@@ -12,6 +12,8 @@
 # include "Fire.hpp"
 # include "APlayer.hpp"
 # include "SoundManager.hpp"
+# include "SharedPointer.hpp"
+# include "ResourceManager.hpp"
 
 #include "BonusFactory.hpp"
 
@@ -22,7 +24,7 @@ class Bomb : public IEntity
 private:
   APlayer *_player;
   glm::vec2 _vec;
-  Model *_obj;
+  SharedPointer<Model> _obj;
   int _lvl;
   Map *_map;
   FireList _fireList;

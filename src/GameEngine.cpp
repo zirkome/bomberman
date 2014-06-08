@@ -59,6 +59,8 @@ bool GameEngine::update()
 {
   if (_state == Intro && _intro->finish() == true)
     {
+      SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::STOP);
+      SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY);
       _state = Game;
       _game = _intro->getGame();
       _context->updateClock(_clock);
@@ -74,6 +76,8 @@ bool GameEngine::update()
     {
       if (_state == Game)
         {
+	  SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
+	  SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
           _state = Intro;
           _intro = new ::Intro(glm::ivec2(1024, 900), true);
         }

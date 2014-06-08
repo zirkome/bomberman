@@ -2,11 +2,11 @@
 #include "PivotingCam.hpp"
 #include "Intro.hpp"
 
-Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
+Intro::Intro(const glm::ivec2& win, bool menu)
   : _speed(4), _pos(25.0, 0.0f, 0.0), _pos2(25.0, 0.0f, 0.0f), _state(Running)
 {
   _menu = NULL;
-
+  _skipMenu = menu;
   _player = new Model(RES_MODEL "marvin.fbx");
   _player->translate(glm::vec3(20.0, -0.5f, 0.0));
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
@@ -21,7 +21,7 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
   _logo->scale(glm::vec3(5.0f, 1.0f, 2.0f));
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);
 
-  _bomb = new Model(RES_MODEL "bomb.fbx");
+  _bomb = ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx");
   _bomb->scale(glm::vec3(0.006f, 0.0048f, 0.0048f));
   _bomb->translate(glm::vec3(27, 0 , 0));
   _bomb->rotate(glm::vec3(0, 0, 1), 22.0);
@@ -41,7 +41,6 @@ Intro::~Intro()
 {
   delete _player;
   delete _logo;
-  delete _bomb;
   if (_menu != NULL)
     delete _menu;
 }
@@ -94,8 +93,8 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
           _pos.x += -(clock.getElapsed() * _speed);
           _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
           _bomb->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
-         // _bomb->rotate(glm::vec3(0, 1, 0), 1.0f);
-          if (input.getKey(SDLK_RETURN, true))
+          // _bomb->rotate(glm::vec3(0, 1, 0), 1.0f);
+          if (input.getKey(SDLK_RETURN, true) || _skipMenu)
             {
               _logo->translate(glm::vec3(-(_pos.x), 0, 0));
               _bomb->translate(glm::vec3(-(_pos.x), 0, 0));
@@ -104,6 +103,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         }
       else
         {
+	  _player->translate(glm::vec3(0.0, 0.5f, 0.0));
           //          _logo->translate(glm::vec3(0, 5, 0));
           _state = Menu;
           _menu = new ::Menu(_cam);
@@ -116,8 +116,8 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
       if (_pos.y < 4.0)
         {
           _pos.y += clock.getElapsed() * _speed;
-          _logo->translate(glm::vec3(0, clock.getElapsed()*_speed, 0));
-          _bomb->translate(glm::vec3(0, clock.getElapsed()*_speed, 0));
+          _logo->translate(glm::vec3(0, clock.getElapsed() * _speed, 0));
+          _bomb->translate(glm::vec3(0, clock.getElapsed() * _speed, 0));
         }
       if (_pos2.y > 27.5)
         {
@@ -126,7 +126,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         }
       else
         {
-        	_bomb->scale(glm::vec3(1.00001f, 1.00001f, 1.00001f));
+          _bomb->scale(glm::vec3(1.00001f, 1.00001f, 1.00001f));
           //_bomb->rotate(glm::vec3(0, 1, 0), 1.0f);
           _pos2.y += clock.getElapsed() * _speed;
           _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
