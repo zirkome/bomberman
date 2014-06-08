@@ -39,7 +39,7 @@ void	Fire::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 
 IEntity::Type Fire::getType() const
 {
-  return IEntity::WALL;
+  return IEntity::FIRE;
 }
 
 IEntity::Status Fire::getStatus() const

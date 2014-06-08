@@ -196,6 +196,10 @@ IEntity	*Map::getPlayerAt(const int x, const int y) const
       y1 = (*it)->getPos().y + 0.7;
       if (x1 == x && y1 == y)
         return *it;
+      x1 = (*it)->getPos().x + 0.3;
+      y1 = (*it)->getPos().y + 0.3;
+      if (x1 == x && y1 == y)
+	return *it;
     }
   return NULL;
 }
