@@ -7,7 +7,7 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
 {
   _menu = NULL;
 
-  _player = new Model(RES_MODEL "marvin.fbx");
+  _player = new GameModel(RES_MODEL "marvin.fbx");
   _player->translate(glm::vec3(20.0, -0.5f, 0.0));
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
   _player->scale(glm::vec3(0.003, 0.003, 0.003));

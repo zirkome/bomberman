@@ -7,7 +7,30 @@ Model::Model(const std::string &path)
     throw std::runtime_error("Can't load model : " + path);
 }
 
-void Model::draw(gdl::AShader *shader, const gdl::Clock& clock)
+GameModel::GameModel(const SharedPointer<Model>& mod)
+  : _model(mod)
 {
-  gdl::Model::draw(*shader, getTransformation(), clock.getElapsed());
+
 }
+
+GameModel::GameModel(const std::string& path)
+  : _model(MediaManager::getInstance()->loadMediaFromFile<T>(path))
+{
+
+}
+
+void GameModel::draw(gdl::AShader *shader, const gdl::Clock& clock)
+{
+  _model->draw(*shader, getTransformation(), clock.getElapsed());
+}
+
+Model& GameModel::operator->()
+{
+  return *_model;
+}
+
+const Model& GameModel::operator->() const
+{
+  return *_model;
+}
+

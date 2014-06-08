@@ -31,7 +31,7 @@ private:
 private:
   ::Menu *_menu;
   PivotingCam *_cam;
-  Model *_player;
+  GameModel *_player;
   SharedPointer<Model> _bomb;
   AObject *_logo;
   glm::mat4 _proj;
