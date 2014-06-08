@@ -35,7 +35,7 @@ public:
 
   ~SharedPointer()
   {
-    if (_ref->release() == 0)
+    if (_ref && _ref->release() == 0)
       {
         delete _ptr;
         delete _ref;

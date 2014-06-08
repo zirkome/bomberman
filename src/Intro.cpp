@@ -22,7 +22,10 @@ Intro::Intro(const glm::ivec2& win, UNUSED bool menu)
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);
 
   _bomb = new Model(RES_MODEL "bomb.fbx");
-  _bomb->scale(glm::vec3(0.025f, 0.025f, 0.025f));
+  _bomb->scale(glm::vec3(0.006f, 0.0048f, 0.0048f));
+  _bomb->translate(glm::vec3(27, 0 , 0));
+  _bomb->rotate(glm::vec3(0, 0, 1), 22.0);
+  _bomb->rotate(glm::vec3(0, 1, 0), 160.0);
 
   _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "bomberman.tga");
 
@@ -90,9 +93,12 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         {
           _pos.x += -(clock.getElapsed() * _speed);
           _logo->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
+          _bomb->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
+         // _bomb->rotate(glm::vec3(0, 1, 0), 1.0f);
           if (input.getKey(SDLK_RETURN, true))
             {
               _logo->translate(glm::vec3(-(_pos.x), 0, 0));
+              _bomb->translate(glm::vec3(-(_pos.x), 0, 0));
               _pos.x = 0.0;
             }
         }
@@ -111,6 +117,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         {
           _pos.y += clock.getElapsed() * _speed;
           _logo->translate(glm::vec3(0, clock.getElapsed()*_speed, 0));
+          _bomb->translate(glm::vec3(0, clock.getElapsed()*_speed, 0));
         }
       if (_pos2.y > 27.5)
         {
@@ -119,6 +126,8 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         }
       else
         {
+        	_bomb->scale(glm::vec3(1.00001f, 1.00001f, 1.00001f));
+          //_bomb->rotate(glm::vec3(0, 1, 0), 1.0f);
           _pos2.y += clock.getElapsed() * _speed;
           _player->translate(glm::vec3(-(clock.getElapsed() * _speed), 0, 0));
         }

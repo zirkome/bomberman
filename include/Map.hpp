@@ -13,8 +13,6 @@
 # include "IEntity.hpp"
 # include "Wall.hpp"
 # include "Box.hpp"
-# include "PMutex.hpp"
-# include "ScopeLock.hpp"
 
 class Map
 {
@@ -27,7 +25,6 @@ private:
   // int		_x;
   // int		_y;
   glm::vec2	_dim;
-  IMutex	*_mutex;
   LMap		_map;
   LMap		_playerList;
   std::map<char, IEntity::Type>	_charToIEntity;
