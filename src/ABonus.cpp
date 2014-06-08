@@ -15,7 +15,7 @@ ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
 
 
   _obj->rotate(glm::vec3(0,1,0), 45.0);
-  _obj->rotate(glm::vec3(1,0,0), -20.0);
+  _obj->rotate(glm::vec3(1,0,0), -45.0);
 
   _obj->scale(glm::vec3(.25f, .25f, .25f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
@@ -39,7 +39,7 @@ void	ABonus::setPos(const glm::vec2 &new_pos)
 
 void	ABonus::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 {
-  _obj->rotate(glm::vec3(0,1,0), clock.getElapsed() * _cube_speed);
+  _obj->rotate(glm::vec3(1,0,1), clock.getElapsed() * _cube_speed);
 
   if (_toDisplay.update(clock.getElapsed()))
     _status = DESTROY;
@@ -69,20 +69,3 @@ void ABonus::setStatus(IEntity::Status status)
 {
   _status = status;
 }
-
-// BonusType	ABonus::getRandomBonus()
-// {
-//   std::vector<int>	vecType;
-//   BonusType	bonus;
-
-//   vecType.push_back(FASTER);
-//   vecType.push_back(SLOWLY);
-//   // vecType.push_back(GHOST);
-//   // vecType.push_back(MULTI_BOMB);
-//   // vecType.push_back(LOSE_ALL);
-//   // vecType.push_back(BOMB_RANGE);
-
-//   bonus = rand() % vecType.size();
-
-//   return bonus;
-// }
