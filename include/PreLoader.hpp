@@ -6,7 +6,7 @@
 # include "Singleton.hpp"
 # include "SharedPointer.hpp"
 
-class PreLoader
+class PreLoader : public Singleton<PreLoader>
 {
 public:
   friend PreLoader* Singleton<PreLoader>::getInstance();

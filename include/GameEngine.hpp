@@ -10,6 +10,7 @@
 # include <IRenderContext.hh>
 
 # include "SoundManager.hpp"
+# include "PreLoader.hpp"
 # include "Intro.hpp"
 # include "Menu.hpp"
 # include "Game.hpp"

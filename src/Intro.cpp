@@ -7,21 +7,22 @@ Intro::Intro(const glm::ivec2& win, bool menu)
 {
   _menu = NULL;
   _skipMenu = menu;
-  _player = new Model(RES_MODEL "marvin.fbx");
+
+  _bomb = new GameModel(ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx"));
+  _player = new GameModel(RES_MODEL "marvin.fbx");
   _player->translate(glm::vec3(20.0, -0.5f, 0.0));
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
   _player->scale(glm::vec3(0.003, 0.003, 0.003));
-  _player->createSubAnim(0, "standby", 0, 0);
-  _player->createSubAnim(0, "stop_walking", 30, 60);
-  _player->createSubAnim(0, "walk", 0, 30);
-  _player->setCurrentSubAnim("walk");
+  (*_player)->createSubAnim(0, "standby", 0, 0);
+  (*_player)->createSubAnim(0, "stop_walking", 30, 60);
+  (*_player)->createSubAnim(0, "walk", 0, 30);
+  (*_player)->setCurrentSubAnim("walk");
 
   _logo = new Pan();
   _logo->translate(_pos);
   _logo->scale(glm::vec3(5.0f, 1.0f, 2.0f));
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);
 
-  _bomb = ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx");
   _bomb->scale(glm::vec3(0.006f, 0.0048f, 0.0048f));
   _bomb->translate(glm::vec3(27, 0 , 0));
   _bomb->rotate(glm::vec3(0, 0, 1), 22.0);
@@ -39,6 +40,7 @@ Intro::Intro(const glm::ivec2& win, bool menu)
 
 Intro::~Intro()
 {
+  delete _bomb;
   delete _player;
   delete _logo;
   if (_menu != NULL)

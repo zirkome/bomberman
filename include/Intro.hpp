@@ -31,8 +31,6 @@ private:
 private:
   ::Menu *_menu;
   PivotingCam *_cam;
-  Model *_player;
-  SharedPointer<Model> _bomb;
   AObject *_logo;
   glm::mat4 _proj;
   SharedPointer<Texture> _texture;
@@ -46,6 +44,8 @@ private:
     Menu,
     Finished
   } _state;
+  GameModel* _bomb;
+  GameModel* _player;
 };
 
 #endif /* _INTRO_H_ */
