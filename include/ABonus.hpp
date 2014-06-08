@@ -39,7 +39,6 @@ private:
   glm::vec2	_pos;
   AObject	*_obj;
   double	_cube_speed;
-  std::map<int, bonusConf *>	_typeConf;
   SharedPointer<Texture> _texture;
 protected:
   IEntity::Status _status;
@@ -60,7 +59,6 @@ public:
   virtual void update(APlayer *player, const gdl::Clock &) = 0;
   virtual std::string toString() = 0;
 
-  // static ABonus getRandomBonus() const;
 protected:
   virtual void stop(APlayer *player) = 0;
 };

@@ -53,7 +53,8 @@ SRC		=	main.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
 			Fire.cpp \
-			PreLoader.cpp
+			PreLoader.cpp \
+			BonusFactory.cpp
 
 CC		=	g++
 

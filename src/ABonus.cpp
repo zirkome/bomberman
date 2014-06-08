@@ -5,10 +5,10 @@ ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
 {
   _status = OK;
 
-  _typeConf[SLOWLY] = new bonusConf(glm::vec4(1,0,0,1), 10);
-  _typeConf[FASTER] = new bonusConf(glm::vec4(0,1,0,1), 10);
+  // _typeConf[SLOWLY] = new bonusConf(glm::vec4(1,0,0,1), 10);
+  // _typeConf[FASTER] = new bonusConf(glm::vec4(0,1,0,1), 10);
 
-  _obj = new Cube(_typeConf[type]->_color);
+  _obj = new Cube;
 
 
   _obj->rotate(glm::vec3(0,1,0), 45.0);

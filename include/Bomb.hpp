@@ -13,7 +13,7 @@
 # include "APlayer.hpp"
 # include "SoundManager.hpp"
 
-#include "BonusWalk.hpp"
+#include "BonusFactory.hpp"
 
 class Bomb : public IEntity
 {
@@ -45,7 +45,10 @@ public:
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);
 private:
+
   void	createBonus(const glm::vec2 &pos);
+  // void	generateRandomBonus(const glm::vec2 &pos);
+
   void	explode(gdl::Clock const &clock);
   bool	destroyEntity(const glm::vec2 &pos);
   bool	spreadTop();

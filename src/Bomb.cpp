@@ -48,7 +48,6 @@ void	Bomb::explode(gdl::Clock const &clock)
   _distance += clock.getElapsed() * _speed;
   if (_distance >= _range)
     _distance = _range;
-  // std::cout << "coucou" << std::endl;
   this->spreadTop();
   this->spreadLeft();
   this->spreadDown();
@@ -59,7 +58,6 @@ void	Bomb::explode(gdl::Clock const &clock)
       _status = DESTROY;
       _player->createBomb();
       SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
-      // std::cout << "bonus number : " << _generatedBonus.size() << std::endl;
       for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(), end = _generatedBonus.end();
 	   it != end; it++)
 	{
@@ -186,5 +184,8 @@ void	Bomb::createBonus(const glm::vec2 &pos)
       if ((*it)->getPos() == pos)
 	return;
     }
-  _generatedBonus.push_back(new BonusWalk(ABonus::FASTER, pos, 10));
+  if (rand() % 2)
+    {
+      _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 2));
+    }
 }
