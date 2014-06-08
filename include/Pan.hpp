@@ -1,12 +1,12 @@
 #ifndef _PLAN_H_
-#define _PLAN_H_
+# define _PLAN_H_
 
-#include "IEntity.hpp"
-#include "AObject.hpp"
-#include "AssetsManager.hpp"
-#include <Texture.hh>
-#include <Geometry.hh>
-#include <iostream>
+# include <iostream>
+# include <Texture.hh>
+# include <Geometry.hh>
+
+# include "IEntity.hpp"
+# include "AObject.hpp"
 
 class Pan : public AObject
 {

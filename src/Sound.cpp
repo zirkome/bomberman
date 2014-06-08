@@ -25,17 +25,17 @@ bool	Sound::play(bool loop)
     {
       res = FMOD_Sound_SetLoopCount(_sound, repeat);
       if (res != FMOD_OK)
-	{
-	  std::cerr << "FMOD_System_SetLoopCount : " +
-	    std::string(FMOD_ErrorString(res)) << std::endl;
-	  return false;
-	}
+        {
+          std::cerr << "FMOD_System_SetLoopCount : " +
+                    std::string(FMOD_ErrorString(res)) << std::endl;
+          return false;
+        }
       res = FMOD_System_PlaySound(_system, FMOD_CHANNEL_REUSE, _sound, 0, &_chan);
       if (res != FMOD_OK)
-	{
-	  std::cerr << "FMOD_System_PlaySound : " + std::string(FMOD_ErrorString(res)) << std::endl;
-	  return false;
-	}
+        {
+          std::cerr << "FMOD_System_PlaySound : " + std::string(FMOD_ErrorString(res)) << std::endl;
+          return false;
+        }
       return true;
     }
   return false;
@@ -45,10 +45,10 @@ bool	Sound::play(bool loop)
     {
       res = FMOD_Channel_SetPaused(_chan, 0);
       if (res != FMOD_OK)
-	{
-	  std::cerr << "FMOD_System_SetPaused : " + std::string(FMOD_ErrorString(res)) << std::endl;
-	  return false;
-	}
+        {
+          std::cerr << "FMOD_System_SetPaused : " + std::string(FMOD_ErrorString(res)) << std::endl;
+          return false;
+        }
       return true;
     }
 }
@@ -61,9 +61,9 @@ bool	Sound::pause()
     {
       res = FMOD_Channel_SetPaused(_chan, 1);
       if (res != FMOD_OK)
-	{
-	  std::cerr << "FMOD_Channel_SetPaused : " + std::string(FMOD_ErrorString(res)) << std::endl;
-	}
+        {
+          std::cerr << "FMOD_Channel_SetPaused : " + std::string(FMOD_ErrorString(res)) << std::endl;
+        }
     }
   return true;
 }

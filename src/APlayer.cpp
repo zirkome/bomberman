@@ -53,6 +53,12 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
 
 APlayer::~APlayer()
 {
+  delete _obj;
+  for (std::map<int, movementCoef*>::iterator it = _moveConf.begin();
+       it != _moveConf.end(); ++it)
+    {
+      delete it->second;
+    }
 }
 
 const glm::vec2	&APlayer::getPos() const
@@ -137,7 +143,7 @@ bool APlayer::bomb()
   if (!_bombList.empty()) {
       _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
       _bombList.pop_front();
-  }
+    }
   return false;
 }
 
@@ -160,3 +166,4 @@ void APlayer::setStatus(IEntity::Status status)
 {
   _statusOfObject = status;
 }
+

@@ -5,8 +5,7 @@
 FontText::FontText(const std::string &path, int sizeCharPix)
   : _sizeCharPix(sizeCharPix)
 {
-  if (_texture.load(path) == false)
-    throw std::runtime_error("Can't load: " + path);
+  _texture = ResourceManager::getInstance()->get<Texture>(path);
 }
 
 void FontText::displayText(const std::string &str, const glm::vec4& color,
@@ -46,7 +45,7 @@ void FontText::displayText(const std::string &str, const glm::vec4& color,
       geometry.pushUv(glm::vec2(uv_x, 1 - (uv_y + 1.0 / sizePixf)));
     }
   geometry.build();
-  _texture.bind();
+  _texture->bind();
 
   glm::mat4 mat = glm::scale(matrice, glm::vec3(1.0f / sizePixf, 1.0f / sizePixf, 1.0f));
 

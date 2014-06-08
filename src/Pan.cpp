@@ -1,4 +1,5 @@
 #include "Pan.hpp"
+#include "config.h"
 
 Pan::Pan(const glm::vec2 &repeat)
   : _repeat(repeat)

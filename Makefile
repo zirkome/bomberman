@@ -28,7 +28,6 @@ SRC		=	main.cpp \
 			OrthoCam.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
-			AssetsManager.cpp \
 			Pan.cpp \
 			Ground.cpp \
 			Placement.cpp \
@@ -41,8 +40,18 @@ SRC		=	main.cpp \
 			SkyBox.cpp \
 			SoundManager.cpp \
 			Sound.cpp \
+			SharedPointer.cpp \
 			Timer.cpp \
-			Fire.cpp
+			TextureLoader.cpp \
+			ModelLoader.cpp \
+			ReferenceCounter.cpp \
+			Helper.cpp \
+			AResource.cpp \
+			Texture.cpp \
+			MediaManager.cpp \
+			ResourceManager.cpp \
+			Fire.cpp \
+			PreLoader.cpp
 
 CC		=	g++
 
@@ -58,7 +67,7 @@ INCDIR		=	include/
 
 CFLAGS		+=	-I$(INCDIR) -Ilib/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe
+CFLAGS		+=	-Wunused-function -pipe -O2
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"

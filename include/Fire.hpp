@@ -1,9 +1,11 @@
 #ifndef FIRE_HPP_
 # define FIRE_HPP_
 
-# include <Texture.hh>
+# include "SharedPointer.hpp"
+# include "Texture.hpp"
 # include "IEntity.hpp"
 # include "Cube.hpp"
+# include "ResourceManager.hpp"
 
 class Fire : public IEntity
 {
@@ -11,7 +13,7 @@ private:
   glm::vec2	_vec;
   AObject	*_obj;
   IEntity::Status _status;
-  gdl::Texture	*_texture;
+  SharedPointer<Texture> _texture;
 
 public:
   Fire(const glm::vec2 &pos);

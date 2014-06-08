@@ -3,6 +3,8 @@
 
 # include <string>
 
+# include "config.h"
+
 extern "C" {
 # include <lua.h>
 # include <lualib.h>

@@ -1,5 +1,5 @@
 #ifndef IENTITY_HPP_
-#define IENTITY_HPP_
+# define IENTITY_HPP_
 
 # include <Clock.hh>
 # include <Input.hh>
@@ -9,30 +9,30 @@ class IEntity
 {
 public:
   enum Type
-    {
-      BOX = 0,
-      WALL,
-      BOMB,
-      GROUND,
-      FIRE,
-      MODEL,
-      PLAYER,
-      SKYBOX,
-      LOGO,
-      NONE
-    };
+  {
+    BOX = 0,
+    WALL,
+    BOMB,
+    GROUND,
+    FIRE,
+    MODEL,
+    PLAYER,
+    SKYBOX,
+    LOGO,
+    NONE
+  };
   enum Symbol
-    {
-      S_BOX = 'o',
-      S_WALL = '#',
-      S_NONE = ' '
-    };
+  {
+    S_BOX = 'o',
+    S_WALL = '#',
+    S_NONE = ' '
+  };
   enum Status
-    {
-      OK = 0,
-      BURNING,
-      DESTROY
-    };
+  {
+    OK = 0,
+    BURNING,
+    DESTROY
+  };
 
   virtual ~IEntity() {}
   virtual const glm::vec2 &getPos() const = 0;

@@ -12,6 +12,8 @@ int main()
 
       if (game.initialize() == false)
         throw std::runtime_error("Game initialization failed.");
+      SharedPointer<Model> _obj = ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx");
+      SharedPointer<Texture> _ = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "fire.tga");
       while (game.update() == true)
         game.draw();
     }

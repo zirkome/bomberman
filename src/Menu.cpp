@@ -24,6 +24,7 @@ Menu::Menu(PivotingCam *cam)
 
 Menu::~Menu()
 {
+  delete _font;
 }
 
 void Menu::init()
@@ -49,85 +50,85 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
   if (_state == Running)
     {
       if (input.getKey(SDLK_RETURN, true))
-	{
-	  if (_select == Start)
-	    _state = Finished;
-	  else if (_select == Exit)
-	    return false;
-	  else if (_select == Options)
-	    {
-	      _select = Player;
-	      _state = Option;
-	      return true;
-	    }
-	}
+        {
+          if (_select == Start)
+            _state = Finished;
+          else if (_select == Exit)
+            return false;
+          else if (_select == Options)
+            {
+              _select = Player;
+              _state = Option;
+              return true;
+            }
+        }
       else if (input.getKey(SDLK_UP, true))
-	{
-	  _select = (selected)(_select - 1);
-	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-	}
+        {
+          _select = (selected)(_select - 1);
+          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+        }
       else if (input.getKey(SDLK_DOWN, true))
-	{
-	  _select = (selected)(_select + 1);
-	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-	}
+        {
+          _select = (selected)(_select + 1);
+          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+        }
       if (_select < 0)
-	_select = Exit;
+        _select = Exit;
       if (_select > 2)
-	_select = Start;
+        _select = Start;
     }
   else if (_state == Option)
     {
       if (input.getKey(SDLK_RETURN, true) && _select == Return)
-	{
-	  _select = Options;
-	  _state = Running;
-	  return true;
-	}
+        {
+          _select = Options;
+          _state = Running;
+          return true;
+        }
       else if (input.getKey(SDLK_UP, true))
-	{
-	  _select = static_cast<selected>(_select - 1);
-	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-	}
+        {
+          _select = static_cast<selected>(_select - 1);
+          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+        }
       else if (input.getKey(SDLK_DOWN, true))
-	{
-	  _select = static_cast<selected>(_select + 1);
-	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-	}
+        {
+          _select = static_cast<selected>(_select + 1);
+          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+        }
       else if (input.getKey(SDLK_RIGHT, true))
-	{
-	  bool sound = false;
+        {
+          bool sound = false;
 
-	  if (_select == Player && _numberPlayer < 2 && (sound = true))
-	    _numberPlayer++;
-	  if (_select == Ia && (sound = true))
-	    _numberIa++;
-	  if (_select == IaFile && _level < 2 && (sound = true))
-	    _level = static_cast<level>(_level + 1);
-	  if (_select == MapFile &&  _map < 5 && (sound = true))
-	    _map++;
-	  if (sound)
-	    SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-	}
+          if (_select == Player && _numberPlayer < 2 && (sound = true))
+            _numberPlayer++;
+          if (_select == Ia && (sound = true))
+            _numberIa++;
+          if (_select == IaFile && _level < 2 && (sound = true))
+            _level = static_cast<level>(_level + 1);
+          if (_select == MapFile &&  _map < 5 && (sound = true))
+            _map++;
+          if (sound)
+            SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+        }
       else if (input.getKey(SDLK_LEFT, true))
-	{
-	  bool sound = false;
+        {
+          bool sound = false;
 
-	  if (_select == Player && _numberPlayer > 1 && (sound = true))
-	    _numberPlayer--;
-	  if (_select == Ia && _numberIa > 0 && (sound = true))
-	    _numberIa--;
-	  if (_select == IaFile && _level > 0 && (sound = true))
-	    _level = static_cast<level>(_level - 1);
-	  if (_select == MapFile && _map > 0 && (sound = true))
-	    _map--;
-	  if (sound)
-	    SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-	}
+          if (_select == Player && _numberPlayer > 1 && (sound = true))
+            _numberPlayer--;
+          if (_select == Ia && _numberIa > 0 && (sound = true))
+            _numberIa--;
+          if (_select == IaFile && _level > 0 && (sound = true))
+            _level = static_cast<level>(_level - 1);
+          if (_select == MapFile && _map > 0 && (sound = true))
+            _map--;
+          if (sound)
+            SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+        }
       if (_select < 3)
-	_select = Return;
+        _select = Return;
       if (_select > 7)
-	_select = Player;
+        _select = Player;
     }
   return true;
 }
@@ -172,9 +173,9 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
       _font->displayText(ss.str(), _select == IaFile ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
       ss.str("");
       if (_map == 5)
-	ss << "Map :\t\t\t\t\t\t\t\t\t\t\t\t\t\t<" << "Random" << ">";
+        ss << "Map :\t\t\t\t\t\t\t\t\t\t\t\t\t\t<" << "Random" << ">";
       else
-	ss << "Map :\t\t\t\t\t\t\t\t\t\t\t\t\t\t<" << _map + 1 << ">";
+        ss << "Map :\t\t\t\t\t\t\t\t\t\t\t\t\t\t<" << _map + 1 << ">";
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.15, 0.12, 0.0));
       textMat = glm::scale(textMat, glm::vec3(0.5, 1.0, 0.0));
       _font->displayText(ss.str(), _select == MapFile ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);

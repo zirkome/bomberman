@@ -2,7 +2,6 @@
 # define TIMER_HPP_
 
 # include <Texture.hh>
-# include <AssetsManager.hpp>
 
 class Timer
 {

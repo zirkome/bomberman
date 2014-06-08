@@ -1,12 +1,13 @@
 #ifndef _ISOUND_H_
 # define _ISOUND_H_
 
-#include <fmod.h>
-#include <fmod_errors.h>
-#include <string>
-#include <exception>
-#include <iostream>
-#include "Fault.hpp"
+# include <fmod.h>
+# include <fmod_errors.h>
+# include <string>
+# include <exception>
+# include <iostream>
+
+# include "Fault.hpp"
 
 class Sound
 {
