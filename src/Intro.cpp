@@ -90,6 +90,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         }
       else
         {
+	  _player->translate(glm::vec3(0.0, 0.5f, 0.0));
           //          _logo->translate(glm::vec3(0, 5, 0));
           _state = Menu;
           _menu = new ::Menu(_cam);
