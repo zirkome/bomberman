@@ -17,7 +17,7 @@ ResourceManager::~ResourceManager()
 {
 }
 
-void ResourceManager::add(const std::string& name, AResource* resource)
+void ResourceManager::add(const std::string& name, SharedPointer<AResource> resource)
 {
   _resources[name] = resource;
 }

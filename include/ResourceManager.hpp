@@ -21,7 +21,7 @@ class ResourceManager : public Singleton<ResourceManager>
 public:
   template <class T> SharedPointer<T> get(const std::string& name);
 
-  void add(const std::string& name, AResource* resource);
+  void add(const std::string& name, SharedPointer<AResource> resource);
 
   void remove(const std::string& name);
 
@@ -30,7 +30,7 @@ private:
   virtual ~ResourceManager();
 
 private:
-  typedef std::map<std::string, AResource* > ResMap_t;
+  typedef std::map<std::string, SharedPointer<AResource> > ResMap_t;
   ResMap_t _resources;
 };
 
@@ -41,11 +41,11 @@ SharedPointer<T> ResourceManager::get(const std::string& name)
 
   if (it == _resources.end())
     {
-      AResource* res = MediaManager::getInstance()->loadMediaFromFile<T>(name);
+      SharedPointer<AResource> res(MediaManager::getInstance()->loadMediaFromFile<T>(name));
       add(name, res);
-      return SharedPointer<T>(dynamic_cast<T*>(res));
+      return res;
     }
-  return SharedPointer<T>(dynamic_cast<T*>(it->second));
+  return it->second;
 }
 
 #endif /* _RESOURCEMANAGER_H_ */
