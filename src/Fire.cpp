@@ -4,7 +4,7 @@
 Fire::Fire(const glm::vec2 &pos) : _vec(pos)
 {
   _status = OK;
-  _obj = new Cube();
+  _obj = new GameGeometry(ResourceManager::getInstance()->get<AGeometry>("cube.geo"));
   _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "fire.tga");
 
   _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));

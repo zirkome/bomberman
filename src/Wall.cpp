@@ -2,9 +2,10 @@
 #include "Cube.hpp"
 #include "config.h"
 
-Wall::Wall(const glm::vec2 &pos) : _vec(pos)
+Wall::Wall(const glm::vec2 &pos)
+  : _vec(pos)
 {
-  _obj = new Cube();
+  _obj = new GameGeometry(ResourceManager::getInstance()->get<AGeometry>("cube.geo"));
   _obj->scale(glm::vec3(0.5f, 0.5f, 0.5f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
   _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "wall_texture.tga");
@@ -15,7 +16,7 @@ Wall::~Wall()
   delete _obj;
 }
 
-const glm::vec2	&Wall::getPos() const
+const glm::vec2 &Wall::getPos() const
 {
   return _vec;
 }

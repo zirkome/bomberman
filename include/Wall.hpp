@@ -6,12 +6,13 @@
 # include "ResourceManager.hpp"
 # include "IEntity.hpp"
 # include "AObject.hpp"
+# include "GameGeometry.hpp"
 
 class Wall : public IEntity
 {
 private:
-  glm::vec2	_vec;
-  AObject	*_obj;
+  glm::vec2 _vec;
+  GameGeometry* _obj;
   SharedPointer<Texture> _texture;
 
 public:

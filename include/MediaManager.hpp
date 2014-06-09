@@ -12,10 +12,11 @@
 # include "Helper.hpp"
 # include "ILoader.hpp"
 # include "Model.hpp"
+# include "Texture.hpp"
+# include "AGeometry.hpp"
 # include "ScatteredHierarchy.hpp"
 # include "SharedPointer.hpp"
 # include "Singleton.hpp"
-# include "Texture.hpp"
 # include "TypeList.hpp"
 
 class Model;
@@ -27,7 +28,7 @@ struct MediaHolder
   LoadersMap _loaders;
 };
 
-typedef TYPELIST_2(Texture, Model) Medias;
+typedef TYPELIST_3(Texture, Model, AGeometry) Medias;
 
 class MediaManager : public Singleton<MediaManager>,
   public ScatteredHierarchy<Medias, MediaHolder>

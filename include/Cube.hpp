@@ -2,26 +2,18 @@
 # define _CUBE_H_
 
 # include <iostream>
-# include <Texture.hh>
-# include <Geometry.hh>
 
-# include "IEntity.hpp"
-# include "AObject.hpp"
+# include "AGeometry.hpp"
 
-class Cube : public AObject
+class Cube : public AGeometry
 {
 public:
-  Cube(gdl::Geometry* geometry);
-  Cube(const Cube& c);
-  const Cube& operator=(const Cube& c);
-
   Cube();
-  virtual ~Cube();
-
-  virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
+  virtual ~Cube() {};
 
 private:
-  gdl::Geometry* _geometry;
+  Cube(const Cube& c);
+  Cube& operator=(const Cube& c);
 };
 
 #endif /* _CUBE_H_ */
