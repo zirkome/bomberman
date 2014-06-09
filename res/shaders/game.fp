@@ -48,7 +48,7 @@ void main(void)
   tmpLight.specular = vec4(2, 2, 2, 0);
   tmpLight.spotCutoff = 180;
 
-  if (lightDir != vec3(0.0f, 0.0f, 0.0f))
+  if (lightDir != vec3(0.0, 0.0, 0.0))
     {
       lighting += CalcLight(tmpLight, normal.xyz, position.xyz);
       gl_FragColor = color * lighting;
@@ -75,11 +75,11 @@ vec4 CalcLight(light currlight, vec3 normal, vec3 position)
   vec3 lightDirection;
   float attenuation;
 
-  if (currlight.position.w == 0.0) // directional light?
-    {
-      attenuation = 1.0; // no attenuation
-      lightDirection = normalize(vec3(currlight.position));
-    }
+  /* if (currlight.position.w == 0.0) // directional light?
+     {*/
+  attenuation = 1.0; // no attenuation
+  lightDirection = normalize(vec3(currlight.position));
+  /*  }
   else // point light or spotlight (or other kind of light)
     {
       vec3 positionToLightSource = vec3(currlight.position - vec4(position, 0.0));
@@ -96,16 +96,13 @@ vec4 CalcLight(light currlight, vec3 normal, vec3 position)
           else
             attenuation = attenuation * pow(clampedCosine, currlight.spotExponent);
         }
-    }
+    }*/
 
   vec3 diffuseReflection = attenuation * vec3(currlight.diffuse) * max(0.0, dot(normal, lightDirection));
 
   vec3 specularReflection = vec3(0.0, 0.0, 0.0);
   float lambertTerm = max(dot(normal, lightDirection), 0.0);
-  if (lambertTerm > 0.0) //light source on the right side
-    {
-      specularReflection = attenuation * vec3(currlight.specular) * pow(max(0.0, dot(reflect(-lightDirection, normal), normalize(camPos - position))), 5);
-    }
-
+  specularReflection = max(0.0, lambertTerm) * attenuation * vec3(currlight.specular)
+                       * pow(max(0.0, dot(reflect(-lightDirection, normal), normalize(camPos - position))), 5);
   return vec4((diffuseReflection + specularReflection), 0.0);
 }
