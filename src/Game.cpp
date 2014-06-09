@@ -36,7 +36,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
   i = 0;
   while (i < numberIA)
     {
-      _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName));
+      _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName, glm::vec3(0.0f, 0.0f, 1.0f)));
       i++;
     }
 

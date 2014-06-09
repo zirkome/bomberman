@@ -22,8 +22,10 @@ uniform mat4 model;
 uniform vec3 camPos;
 uniform vec4 ambientLight;
 uniform vec3 lightDir;
+uniform vec3 gColor;
 
 uniform sampler2D fTexture0;
+uniform sampler2D fTexture1;
 
 varying vec4 fColor;
 varying vec4 fPosition;
@@ -38,6 +40,8 @@ void main(void)
   vec4 color = texture2D(fTexture0, fUv) * fColor;
   vec4 position = fPosition;
   vec4 normal = normalize(fNormal);
+
+  color = color * vec4(gColor, 1.0);
 
   vec4 lighting = ambientLight;
 

@@ -18,6 +18,9 @@ bool BasicShader::build()
   _bindAttribLocation(3, "vTexCoord");
   ret = _linkProgram();
   if (ret)
+  {
     _bindTextureUnit(0, "fTexture0");
+    _bindTextureUnit(1, "fTexture1");
+  }
   return (ret);
 }

@@ -1,8 +1,8 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map)
-  : _pos(pos), _map(map), _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec3& color)
+  : _pos(pos), _map(map), _time(2), _color(color)
 {
   _stock = 1;
 
@@ -45,7 +45,9 @@ void	APlayer::setPos(const glm::vec2 &new_pos)
 
 void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
+  shader->setUniform("gColor", _color);
   _obj->draw(shader, clock);
+  shader->setUniform("gColor", glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
