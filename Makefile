@@ -29,7 +29,6 @@ SRC		=	main.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
 			Pan.cpp \
-			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
 			PlayerManager.cpp \
@@ -53,9 +52,11 @@ SRC		=	main.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
 			Fire.cpp \
-			PreLoader.cpp \
 			BonusFactory.cpp \
-			BonusBomb.cpp
+			BonusBomb.cpp \
+			AGeometry.cpp \
+			GameGeometry.cpp \
+			GeometryLoader.cpp
 
 CC		=	g++
 

@@ -4,7 +4,7 @@
 #include "ModelLoader.hpp"
 #include "Model.hpp"
 
-Model* ModelLoader::loadFromFile(const std::string& path)
+Model* ModelLoader::loadFromFile(const std::string& path) const
 {
   Model *ptr = new Model(path);
 

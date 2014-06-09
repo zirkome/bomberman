@@ -177,11 +177,14 @@ objectifY = math.floor(y)
 lObjectifX = math.floor(x)
 lObjectifY = math.floor(y)
 mov = 0
+resetObj = 50
 while 1 do
+      resetObj = resetObj - 1
       x,y = iaGetPos(thisptr)
       io.write('[Lua] IA action at <' .. x .. ', ' .. y .. '> dir <' .. objectifX .. ', ' .. objectifY .. '> lDir <' .. lObjectifX .. ', ' .. lObjectifY .. '>\n')
-      if math.floor(x) == lObjectifX and math.floor(y) == lObjectifY then
+      if (math.floor(x) == lObjectifX and math.floor(y) == lObjectifY) or resetObj == 0 then
 	   lObjectifX, lObjectifY = newLObjectif(math.floor(x), math.floor(y), thisptr)
+	   resetObj = 50
       end
       if math.floor(x) == objectifX and math.floor(y) == objectifY then
 	   objectifX, objectifY = newObjectif(math.floor(x), math.floor(y), lObjectifX, lObjectifY, thisptr)

@@ -9,7 +9,7 @@
 # include "SharedPointer.hpp"
 # include "ResourceManager.hpp"
 # include "Timer.hpp"
-# include "Cube.hpp"
+# include "GameGeometry.hpp"
 # include "APlayer.hpp"
 
 struct bonusConf
@@ -35,7 +35,7 @@ protected:
 
 private:
   glm::vec2	_pos;
-  AObject	*_obj;
+  GameGeometry	*_obj;
   double	_cube_speed;
   SharedPointer<Texture> _texture;
   std::map<BonusType, std::string> _bonusImg;

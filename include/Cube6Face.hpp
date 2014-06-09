@@ -6,22 +6,17 @@
 # include <Geometry.hh>
 
 # include "IEntity.hpp"
-# include "AObject.hpp"
+# include "AGeometry.hpp"
 
-class Cube6Face : public AObject
+class Cube6Face : public AGeometry
 {
 public:
-  Cube6Face(gdl::Geometry* geometry);
-  Cube6Face(const Cube6Face& c);
-  const Cube6Face& operator=(const Cube6Face& c);
-
   Cube6Face();
   virtual ~Cube6Face() {};
 
-  virtual void draw(gdl::AShader *shader, const gdl::Clock &clock);
-
 private:
-  gdl::Geometry* _geometry;
+  Cube6Face(const Cube6Face& c);
+  Cube6Face& operator=(const Cube6Face& c);
 };
 
 #endif /* _CUBE6FACE_H_ */

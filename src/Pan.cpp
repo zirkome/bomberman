@@ -1,44 +1,23 @@
 #include "Pan.hpp"
-#include "config.h"
 
 Pan::Pan(const glm::vec2 &repeat)
-  : _repeat(repeat)
+  : AGeometry::AGeometry("pan.geo")
 {
-  _geometry.pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
-  _geometry.pushVertex(glm::vec3(-1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
-  _geometry.pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  pushVertex(glm::vec3(-1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
 
-  _geometry.pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
-  _geometry.pushVertex(glm::vec3(1.0f,  -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
-  _geometry.pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  pushVertex(glm::vec3(-1.0f, -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  pushVertex(glm::vec3(1.0f,  -1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
+  pushVertex(glm::vec3(1.0f, 1.0f, 0.0f)).pushNormal(glm::vec3(0.0, 0.0, -1.0));
 
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
-  _geometry.pushUv(glm::vec2(_repeat.y, 0.0f));
-  _geometry.pushUv(glm::vec2(_repeat.y, _repeat.x));
+  pushUv(glm::vec2(0.0f, 0.0f));
+  pushUv(glm::vec2(repeat.y, 0.0f));
+  pushUv(glm::vec2(repeat.y, repeat.x));
 
-  _geometry.pushUv(glm::vec2(_repeat.y, _repeat.x));
-  _geometry.pushUv(glm::vec2(0.0f, _repeat.x));
-  _geometry.pushUv(glm::vec2(0.0f, 0.0f));
+  pushUv(glm::vec2(repeat.y, repeat.x));
+  pushUv(glm::vec2(0.0f, repeat.x));
+  pushUv(glm::vec2(0.0f, 0.0f));
 
-  _geometry.build();
-}
-
-Pan::~Pan()
-{
-
-}
-
-bool Pan::initialize()
-{
-  return (true);
-}
-
-void Pan::draw(gdl::AShader *shader, UNUSED const gdl::Clock& clock)
-{
-  _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
-}
-
-void Pan::draw(gdl::AShader *shader)
-{
-  _geometry.draw(*shader, getTransformation(), GL_TRIANGLES);
+  build();
 }

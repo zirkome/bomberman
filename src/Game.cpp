@@ -30,7 +30,11 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
   if (numberIA < 0 || numberPlayer < 0)
     throw nFault("You need two players");
 
-  _currentMap = new Map(mapName);
+  if (mapName == "")
+    _currentMap = new Map(100, 100);
+  else
+    _currentMap = new Map(mapName);
+
   Placement place(_currentMap);
 
   i = 0;
@@ -43,7 +47,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new PlayerManager(place.getNewPos(), _currentMap));
+      _players.push_back(new PlayerManager(place.getNewPos(), _currentMap, (i == 0 ? true : false)));
       i++;
     }
   for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)

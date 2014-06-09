@@ -10,8 +10,9 @@ ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
 
   std::string path = std::string(RES_TEXTURE) + _bonusImg[type];
   _texture = ResourceManager::getInstance()->get<Texture>(path);
-  _obj = new Cube;
 
+
+  _obj = new GameGeometry(ResourceManager::getInstance()->get<AGeometry>("cube.geo"));
 
   _obj->rotate(glm::vec3(0,1,0), 45.0);
   _obj->rotate(glm::vec3(1,0,0), -45.0);
@@ -24,6 +25,7 @@ ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
 
 ABonus::~ABonus()
 {
+  delete _obj;
 }
 
 const glm::vec2	&ABonus::getPos() const

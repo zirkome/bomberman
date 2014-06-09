@@ -1,7 +1,7 @@
 #ifndef _SKYBOX_H_
 # define _SKYBOX_H_
 
-# include "Cube6Face.hpp"
+# include "GameGeometry.hpp"
 # include "SharedPointer.hpp"
 # include "Texture.hpp"
 
@@ -18,7 +18,7 @@ public:
 
 protected:
   SharedPointer<Texture> _texture;
-  Cube6Face _cube;
+  GameGeometry* _cube;
 };
 
 #endif /* _SKYBOX_H_ */

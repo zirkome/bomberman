@@ -94,19 +94,19 @@ bool		Map::loadMapFromFile(std::string const &fileName)
 void		Map::loadRandomMap()
 {
   IEntity	*entity;
-  IEntity::Type	type;
 
-  for (int i = 0; i < _dim.x; ++i) {
-      if (i && (i != _dim.x - 1))
-        for (int j = 0; j < _dim.y; ++j) {
-            if (j && (j != _dim.y - 1)) {
-                type = static_cast<IEntity::Type>(((rand() % 10) - 3) % 10);
-                entity = this->getEntityForMap(i, j, type);
-                if (entity)
-                  this->addEntity(entity);
-              }
-          }
-    }
+  for (int i = 0; i < _dim.x; i++)
+    for (int j = 0; j < _dim.y; j++)
+      {
+	if (i == 0 || j == 0 || i == _dim.x - 1 || j == _dim.y - 1 || (j % 2 == 0 && i % 2 == 0))
+	  entity = getEntityForMap(i, j, IEntity::WALL);
+	else if (rand() % 3 == 1)
+	  entity = getEntityForMap(i, j, IEntity::BOX);
+	else
+	  entity = getEntityForMap(i, j, IEntity::NONE);
+	if (entity)
+	  addEntity(entity);
+      }
 }
 
 IEntity		*Map::getEntityForMap(const int x, const int y, const IEntity::Type i) const
@@ -136,8 +136,6 @@ void	Map::displayDebugMap() const
                         std::cerr << "o";
                       else if (dynamic_cast<Wall *>(*it) != NULL)
                         std::cerr << "#";
-                      else if (dynamic_cast<Ground *>(*it) != NULL)
-                        std::cerr << " ";
                       else
                         std::cerr << "*";
                       check = true;
@@ -192,21 +190,18 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
   return NULL;
 }
 
-IEntity	*Map::getPlayerAt(const int x, const int y) const
+std::vector<IEntity *> const Map::getPlayersAt(const int x, const int y) const
 {
   int x1, y1;
+  std::vector<IEntity *> entity;
 
   for (LMap::const_iterator it = _playerList.begin(), end = _playerList.end(); it != end; ++it) {
-      x1 = (*it)->getPos().x + 0.7;
-      y1 = (*it)->getPos().y + 0.7;
-      if (x1 == x && y1 == y)
-        return *it;
-      x1 = (*it)->getPos().x + 0.3;
-      y1 = (*it)->getPos().y + 0.3;
-      if (x1 == x && y1 == y)
-        return *it;
+    x1 = static_cast<int>((*it)->getPos().x);
+    y1 = static_cast<int>((*it)->getPos().y);
+    if (x1 == x && y1 == y)
+      entity.push_back(*it);
     }
-  return NULL;
+  return entity;
 }
 
 /*

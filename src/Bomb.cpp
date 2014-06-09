@@ -77,15 +77,16 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
   IEntity *entity;
   int	random;
 
+  std::vector<IEntity *> players = _map->getPlayersAt(pos.x, pos.y);
+  for (std::vector<IEntity *>::iterator it = players.begin(), end = players.end(); it != end; ++it)
+    {
+      (*it)->setStatus(DESTROY);
+    }
   entity = _map->getEntityAt(pos.x, pos.y);
-  if (!entity || entity == this)
-    entity = _map->getPlayerAt(pos.x, pos.y);
-  if (!entity)
+  if (entity == NULL)
     return true;
   if (entity->getType() == WALL)
     return false;
-  if (entity->getType() == PLAYER)
-    entity->setStatus(DESTROY);
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
   if (entity->getType() == BOX)
