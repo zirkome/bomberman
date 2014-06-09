@@ -3,14 +3,14 @@
 
 # include "Texture.hpp"
 # include "SharedPointer.hpp"
-# include "Cube.hpp"
 # include "IEntity.hpp"
+# include "GameGeometry.hpp"
 
 class Box : public IEntity
 {
 private:
-  glm::vec2	_vec;
-  AObject	*_obj;
+  glm::vec2 _vec;
+  GameGeometry* _obj;
   SharedPointer<Texture> _texture;
   IEntity::Status _status;
 

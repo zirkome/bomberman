@@ -17,8 +17,6 @@ IEntity		*EntitiesFactory::create(IEntity::Type type, int x, int y)
       return new Box(glm::vec2(x, y));
     case IEntity::WALL:
       return new Wall(glm::vec2(x, y));
-    case IEntity::GROUND:
-      return new Ground(glm::vec2(x, y));
     default:
       return NULL;
     }
