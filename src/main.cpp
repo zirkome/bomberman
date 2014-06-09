@@ -4,6 +4,9 @@
 
 #include "GameEngine.hpp"
 
+/* initialize the number of instance Player to know if it's the first player or not */
+int Player::_nb = 0;
+
 int main()
 {
   try

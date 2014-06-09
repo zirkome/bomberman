@@ -21,33 +21,6 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
   (*_obj)->createSubAnim(0, "walk", 0, 30);
   (*_obj)->createSubAnim(0, "stop_walking", 30, 60);
   (*_obj)->setCurrentSubAnim("standby");
-
-  _moveKey.push_back(SDLK_UP);
-  _moveKey.push_back(SDLK_DOWN);
-  _moveKey.push_back(SDLK_LEFT);
-  _moveKey.push_back(SDLK_RIGHT);
-
-  _actionPtr[SDLK_SPACE] = &APlayer::bomb;
-
-  _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
-                                        glm::vec3(0, 0, 1),
-                                        glm::vec2(0.7, 0.7),
-                                        glm::vec2(0.2, 0.7));
-
-  _moveConf[SDLK_DOWN] = new movementCoef(180, glm::vec2(0.0, -1.0),
-                                          glm::vec3(0, 0, -1),
-                                          glm::vec2(0.7, 0.2),
-                                          glm::vec2(0.2, 0.2));
-
-  _moveConf[SDLK_RIGHT] = new movementCoef(-90, glm::vec2(-1.0, 0.0),
-      glm::vec3(-1, 0, 0),
-      glm::vec2(0.2, 0.7),
-      glm::vec2(0.2, 0.2));
-
-  _moveConf[SDLK_LEFT] = new movementCoef(90, glm::vec2(1.0, 0.0),
-                                          glm::vec3(1, 0, 0),
-                                          glm::vec2(0.7, 0.7),
-                                          glm::vec2(0.7, 0.2));
 }
 
 APlayer::~APlayer()
