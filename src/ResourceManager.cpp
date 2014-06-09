@@ -1,6 +1,7 @@
-#include <ModelLoader.hpp>
-#include <ResourceManager.hpp>
-#include <TextureLoader.hpp>
+#include "ModelLoader.hpp"
+#include "ResourceManager.hpp"
+#include "TextureLoader.hpp"
+#include "GeometryLoader.hpp"
 
 void ResourceManager::remove(const std::string& name)
 {
@@ -11,6 +12,7 @@ ResourceManager::ResourceManager()
 {
   MediaManager::getInstance()->registerLoader(new TextureLoader, "tga");
   MediaManager::getInstance()->registerLoader(new ModelLoader, "obj,fbx,dae");
+  MediaManager::getInstance()->registerLoader(new GeometryLoader, "geo");
 }
 
 ResourceManager::~ResourceManager()

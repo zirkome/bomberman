@@ -51,7 +51,9 @@ SRC		=	main.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
 			Fire.cpp \
-			PreLoader.cpp
+			AGeometry.cpp \
+			GameGeometry.cpp \
+			GeometryLoader.cpp
 
 CC		=	g++
 

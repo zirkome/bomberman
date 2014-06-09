@@ -3,6 +3,7 @@
 
 # include "AGeometry.hpp"
 # include "AObject.hpp"
+# include "SharedPointer.hpp"
 
 class GameGeometry : public AObject
 {

@@ -18,7 +18,6 @@ int main()
       while (game.update() == true)
         game.draw();
       SoundManager::kill();
-      PreLoader::kill();
       MediaManager::kill();
       ResourceManager::kill();
     }

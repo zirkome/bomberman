@@ -1,8 +1,7 @@
+#include "TextureLoader.hpp"
+
 #include <iostream>
 #include <stdexcept>
-
-#include "TextureLoader.hpp"
-#include "Texture.hpp"
 
 Texture *TextureLoader::loadFromFile(const std::string& path)
 {

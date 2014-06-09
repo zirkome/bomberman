@@ -1,4 +1,5 @@
 #include "GameGeometry.hpp"
+#include "config.h"
 
 GameGeometry::GameGeometry(const SharedPointer<AGeometry>& geo)
   : _geo(geo)
