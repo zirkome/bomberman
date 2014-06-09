@@ -79,7 +79,6 @@ public:
   virtual void setStatus(APlayer::Status);
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);
-
 protected:
   virtual bool	movePlayer(const movementCoef *mcoef, float const distance);
   virtual bool	bomb();

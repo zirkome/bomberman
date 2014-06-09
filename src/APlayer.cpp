@@ -138,4 +138,3 @@ void APlayer::setStatus(IEntity::Status status)
 {
   _statusOfObject = status;
 }
-

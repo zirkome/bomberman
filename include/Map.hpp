@@ -38,7 +38,7 @@ public:
   Map::LMap	&getUpdateMap();
   const glm::vec2 &getDimension() const;
   IEntity	*getEntityAt(const int x, const int y) const;
-  IEntity	*getPlayerAt(const int x, const int y) const;
+  std::vector<IEntity *> const getPlayersAt(const int x, const int y) const;
   bool		addEntity(IEntity *entity);
   bool		deleteEntityAt(const int x, const int y);
   IEntity::Type	getTypeAt(const int x, const int y) const;

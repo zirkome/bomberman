@@ -190,21 +190,18 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
   return NULL;
 }
 
-IEntity	*Map::getPlayerAt(const int x, const int y) const
+std::vector<IEntity *> const Map::getPlayersAt(const int x, const int y) const
 {
   int x1, y1;
+  std::vector<IEntity *> entity;
 
   for (LMap::const_iterator it = _playerList.begin(), end = _playerList.end(); it != end; ++it) {
-      x1 = (*it)->getPos().x + 0.7;
-      y1 = (*it)->getPos().y + 0.7;
-      if (x1 == x && y1 == y)
-        return *it;
-      x1 = (*it)->getPos().x + 0.3;
-      y1 = (*it)->getPos().y + 0.3;
-      if (x1 == x && y1 == y)
-        return *it;
+    x1 = static_cast<int>((*it)->getPos().x);
+    y1 = static_cast<int>((*it)->getPos().y);
+    if (x1 == x && y1 == y)
+      entity.push_back(*it);
     }
-  return NULL;
+  return entity;
 }
 
 /*
@@ -324,4 +321,3 @@ Map::const_iterator	Map::updateEnd() const
 {
   return _updateList.end();
 }
-

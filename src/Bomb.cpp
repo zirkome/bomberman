@@ -67,19 +67,20 @@ void	Bomb::explode(gdl::Clock const &clock)
 bool	Bomb::destroyEntity(int x, int y, bool destroy) const
 {
   IEntity *entity;
+  std::vector<IEntity *> players = _map->getPlayersAt(x, y);
 
+  for (std::vector<IEntity *>::iterator it = players.begin(), end = players.end(); it != end; ++it)
+    {
+      (*it)->setStatus(DESTROY);
+    }
   entity = _map->getEntityAt(x, y);
-  if (!entity || entity == this)
-    entity = _map->getPlayerAt(x, y);
-  if (!entity)
+  if (entity == NULL)
     return true;
   if (entity->getType() == WALL)
     return false;
-  if (entity->getType() == PLAYER)
-    entity->setStatus(DESTROY);
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
-  if (entity->getType() == BOX) {
+  else if (entity->getType() == BOX) {
       if (destroy)
 	entity->setStatus(DESTROY);
       return false;
