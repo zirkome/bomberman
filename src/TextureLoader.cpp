@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-Texture *TextureLoader::loadFromFile(const std::string& path)
+Texture *TextureLoader::loadFromFile(const std::string& path) const
 {
   Texture *ptr = new Texture(path);
 
