@@ -62,9 +62,10 @@ protected:
   GameModel* _obj;
   int _lvl;
   std::map<int, movementCoef*> _moveConf;
+  glm::vec3 _color;
 
 protected:
-  APlayer(const glm::vec2 &pos, Map *map);
+  APlayer(const glm::vec2 &pos, Map *map, const glm::vec3& color);
 
 public:
   virtual ~APlayer();

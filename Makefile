@@ -52,7 +52,8 @@ SRC		=	main.cpp \
 			Fire.cpp \
 			AGeometry.cpp \
 			GameGeometry.cpp \
-			GeometryLoader.cpp
+			GeometryLoader.cpp \
+			ColorManager.cpp
 
 CC		=	g++
 
