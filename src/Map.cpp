@@ -80,7 +80,7 @@ bool		Map::loadMapFromFile(std::string const &fileName)
       for (std::string::const_iterator it = line.begin(), end = line.end();
            it != end; ++it) {
           if ((entity = this->getEntityForMap(x, y, this->getType(*it))))
-            _map.push_back(entity);
+            this->addEntity(entity);
           ++y;
         }
       ++x;
@@ -103,7 +103,7 @@ void		Map::loadRandomMap()
                 type = static_cast<IEntity::Type>(((rand() % 10) - 3) % 10);
                 entity = this->getEntityForMap(i, j, type);
                 if (entity)
-                  _map.push_back(entity);
+                  this->addEntity(entity);
               }
           }
     }
@@ -158,6 +158,11 @@ void	Map::displayDebugMap() const
 Map::LMap	&Map::getMap()
 {
   return _map;
+}
+
+Map::LMap	&Map::getUpdateMap()
+{
+  return _updateList;
 }
 
 // int	Map::getWidth() const
@@ -234,14 +239,13 @@ Map::LMap		&Map::getPlayerList()
 
 bool		Map::addEntity(IEntity *entity)
 {
-  /*  for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
-    if ((*(*it)).getPos().x == (*entity).getPos().x &&
-  (*(*it)).getPos().y == (*entity).getPos().y)
-  return false;*/ /* We can have more than one think one the map */
-  if (entity->getType() == IEntity::PLAYER)
-    _playerList.push_back(entity);
-  else
+  if (entity->getType() != IEntity::PLAYER)
     _map.push_back(entity);
+  if (entity->getType() == IEntity::PLAYER) {
+    _playerList.push_back(entity);
+  }
+  else if (entity->getType() != IEntity::WALL)
+    _updateList.push_back(entity);
   return true;
 }
 
@@ -283,6 +287,15 @@ Map::const_iterator	Map::playerBegin() const
   return _playerList.begin();
 }
 
+Map::iterator	Map::updateBegin()
+{
+  return _updateList.begin();
+}
+
+Map::const_iterator	Map::updateBegin() const
+{
+  return _updateList.begin();
+}
 
 Map::iterator	Map::end()
 {
@@ -302,4 +315,14 @@ Map::iterator	Map::playerEnd()
 Map::const_iterator	Map::playerEnd() const
 {
   return _playerList.end();
+}
+
+Map::iterator	Map::updateEnd()
+{
+  return _updateList.end();
+}
+
+Map::const_iterator	Map::updateEnd() const
+{
+  return _updateList.end();
 }

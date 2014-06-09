@@ -49,15 +49,19 @@ void	Bomb::explode(gdl::Clock const &clock)
   _distance += clock.getElapsed() * _speed;
   if (_distance >= _range)
     _distance = _range;
-  this->spreadTop();
-  this->spreadLeft();
-  this->spreadDown();
-  this->spreadRight();
+  this->spreadTop(false);
+  this->spreadLeft(false);
+  this->spreadDown(false);
+  this->spreadRight(false);
   if (_status != DESTROY && _distance >= _range && _staytime.update(clock.getElapsed()))
     {
       _fireList.clear();
       _status = DESTROY;
       _player->createBomb();
+      this->spreadTop(true);
+      this->spreadLeft(true);
+      this->spreadDown(true);
+      this->spreadRight(true);
       SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
       for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(), end = _generatedBonus.end();
 	   it != end; it++)
@@ -68,7 +72,7 @@ void	Bomb::explode(gdl::Clock const &clock)
     }
 }
 
-bool	Bomb::destroyEntity(const glm::vec2 &pos)
+bool	Bomb::destroyEntity(int x, int y, bool destroy) const
 {
   IEntity *entity;
 
@@ -79,26 +83,28 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos)
     return true;
   if (entity->getType() == WALL)
     return false;
-  if (entity->getType() != BOMB)
+  if (entity->getType() == PLAYER)
     entity->setStatus(DESTROY);
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
   if (entity->getType() == BOX)
     {
-      createBonus(pos);
+      if (destroy)
+	entity->setStatus(DESTROY);
       return false;
     }
   return true;
 }
 
-bool	Bomb::spreadTop()
+bool	Bomb::spreadTop(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  while (cpy.y < _distance + _vec.y) {
-    if (!this->destroyEntity(cpy))
-	break;
+  while (cpy.y < _distance + _vec.y)
+    {
+      if (!this->destroyEntity(cpy.x, cpy.y, destroy))
+	return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y += 1;
@@ -106,14 +112,15 @@ bool	Bomb::spreadTop()
   return true;
 }
 
-bool	Bomb::spreadLeft()
+bool	Bomb::spreadLeft(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  while (cpy.x < _distance + _vec.x) {
-      if (!this->destroyEntity(cpy))
-	break;
+  while (cpy.x < _distance + _vec.x)
+    {
+      if (!this->destroyEntity(cpy.x, cpy.y, destroy))
+        return true;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.x += 1;
@@ -121,14 +128,15 @@ bool	Bomb::spreadLeft()
   return false;
 }
 
-bool	Bomb::spreadDown()
+bool	Bomb::spreadDown(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  while (cpy.y > _vec.y - _distance) {
-      if (!this->destroyEntity(cpy))
-	break;
+  while (cpy.y > _vec.y - _distance)
+    {
+      if (!this->destroyEntity(cpy.x, cpy.y, destroy))
+        return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y -= 1;
@@ -136,14 +144,15 @@ bool	Bomb::spreadDown()
   return true;
 }
 
-bool	Bomb::spreadRight()
+bool	Bomb::spreadRight(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
 
-  while (cpy.x > _vec.x - _distance) {
-      if (!this->destroyEntity(cpy))
-	break;
+  while (cpy.x > _vec.x - _distance)
+    {
+      if (!this->destroyEntity(cpy.x, cpy.y, destroy))
+        return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.x -= 1;
@@ -182,11 +191,11 @@ void	Bomb::createBonus(const glm::vec2 &pos)
 {
   int	random;
 
-  for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(); it != _generatedBonus.end(); ++it)
-    {
-      if ((*it)->getPos() == pos)
-	return;
-    }
+  // for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(); it != _generatedBonus.end(); ++it)
+  //   {
+  //     if ((*it)->getPos() == pos)
+  // 	return;
+  //   }
   // if (!(random = rand() % 5))
   //   {
   //     std::cout << "random = " << random << std::endl;

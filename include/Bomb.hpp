@@ -52,11 +52,11 @@ private:
   // void	generateRandomBonus(const glm::vec2 &pos);
 
   void	explode(gdl::Clock const &clock);
-  bool	destroyEntity(const glm::vec2 &pos);
-  bool	spreadTop();
-  bool	spreadLeft();
-  bool	spreadDown();
-  bool	spreadRight();
+  bool	destroyEntity(int x, int y, bool destroy) const;
+  bool	spreadTop(bool destroy);
+  bool	spreadLeft(bool destroy);
+  bool	spreadDown(bool destroy);
+  bool	spreadRight(bool destroy);
 };
 
 #endif /* !BOMB_HPP_ */
