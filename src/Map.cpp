@@ -94,19 +94,19 @@ bool		Map::loadMapFromFile(std::string const &fileName)
 void		Map::loadRandomMap()
 {
   IEntity	*entity;
-  IEntity::Type	type;
 
-  for (int i = 0; i < _dim.x; ++i) {
-      if (i && (i != _dim.x - 1))
-        for (int j = 0; j < _dim.y; ++j) {
-            if (j && (j != _dim.y - 1)) {
-                type = static_cast<IEntity::Type>(((rand() % 10) - 3) % 10);
-                entity = this->getEntityForMap(i, j, type);
-                if (entity)
-                  this->addEntity(entity);
-              }
-          }
-    }
+  for (int i = 0; i < _dim.x; i++)
+    for (int j = 0; j < _dim.y; j++)
+      {
+	if (i == 0 || j == 0 || i == _dim.x - 1 || j == _dim.y - 1 || (j % 2 == 0 && i % 2 == 0))
+	  entity = getEntityForMap(i, j, IEntity::WALL);
+	else if (rand() % 3 == 1)
+	  entity = getEntityForMap(i, j, IEntity::BOX);
+	else
+	  entity = getEntityForMap(i, j, IEntity::NONE);
+	if (entity)
+	  addEntity(entity);
+      }
 }
 
 IEntity		*Map::getEntityForMap(const int x, const int y, const IEntity::Type i) const

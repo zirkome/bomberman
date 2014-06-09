@@ -30,7 +30,11 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
   if (numberIA < 0 || numberPlayer < 0)
     throw nFault("You need two players");
 
-  _currentMap = new Map(mapName);
+  if (mapName == "")
+    _currentMap = new Map(100, 100);
+  else
+    _currentMap = new Map(mapName);
+
   Placement place(_currentMap);
 
   i = 0;
