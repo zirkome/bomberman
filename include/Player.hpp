@@ -11,13 +11,9 @@
 class Player : public APlayer
 {
 public:
-  Player(const glm::vec2& pos, Map *map);
+  Player(const glm::vec2& pos, Map *map, bool first);
   ~Player();
   virtual void	update(gdl::Input &input, gdl::Clock const &clock);
-
-/* used to determinate if it's the first player or not */
-public:
-  static int _nb;
 };
 
 #endif /* !PLAYER_HPP_ */

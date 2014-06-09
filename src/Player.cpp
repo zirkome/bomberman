@@ -1,12 +1,12 @@
 #include "config.h"
 #include "Player.hpp"
 
-Player::Player(const glm::vec2& pos, Map *map) : APlayer(pos, map)
+Player::Player(const glm::vec2& pos, Map *map, bool first) : APlayer(pos, map)
 {
   for (size_t i = 0; i < _stock; ++i) {
     _bombList.push_back(_lvl);
   }
-  if (_nb == 1) {
+  if (!first) {
     _moveKey.push_back(SDLK_z);
     _moveKey.push_back(SDLK_s);
     _moveKey.push_back(SDLK_d);
@@ -42,7 +42,6 @@ Player::Player(const glm::vec2& pos, Map *map) : APlayer(pos, map)
 					    glm::vec3(1, 0, 0),
 					    glm::vec2(0.7, 0.7),
 					    glm::vec2(0.7, 0.2));
-  ++_nb;
 }
 
 

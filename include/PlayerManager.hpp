@@ -12,7 +12,7 @@
 class PlayerManager
 {
 public:
-  PlayerManager(const glm::vec2& pos, Map *map);
+  PlayerManager(const glm::vec2& pos, Map *map, bool first);
   ~PlayerManager();
 
   Player& getPlayer() {return _player;};
