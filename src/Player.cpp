@@ -3,9 +3,6 @@
 
 Player::Player(const glm::vec2& pos, Map *map, bool first) : APlayer(pos, map)
 {
-  for (size_t i = 0; i < _stock; ++i) {
-    _bombList.push_back(_lvl);
-  }
   if (!first) {
     _moveKey.push_back(SDLK_z);
     _moveKey.push_back(SDLK_s);
@@ -58,6 +55,7 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
   distance = clock.getElapsed() * _speed;
   if (distance > 1.0)
     distance = 1.0;
+  updateBonus(clock);
   for (std::vector<int>::iterator it = _moveKey.begin(), end = _moveKey.end(); it != end; ++it)
     {
       if (input.getKey(*it))
