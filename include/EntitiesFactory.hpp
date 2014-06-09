@@ -6,7 +6,6 @@
 
 # include "Box.hpp"
 # include "Wall.hpp"
-# include "Ground.hpp"
 # include "IEntity.hpp"
 
 class			EntitiesFactory

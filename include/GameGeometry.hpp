@@ -9,6 +9,7 @@ class GameGeometry : public AObject
 {
 public:
   GameGeometry(const SharedPointer<AGeometry>& geo);
+  GameGeometry(const GameGeometry& g);
   GameGeometry(AGeometry* geo);
   virtual ~GameGeometry() {};
 

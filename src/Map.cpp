@@ -136,8 +136,6 @@ void	Map::displayDebugMap() const
                         std::cerr << "o";
                       else if (dynamic_cast<Wall *>(*it) != NULL)
                         std::cerr << "#";
-                      else if (dynamic_cast<Ground *>(*it) != NULL)
-                        std::cerr << " ";
                       else
                         std::cerr << "*";
                       check = true;

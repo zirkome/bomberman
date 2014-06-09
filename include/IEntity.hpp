@@ -13,7 +13,6 @@ public:
     BOX = 0,
     WALL,
     BOMB,
-    GROUND,
     FIRE,
     MODEL,
     PLAYER,

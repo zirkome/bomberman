@@ -50,9 +50,8 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
   _win = win;
 
   glm::ivec2 panSize = mapSize / glm::ivec2(4, 4);
-  _ground = new Pan(glm::vec2(panSize.x, panSize.y));
+  _ground = new GameGeometry(new Pan(glm::vec2(panSize.x, panSize.y)));
 
-  _ground->initialize();
   _ground->scale(glm::vec3(0.5f, 0.5f, 1.0f));
   _ground->translate(glm::vec3(-0.5f, 0, -0.5f));
   _ground->scale(glm::vec3(mapSize.x, mapSize.y, 1.0f));

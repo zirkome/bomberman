@@ -29,7 +29,6 @@ SRC		=	main.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
 			Pan.cpp \
-			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
 			PlayerManager.cpp \

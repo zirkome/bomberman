@@ -18,7 +18,7 @@ Intro::Intro(const glm::ivec2& win, bool menu)
   (*_player)->createSubAnim(0, "walk", 0, 30);
   (*_player)->setCurrentSubAnim("walk");
 
-  _logo = new Pan();
+  _logo = new GameGeometry(ResourceManager::getInstance()->get<AGeometry>("pan.geo"));
   _logo->translate(_pos);
   _logo->scale(glm::vec3(5.0f, 1.0f, 2.0f));
   _logo->rotate(glm::vec3(1, 0, 0), 180.0);

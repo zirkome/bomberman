@@ -9,8 +9,8 @@
 GeometryLoader::GeometryLoader()
 {
   _funcMap["cube.geo"] = &GeometryLoader::instanciateGeometry<Cube>;
-  /*s _funcMap["cube6Face.geo"] = &GeometryLoader::instanciateGeometry<Cube6Face>;
-   _funcMap["pan.geo"] = &GeometryLoader::instanciateGeometry<Pan>;*/
+  _funcMap["cube6Face.geo"] = &GeometryLoader::instanciateGeometry<Cube6Face>;
+  _funcMap["pan.geo"] = &GeometryLoader::instanciateGeometry<Pan>;
 }
 
 AGeometry *GeometryLoader::loadFromFile(const std::string& type) const
