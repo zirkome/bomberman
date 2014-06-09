@@ -48,11 +48,11 @@ public:
   virtual void setStatus(IEntity::Status status);
 private:
 
-  void	createBonus(const glm::vec2 &pos);
+  // void	createBonus(const glm::vec2 &pos);
   // void	generateRandomBonus(const glm::vec2 &pos);
 
   void	explode(gdl::Clock const &clock);
-  bool	destroyEntity(int x, int y, bool destroy) const;
+  bool	destroyEntity(int x, int y, bool destroy);
   bool	spreadTop(bool destroy);
   bool	spreadLeft(bool destroy);
   bool	spreadDown(bool destroy);

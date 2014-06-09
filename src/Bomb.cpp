@@ -72,13 +72,13 @@ void	Bomb::explode(gdl::Clock const &clock)
     }
 }
 
-bool	Bomb::destroyEntity(int x, int y, bool destroy) const
+bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
 {
   IEntity *entity;
 
-  entity = _map->getEntityAt(pos.x, pos.y);
+  entity = _map->getEntityAt(x, y);
   if (!entity || entity == this)
-    entity = _map->getPlayerAt(pos.x, pos.y);
+    entity = _map->getPlayerAt(x, y);
   if (!entity)
     return true;
   if (entity->getType() == WALL)
@@ -90,7 +90,10 @@ bool	Bomb::destroyEntity(int x, int y, bool destroy) const
   if (entity->getType() == BOX)
     {
       if (destroy)
-	entity->setStatus(DESTROY);
+	{
+	  _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(glm::vec2(x, y), 2));
+	  entity->setStatus(DESTROY);
+	}
       return false;
     }
   return true;
@@ -185,20 +188,4 @@ IEntity::Status Bomb::getStatus() const
 void Bomb::setStatus(IEntity::Status status)
 {
   _status = status;
-}
-
-void	Bomb::createBonus(const glm::vec2 &pos)
-{
-  int	random;
-
-  // for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(); it != _generatedBonus.end(); ++it)
-  //   {
-  //     if ((*it)->getPos() == pos)
-  // 	return;
-  //   }
-  // if (!(random = rand() % 5))
-  //   {
-  //     std::cout << "random = " << random << std::endl;
-      _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 2));
-    // }
 }
