@@ -2,6 +2,7 @@
 # define BOMB_HPP_
 
 # include <Texture.hh>
+# include <stdlib.h>
 
 # include "Map.hpp"
 # include "Cube.hpp"
@@ -14,6 +15,8 @@
 # include "SharedPointer.hpp"
 # include "ResourceManager.hpp"
 
+#include "BonusFactory.hpp"
+
 class Bomb : public IEntity
 {
   typedef std::list<Fire *> FireList;
@@ -21,7 +24,6 @@ class Bomb : public IEntity
 private:
   APlayer *_player;
   glm::vec2 _vec;
-  int _lvl;
   Map *_map;
   FireList _fireList;
   Timer _time;
@@ -32,8 +34,9 @@ private:
   int _speed;
   double _distance;
 
+  std::vector<ABonus *> _generatedBonus;
 public:
-  Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map);
+  Bomb(APlayer *player, const glm::vec2 &pos, int range, Map *map);
   virtual ~Bomb();
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
@@ -42,10 +45,10 @@ public:
   virtual IEntity::Type getType() const;
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);
-
 private:
+
   void	explode(gdl::Clock const &clock);
-  bool	destroyEntity(int x, int y, bool destroy) const;
+  bool	destroyEntity(const glm::vec2 &, bool destroy);
   bool	spreadTop(bool destroy);
   bool	spreadLeft(bool destroy);
   bool	spreadDown(bool destroy);
