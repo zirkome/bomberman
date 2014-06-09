@@ -2,9 +2,12 @@
 # include "Bomb.hpp"
 
 APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec3& color)
-  : _pos(pos), _map(map), _time(2), _color(color)
+  : _pos(pos), _map(map), _color(color)
 {
-  _stock = 1;
+  _max_bomb = 1;
+
+  _stock_bomb = _max_bomb;
+  _bomb_range = 2;
 
   _obj = new GameModel(RES_MODEL "marvin.fbx");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
@@ -12,7 +15,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec3& color)
 
   _statusOfObject = OK;
   _status = STANDBY;
-  _speed = 3;
+  _speed = 4;
   _way = UP;
   _size = 0.7;
   _lvl = 1;
@@ -55,6 +58,7 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   glm::vec2	toGoLeft;
   glm::vec2	toGoRight;
   bool	hasMoved = false;
+  bool	isBonus = false;
 
   // reset rotation
   _obj->setRotation(glm::vec3(0, 0, 0));
@@ -68,9 +72,36 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   // if the type to go is free --> move
 
   if ((glm::ivec2(toGoLeft) == glm::ivec2(_pos + mcoef->distLeft) &&
-       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)) ||
-      (_map->getTypeAt(toGoLeft.x, toGoLeft.y) == NONE &&
-       _map->getTypeAt(toGoRight.x, toGoRight.y) == NONE))
+       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)))
+    {
+      _pos += mcoef->dir * distance;
+      _obj->translate(mcoef->translate * distance);
+      return true;
+    }
+  IEntity *left = _map->getEntityAt(toGoLeft.x, toGoLeft.y);
+  IEntity *right = _map->getEntityAt(toGoRight.x, toGoRight.y);
+
+  if (left && left->getType() == IEntity::BONUS && left->getStatus() != IEntity::REMOVE)
+    {
+      // std::cout << "i take left" << std::endl;
+      ABonus *bonus = static_cast<ABonus *>(left);
+
+      bonus->start(this);
+      _bonus.push_back(bonus);
+      hasMoved = true;
+      isBonus = true;
+    }
+  if (right && right->getType() == IEntity::BONUS && right->getStatus() != IEntity::REMOVE)
+    {
+      // std::cout << "i take right" << std::endl;
+      ABonus *bonus = static_cast<ABonus *>(right);
+
+      bonus->start(this);
+      _bonus.push_back(bonus);
+      hasMoved = true;
+      isBonus = true;
+    }
+  if ((!left && !right) || isBonus)
     {
       _pos += mcoef->dir * distance;
       _obj->translate(mcoef->translate * distance);
@@ -102,11 +133,6 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
     }
 }
 
-void APlayer::createBomb()
-{
-  _bombList.push_back(_lvl);
-}
-
 bool APlayer::bomb()
 {
   int x = _pos.x + _size;
@@ -114,11 +140,25 @@ bool APlayer::bomb()
 
   if (_map->getTypeAt(x, y) != NONE)
     return false;
-  if (!_bombList.empty()) {
-      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
-      _bombList.pop_front();
+  if (_stock_bomb > 0)
+    {
+      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bomb_range, _map));
+      _stock_bomb--;
     }
   return false;
+}
+
+void	APlayer::updateBonus(const gdl::Clock &clock)
+{
+  for (std::vector<ABonus *>::iterator it = _bonus.begin(), end = _bonus.end(); it != end; it++)
+    {
+      (*it)->update(this, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+        {
+          delete (*it);
+          _bonus.erase(it);
+        }
+    }
 }
 
 IEntity::Type APlayer::getType() const
@@ -139,4 +179,35 @@ IEntity::Status APlayer::getStatus() const
 void APlayer::setStatus(IEntity::Status status)
 {
   _statusOfObject = status;
+}
+
+double APlayer::getSpeed() const
+{
+  return _speed;
+}
+
+void	APlayer::setSpeed(double speed)
+{
+  _speed = speed;
+}
+
+int APlayer::getStockBomb() const
+{
+  return _stock_bomb;
+}
+
+void	APlayer::setStockBomb(int nbBomb)
+{
+  if (nbBomb <= _max_bomb)
+    _stock_bomb = nbBomb;
+}
+
+int APlayer::getMaxBomb() const
+{
+  return _max_bomb;
+}
+
+void	APlayer::setMaxBomb(int maxBomb)
+{
+  _max_bomb = maxBomb;
 }

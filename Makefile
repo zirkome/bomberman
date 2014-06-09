@@ -41,6 +41,8 @@ SRC		=	main.cpp \
 			Sound.cpp \
 			SharedPointer.cpp \
 			Timer.cpp \
+			ABonus.cpp \
+			BonusWalk.cpp \
 			TextureLoader.cpp \
 			ModelLoader.cpp \
 			ReferenceCounter.cpp \
@@ -50,6 +52,8 @@ SRC		=	main.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
 			Fire.cpp \
+			BonusFactory.cpp \
+			BonusBomb.cpp \
 			AGeometry.cpp \
 			GameGeometry.cpp \
 			GeometryLoader.cpp \
@@ -69,7 +73,7 @@ INCDIR		=	include/
 
 CFLAGS		+=	-I$(INCDIR) -Ilib/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe -O2
+CFLAGS		+=	-Wunused-function -pipe -O2 -g
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"

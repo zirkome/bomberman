@@ -9,29 +9,34 @@ class IEntity
 {
 public:
   enum Type
-  {
-    BOX = 0,
-    WALL,
-    BOMB,
-    FIRE,
-    MODEL,
-    PLAYER,
-    SKYBOX,
-    LOGO,
-    NONE
-  };
+    {
+      BOX = 0,
+      BONUS,
+      WALL,
+      BOMB,
+      GROUND,
+      FIRE,
+      MODEL,
+      PLAYER,
+      SKYBOX,
+      LOGO,
+      NONE
+    };
+
   enum Symbol
   {
     S_BOX = 'o',
     S_WALL = '#',
     S_NONE = ' '
   };
+
   enum Status
-  {
-    OK = 0,
-    BURNING,
-    DESTROY
-  };
+    {
+      OK = 0,
+      BURNING,
+      DESTROY,
+      REMOVE
+    };
 
   virtual ~IEntity() {}
   virtual const glm::vec2 &getPos() const = 0;

@@ -7,12 +7,13 @@ class Timer
 {
 private:
   double _time;
-
+  double _startTime;
 public:
   Timer(double time);
   ~Timer();
   bool update(double clock);
   void reset(double time);
+  double getTime() const;
 };
 
 #endif /* !TIMER_HPP_ */
