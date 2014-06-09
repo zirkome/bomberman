@@ -1,10 +1,14 @@
+
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
 APlayer::APlayer(const glm::vec2 &pos, Map *map)
   : _pos(pos), _map(map)
 {
-  _stock = 1;
+  _max_bomb = 1;
+
+  _stock_bomb = _max_bomb;
+  _bomb_range = 2;
 
   _obj = new GameModel(RES_MODEL "marvin.fbx");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
@@ -12,7 +16,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
 
   _statusOfObject = OK;
   _status = STANDBY;
-  _speed = 3;
+  _speed = 4;
   _way = UP;
   _size = 0.7;
   _lvl = 1;
@@ -128,11 +132,6 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
     }
 }
 
-void APlayer::createBomb()
-{
-  _bombList.push_back(_lvl);
-}
-
 bool APlayer::bomb()
 {
   int x = _pos.x + _size;
@@ -140,9 +139,10 @@ bool APlayer::bomb()
 
   if (_map->getTypeAt(x, y) != NONE)
     return false;
-  if (!_bombList.empty()) {
-      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
-      _bombList.pop_front();
+  if (_stock_bomb > 0)
+    {
+      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bomb_range, _map));
+      _stock_bomb--;
     }
   return false;
 }
@@ -188,4 +188,25 @@ double APlayer::getSpeed() const
 void	APlayer::setSpeed(double speed)
 {
   _speed = speed;
+}
+
+int APlayer::getStockBomb() const
+{
+  return _stock_bomb;
+}
+
+void	APlayer::setStockBomb(int nbBomb)
+{
+  if (nbBomb <= _max_bomb)
+    _stock_bomb = nbBomb;
+}
+
+int APlayer::getMaxBomb() const
+{
+  return _max_bomb;
+}
+
+void	APlayer::setMaxBomb(int maxBomb)
+{
+  _max_bomb = maxBomb;
 }

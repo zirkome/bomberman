@@ -24,14 +24,12 @@ struct bonusConf
 
 class ABonus : public IEntity
 {
-public:
+protected:
   enum BonusType
     {
       FASTER = 0,
-      SLOWLY,
-      GHOST,
       MULTI_BOMB,
-      LOSE_ALL,
+      GHOST,
       BOMB_RANGE
     };
 
@@ -44,7 +42,6 @@ private:
 protected:
   IEntity::Status _status;
   Timer		_toDisplay, _effectTime;
-
 public:
   ABonus(BonusType type, const glm::vec2 &pos, double effectTime);
   virtual ~ABonus();
@@ -56,8 +53,9 @@ public:
   virtual IEntity::Status getStatus() const;
   virtual void setStatus(IEntity::Status status);
 
+  virtual void update(APlayer *player, const gdl::Clock &);
+
   virtual void start(APlayer *player) = 0;
-  virtual void update(APlayer *player, const gdl::Clock &) = 0;
   virtual std::string toString() = 0;
 
 protected:

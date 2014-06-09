@@ -1,7 +1,7 @@
 #include "BonusWalk.hpp"
 
-BonusWalk::BonusWalk(BonusType typeWalk, glm::vec2 pos, double effectTime)
-  : ABonus(typeWalk, pos, effectTime), _typeWalk(typeWalk)
+BonusWalk::BonusWalk(const glm::vec2 &pos, double effectTime)
+  : ABonus(FASTER, pos, effectTime)
 {
 }
 
@@ -14,27 +14,12 @@ void	BonusWalk::start(APlayer *player)
 {
   double currentSpeed = player->getSpeed();
 
-  if (_typeWalk == FASTER)
-    {
-      std::cout << "speed up !" << std::endl;
-      _increaseSpeed = (currentSpeed * 1.3) - currentSpeed;
-    }
-  else
-    {
-      std::cout << "speed down !" << std::endl;
-      _increaseSpeed = -(currentSpeed - (currentSpeed * 0.7));
-    }
+  std::cout << "speed up !" << std::endl;
+  _increaseSpeed = (currentSpeed * 1.3) - currentSpeed;
+
   std::cout << "speed now at : " << currentSpeed + _increaseSpeed << std::endl;
   player->setSpeed(currentSpeed + _increaseSpeed);
   _status = REMOVE;
-}
-
-void	BonusWalk::update(APlayer *player, const gdl::Clock &clock)
-{
-  if (_effectTime.update(clock.getElapsed()))
-    {
-      stop(player);
-    }
 }
 
 void	BonusWalk::stop(APlayer *player)
@@ -50,6 +35,6 @@ std::string BonusWalk::toString()
 {
   std::stringstream ss("");
 
-  ss << (_typeWalk == FASTER ? "Faster : " : "Slowly : -") << _increaseSpeed;
+  ss << "Faster : " << _increaseSpeed;
   return ss.str();
 }

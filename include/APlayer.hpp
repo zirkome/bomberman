@@ -26,8 +26,6 @@ struct movementCoef
 
 class APlayer : public IEntity
 {
-  typedef std::list<int> BombList;
-
 public:
   enum Status
   {
@@ -57,8 +55,8 @@ protected:
   double _size;
   Way _way;
   Status _status;
-  BombList _bombList;
-  size_t _stock;
+  int _stock_bomb, _max_bomb;
+  double _bomb_range;
   IEntity::Status _statusOfObject;
   GameModel* _obj;
   int _lvl;
@@ -70,7 +68,6 @@ protected:
 
 public:
   virtual ~APlayer();
-  void createBomb();
 
 public:
   virtual const glm::vec2 &getPos() const;
@@ -83,6 +80,10 @@ public:
   virtual void setStatus(IEntity::Status status);
   double       getSpeed() const;
   void	       setSpeed(double newSpeed);
+  int	       getStockBomb() const;
+  void	       setStockBomb(int);
+  int	       getMaxBomb() const;
+  void	       setMaxBomb(int);
 
 protected:
   virtual bool	movePlayer(const movementCoef *mcoef, float const distance);

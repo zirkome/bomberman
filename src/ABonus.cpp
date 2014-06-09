@@ -5,9 +5,8 @@ ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
 {
   _status = OK;
 
-  // _typeConf[SLOWLY] = new bonusConf(glm::vec4(1,0,0,1), 10);
   _bonusImg[FASTER] = "bonus_speed_up.tga";
-  _bonusImg[SLOWLY] = "bonus_speed_down.tga";
+  _bonusImg[MULTI_BOMB] = "bonus_bomb.tga";
 
   std::string path = std::string(RES_TEXTURE) + _bonusImg[type];
   _texture = ResourceManager::getInstance()->get<Texture>(path);
@@ -43,6 +42,14 @@ void	ABonus::update(UNUSED gdl::Input &input, UNUSED gdl::Clock const &clock)
 
   if (_toDisplay.update(clock.getElapsed()))
     _status = DESTROY;
+}
+
+void	ABonus::update(APlayer *player, const gdl::Clock &clock)
+{
+  if (_effectTime.update(clock.getElapsed()))
+    {
+      stop(player);
+    }
 }
 
 void	ABonus::draw(gdl::AShader *shader, const gdl::Clock& clock) const

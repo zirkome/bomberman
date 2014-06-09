@@ -3,9 +3,6 @@
 
 Player::Player(const glm::vec2& pos, Map *map) : APlayer(pos, map)
 {
-  for (size_t i = 0; i < _stock; ++i) {
-    _bombList.push_back(_lvl);
-  }
   if (_nb == 1) {
     _moveKey.push_back(SDLK_z);
     _moveKey.push_back(SDLK_s);

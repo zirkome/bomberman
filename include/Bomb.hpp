@@ -24,7 +24,6 @@ class Bomb : public IEntity
 private:
   APlayer *_player;
   glm::vec2 _vec;
-  int _lvl;
   Map *_map;
   FireList _fireList;
   Timer _time;
@@ -37,7 +36,7 @@ private:
 
   std::vector<ABonus *> _generatedBonus;
 public:
-  Bomb(APlayer *player, const glm::vec2 &pos, int lvl, Map *map);
+  Bomb(APlayer *player, const glm::vec2 &pos, int range, Map *map);
   virtual ~Bomb();
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
@@ -48,11 +47,8 @@ public:
   virtual void setStatus(IEntity::Status status);
 private:
 
-  // void	createBonus(const glm::vec2 &pos);
-  // void	generateRandomBonus(const glm::vec2 &pos);
-
   void	explode(gdl::Clock const &clock);
-  bool	destroyEntity(int x, int y, bool destroy);
+  bool	destroyEntity(const glm::vec2 &, bool destroy);
   bool	spreadTop(bool destroy);
   bool	spreadLeft(bool destroy);
   bool	spreadDown(bool destroy);

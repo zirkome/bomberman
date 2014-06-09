@@ -2,7 +2,9 @@
 #define _BONUSFACTORY_H_
 
 # include "Singleton.hpp"
+
 # include "BonusWalk.hpp"
+# include "BonusBomb.hpp"
 
 class BonusFactory : public Singleton<BonusFactory>
 {

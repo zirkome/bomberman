@@ -54,7 +54,8 @@ SRC		=	main.cpp \
 			ResourceManager.cpp \
 			Fire.cpp \
 			PreLoader.cpp \
-			BonusFactory.cpp
+			BonusFactory.cpp \
+			BonusBomb.cpp
 
 CC		=	g++
 
@@ -70,7 +71,7 @@ INCDIR		=	include/
 
 CFLAGS		+=	-I$(INCDIR) -Ilib/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe -O2
+CFLAGS		+=	-Wunused-function -pipe -O2 -g
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"

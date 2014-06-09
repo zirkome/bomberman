@@ -9,13 +9,11 @@ class BonusWalk : public ABonus
 {
 private:
   double	_increaseSpeed;
-  BonusType	_typeWalk;
 public:
-  BonusWalk(BonusType typeWalk, glm::vec2 pos, double effectTime);
+  BonusWalk(const glm::vec2 &pos, double effectTime = 10);
   virtual ~BonusWalk();
 
   void	start(APlayer *player);
-  void  update(APlayer *player, const gdl::Clock &clock);
   std::string toString();
   void  stop(APlayer *player);
 };
