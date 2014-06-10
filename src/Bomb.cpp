@@ -75,13 +75,12 @@ void	Bomb::explode(gdl::Clock const &clock)
 bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
 {
   IEntity *entity;
-  int	random;
 
-  std::vector<IEntity *> players = _map->getPlayersAt(pos.x, pos.y);
-  for (std::vector<IEntity *>::iterator it = players.begin();
-       it != players.end(); ++it)
+  std::vector<APlayer *> players = _map->getPlayersAt(pos.x, pos.y);
+  for (std::vector<APlayer *>::iterator it = players.begin(), it = players.end() ++it)
     {
-      (*it)->setStatus(DESTROY);
+      if ((*it)->getFlammePass() == false)
+      	(*it)->setStatus(DESTROY);
     }
   entity = _map->getEntityAt(pos.x, pos.y);
   if (entity == NULL)
@@ -93,11 +92,11 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
   if (entity->getType() == BOX)
     {
       if (destroy)
-        {
-          if (((random = rand()) % 2))
-            _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 2));
-          entity->setStatus(DESTROY);
-        }
+	{
+	  if (rand() % 2)
+	    _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 3));
+	  entity->setStatus(DESTROY);
+	}
       return false;
     }
   return true;

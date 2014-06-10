@@ -2,7 +2,7 @@
 # include "Bomb.hpp"
 
 APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color)
-  : _pos(pos), _map(map), _color(color)
+  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color)
 {
   _max_bomb = 1;
 
@@ -91,27 +91,35 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   IEntity *left = _map->getEntityAt(toGoLeft.x, toGoLeft.y);
   IEntity *right = _map->getEntityAt(toGoRight.x, toGoRight.y);
 
-  if (left && left->getType() == IEntity::BONUS && left->getStatus() != IEntity::REMOVE)
+  if (left && left->getType() == IEntity::BONUS
+      && left->getStatus() != IEntity::REMOVE
+      && left->getStatus() != IEntity::DESTROY)
     {
-      // std::cout << "i take left" << std::endl;
       ABonus *bonus = static_cast<ABonus *>(left);
 
-      bonus->start(this);
-      _bonus.push_back(bonus);
+      addBonus(bonus);
+      // bonus->start(this);
+      // _bonus.push_back(bonus);
       hasMoved = true;
       isBonus = true;
     }
-  if (right && right->getType() == IEntity::BONUS && right->getStatus() != IEntity::REMOVE)
+  if (right && right->getType() == IEntity::BONUS
+      && right->getStatus() != IEntity::REMOVE
+      && right->getStatus() != IEntity::DESTROY)
     {
-      // std::cout << "i take right" << std::endl;
       ABonus *bonus = static_cast<ABonus *>(right);
 
-      bonus->start(this);
-      _bonus.push_back(bonus);
+      addBonus(bonus);
+      // bonus->start(this);
+      // _bonus.push_back(bonus);
       hasMoved = true;
       isBonus = true;
     }
-  if ((!left && !right) || isBonus)
+
+  // check if _bompass activated
+  if ((!left && !right) || isBonus ||
+      ((!left || (left->getType() == IEntity::BOMB)) &&
+       (!right || (right->getType() == IEntity::BOMB)) && _bombPass))
     {
       _pos += mcoef->dir * distance;
       _obj->translate(mcoef->translate * distance);
@@ -160,17 +168,34 @@ bool APlayer::bomb()
 
 void	APlayer::updateBonus(const gdl::Clock &clock)
 {
-  for (std::vector<ABonus *>::iterator it = _bonus.begin();
-       it != _bonus.end(); it++)
+  for (std::vector<ABonus *>::iterator it = _bonus.begin(); it != _bonus.end(); ++it)
     {
       (*it)->update(this, clock);
       if ((*it)->getStatus() == IEntity::DESTROY)
         {
           delete (*it);
-          _bonus.erase(it);
+          _bonus.erase(it--);
         }
     }
 }
+
+void	APlayer::addBonus(ABonus *bonus)
+{
+  for (std::vector<ABonus *>::iterator it = _bonus.begin();
+       it != _bonus.end(); ++it)
+    {
+      if (*bonus == *(*it) && (*it)->getStatus() != IEntity::DESTROY)
+	{
+	  (*it)->takeAnother(this);
+	  bonus->setStatus(IEntity::DESTROY);
+	  return;
+	}
+    }
+  bonus->start(this);
+  bonus->setStatus(IEntity::REMOVE);
+  _bonus.push_back(bonus);
+}
+
 
 IEntity::Type APlayer::getType() const
 {
@@ -221,4 +246,34 @@ int APlayer::getMaxBomb() const
 void	APlayer::setMaxBomb(int maxBomb)
 {
   _max_bomb = maxBomb;
+}
+
+double APlayer::getBombRange() const
+{
+  return _bomb_range;
+}
+
+void	APlayer::setBombRange(double newRange)
+{
+  _bomb_range = newRange;
+}
+
+void	APlayer::setBombPass(bool val)
+{
+  _bombPass = val;
+}
+
+bool	APlayer::getBombPass() const
+{
+  return _bombPass;
+}
+
+void	APlayer::setFlammePass(bool val)
+{
+  _flammePass = val;
+}
+
+bool	APlayer::getFlammePass() const
+{
+  return _flammePass;
 }

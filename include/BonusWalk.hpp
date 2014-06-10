@@ -13,6 +13,7 @@ public:
   BonusWalk(const glm::vec2 &pos, double effectTime = 10);
   virtual ~BonusWalk();
 
+  void takeAnother(APlayer *);
   void	start(APlayer *player);
   std::string toString();
   void  stop(APlayer *player);

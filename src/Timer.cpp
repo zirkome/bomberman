@@ -27,3 +27,8 @@ double Timer::getTime() const
 {
   return _startTime;
 }
+
+void	Timer::addTime(double time)
+{
+  _time += time;
+}
