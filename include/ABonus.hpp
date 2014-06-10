@@ -11,6 +11,7 @@
 # include "Timer.hpp"
 # include "GameGeometry.hpp"
 # include "APlayer.hpp"
+# include "SoundManager.hpp"
 
 struct bonusConf
 {

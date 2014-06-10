@@ -11,6 +11,7 @@ BonusBomb::~BonusBomb()
 
 void	BonusBomb::start(APlayer *player)
 {
+  SoundManager::getInstance()->manageSound(SoundManager::GET_ITEM, SoundManager::PLAY);
   _oldStockBomb = player->getStockBomb();
   _oldMaxBomb = player->getMaxBomb();
 

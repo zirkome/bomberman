@@ -45,6 +45,8 @@ bool	SoundManager::loadSounds()
                                              FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
           _music[SWITCH_MENU] = new Sound(_system, RES_SOUND "switch_menu.wav",
                                           FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
+          _music[GET_ITEM] = new Sound(_system, RES_SOUND "piece.wav",
+                                          FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
         }
       catch (std::exception& e)
         {
