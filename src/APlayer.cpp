@@ -1,9 +1,8 @@
-
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map)
-  : _pos(pos), _map(map)
+APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color)
+  : _pos(pos), _map(map), _color(color)
 {
   _max_bomb = 1;
 
@@ -13,6 +12,9 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map)
   _obj = new GameModel(RES_MODEL "marvin.fbx");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+  _colorTexture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "marvin_color.tga");
+  _defaultColorTexture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "dcolor.tga");
 
   _statusOfObject = OK;
   _status = STANDBY;
@@ -49,7 +51,16 @@ void	APlayer::setPos(const glm::vec2 &new_pos)
 
 void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
+  glActiveTexture(GL_TEXTURE1);
+  _colorTexture->bind();
+  shader->setUniform("fTexture1", 1);
+  shader->setUniform("gColor", _color);
+  glActiveTexture(GL_TEXTURE0);
   _obj->draw(shader, clock);
+  glActiveTexture(GL_TEXTURE1);
+  _defaultColorTexture->bind();
+  shader->setUniform("gColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+  glActiveTexture(GL_TEXTURE0);
 }
 
 bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
@@ -153,10 +164,10 @@ void	APlayer::updateBonus(const gdl::Clock &clock)
     {
       (*it)->update(this, clock);
       if ((*it)->getStatus() == IEntity::DESTROY)
-	{
-	  delete (*it);
-	  _bonus.erase(it);
-	}
+        {
+          delete (*it);
+          _bonus.erase(it);
+        }
     }
 }
 

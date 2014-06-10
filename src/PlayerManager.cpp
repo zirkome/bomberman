@@ -2,8 +2,8 @@
 
 #include "BasicCam.hpp"
 
-PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first)
-  : _player(pos, map, first)
+PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color)
+  : _player(pos, map, first, color)
 {
   _score = 0;
   glm::vec2 playerPos = _player.getPos();

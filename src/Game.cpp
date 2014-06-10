@@ -1,11 +1,13 @@
+#include "Game.hpp"
+
 #include <sstream>
 #include <iomanip>
 #include <Geometry.hh>
 
 #include "ResourceManager.hpp"
 #include "EntitiesFactory.hpp"
-#include "Game.hpp"
 #include "AShader.hh"
+#include "ColorManager.hpp"
 #include "ArmagetroCam.hpp"
 #include "FreeCam.hpp"
 #include "FpsCam.hpp"
@@ -35,19 +37,20 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
   else
     _currentMap = new Map(mapName);
 
+  ColorManager colors;
   Placement place(_currentMap);
 
   i = 0;
   while (i < numberIA)
     {
-      _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName));
+      _listIA.push_back(new Ia(_currentMap, place.getNewPos(), algoFileName, colors.newColor()));
       i++;
     }
 
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new PlayerManager(place.getNewPos(), _currentMap, (i == 0 ? true : false)));
+      _players.push_back(new PlayerManager(place.getNewPos(), _currentMap, (i == 0 ? true : false), colors.newColor()));
       i++;
     }
   for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)
@@ -93,23 +96,23 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
           //TODO HANDLE DEFEAT
         }
       else
-	{
-	  (*it)->update(input, clock);
-	}
-  }
+        {
+          (*it)->update(input, clock);
+        }
+    }
 
   //Delete every elements which are DESTROYs
   while (!listMapToDelete.empty()) {
-    //create bonus id box is destroyed
-    std::list<IEntity *>::iterator it = listMapToDelete.front();
+      //create bonus id box is destroyed
+      std::list<IEntity *>::iterator it = listMapToDelete.front();
 
-    if ((*it)->getType() == IEntity::BOX)
-      std::cout << "bonus" << std::endl;
-    if ((*it)->getStatus() == IEntity::DESTROY)
-      delete *it;
-    _currentMap->getMap().erase(it);
-    listMapToDelete.pop_front();
-  }
+      if ((*it)->getType() == IEntity::BOX)
+        std::cout << "bonus" << std::endl;
+      if ((*it)->getStatus() == IEntity::DESTROY)
+        delete *it;
+      _currentMap->getMap().erase(it);
+      listMapToDelete.pop_front();
+    }
 
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)

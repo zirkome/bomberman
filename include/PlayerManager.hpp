@@ -12,7 +12,7 @@
 class PlayerManager
 {
 public:
-  PlayerManager(const glm::vec2& pos, Map *map, bool first);
+  PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color);
   ~PlayerManager();
 
   Player& getPlayer() {return _player;};
