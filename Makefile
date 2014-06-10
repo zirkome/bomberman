@@ -1,4 +1,3 @@
-
 SRC		=	main.cpp \
 			Game.cpp \
 			Intro.cpp \
