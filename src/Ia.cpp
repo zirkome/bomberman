@@ -107,6 +107,24 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _actToSdlKey[4] = SDLK_RIGHT;
   _actToSdlKey[5] = SDLK_SPACE;
 
+  _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
+				      glm::vec3(0, 0, 1),
+				      glm::vec2(0.7, 0.7),
+				      glm::vec2(0.2, 0.7));
+  _moveConf[SDLK_DOWN] = new movementCoef(180, glm::vec2(0.0, -1.0),
+				      glm::vec3(0, 0, -1),
+				      glm::vec2(0.7, 0.2),
+				      glm::vec2(0.2, 0.2));
+  _moveConf[SDLK_LEFT] = new movementCoef(-90, glm::vec2(-1.0, 0.0),
+				      glm::vec3(-1, 0, 0),
+				      glm::vec2(0.2, 0.7),
+				      glm::vec2(0.2, 0.2));
+
+  _moveConf[SDLK_RIGHT] = new movementCoef(90, glm::vec2(1.0, 0.0),
+				      glm::vec3(1, 0, 0),
+				      glm::vec2(0.7, 0.7),
+				      glm::vec2(0.7, 0.2));
+
   _L = luaL_newstate();
   if (_L == NULL)
     throw nFault("Init lua fail");
