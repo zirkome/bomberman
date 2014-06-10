@@ -8,7 +8,7 @@ PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const g
   _score = 0;
   _first = first;
   glm::vec2 playerPos = _player.getPos();
-  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
+  _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 15, 3);
 }
 
 PlayerManager::~PlayerManager()
@@ -31,7 +31,7 @@ void PlayerManager::updateNearList(const Map& map)
 
   glm::vec2 posPlayer = _player.getPos();
   glm::vec2 posObject(0, 0);
-  int rayon = 9;
+  int rayon = 15;
 
   for (Map::const_iterator it = map.begin(), end = map.end();
        it != end; ++it)
