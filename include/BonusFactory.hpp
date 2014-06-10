@@ -5,6 +5,9 @@
 
 # include "BonusWalk.hpp"
 # include "BonusBomb.hpp"
+# include "BonusRange.hpp"
+# include "BonusFlammePass.hpp"
+# include "BonusBombPass.hpp"
 
 class BonusFactory : public Singleton<BonusFactory>
 {

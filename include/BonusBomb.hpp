@@ -15,6 +15,7 @@ public:
   BonusBomb(const glm::vec2 &pos, double effectTime = 10);
   virtual ~BonusBomb();
 
+  void  takeAnother(APlayer *player);
   void	start(APlayer *player);
   std::string toString();
   void  stop(APlayer *player);

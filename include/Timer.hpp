@@ -14,6 +14,7 @@ public:
   bool update(double clock);
   void reset(double time);
   double getTime() const;
+  void	addTime(double time);
 };
 
 #endif /* !TIMER_HPP_ */

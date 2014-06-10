@@ -62,6 +62,7 @@ protected:
   SharedPointer<Texture> _colorTexture;
   SharedPointer<Texture> _defaultColorTexture;
   int _lvl;
+  bool _flammePass, _bombPass;
   std::map<int, movementCoef*> _moveConf;
   glm::vec4 _color;
   std::vector<ABonus *>		_bonus;
@@ -77,6 +78,7 @@ public:
   virtual void setPos(const glm::vec2 &new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock) = 0;
   virtual void draw(gdl::AShader *shader, const gdl::Clock& clock) const;
+  virtual void addBonus(ABonus *);
   virtual IEntity::Type getType() const;
   virtual void setStatus(APlayer::Status);
   virtual IEntity::Status getStatus() const;
@@ -87,7 +89,12 @@ public:
   void	       setStockBomb(int);
   int	       getMaxBomb() const;
   void	       setMaxBomb(int);
-
+  double       getBombRange() const;
+  void	       setBombRange(double);
+  void	       setBombPass(bool);
+  bool	       getBombPass() const;
+  void	       setFlammePass(bool);
+  bool	       getFlammePass() const;
 protected:
   virtual bool	movePlayer(const movementCoef *mcoef, float const distance);
   virtual bool	bomb();

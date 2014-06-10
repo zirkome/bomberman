@@ -30,8 +30,9 @@ protected:
     {
       FASTER = 0,
       MULTI_BOMB,
-      GHOST,
-      BOMB_RANGE
+      BOMB_RANGE,
+      FLAMME_PASS,
+      BOMB_PASS
     };
 
 private:
@@ -43,6 +44,7 @@ private:
 protected:
   IEntity::Status _status;
   Timer		_toDisplay, _effectTime;
+  BonusType	_type;
 public:
   ABonus(BonusType type, const glm::vec2 &pos, double effectTime);
   virtual ~ABonus();
@@ -57,8 +59,10 @@ public:
   virtual void update(APlayer *player, const gdl::Clock &);
 
   virtual void start(APlayer *player) = 0;
-  virtual std::string toString() = 0;
+  virtual void takeAnother(APlayer *player) = 0;
 
+  virtual std::string toString() = 0;
+  bool	  operator==(const ABonus &);
 protected:
   virtual void stop(APlayer *player) = 0;
 };
