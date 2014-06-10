@@ -42,7 +42,7 @@ void main(void)
   vec4 position = fPosition;
   vec4 normal = normalize(fNormal);
 
-  if (colorMap == vec4(0.0, 0.0, 0.0, 1.0))
+  if (colorMap.xyz == vec3(0.0, 0.0, 0.0))
     color = color;
   else
     color = colorMap;
