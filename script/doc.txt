@@ -2,7 +2,7 @@ iaGetPos get the current pos of player
 	 need thisptr in arg
 	 return x and y
 
-iaGetPos get size of the map
+iaGetSizeMap get size of the map
 	 need thisptr in arg
 	 return x and y
 

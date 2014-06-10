@@ -72,7 +72,7 @@ void	Bomb::explode(gdl::Clock const &clock)
     }
 }
 
-bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
+char	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
 {
   IEntity *entity;
 
@@ -84,9 +84,9 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
     }
   entity = _map->getEntityAt(pos.x, pos.y);
   if (entity == NULL)
-    return true;
+    return 1;
   if (entity->getType() == WALL)
-    return false;
+    return 0;
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
   if (entity->getType() == BOX)
@@ -97,23 +97,26 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
 	    _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 3));
 	  entity->setStatus(DESTROY);
 	}
-      return false;
+      return 2;
     }
-  return true;
+  return 1;
 }
 
 bool	Bomb::spreadTop(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
+  char ret;
 
   while (cpy.y < _distance + _vec.y)
     {
-      if (!this->destroyEntity(cpy, destroy))
+      if (!(ret = this->destroyEntity(cpy, destroy)))
         return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y += 1;
+      if (ret == 2)
+	return false;
     }
   return true;
 }
@@ -122,14 +125,17 @@ bool	Bomb::spreadLeft(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
+  char ret;
 
   while (cpy.x < _distance + _vec.x)
     {
-      if (!this->destroyEntity(cpy, destroy))
-        return true;
+      if (!(ret = this->destroyEntity(cpy, destroy)))
+        return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.x += 1;
+      if (ret == 2)
+	return false;
     }
   return false;
 }
@@ -138,14 +144,17 @@ bool	Bomb::spreadDown(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
+  char ret;
 
   while (cpy.y > _vec.y - _distance)
     {
-      if (!this->destroyEntity(cpy, destroy))
+      if (!(ret = this->destroyEntity(cpy, destroy)))
         return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y -= 1;
+      if (ret == 2)
+	return false;
     }
   return true;
 }
@@ -154,14 +163,17 @@ bool	Bomb::spreadRight(bool destroy)
 {
   glm::vec2 cpy = _vec;
   Fire fire(_vec);
+  char ret;
 
   while (cpy.x > _vec.x - _distance)
     {
-      if (!this->destroyEntity(cpy, destroy))
+      if (!(ret = this->destroyEntity(cpy, destroy)))
         return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.x -= 1;
+      if (ret == 2)
+	return false;
     }
   return true;
 }
