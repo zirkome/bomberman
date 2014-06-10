@@ -114,7 +114,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)
-    (*it)->update(*_currentMap);
+      (*it)->update(*_currentMap);
 
   _ogl.updateGraphic(clock);
   return true;
@@ -144,4 +144,9 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
   textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
   textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
   font.displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
+
+  for (std::vector<PlayerManager*>::const_iterator it = _players.begin();
+       it != _players.end(); ++it)
+    (*it)->displayInfo(font, clock, shader);
+
 }

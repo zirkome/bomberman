@@ -32,3 +32,8 @@ void	Timer::addTime(double time)
 {
   _time += time;
 }
+
+double Timer::getRemainingTime() const
+{
+  return _time;
+}

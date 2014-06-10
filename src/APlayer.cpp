@@ -7,7 +7,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color)
   _max_bomb = 1;
 
   _stock_bomb = _max_bomb;
-  _bomb_range = 2;
+  _bomb_range = 3;
 
   _obj = new GameModel(RES_MODEL "marvin.fbx");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
@@ -196,6 +196,10 @@ void	APlayer::addBonus(ABonus *bonus)
   _bonus.push_back(bonus);
 }
 
+const std::vector<ABonus *>& APlayer::getBonus() const
+{
+  return _bonus;
+}
 
 IEntity::Type APlayer::getType() const
 {

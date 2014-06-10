@@ -6,6 +6,7 @@ PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const g
   : _player(pos, map, first, color)
 {
   _score = 0;
+  _first = first;
   glm::vec2 playerPos = _player.getPos();
   _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 10, 3);
 }
@@ -46,5 +47,43 @@ void PlayerManager::updateNearList(const Map& map)
       posObject = (*it)->getPos();
       if ((posObject.x < posPlayer.x + rayon && posObject.x > posPlayer.x - rayon && posObject.y < posPlayer.y + rayon && posObject.y > posPlayer.y - rayon))
         _nearEntity.push_front((*it));
+    }
+}
+
+void	PlayerManager::displayInfo(const FontText& font, const gdl::Clock &clock, gdl::AShader *shader) const
+{
+  const std::vector<ABonus *> bonus = _player.getBonus();
+  glm::mat4 textMat;
+  double line = 0.0f;
+  SharedPointer<Texture> texture;
+
+  textMat = glm::translate(glm::mat4(1), glm::vec3(0 + (_first ? 0 : 0.5), 0.98, 0));
+  textMat = glm::scale(textMat, glm::vec3(0.35, 0.45, 0.0));
+
+  font.displayText("Active bonus:", glm::vec4(0.0f, 1.0, 0.0f, 1.8f), textMat, shader);
+
+  ++line;
+
+
+  for (std::vector<ABonus *>::const_iterator it = bonus.begin();
+       it != bonus.end(); ++it)
+    {
+      GameGeometry *pan = new GameGeometry(ResourceManager::getInstance()->get<AGeometry>("pan.geo"));
+
+      pan->scale(glm::vec3(0.008, 0.010, 0));
+      pan->rotate(glm::vec3(0,0,1), 180);
+
+      texture = ResourceManager::getInstance()->get<Texture>((*it)->getTexturePath());
+
+      pan->translate(glm::vec3(0.02f + (_first ? 0 : 0.5), 1.0f - line / 45.f - 0.019, 0.0));
+
+      texture->bind();
+      pan->draw(shader, clock);
+
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.03 + (_first ? 0 : 0.5), 1.0f - line / 45.f - 0.03, 0));
+      textMat = glm::scale(textMat, glm::vec3(0.35, 0.40, 0.0));
+
+      font.displayText((*it)->toString().c_str(), glm::vec4(0.0f, 1.0, 0.0f, 1.8f), textMat, shader);
+      line++;
     }
 }

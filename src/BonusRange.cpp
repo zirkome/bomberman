@@ -17,7 +17,6 @@ void	BonusRange::start(APlayer *player)
   _increaseRange += 1;
 
   player->setBombRange(_oldRange + 1);
-  // _status = REMOVE;
 }
 
 void	BonusRange::stop(APlayer *player)
@@ -40,6 +39,8 @@ std::string BonusRange::toString()
 {
   std::stringstream ss("");
 
-  ss << "Bomb range increase : " << _increaseRange + _oldRange;
+  ss << "Bomb range increase to "
+     << _increaseRange + _oldRange
+     << " (" << static_cast<int>(_effectTime.getRemainingTime()) << ")";;;
   return ss.str();
 }

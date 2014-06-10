@@ -95,6 +95,8 @@ public:
   bool	       getBombPass() const;
   void	       setFlammePass(bool);
   bool	       getFlammePass() const;
+  const std::vector<ABonus *>& getBonus() const;
+
 protected:
   virtual bool	movePlayer(const movementCoef *mcoef, float const distance);
   virtual bool	bomb();

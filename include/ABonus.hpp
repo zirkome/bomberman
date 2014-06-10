@@ -60,7 +60,7 @@ public:
 
   virtual void start(APlayer *player) = 0;
   virtual void takeAnother(APlayer *player) = 0;
-
+  const std::string getTexturePath() const;
   virtual std::string toString() = 0;
   bool	  operator==(const ABonus &);
 protected:

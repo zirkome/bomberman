@@ -48,6 +48,7 @@ std::string BonusWalk::toString()
 {
   std::stringstream ss("");
 
-  ss << "Faster : " << _increaseSpeed;
+  ss << "Faster : " << (_increaseSpeed > 0 ? "+" : "-") << _increaseSpeed
+     << " (" << static_cast<int>(_effectTime.getRemainingTime()) << ")";;;
   return ss.str();
 }

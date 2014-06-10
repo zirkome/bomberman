@@ -8,6 +8,7 @@
 # include "IEntity.hpp"
 # include "ACamera.hpp"
 # include "Player.hpp"
+# include "FontText.hpp"
 
 class PlayerManager
 {
@@ -19,7 +20,7 @@ public:
   ACamera& getCam() {return *_cam;};
 
   void update(const Map& map);
-
+  void displayInfo(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader) const;
   const std::list<IEntity*>& getNearList() const {return _nearEntity;};
 
 private:
@@ -31,6 +32,7 @@ private:
   ACamera* _cam;
   int _score;
   std::list<IEntity*> _nearEntity;
+  bool _first;
 };
 
 #endif // PLAYERMANAGER_H

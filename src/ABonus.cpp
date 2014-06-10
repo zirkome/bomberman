@@ -67,13 +67,10 @@ void	ABonus::draw(gdl::AShader *shader, const gdl::Clock& clock) const
   _obj->draw(shader, clock);
 }
 
-// void	ABonus::takeAnother(APlayer *player)
-// {
-//   double	effectTime = _effectTime.getTime();
-
-//   start(player);
-//   _effectTime.addTime(effectTime);
-// }
+const std::string ABonus::getTexturePath() const
+{
+  return std::string(RES_TEXTURE) + _bonusImg.at(_type);
+}
 
 IEntity::Type ABonus::getType() const
 {

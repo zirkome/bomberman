@@ -15,6 +15,7 @@ public:
   void reset(double time);
   double getTime() const;
   void	addTime(double time);
+  double getRemainingTime() const;
 };
 
 #endif /* !TIMER_HPP_ */
