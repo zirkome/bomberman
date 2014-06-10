@@ -59,13 +59,15 @@ protected:
   double _bomb_range;
   IEntity::Status _statusOfObject;
   GameModel* _obj;
+  SharedPointer<Texture> _colorTexture;
+  SharedPointer<Texture> _defaultColorTexture;
   int _lvl;
   std::map<int, movementCoef*> _moveConf;
-  glm::vec3 _color;
+  glm::vec4 _color;
   std::vector<ABonus *>		_bonus;
 
 protected:
-  APlayer(const glm::vec2 &pos, Map *map, const glm::vec3& color);
+  APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color);
 
 public:
   virtual ~APlayer();

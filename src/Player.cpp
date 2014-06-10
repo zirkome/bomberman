@@ -1,7 +1,7 @@
 #include "config.h"
 #include "Player.hpp"
 
-Player::Player(const glm::vec2& pos, Map *map, bool first, const glm::vec3& color)
+Player::Player(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color)
   : APlayer::APlayer(pos, map, color)
 {
   if (!first) {

@@ -41,7 +41,7 @@ public:
   bool nothing(UNUSED double const distance);
   const glm::vec2& getMapDimension() const;
 public:
-  Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec3& color);
+  Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec4& color);
   ~Ia();
   int exec(); /*!BLOQUANT! call it when the ia can make one action */
 };

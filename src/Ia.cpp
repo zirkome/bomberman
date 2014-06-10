@@ -92,7 +92,7 @@ void *iaStart(void *ptr)
   return (static_cast<Ia *> (ptr))->init();
 }
 
-Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec3& color)
+Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec4& color)
   : APlayer::APlayer(pos, currentMap, color), _condAct(_mutex), _thread(iaStart, this)
 {
   _statusOfObject = OK;

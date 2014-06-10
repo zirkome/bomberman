@@ -22,7 +22,7 @@ uniform mat4 model;
 uniform vec3 camPos;
 uniform vec4 ambientLight;
 uniform vec3 lightDir;
-uniform vec3 gColor;
+uniform vec4 gColor;
 
 uniform sampler2D fTexture0;
 uniform sampler2D fTexture1;
@@ -37,11 +37,15 @@ float smoothstep(float edge0, float edge1, float x);
 
 void main(void)
 {
+  vec4 colorMap = texture2D(fTexture1, fUv) * gColor;
   vec4 color = texture2D(fTexture0, fUv) * fColor;
   vec4 position = fPosition;
   vec4 normal = normalize(fNormal);
 
-  color = color * vec4(gColor, 1.0);
+  if (colorMap == vec4(0.0, 0.0, 0.0, 1.0))
+    color = color;
+  else
+    color = colorMap;
 
   vec4 lighting = ambientLight;
 
