@@ -160,7 +160,8 @@ bool APlayer::bomb()
 
 void	APlayer::updateBonus(const gdl::Clock &clock)
 {
-  for (std::vector<ABonus *>::iterator it = _bonus.begin(), end = _bonus.end(); it != end; it++)
+  for (std::vector<ABonus *>::iterator it = _bonus.begin();
+       it != _bonus.end(); it++)
     {
       (*it)->update(this, clock);
       if ((*it)->getStatus() == IEntity::DESTROY)

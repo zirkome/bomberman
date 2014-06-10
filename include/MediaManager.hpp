@@ -79,8 +79,8 @@ inline void MediaManager::registerLoader(ILoader<T>* loader,
   split(extensions, " /\\*.,;|-_\t\n'\"", ext);
 
   SharedPointer<ILoader<T> > ptr = loader;
-  for (std::vector<std::string>::iterator i = ext.begin(), end =
-         ext.end(); i != end; ++i)
+  for (std::vector<std::string>::iterator i = ext.begin();
+       i != ext.end(); ++i)
     {
       std::transform(i->begin(), i->end(), i->begin(), ::tolower);
       MediaHolder<T>::_loaders[*i] = ptr;

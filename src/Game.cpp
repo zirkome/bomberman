@@ -53,10 +53,10 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
       _players.push_back(new PlayerManager(place.getNewPos(), _currentMap, (i == 0 ? true : false), colors.newColor()));
       i++;
     }
-  for (std::vector<Ia *>::iterator it = _listIA.begin() ; it != _listIA.end(); ++it)
+  for (std::vector<Ia *>::iterator it = _listIA.begin(); it != _listIA.end(); ++it)
     if (_currentMap->addEntity(*it) != true)
       throw nFault("Error in the initializiation of the map");
-  for (std::vector<PlayerManager*>::iterator it = _players.begin() ; it != _players.end(); ++it)
+  for (std::vector<PlayerManager*>::iterator it = _players.begin(); it != _players.end(); ++it)
     if (_currentMap->addEntity(&(*it)->getPlayer()) != true)
       throw nFault("Error in the initializiation of the map");
 
@@ -91,7 +91,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
     }
 
   Map::LMap playerList = _currentMap->getPlayerList();
-  for (Map::iterator it = playerList.begin(), end = playerList.end(); it != end; ++it) {
+  for (Map::iterator it = playerList.begin(); it !=  playerList.end(); ++it) {
       if ((*it)->getStatus() == IEntity::DESTROY) {
           //TODO HANDLE DEFEAT
         }

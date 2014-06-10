@@ -63,11 +63,11 @@ void	Bomb::explode(gdl::Clock const &clock)
       this->spreadDown(true);
       this->spreadRight(true);
       SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
-      for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(), end = _generatedBonus.end();
-	   it != end; ++it)
-	{
-	  _map->addEntity(*it);
-	}
+      for (std::vector<ABonus *>::iterator it = _generatedBonus.begin();
+           it != _generatedBonus.end(); ++it)
+        {
+          _map->addEntity(*it);
+        }
       _generatedBonus.clear();
     }
 }
@@ -78,7 +78,8 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
   int	random;
 
   std::vector<IEntity *> players = _map->getPlayersAt(pos.x, pos.y);
-  for (std::vector<IEntity *>::iterator it = players.begin(), end = players.end(); it != end; ++it)
+  for (std::vector<IEntity *>::iterator it = players.begin();
+       it != players.end(); ++it)
     {
       (*it)->setStatus(DESTROY);
     }
@@ -92,11 +93,11 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
   if (entity->getType() == BOX)
     {
       if (destroy)
-	{
-	  if (((random = rand()) % 2))
-	    _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 2));
-	  entity->setStatus(DESTROY);
-	}
+        {
+          if (((random = rand()) % 2))
+            _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 2));
+          entity->setStatus(DESTROY);
+        }
       return false;
     }
   return true;
@@ -110,7 +111,7 @@ bool	Bomb::spreadTop(bool destroy)
   while (cpy.y < _distance + _vec.y)
     {
       if (!this->destroyEntity(cpy, destroy))
-	return false;
+        return false;
       fire.setPos(cpy);
       _fireList.push_back(new Fire(cpy));
       cpy.y += 1;
