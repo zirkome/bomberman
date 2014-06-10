@@ -25,7 +25,6 @@ GameGraphics::~GameGraphics()
 bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool splitScreen)
 {
 
-  _init = true;
   _fov = 60.0;
   _splitScreen = splitScreen;
 
@@ -40,6 +39,7 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
       || !_shader->load(RES_SHADERS "game.vp", GL_VERTEX_SHADER)
       || !_shader->build())
     {
+      delete _shader;
       throw std::runtime_error("Load shader fail");
     }
 
@@ -71,6 +71,7 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
   _groundTex =
     ResourceManager::getInstance()->get<Texture>(
       RES_TEXTURE "ground_texture.tga");
+  _init = true;
   return true;
 }
 
