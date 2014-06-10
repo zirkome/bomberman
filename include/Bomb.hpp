@@ -48,7 +48,7 @@ public:
 private:
 
   void	explode(gdl::Clock const &clock);
-  bool	destroyEntity(const glm::vec2 &, bool destroy);
+  char	destroyEntity(const glm::vec2 &, bool destroy);
   bool	spreadTop(bool destroy);
   bool	spreadLeft(bool destroy);
   bool	spreadDown(bool destroy);
