@@ -77,7 +77,7 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
   IEntity *entity;
 
   std::vector<APlayer *> players = _map->getPlayersAt(pos.x, pos.y);
-  for (std::vector<APlayer *>::iterator it = players.begin(), it = players.end() ++it)
+  for (std::vector<APlayer *>::iterator it = players.begin(); it != players.end(); ++it)
     {
       if ((*it)->getFlammePass() == false)
       	(*it)->setStatus(DESTROY);
