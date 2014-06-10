@@ -15,15 +15,12 @@ void	BonusFlammePass::start(APlayer *player)
   SoundManager::getInstance()->manageSound(SoundManager::GET_ITEM, SoundManager::PLAY);
 
   player->setFlammePass(true);
-  std::cout << "flamme passe activated : " << player->getFlammePass() << std::endl;
-  // _status = REMOVE;
 }
 
 void	BonusFlammePass::stop(APlayer *player)
 {
   player->setFlammePass(false);
   _status = DESTROY;
-  std::cout << "flamme passe ended" << std::endl;
 }
 
 void	BonusFlammePass::takeAnother(UNUSED APlayer *player)

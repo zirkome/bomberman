@@ -106,8 +106,6 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
       //create bonus id box is destroyed
       std::list<IEntity *>::iterator it = listMapToDelete.front();
 
-      if ((*it)->getType() == IEntity::BOX)
-        std::cout << "bonus" << std::endl;
       if ((*it)->getStatus() == IEntity::DESTROY)
         delete *it;
       _currentMap->getMap().erase(it);

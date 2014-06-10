@@ -17,10 +17,8 @@ void	BonusWalk::start(APlayer *player)
 
 
   SoundManager::getInstance()->manageSound(SoundManager::GET_ITEM, SoundManager::PLAY);
-  std::cout << "speed up !" << std::endl;
   _increaseSpeed += (currentSpeed * 1.3) - currentSpeed;
 
-  std::cout << "increase at : " << _increaseSpeed << std::endl;
   player->setSpeed(currentSpeed + _increaseSpeed);
 }
 
