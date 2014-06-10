@@ -3,7 +3,7 @@
 #include "BasicCam.hpp"
 
 PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first)
-  : _player(pos, map, first)
+  : _player(pos, map, first, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))
 {
   _score = 0;
   glm::vec2 playerPos = _player.getPos();

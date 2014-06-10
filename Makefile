@@ -56,7 +56,8 @@ SRC		=	main.cpp \
 			BonusBomb.cpp \
 			AGeometry.cpp \
 			GameGeometry.cpp \
-			GeometryLoader.cpp
+			GeometryLoader.cpp \
+			ColorManager.cpp
 
 CC		=	g++
 

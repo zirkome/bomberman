@@ -32,6 +32,7 @@ private:
 private:
   typedef std::map<std::string, SharedPointer<AResource> > ResMap_t;
   ResMap_t _resources;
+  bool _destroyed;
 };
 
 template<class T>
