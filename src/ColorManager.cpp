@@ -15,10 +15,12 @@ void ColorManager::generateColors(int n)
   for (float i = 0.0; i < static_cast<float>(n); i += 1.0)
     {
       float r, g, b;
-      r = std::fmod(offset + (0.618033988749895f * i), 1.0f);
-      g = std::fmod(offset + (0.618033988749895f * (i + 1)), 1.0f);
-      b = std::fmod(offset + (0.618033988749895f * (i + 2)), 1.0f);
-
+      r = std::fmod(offset * (0.618033988749895f * i), 1.0f);
+      offset = std::fmod(static_cast<float>(rand()), 10000.0f) + 0.01;
+      g = std::fmod(offset * (0.618033988749895f * (i )), 1.0f);
+      offset = std::fmod(static_cast<float>(rand()), 10000.0f) + 0.01;
+      b = std::fmod(offset * (0.618033988749895f * (i )), 1.0f);
+      offset = std::fmod(static_cast<float>(rand()), 10000.0f) + 0.01;
       _colors.push_back(glm::vec4(glm::vec3(r, g, b), 1.0f));
     }
 }
