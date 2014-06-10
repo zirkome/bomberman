@@ -5,7 +5,6 @@ BonusBomb::BonusBomb(const glm::vec2 &pos, double effectTime)
 {
   _oldStockBomb = 0;
   _oldMaxBomb = 0;
-  _increaseBomb = 3;
 }
 
 BonusBomb::~BonusBomb()
