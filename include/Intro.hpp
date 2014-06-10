@@ -26,6 +26,7 @@ public:
   bool finish() const;
   Game *getGame();
 private:
+  Intro(const Intro& i);
   void init(const glm::ivec2& win);
 
 private:
