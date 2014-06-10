@@ -1,6 +1,10 @@
 #ifndef APLAYER_HPP_
 # define APLAYER_HPP_
 
+# include <boost/archive/text_oarchive.hpp>
+# include <boost/archive/text_iarchive.hpp>
+# include <boost/serialization/base_object.hpp>
+
 # include "IEntity.hpp"
 # include "Model.hpp"
 # include "Map.hpp"
@@ -26,6 +30,8 @@ struct movementCoef
 
 class APlayer : public IEntity
 {
+  friend class boost::serialization::access;
+
 public:
   enum Status
   {
@@ -66,6 +72,22 @@ protected:
   std::map<int, movementCoef*> _moveConf;
   glm::vec4 _color;
   std::vector<ABonus *>		_bonus;
+
+public:
+  template<class Archive>
+  void serialize(Archive & ar, UNUSED const unsigned int version)
+  {
+    ar & _pos.x;
+    ar & _pos.y;
+    ar & _speed;
+    ar & _size;
+    ar & _stock_bomb;
+    ar & _max_bomb;
+    ar & _bomb_range;
+    ar & _flammePass;
+    ar & _bombPass;
+    ar & _lvl;
+  }
 
 protected:
   APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color);

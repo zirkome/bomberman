@@ -5,7 +5,6 @@
 /*
 ** constructor random map
 */
-
 Map::Map(const int x, const int y)
   : _dim(x, y)
 {
@@ -20,7 +19,6 @@ Map::Map(const int x, const int y)
 /*
 ** constructor map with fileName
 */
-
 Map::Map(std::string const &mapFileName)
   : _dim(0, 0)
 {
@@ -44,7 +42,6 @@ Map::~Map()
 /*
 ** Private Methods
 */
-
 IEntity::Type	Map::getType(const char c) const
 {
   IEntity::Type type = IEntity::NONE;

@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+#include "SaveManager.hpp"
+
 GameEngine::GameEngine()
   : _state(Intro), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext)
 {
@@ -72,6 +74,10 @@ bool GameEngine::update()
     SDL_SetRelativeMouseMode(SDL_TRUE);
   if (_input.getKey(SDLK_LCTRL) && _input.getInput(SDLK_LALT))
     SDL_SetRelativeMouseMode(SDL_FALSE);
+  if (_input.getKey(SDLK_p, true))
+    {
+      SaveManager::save(_game);
+    }
   if (_input.getKey(SDLK_ESCAPE, true))
     {
       if (_state == Game)
