@@ -3,6 +3,9 @@
 BonusBomb::BonusBomb(const glm::vec2 &pos, double effectTime)
   : ABonus(MULTI_BOMB, pos, effectTime)
 {
+  _oldStockBomb = 0;
+  _oldMaxBomb = 0;
+  _increaseBomb = 3;
 }
 
 BonusBomb::~BonusBomb()
@@ -14,8 +17,6 @@ void	BonusBomb::start(APlayer *player)
   _oldStockBomb = player->getStockBomb();
   _oldMaxBomb = player->getMaxBomb();
 
-  _increaseBomb = 3;
-
   player->setMaxBomb(_oldMaxBomb + _increaseBomb);
   player->setStockBomb(_oldMaxBomb + _increaseBomb);
 
@@ -24,7 +25,7 @@ void	BonusBomb::start(APlayer *player)
 
 void	BonusBomb::stop(APlayer *player)
 {
-  double        curMaxBomb = player->getMaxBomb();
+  double curMaxBomb = player->getMaxBomb();
 
   _status = DESTROY;
   player->setMaxBomb(curMaxBomb - _increaseBomb);

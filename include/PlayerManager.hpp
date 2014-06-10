@@ -23,6 +23,7 @@ public:
   const std::list<IEntity*>& getNearList() const {return _nearEntity;};
 
 private:
+  PlayerManager(const PlayerManager& p);
   void updateNearList(const Map& map);
 
 private:

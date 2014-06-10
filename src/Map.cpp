@@ -47,9 +47,8 @@ Map::~Map()
 
 IEntity::Type	Map::getType(const char c) const
 {
-  IEntity::Type	type = IEntity::NONE;
+  IEntity::Type type = IEntity::NONE;
 
-  type = IEntity::NONE;
   try
     {
       type = _charToIEntity.at(c);
@@ -98,14 +97,14 @@ void		Map::loadRandomMap()
   for (int i = 0; i < _dim.x; i++)
     for (int j = 0; j < _dim.y; j++)
       {
-	if (i == 0 || j == 0 || i == _dim.x - 1 || j == _dim.y - 1 || (j % 2 == 0 && i % 2 == 0))
-	  entity = getEntityForMap(i, j, IEntity::WALL);
-	else if (rand() % 3 == 1)
-	  entity = getEntityForMap(i, j, IEntity::BOX);
-	else
-	  entity = getEntityForMap(i, j, IEntity::NONE);
-	if (entity)
-	  addEntity(entity);
+        if (i == 0 || j == 0 || i == _dim.x - 1 || j == _dim.y - 1 || (j % 2 == 0 && i % 2 == 0))
+          entity = getEntityForMap(i, j, IEntity::WALL);
+        else if (rand() % 3 == 1)
+          entity = getEntityForMap(i, j, IEntity::BOX);
+        else
+          entity = getEntityForMap(i, j, IEntity::NONE);
+        if (entity)
+          addEntity(entity);
       }
 }
 
@@ -126,7 +125,8 @@ void	Map::displayDebugMap() const
 {
   bool	check;
 
-  if (_map.size() > 0) {
+  if (!_map.empty())
+    {
       for (int i = 0; i < _dim.x; ++i) {
           for (int j = 0; j < _dim.y; ++j) {
               check = false;
@@ -200,11 +200,11 @@ std::vector<IEntity *> const Map::getPlayersAt(const int x, const int y) const
       x1 = (*it)->getPos().x + 0.7;
       y1 = (*it)->getPos().y + 0.7;
       if (x1 == x && y1 == y)
-	entity.push_back(*it);
+        entity.push_back(*it);
       x1 = (*it)->getPos().x + 0.3;
       y1 = (*it)->getPos().y + 0.3;
       if (x1 == x && y1 == y)
-	entity.push_back(*it);
+        entity.push_back(*it);
     }
   return entity;
 }
@@ -242,8 +242,8 @@ bool		Map::addEntity(IEntity *entity)
   if (entity->getType() != IEntity::PLAYER)
     _map.push_back(entity);
   if (entity->getType() == IEntity::PLAYER) {
-    _playerList.push_back(entity);
-  }
+      _playerList.push_back(entity);
+    }
   else if (entity->getType() != IEntity::WALL)
     _updateList.push_back(entity);
   return true;

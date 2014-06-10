@@ -3,6 +3,13 @@
 GameGraphics::GameGraphics()
 {
   _init = false;
+  _fov = 60.0;
+  _splitScreen = false;
+  _proj = glm::mat4(1);
+  _ortho = glm::mat4(1);
+  _shader = NULL;
+  _font = NULL;
+  _ground = NULL;
 }
 
 GameGraphics::~GameGraphics()

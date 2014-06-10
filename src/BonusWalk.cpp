@@ -3,6 +3,7 @@
 BonusWalk::BonusWalk(const glm::vec2 &pos, double effectTime)
   : ABonus(FASTER, pos, effectTime)
 {
+  _increaseSpeed = 0;
 }
 
 BonusWalk::~BonusWalk()

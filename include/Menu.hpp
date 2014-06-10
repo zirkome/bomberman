@@ -20,6 +20,8 @@ public:
   bool finish() const;
 private:
   void init();
+  Menu(const Menu& m);
+
 private:
   int _numberPlayer;
   int _numberIa;

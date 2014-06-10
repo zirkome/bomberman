@@ -22,7 +22,7 @@ SoundManager::~SoundManager()
 {
   if (_init)
     {
-      for (std::map<Sample, Sound *>::iterator it = _music.begin(); it !=  _music.end(); it++)
+      for (std::map<Sample, Sound *>::iterator it = _music.begin(); it !=  _music.end(); ++it)
         {
           delete it->second;
         }

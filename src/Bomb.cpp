@@ -64,7 +64,7 @@ void	Bomb::explode(gdl::Clock const &clock)
       this->spreadRight(true);
       SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
       for (std::vector<ABonus *>::iterator it = _generatedBonus.begin(), end = _generatedBonus.end();
-	   it != end; it++)
+	   it != end; ++it)
 	{
 	  _map->addEntity(*it);
 	}
