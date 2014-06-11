@@ -60,36 +60,29 @@ bool GameEngine::update()
       _state = Game;
       _game = _intro->getGame(_screenSize);
       _context->updateClock(_clock);
-      delete _intro;
     }
   _context->updateClock(_clock);
   _context->updateInputs(_input);
+  if (_input.getInput(SDL_QUIT) || (_input.getKey(SDLK_ESCAPE) && _state == Intro))
+    return false;
   if (_input.getInput(SDL_BUTTON_LEFT))
     SDL_SetRelativeMouseMode(SDL_TRUE);
   if (_input.getKey(SDLK_LCTRL) && _input.getInput(SDLK_LALT))
     SDL_SetRelativeMouseMode(SDL_FALSE);
-  if (_input.getKey(SDLK_ESCAPE, true))
+  if (_state == Game)
     {
-      if (_state == Game)
+      if (_input.getKey(SDLK_ESCAPE, true) || _game->updateGame(_input, _clock) == false)
         {
           SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
           SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
+	  glClearDepth(1.0f);
+	  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
           _state = Intro;
-          _intro = new ::Intro(_screenSize, true);
         }
-      else
-        return false;
     }
-  if (_input.getInput(SDL_QUIT))
-    return false;
-  switch (_state)
-    {
-    case Intro:
-      return _intro->updateIntro(_input, _clock);
-    case Game:
-    default:
-      return _game->updateGame(_input, _clock);
-    }
+  else
+    return _intro->updateIntro(_input, _clock);
+  return true;
 }
 
 void GameEngine::draw()

@@ -76,6 +76,7 @@ void Intro::init(const glm::ivec2& win)
 
 Game *Intro::getGame(const glm::ivec2& dim)
 {
+  _state = Menu;
   return _menu->getGame(dim);
 }
 
