@@ -34,6 +34,7 @@ private:
   enum state {
     Running,
     Option,
+    Name,
     Finished
   } _state;
   enum selected {
@@ -44,7 +45,10 @@ private:
     Ia,
     IaFile,
     MapFile,
-    Return
+    Return,
+    Player1,
+    Player2,
+    Starting
   } _select;
   enum level {
     Easy = 0,
@@ -54,6 +58,8 @@ private:
   int _map;
   std::map<level, std::string> _levelFile;
   std::vector<std::string> _mapFile;
+  std::string _name1;
+  std::string _name2;
 };
 
 #endif

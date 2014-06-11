@@ -37,6 +37,6 @@ std::string BonusRange::toString()
 {
   std::stringstream ss("");
 
-  ss << "Bomb range increase to " << _increaseRange + _oldRange;
+  ss << "Range increase to " << _increaseRange + _oldRange;
   return ss.str();
 }

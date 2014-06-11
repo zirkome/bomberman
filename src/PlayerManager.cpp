@@ -8,6 +8,7 @@ PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const g
   _score = 0;
   _timer = 5.0;
   _first = first;
+  _win = false;
   glm::vec2 playerPos = _player.getPos();
   _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 13, 3);
 }
@@ -71,7 +72,7 @@ void	PlayerManager::displayInfo(const FontText& font, const gdl::Clock &clock, g
   textMat = glm::translate(glm::mat4(1), glm::vec3(0 + (_first ? 0.0 : 0.50), 0.5, 0));
   textMat = glm::scale(textMat, glm::vec3(0.9, 1.0, 0.0));
   if (_timer < 4.5)
-    font.displayText("Game Over", glm::vec4(1.0f, 0.0, 1.0f, 1.0f), textMat, shader);
+    font.displayText((_win ? "You Win !" : "Game Over"), glm::vec4(1.0f, 0.0, 0.0f, 1.0f), textMat, shader);
 
   for (std::vector<ABonus *>::const_iterator it = bonus.begin();
        it != bonus.end(); ++it)
@@ -101,4 +102,10 @@ bool PlayerManager::getDead() const
   if (_timer <= 0.0)
     return true;
   return false;
+}
+
+void PlayerManager::setWin()
+{
+  if (_player.getStatus() != IEntity::DESTROY)
+    _win = true;
 }

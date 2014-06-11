@@ -36,7 +36,7 @@ std::string BonusBombPass::toString()
 {
   std::stringstream ss("");
 
-  ss << "Bomb pass "
+  ss << "Bomb pass"
      << " (" << static_cast<int>(_effectTime.getRemainingTime()) << ")";
   return ss.str();
 }

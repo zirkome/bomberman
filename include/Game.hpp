@@ -20,6 +20,7 @@
 # include "Pan.hpp"
 # include "Placement.hpp"
 # include "SkyBox.hpp"
+# include "Pause.hpp"
 
 class Game
 {
@@ -44,10 +45,11 @@ private:
 private:
   std::vector<Ia *> _listIA;
   std::vector<PlayerManager*> _players;
-
+  Pause *_pause;
   Map *_currentMap;
   GameGraphics _ogl;
   SharedPointer<Texture> _groundTex;
+  bool _isPaused;
 };
 
 #endif

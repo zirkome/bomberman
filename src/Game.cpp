@@ -17,6 +17,7 @@
 #include "BasicCam.hpp"
 
 Game::Game(const glm::ivec2& win, std::string const &saveGame)
+  : _isPaused(false)
 {
   if (saveGame == "")
     throw nFault("The file name of the game is too short");
@@ -26,6 +27,7 @@ Game::Game(const glm::ivec2& win, std::string const &saveGame)
 
 Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string const & algoFileName,
            std::string const &mapName)
+  : _isPaused(false)
 {
   int i;
 
@@ -68,6 +70,7 @@ void Game::init(const glm::ivec2& win)
 {
   glm::vec2 mapDim = _currentMap->getDimension();
   _ogl.init(win, glm::ivec2(mapDim.x, mapDim.y), (_players.size() == 2));
+  _pause = new Pause;
 }
 
 Game::~Game()
@@ -84,6 +87,26 @@ Game::~Game()
 bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 {
   int live_players = 0;
+
+  if (input.getKey(SDLK_ESCAPE, true))
+    _isPaused = true;
+
+  if (_isPaused)
+    {
+      int ret = _pause->update(input);
+
+      switch (ret)
+	{
+	case 0:
+	  _isPaused = false;
+	  return true;
+	case 1:
+	  return false;
+	default:
+	  return true;
+	}
+    }
+
   std::list<Map::iterator> listMapToDelete;
   for (Map::iterator it = _currentMap->begin(); it != _currentMap->end(); ++it) {
       (*it)->update(input, clock);
@@ -94,12 +117,19 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   Map::LMap playerList = _currentMap->getPlayerList();
   for (Map::iterator it = playerList.begin(); it !=  playerList.end(); ++it) {
     if ((*it)->getStatus() != IEntity::DESTROY)
-      /* {
-      live_players++;*/
+      {
+      live_players++;
       (*it)->update(input, clock);
+      }
   }
-  /*  if (live_players <= 1)
-      return false;*/
+  if (live_players <= 1)
+    {
+      for (std::vector<PlayerManager*>::iterator it = _players.begin();it != _players.end(); ++it)
+	{
+	  (*it)->setWin();
+	  (*it)->getPlayer().setStatus(IEntity::DESTROY);
+	}
+    }
 
   live_players = 0;
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
@@ -156,4 +186,6 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
        it != _players.end(); ++it)
     (*it)->displayInfo(font, clock, shader);
 
+  if (_isPaused)
+    _pause->draw(font, clock, shader);
 }

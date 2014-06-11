@@ -71,7 +71,7 @@ bool GameEngine::update()
     SDL_SetRelativeMouseMode(SDL_FALSE);
   if (_state == Game)
     {
-      if (_input.getKey(SDLK_ESCAPE, true) || _game->updateGame(_input, _clock) == false)
+      if (_game->updateGame(_input, _clock) == false)
         {
           SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
           SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
