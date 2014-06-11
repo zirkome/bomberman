@@ -15,7 +15,7 @@ Menu::Menu(PivotingCam *cam)
   _mapFile.push_back(std::string("map/5.map"));
   _mapFile.push_back(std::string(""));
 
-  _numberIa = 0;
+  _numberIa = 1;
   _numberPlayer = 1;
   _game = NULL;
   _font = new FontText(RES_TEXTURE "font.tga");
@@ -34,8 +34,8 @@ void Menu::init()
 
 Game *Menu::getGame(const glm::ivec2& dim)
 {
+  _state = Running;
   return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _mapFile[_map]);
-
 }
 
 bool Menu::finish() const
