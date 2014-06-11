@@ -34,7 +34,7 @@ std::string BonusFlammePass::toString()
 {
   std::stringstream ss("");
 
-  ss << "Bonus flamme pass "
+  ss << "Bonus flamme pass"
      << " (" << static_cast<int>(_effectTime.getRemainingTime()) << ")";;
   return ss.str();
 }
