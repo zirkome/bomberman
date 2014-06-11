@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int range, Map *map)
-  : _vec(pos), _map(map), _time(2.5), _staytime(0.25), _range(range + 2)
+  : _vec(pos), _map(map), _time(2.5), _staytime(0.25), _range(range)
 {
   _obj = new GameModel(ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx"));
   _player = player;
