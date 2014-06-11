@@ -20,6 +20,8 @@ ABonus	*BonusFactory::createBonus(const glm::vec2 &pos, int nbBonus)
     case 1:
       return new BonusBomb(pos);
       break;
+    case 2:
+      return new BonusRange(pos);
     case 3:
       return new BonusRange(pos);
       break;
