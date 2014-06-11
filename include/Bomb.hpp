@@ -3,6 +3,7 @@
 
 # include <Texture.hh>
 # include <stdlib.h>
+# include <cstdlib>
 
 # include "Map.hpp"
 # include "Cube.hpp"
@@ -33,6 +34,11 @@ private:
   IEntity::Status _status;
   int _speed;
   double _distance;
+  int _distanceCovered;
+  bool _spreadTop;
+  bool _spreadDown;
+  bool _spreadLeft;
+  bool _spreadRight;
 
   std::vector<ABonus *> _generatedBonus;
 public:
@@ -48,11 +54,8 @@ public:
 private:
 
   void	explode(gdl::Clock const &clock);
-  char	destroyEntity(const glm::vec2 &, bool destroy);
-  bool	spreadTop(bool destroy);
-  bool	spreadLeft(bool destroy);
-  bool	spreadDown(bool destroy);
-  bool	spreadRight(bool destroy);
+  bool	destroyEntity(const glm::vec2 &);
+  bool	spread();
 };
 
 #endif /* !BOMB_HPP_ */
