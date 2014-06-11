@@ -1,8 +1,8 @@
 #ifndef APLAYER_HPP_
 # define APLAYER_HPP_
 
-# include <boost/archive/text_oarchive.hpp>
-# include <boost/archive/text_iarchive.hpp>
+# include <boost/archive/binary_oarchive.hpp>
+# include <boost/archive/binary_iarchive.hpp>
 # include <boost/serialization/base_object.hpp>
 
 # include "IEntity.hpp"

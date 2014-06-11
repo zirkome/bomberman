@@ -5,6 +5,10 @@
 # include <string>
 # include <list>
 
+# include <boost/archive/binary_oarchive.hpp>
+# include <boost/archive/binary_iarchive.hpp>
+# include <boost/serialization/list.hpp>
+# include <boost/serialization/vector.hpp>
 # include <Input.hh>
 # include <Clock.hh>
 # include <Texture.hh>
@@ -22,11 +26,6 @@
 # include "Pan.hpp"
 # include "Placement.hpp"
 # include "SkyBox.hpp"
-
-# include <boost/archive/text_oarchive.hpp>
-# include <boost/archive/text_iarchive.hpp>
-# include <boost/serialization/list.hpp>
-# include <boost/serialization/vector.hpp>
 
 class Game
 {
