@@ -16,7 +16,7 @@ public:
   ~Menu();
   bool updateMenu(gdl::Input &input, const gdl::Clock &clock);
   void drawMenu(const gdl::Clock &clock, gdl::AShader* hudshader) const;
-  Game *getGame();
+  Game *getGame(const glm::ivec2& dim);
   bool finish() const;
 private:
   void init();

@@ -35,6 +35,7 @@ private:
   gdl::Clock _clock;
   gdl::Input _input;
   gdl::IRenderContext *_context;
+  glm::ivec2 _screenSize;
 };
 
 #endif
