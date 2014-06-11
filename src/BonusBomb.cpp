@@ -23,12 +23,9 @@ void	BonusBomb::start(APlayer *player)
   player->setStockBomb(_oldMaxBomb + _increaseBomb);
 }
 
-void	BonusBomb::stop(APlayer *player)
+void	BonusBomb::stop(UNUSED APlayer *player)
 {
-  double curMaxBomb = player->getMaxBomb();
-
   _status = DESTROY;
-  player->setMaxBomb(curMaxBomb - _increaseBomb);
 }
 
 void    BonusBomb::takeAnother(APlayer *player)
@@ -50,8 +47,6 @@ std::string BonusBomb::toString()
 {
   std::stringstream ss("");
 
-  ss << "Stock bomb "
-     << _oldMaxBomb + _increaseBomb
-     << " (" << static_cast<int>(_effectTime.getRemainingTime()) << ")";
+  ss << "Stock bomb " << _oldMaxBomb + _increaseBomb;
   return ss.str();
 }
