@@ -107,6 +107,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const
   _actToSdlKey[4] = SDLK_RIGHT;
   _actToSdlKey[5] = SDLK_SPACE;
 
+  _actionPtr[SDLK_SPACE] = &Ia::bomb;
   _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
 				      glm::vec3(0, 0, 1),
 				      glm::vec2(0.7, 0.7),
