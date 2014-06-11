@@ -32,9 +32,9 @@ void Menu::init()
   _ortho = glm::scale(glm::translate(glm::mat4(1), glm::vec3(-1.0, -1.0, -1.0)), glm::vec3(2.0, 2.0, 2.0));
 }
 
-Game *Menu::getGame()
+Game *Menu::getGame(const glm::ivec2& dim)
 {
-  return new ::Game(glm::ivec2(1024, 900), _numberPlayer, _numberIa, _levelFile[_level], _mapFile[_map]);
+  return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _mapFile[_map]);
 
 }
 

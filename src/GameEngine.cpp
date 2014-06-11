@@ -17,7 +17,8 @@
 #include <vector>
 
 GameEngine::GameEngine()
-  : _state(Intro), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext)
+  : _state(Intro), _init(false), _intro(NULL), _game(NULL), _context(new gdl::SdlContext),
+    _screenSize(glm::ivec2(1024, 960))
 {
 }
 
@@ -36,10 +37,7 @@ GameEngine::~GameEngine()
 
 bool GameEngine::initialize()
 {
-  const int width = 1024;
-  const int heigth = 900;
-
-  if (!_context->start(width, heigth, "Bomberman", SDL_INIT_VIDEO, /*SDL_WINDOW_FULLSCREEN |*/ SDL_WINDOW_OPENGL))
+  if (!_context->start(_screenSize.x, _screenSize.y, "Bomberman", SDL_INIT_VIDEO, /*SDL_WINDOW_FULLSCREEN |*/ SDL_WINDOW_OPENGL))
     return false;
   SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
@@ -49,9 +47,7 @@ bool GameEngine::initialize()
   SoundManager::getInstance()->loadSounds();
   SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
   // SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY, true);
-  // _game = new ::Game(glm::ivec2(width, heigth), 1, 0, tmp, "map2.map");
-  _intro = new ::Intro(glm::ivec2(width, heigth));
-  //_game = new ::Game(glm::ivec2(width, heigth), 1, 0, "script/medium.lua", "map/2.map");
+  _intro = new ::Intro(_screenSize);
   return true;
 }
 
@@ -62,7 +58,7 @@ bool GameEngine::update()
       SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::STOP);
       SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::PLAY);
       _state = Game;
-      _game = _intro->getGame();
+      _game = _intro->getGame(_screenSize);
       _context->updateClock(_clock);
       delete _intro;
     }
@@ -76,10 +72,10 @@ bool GameEngine::update()
     {
       if (_state == Game)
         {
-	  SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
-	  SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
+          SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
+          SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
           _state = Intro;
-          _intro = new ::Intro(glm::ivec2(1024, 900), true);
+          _intro = new ::Intro(_screenSize, true);
         }
       else
         return false;
