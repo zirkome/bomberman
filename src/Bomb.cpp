@@ -41,9 +41,7 @@ void	Bomb::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
   _obj->scale(glm::vec3(1.0025f, 1.0025f, 1.0025f));
 
   if (_status == BURNING || _time.update(clock.getElapsed()))
-    {
-      this->explode(clock);
-    }
+    this->explode(clock);
 }
 
 void	Bomb::explode(gdl::Clock const &clock)
@@ -51,6 +49,8 @@ void	Bomb::explode(gdl::Clock const &clock)
   if (_status == DESTROY)
     return ;
   _status = BURNING;
+  if (!_distance)
+    SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
   _distance += clock.getElapsed() * _speed;
   if (_distance >= _range)
     _distance = _range;
@@ -60,7 +60,6 @@ void	Bomb::explode(gdl::Clock const &clock)
       _fireList.clear();
       _status = DESTROY;
       _player->setStockBomb(_player->getStockBomb() + 1);
-      SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
       for (std::vector<ABonus *>::iterator it = _generatedBonus.begin();
            it != _generatedBonus.end(); ++it)
         {
@@ -92,7 +91,7 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos)
     {
       _fireList.push_back(new Fire(entity->getPos()));
       if (rand() % 2)
-	_generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 3));
+	_generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 4));
       entity->setStatus(DESTROY);
       return false;
     }
