@@ -196,6 +196,10 @@ void	APlayer::addBonus(ABonus *bonus)
   _bonus.push_back(bonus);
 }
 
+const std::vector<ABonus *>& APlayer::getBonus() const
+{
+  return _bonus;
+}
 
 IEntity::Type APlayer::getType() const
 {

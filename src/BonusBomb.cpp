@@ -29,8 +29,6 @@ void	BonusBomb::stop(APlayer *player)
 
   _status = DESTROY;
   player->setMaxBomb(curMaxBomb - _increaseBomb);
-
-  std::cout << "bonusBomb end : " << player->getStockBomb() << std::endl;
 }
 
 void    BonusBomb::takeAnother(APlayer *player)
@@ -52,6 +50,8 @@ std::string BonusBomb::toString()
 {
   std::stringstream ss("");
 
-  ss << "Stock Bomb increase : " << _increaseBomb;
+  ss << "Stock bomb "
+     << _oldMaxBomb + _increaseBomb
+     << " (" << static_cast<int>(_effectTime.getRemainingTime()) << ")";
   return ss.str();
 }

@@ -17,8 +17,18 @@ class BonusFactory : public Singleton<BonusFactory>
 public:
   ABonus *createBonus(const glm::vec2 &pos, int nbBonus);
 private:
+  template<class T>
+  ABonus* instanciateBonus(const glm::vec2 &pos) const;
   BonusFactory();
   virtual ~BonusFactory();
+private:
+  std::vector<ABonus* (BonusFactory::*)(const glm::vec2 &pos) const> _bonus;
 };
+
+template<class T>
+ABonus* BonusFactory::instanciateBonus(const glm::vec2 &pos) const
+{
+  return new T(pos);
+}
 
 #endif /* _BONUSFACTORY_H_ */

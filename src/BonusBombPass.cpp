@@ -29,13 +29,14 @@ void	BonusBombPass::takeAnother(UNUSED APlayer *player)
 {
   double	effectTime = _effectTime.getTime();
 
-  _effectTime.addTime(effectTime);
+  _effectTime.reset(effectTime);
 }
 
 std::string BonusBombPass::toString()
 {
   std::stringstream ss("");
 
-  ss << "Bonus bomb pass !";
+  ss << "Bomb pass "
+     << " (" << static_cast<int>(_effectTime.getRemainingTime()) << ")";
   return ss.str();
 }

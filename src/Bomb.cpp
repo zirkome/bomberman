@@ -11,6 +11,11 @@ Bomb::Bomb(APlayer *player, const glm::vec2 &pos, int range, Map *map)
   _speed = _range * 10;
 
   _distance = 0;
+  _distanceCovered = 0;
+  _spreadTop = true;
+  _spreadDown = true;
+  _spreadLeft = true;
+  _spreadRight = true;
 
   _obj->scale(glm::vec3(0.0025f, 0.0025f, 0.0025f));
   _obj->translate(glm::vec3(pos.x, 0, pos.y));
@@ -49,19 +54,12 @@ void	Bomb::explode(gdl::Clock const &clock)
   _distance += clock.getElapsed() * _speed;
   if (_distance >= _range)
     _distance = _range;
-  this->spreadTop(false);
-  this->spreadLeft(false);
-  this->spreadDown(false);
-  this->spreadRight(false);
+  this->spread();
   if (_status != DESTROY && _distance >= _range && _staytime.update(clock.getElapsed()))
     {
       _fireList.clear();
       _status = DESTROY;
       _player->setStockBomb(_player->getStockBomb() + 1);
-      this->spreadTop(true);
-      this->spreadLeft(true);
-      this->spreadDown(true);
-      this->spreadRight(true);
       SoundManager::getInstance()->manageSound(SoundManager::BOMB_EXPLOSION, SoundManager::PLAY);
       for (std::vector<ABonus *>::iterator it = _generatedBonus.begin();
            it != _generatedBonus.end(); ++it)
@@ -72,7 +70,8 @@ void	Bomb::explode(gdl::Clock const &clock)
     }
 }
 
-bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
+
+bool	Bomb::destroyEntity(const glm::vec2 &pos)
 {
   IEntity *entity;
 
@@ -84,85 +83,41 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos, bool destroy)
     }
   entity = _map->getEntityAt(pos.x, pos.y);
   if (entity == NULL)
-    return true;
+    return 1;
   if (entity->getType() == WALL)
-    return false;
+    return 0;
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
   if (entity->getType() == BOX)
     {
-      if (destroy)
-	{
-	  if (rand() % 2)
-	    _generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 3));
-	  entity->setStatus(DESTROY);
-	}
+      _fireList.push_back(new Fire(entity->getPos()));
+      if (rand() % 2)
+	_generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 3));
+      entity->setStatus(DESTROY);
       return false;
     }
-  return true;
+  return 1;
 }
 
-bool	Bomb::spreadTop(bool destroy)
+bool	Bomb::spread()
 {
-  glm::vec2 cpy = _vec;
-  Fire fire(_vec);
+  int x = 0, y = 0;
 
-  while (cpy.y < _distance + _vec.y)
-    {
-      if (!this->destroyEntity(cpy, destroy))
-        return false;
-      fire.setPos(cpy);
-      _fireList.push_back(new Fire(cpy));
-      cpy.y += 1;
-    }
-  return true;
-}
-
-bool	Bomb::spreadLeft(bool destroy)
-{
-  glm::vec2 cpy = _vec;
-  Fire fire(_vec);
-
-  while (cpy.x < _distance + _vec.x)
-    {
-      if (!this->destroyEntity(cpy, destroy))
-        return true;
-      fire.setPos(cpy);
-      _fireList.push_back(new Fire(cpy));
-      cpy.x += 1;
-    }
-  return false;
-}
-
-bool	Bomb::spreadDown(bool destroy)
-{
-  glm::vec2 cpy = _vec;
-  Fire fire(_vec);
-
-  while (cpy.y > _vec.y - _distance)
-    {
-      if (!this->destroyEntity(cpy, destroy))
-        return false;
-      fire.setPos(cpy);
-      _fireList.push_back(new Fire(cpy));
-      cpy.y -= 1;
-    }
-  return true;
-}
-
-bool	Bomb::spreadRight(bool destroy)
-{
-  glm::vec2 cpy = _vec;
-  Fire fire(_vec);
-
-  while (cpy.x > _vec.x - _distance)
-    {
-      if (!this->destroyEntity(cpy, destroy))
-        return false;
-      fire.setPos(cpy);
-      _fireList.push_back(new Fire(cpy));
-      cpy.x -= 1;
-    }
+  x = _distanceCovered;
+  y = _distanceCovered;
+  while ((_vec.x + x)  < _distance + _vec.x) {
+      if (_spreadRight && (_spreadRight = destroyEntity(glm::vec2(_vec.x + x, _vec.y))))
+	_fireList.push_back(new Fire(glm::vec2(_vec.x + x, _vec.y)));
+      if (_spreadLeft && (_spreadLeft = destroyEntity(glm::vec2(_vec.x - x, _vec.y))))
+	_fireList.push_back(new Fire(glm::vec2(_vec.x - x, _vec.y)));
+      ++x;
+      if (_spreadTop && (_spreadTop = destroyEntity(glm::vec2(_vec.x, _vec.y + y))))
+	_fireList.push_back(new Fire(glm::vec2(_vec.x, _vec.y + y)));
+      if (_spreadDown && (_spreadDown = destroyEntity(glm::vec2(_vec.x, _vec.y - y))))
+	_fireList.push_back(new Fire(glm::vec2(_vec.x, _vec.y - y)));
+      ++y;
+  }
+  _distanceCovered = x - 1;
   return true;
 }
 
