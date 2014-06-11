@@ -101,26 +101,23 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos)
 
 bool	Bomb::spread()
 {
-  glm::vec2 cpy = _vec;
   int x = 0, y = 0;
 
-  cpy.x = _vec.x + _distanceCovered;
-  cpy.y = _vec.y + _distanceCovered;
+  x = _distanceCovered;
+  y = _distanceCovered;
   while ((_vec.x + x)  < _distance + _vec.x) {
       if (_spreadRight && (_spreadRight = destroyEntity(glm::vec2(_vec.x + x, _vec.y))))
 	_fireList.push_back(new Fire(glm::vec2(_vec.x + x, _vec.y)));
       if (_spreadLeft && (_spreadLeft = destroyEntity(glm::vec2(_vec.x - x, _vec.y))))
 	_fireList.push_back(new Fire(glm::vec2(_vec.x - x, _vec.y)));
-      cpy.x += 1;
       ++x;
       if (_spreadTop && (_spreadTop = destroyEntity(glm::vec2(_vec.x, _vec.y + y))))
 	_fireList.push_back(new Fire(glm::vec2(_vec.x, _vec.y + y)));
       if (_spreadDown && (_spreadDown = destroyEntity(glm::vec2(_vec.x, _vec.y - y))))
 	_fireList.push_back(new Fire(glm::vec2(_vec.x, _vec.y - y)));
-      cpy.y += 1;
       ++y;
   }
-  _distanceCovered = 2 * _vec.x - cpy.x - 1;
+  _distanceCovered = x - 1;
   return true;
 }
 
