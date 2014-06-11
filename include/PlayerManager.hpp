@@ -24,10 +24,10 @@ public:
   void displayInfo(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader) const;
   const std::list<IEntity*>& getNearList() const {return _nearEntity;};
   bool getDead() const;
+  void setWin();
 private:
   PlayerManager(const PlayerManager& p);
   void updateNearList(const Map& map);
-
 private:
   float _timer;
   Player _player;
@@ -35,6 +35,7 @@ private:
   int _score;
   std::list<IEntity*> _nearEntity;
   bool _first;
+  bool _win;
 };
 
 #endif // PLAYERMANAGER_H

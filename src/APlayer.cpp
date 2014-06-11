@@ -10,6 +10,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const s
   _bomb_range = 2;
 
   _obj = new GameModel(RES_MODEL "marvin.fbx");
+  (*_obj)->setCurrentSubAnim("standby");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
@@ -22,11 +23,6 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const s
   _way = UP;
   _size = 0.7;
   _lvl = 1;
-
-  (*_obj)->createSubAnim(0, "standby", 0, 0);
-  (*_obj)->createSubAnim(0, "walk", 0, 30);
-  (*_obj)->createSubAnim(0, "stop_walking", 30, 60);
-  (*_obj)->setCurrentSubAnim("standby");
 }
 
 APlayer::~APlayer()
@@ -185,11 +181,11 @@ void	APlayer::addBonus(ABonus *bonus)
        it != _bonus.end(); ++it)
     {
       if (*bonus == *(*it) && (*it)->getStatus() != IEntity::DESTROY)
-	{
-	  (*it)->takeAnother(this);
-	  bonus->setStatus(IEntity::DESTROY);
-	  return;
-	}
+        {
+          (*it)->takeAnother(this);
+          bonus->setStatus(IEntity::DESTROY);
+          return;
+        }
     }
   bonus->start(this);
   bonus->setStatus(IEntity::REMOVE);
