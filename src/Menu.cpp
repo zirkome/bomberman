@@ -4,6 +4,10 @@
 Menu::Menu(PivotingCam *cam)
   : _cam(cam), _state(Running), _select(Start), _level(Medium), _map(0)
 {
+
+  _names[0] = "";
+  _names[1] = "";
+
   _levelFile[Easy] = std::string("script/easy.lua");
   _levelFile[Medium] = std::string("script/medium.lua");
   _levelFile[Hard] = std::string("script/hard.lua");
@@ -19,6 +23,36 @@ Menu::Menu(PivotingCam *cam)
   _numberPlayer = 1;
   _game = NULL;
   _font = new FontText(RES_TEXTURE "font.tga");
+
+  _keyToChar[SDLK_a] = 'a';
+  _keyToChar[SDLK_b] = 'b';
+  _keyToChar[SDLK_c] = 'c';
+  _keyToChar[SDLK_d] = 'd';
+  _keyToChar[SDLK_e] = 'e';
+  _keyToChar[SDLK_f] = 'f';
+  _keyToChar[SDLK_g] = 'g';
+  _keyToChar[SDLK_h] = 'h';
+  _keyToChar[SDLK_i] = 'i';
+  _keyToChar[SDLK_j] = 'j';
+  _keyToChar[SDLK_k] = 'k';
+  _keyToChar[SDLK_l] = 'l';
+  _keyToChar[SDLK_m] = 'm';
+  _keyToChar[SDLK_n] = 'n';
+  _keyToChar[SDLK_o] = 'o';
+  _keyToChar[SDLK_p] = 'p';
+  _keyToChar[SDLK_q] = 'q';
+  _keyToChar[SDLK_r] = 'r';
+  _keyToChar[SDLK_s] = 's';
+  _keyToChar[SDLK_t] = 't';
+  _keyToChar[SDLK_u] = 'u';
+  _keyToChar[SDLK_v] = 'v';
+  _keyToChar[SDLK_w] = 'w';
+  _keyToChar[SDLK_x] = 'x';
+  _keyToChar[SDLK_y] = 'y';
+  _keyToChar[SDLK_z] = 'z';
+
+  _keyToChar[SDLK_SPACE] = ' ';
+
   init();
 }
 
@@ -35,7 +69,7 @@ void Menu::init()
 Game *Menu::getGame(const glm::ivec2& dim)
 {
   _state = Running;
-  return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _mapFile[_map]);
+  return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _names, _mapFile[_map]);
 }
 
 bool Menu::finish() const
@@ -136,7 +170,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
     }
   else if (_state == Name)
     {
-      if (input.getKey(SDLK_RETURN, true) && _select == Starting)
+      if (input.getKey(SDLK_RETURN, true) && _select == Starting && validNames())
 	_state = Finished;
       else if (input.getKey(SDLK_UP, true))
         {
@@ -148,13 +182,19 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
           _select = static_cast<selected>(_select + 1);
           SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
         }
-      else if (_select == Player1)
+      else if (_select == Player1 && _names[0].size() < 10)
 	{
-	  /* catch letter here and put in std::string _name1*/
+	  if (input.getKey(SDLK_BACKSPACE, true) && _names[0].size() > 0)
+	    _names[0] = _names[0].substr(0, _names[0].size() - 1);
+	  else
+	    _names[0] += getAscii(input);
 	}
-      else if (_select == Player2)
+      else if (_select == Player2 && _names[1].size() < 10)
 	{
-	  /* catch letter here and put in std::string _name2*/
+	  if (input.getKey(SDLK_BACKSPACE, true) && _names[1].size() > 0)
+	    _names[1] = _names[1].substr(0, _names[1].size() - 1);
+	  else
+	    _names[1] += getAscii(input);
 	}
       if (_select < 8)
         _select = Starting;
@@ -220,16 +260,50 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
     {
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.01, 0.59, 0.0));
       textMat = glm::scale(textMat, glm::vec3(0.5, 1.5, 0.0));
-      _font->displayText(std::string("Player1 :") + _name1, _select == Player1 ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+      _font->displayText(std::string("Player1 :") + _names[0], _select == Player1 ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
       if (_numberPlayer == 2)
 	{
 	  textMat = glm::translate(glm::mat4(1), glm::vec3(0.01, 0.39, 0.0));
 	  textMat = glm::scale(textMat, glm::vec3(0.5, 1.0, 0.0));
-	  _font->displayText(std::string("Player2 :") + _name2, _select == Player2 ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+	  _font->displayText(std::string("Player2 :") + _names[1], _select == Player2 ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
 	}
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.01, 0.19, 0.0));
       textMat = glm::scale(textMat, glm::vec3(0.5, 1.0, 0.0));
       _font->displayText(std::string("Start"), _select == Starting ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
     }
   /* TODO : draw the curent menu */
+}
+
+std::string Menu::getAscii(gdl::Input &input) const
+{
+  std::stringstream ss("");
+
+  for (std::map<int, char>::const_iterator it = _keyToChar.begin(); it != _keyToChar.end(); ++it)
+    {
+      if (input.getKey(it->first, true))
+	{
+	  ss << it->second;
+	}
+    }
+  return ss.str();
+}
+
+bool Menu::validNames()
+{
+  bool valid = false;
+
+  for (int i = 0; i < _numberPlayer; ++i)
+    {
+      valid = false;
+      for (unsigned int j = 0; j < _names[i].size(); ++j)
+	{
+	  if (_names[i][j] != ' ')
+	    valid = true;
+	}
+      if (valid == false)
+	return false;
+    }
+  if (_names[1] == _names[0])
+    _names[1] = _names[0] + "1";
+  return valid;
 }

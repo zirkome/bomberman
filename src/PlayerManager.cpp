@@ -2,8 +2,9 @@
 
 #include "BasicCam.hpp"
 
-PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color)
-  : _player(pos, map, first, color)
+PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color,
+			     const std::string &name)
+  : _player(pos, map, first, color, name)
 {
   _score = 0;
   _timer = 5.0;

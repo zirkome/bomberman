@@ -13,7 +13,8 @@
 class PlayerManager
 {
 public:
-  PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color);
+  PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color,
+		const std::string &name);
   ~PlayerManager();
 
   Player& getPlayer() {return _player;};
