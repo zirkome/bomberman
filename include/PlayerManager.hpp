@@ -19,15 +19,16 @@ public:
   Player& getPlayer() {return _player;};
   ACamera& getCam() {return *_cam;};
 
-  void update(const Map& map);
+  void update(const Map& map, const gdl::Clock &clock);
   void displayInfo(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader) const;
   const std::list<IEntity*>& getNearList() const {return _nearEntity;};
-
+  bool getDead() const;
 private:
   PlayerManager(const PlayerManager& p);
   void updateNearList(const Map& map);
 
 private:
+  float _timer;
   Player _player;
   ACamera* _cam;
   int _score;

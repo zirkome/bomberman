@@ -94,18 +94,17 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   Map::LMap playerList = _currentMap->getPlayerList();
   for (Map::iterator it = playerList.begin(); it !=  playerList.end(); ++it) {
     if ((*it)->getStatus() != IEntity::DESTROY)
-      {
-	live_players++;
-	(*it)->update(input, clock);
-      }
+      /* {
+      live_players++;*/
+      (*it)->update(input, clock);
   }
-  if (live_players <= 1)
-    return false;
+  /*  if (live_players <= 1)
+      return false;*/
 
   live_players = 0;
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)
-    if ((*it)->getPlayer().getStatus() != IEntity::DESTROY)
+    if ((*it)->getDead() == false)
       live_players++;
   if (live_players == 0)
     return false;
@@ -122,7 +121,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)
-      (*it)->update(*_currentMap);
+    (*it)->update(*_currentMap, clock);
 
   _ogl.updateGraphic(clock);
   return true;
