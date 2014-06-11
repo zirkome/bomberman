@@ -30,6 +30,7 @@ public:
        int numberPlayer,
        int numberIA,
        const std::string &algoFileName,
+       const std::string names[2],
        const std::string &mapName = "");
   ~Game();
 

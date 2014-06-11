@@ -1,8 +1,8 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color)
-  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color)
+APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const std::string &name)
+  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name)
 {
   _max_bomb = 1;
 

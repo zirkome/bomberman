@@ -26,7 +26,7 @@ Game::Game(const glm::ivec2& win, std::string const &saveGame)
 }
 
 Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string const & algoFileName,
-           std::string const &mapName)
+           const std::string names[2], std::string const &mapName)
   : _isPaused(false)
 {
   int i;
@@ -52,7 +52,7 @@ Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string co
   i = 0;
   while (i < numberPlayer)
     {
-      _players.push_back(new PlayerManager(place.getNewPos(), _currentMap, (i == 0 ? true : false), colors.newColor()));
+      _players.push_back(new PlayerManager(place.getNewPos(), _currentMap, (i == 0 ? true : false), colors.newColor(), names[i]));
       i++;
     }
   for (std::vector<Ia *>::iterator it = _listIA.begin(); it != _listIA.end(); ++it)
