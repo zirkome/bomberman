@@ -117,12 +117,19 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   Map::LMap playerList = _currentMap->getPlayerList();
   for (Map::iterator it = playerList.begin(); it !=  playerList.end(); ++it) {
     if ((*it)->getStatus() != IEntity::DESTROY)
-      /* {
-      live_players++;*/
+      {
+      live_players++;
       (*it)->update(input, clock);
+      }
   }
-  /*  if (live_players <= 1)
-      return false;*/
+  if (live_players <= 1)
+    {
+      for (std::vector<PlayerManager*>::iterator it = _players.begin();it != _players.end(); ++it)
+	{
+	  (*it)->setWin();
+	  (*it)->getPlayer().setStatus(IEntity::DESTROY);
+	}
+    }
 
   live_players = 0;
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
