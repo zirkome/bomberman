@@ -86,10 +86,10 @@ bool Menu::key_return()
       _state = Name;
       _select = Player1;
     }
-  else if (_select == Options)
+  else if (_select == Load)
     {
-      _select = Player;
-      _state = Option;
+      _select = Load;
+      _state = Loading;
     }
   else if (_select == Options)
     {
@@ -110,7 +110,7 @@ bool Menu::key_return()
 
 bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 {
-  if (_state != Finished)
+  if (_state != Finished && _state != Loading)
     {
       if (input.getKey(SDLK_UP, true))
 	{
@@ -131,6 +131,13 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
         _select = Exit;
       if (_select > Exit)
         _select = Start;
+    }
+  else if (_state == Loading)
+    {
+      if (_select < Subload)
+        _select = Subload;
+      if (_select > Subload)
+        _select = Subload;
     }
   else if (_state == Option)
     {
