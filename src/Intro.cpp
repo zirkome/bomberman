@@ -9,14 +9,14 @@ Intro::Intro(const glm::ivec2& win, bool menu)
   _skipMenu = menu;
 
   _bomb = new GameModel(ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx"));
-  _player = new GameModel(RES_MODEL "marvin.fbx");
+  _player = new GameModel(ResourceManager::getInstance()->get<Model>(RES_MODEL "marvin.fbx"));
+  (*_player)->createSubAnim(0, "standby", 0, 0);
+  (*_player)->createSubAnim(0, "walk", 0, 30);
+  (*_player)->createSubAnim(0, "stop_walking", 30, 60);
+  (*_player)->setCurrentSubAnim("walk");
   _player->translate(glm::vec3(20.0, -0.5f, 0.0));
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
   _player->scale(glm::vec3(0.003, 0.003, 0.003));
-  (*_player)->createSubAnim(0, "standby", 0, 0);
-  (*_player)->createSubAnim(0, "stop_walking", 30, 60);
-  (*_player)->createSubAnim(0, "walk", 0, 30);
-  (*_player)->setCurrentSubAnim("walk");
 
   _logo = new GameGeometry(ResourceManager::getInstance()->get<AGeometry>("pan.geo"));
   _logo->translate(_pos);
@@ -31,11 +31,6 @@ Intro::Intro(const glm::ivec2& win, bool menu)
   _texture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "bomberman.tga");
 
   init(win);
-  /*  if (menu)
-    {
-      _state = Menu;
-      _menu = new ::Menu(_cam);
-      }*/
 }
 
 Intro::~Intro()
@@ -72,6 +67,28 @@ void Intro::init(const glm::ivec2& win)
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+}
+
+void Intro::rinit()
+{
+  delete _shader;
+  _shader = new BasicShader();
+
+  if (!_shader->load(RES_SHADERS "menu.fp", GL_FRAGMENT_SHADER)
+      || !_shader->load(RES_SHADERS "menu.vp", GL_VERTEX_SHADER)
+      || !_shader->build())
+    {
+      throw std::runtime_error("Load shader fail");
+    }
+
+  glEnable(GL_DEPTH_TEST);
+  glClearDepth(1.0f);
+  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
+  glEnable(GL_CULL_FACE);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 Game *Intro::getGame(const glm::ivec2& dim)

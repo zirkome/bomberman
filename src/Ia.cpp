@@ -93,7 +93,7 @@ void *iaStart(void *ptr)
 }
 
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec4& color)
-  : APlayer::APlayer(pos, currentMap, color), _condAct(_mutex), _thread(iaStart, this)
+  : APlayer::APlayer(pos, currentMap, color, "IA"), _condAct(_mutex), _thread(iaStart, this)
 {
   _statusOfObject = OK;
   _running = false;
@@ -107,6 +107,7 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const
   _actToSdlKey[4] = SDLK_RIGHT;
   _actToSdlKey[5] = SDLK_SPACE;
 
+  _actionPtr[SDLK_SPACE] = &Ia::bomb;
   _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
 				      glm::vec3(0, 0, 1),
 				      glm::vec2(0.7, 0.7),
@@ -175,6 +176,8 @@ int Ia::getMap(const int x, const int y) const
 {
   IEntity::Type elem;
 
+  if (_map->getPlayersAt(x, y).size() != 0)
+    return 7;
   elem = _map->getTypeAt(x, y);
   return (static_cast<int> (elem));
 }

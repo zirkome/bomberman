@@ -215,7 +215,7 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
   IEntity::Type type = IEntity::NONE;
 
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
-    if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y) {
+    if (static_cast<int>((*(*it)).getPos().x) == x && static_cast<int>((*(*it)).getPos().y) == y) {
         type = (*it)->getType();
         if (type == IEntity::PLAYER)
           type = IEntity::NONE;

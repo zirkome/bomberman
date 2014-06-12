@@ -32,7 +32,8 @@ protected:
       MULTI_BOMB,
       BOMB_RANGE,
       FLAMME_PASS,
-      BOMB_PASS
+      BOMB_PASS,
+      COIN,
     };
 
 private:

@@ -1,12 +1,16 @@
+#include <sstream>
 #include "PlayerManager.hpp"
 
 #include "BasicCam.hpp"
 
-PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color)
-  : _player(pos, map, first, color)
+PlayerManager::PlayerManager(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color,
+			     const std::string &name)
+  : _player(pos, map, first, color, name)
 {
   _score = 0;
+  _timer = 5.0;
   _first = first;
+  _win = false;
   glm::vec2 playerPos = _player.getPos();
   _cam = new BasicCam(glm::vec3(playerPos.x, playerPos.y, 0), 13, 3);
 }
@@ -16,12 +20,15 @@ PlayerManager::~PlayerManager()
   delete _cam;
 }
 
-void PlayerManager::update(const Map& map)
+void PlayerManager::update(const Map& map, const gdl::Clock &clock)
 {
   glm::vec2 playerPos = _player.getPos();
 
+
   if (_player.getStatus() != IEntity::DESTROY)
     _cam->update(glm::vec3(playerPos.x, playerPos.y, 0));
+  else
+    _timer -= clock.getElapsed();
   updateNearList(map);
 }
 
@@ -57,13 +64,21 @@ void	PlayerManager::displayInfo(const FontText& font, const gdl::Clock &clock, g
   double line = 0.0f;
   SharedPointer<Texture> texture;
 
-  textMat = glm::translate(glm::mat4(1), glm::vec3(0 + (_first ? 0 : 0.5), 0.98, 0));
+  textMat = glm::translate(glm::mat4(1), glm::vec3(0 + (_first ? 0 : 0.5), 0.97, 0));
   textMat = glm::scale(textMat, glm::vec3(0.35, 0.45, 0.0));
 
-  font.displayText("Active bonus:", glm::vec4(0.0f, 1.0, 0.0f, 1.8f), textMat, shader);
+  std::stringstream ss("");
+  ss << _player.getName() << ": " << _player.getScores() << " P";
+
+  font.displayText(ss.str().c_str(), glm::vec4(0.0f, 1.0, 0.0f, 0.8f), textMat, shader);
+
 
   ++line;
 
+  textMat = glm::translate(glm::mat4(1), glm::vec3(0 + (_first ? 0.0 : 0.50), 0.5, 0));
+  textMat = glm::scale(textMat, glm::vec3(0.9, 1.0, 0.0));
+  if (_timer < 4.5)
+    font.displayText((_win ? "You Win !" : "Game Over"), glm::vec4(1.0f, 0.0, 0.0f, 1.0f), textMat, shader);
 
   for (std::vector<ABonus *>::const_iterator it = bonus.begin();
        it != bonus.end(); ++it)
@@ -83,7 +98,20 @@ void	PlayerManager::displayInfo(const FontText& font, const gdl::Clock &clock, g
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.03 + (_first ? 0 : 0.5), 1.0f - line / 45.f - 0.03, 0));
       textMat = glm::scale(textMat, glm::vec3(0.35, 0.40, 0.0));
 
-      font.displayText((*it)->toString().c_str(), glm::vec4(0.0f, 1.0, 0.0f, 1.8f), textMat, shader);
+      font.displayText((*it)->toString().c_str(), glm::vec4(0.0f, 1.0, 0.0f, 0.8f), textMat, shader);
       line++;
     }
+}
+
+bool PlayerManager::getDead() const
+{
+  if (_timer <= 0.0)
+    return true;
+  return false;
+}
+
+void PlayerManager::setWin()
+{
+  if (_player.getStatus() != IEntity::DESTROY)
+    _win = true;
 }

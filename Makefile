@@ -59,7 +59,9 @@ SRC		=	main.cpp \
 			ColorManager.cpp \
 			BonusRange.cpp \
 			BonusFlammePass.cpp \
-			BonusBombPass.cpp
+			BonusBombPass.cpp \
+			BonusCoin.cpp \
+			Pause.cpp
 
 CC		=	g++
 

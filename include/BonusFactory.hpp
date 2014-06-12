@@ -8,6 +8,7 @@
 # include "BonusRange.hpp"
 # include "BonusFlammePass.hpp"
 # include "BonusBombPass.hpp"
+# include "BonusCoin.hpp"
 
 class BonusFactory : public Singleton<BonusFactory>
 {
@@ -15,7 +16,7 @@ class BonusFactory : public Singleton<BonusFactory>
   friend void Singleton<BonusFactory>::kill();
 
 public:
-  ABonus *createBonus(const glm::vec2 &pos, int nbBonus);
+  ABonus *createBonus(const glm::vec2 &pos);
 private:
   template<class T>
   ABonus* instanciateBonus(const glm::vec2 &pos) const;

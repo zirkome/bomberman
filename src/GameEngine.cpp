@@ -77,12 +77,11 @@ bool GameEngine::update()
     }
   if (_state == Game)
     {
-      if (_input.getKey(SDLK_ESCAPE, true) || _game->updateGame(_input, _clock) == false)
+      if (_game->updateGame(_input, _clock) == false)
         {
           SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
           SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
-	  glClearDepth(1.0f);
-	  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	  _intro->rinit();
           _state = Intro;
         }
     }

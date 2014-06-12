@@ -1,8 +1,8 @@
 #include "APlayer.hpp"
 # include "Bomb.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color)
-  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color)
+APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const std::string &name)
+  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name), _scores(0)
 {
   _max_bomb = 1;
 
@@ -10,6 +10,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color)
   _bomb_range = 2;
 
   _obj = new GameModel(RES_MODEL "marvin.fbx");
+  (*_obj)->setCurrentSubAnim("standby");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
@@ -22,11 +23,6 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color)
   _way = UP;
   _size = 0.7;
   _lvl = 1;
-
-  (*_obj)->createSubAnim(0, "standby", 0, 0);
-  (*_obj)->createSubAnim(0, "walk", 0, 30);
-  (*_obj)->createSubAnim(0, "stop_walking", 30, 60);
-  (*_obj)->setCurrentSubAnim("standby");
 }
 
 APlayer::~APlayer()
@@ -185,11 +181,11 @@ void	APlayer::addBonus(ABonus *bonus)
        it != _bonus.end(); ++it)
     {
       if (*bonus == *(*it) && (*it)->getStatus() != IEntity::DESTROY)
-	{
-	  (*it)->takeAnother(this);
-	  bonus->setStatus(IEntity::DESTROY);
-	  return;
-	}
+        {
+          (*it)->takeAnother(this);
+          bonus->setStatus(IEntity::DESTROY);
+          return;
+        }
     }
   bonus->start(this);
   bonus->setStatus(IEntity::REMOVE);
@@ -280,4 +276,19 @@ void	APlayer::setFlammePass(bool val)
 bool	APlayer::getFlammePass() const
 {
   return _flammePass;
+}
+
+void	APlayer::increaseScores(int number)
+{
+  _scores += number;
+}
+
+int	APlayer::getScores() const
+{
+  return _scores;
+}
+
+std::string APlayer::getName() const
+{
+  return _name;
 }

@@ -25,6 +25,7 @@ public:
   void drawIntro(gdl::Clock const &clock) const;
   bool finish() const;
   Game *getGame(const glm::ivec2& dim);
+  void rinit();
 private:
   Intro(const Intro& i);
   void init(const glm::ivec2& win);

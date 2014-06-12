@@ -1,6 +1,8 @@
 #ifndef MENU_HPP_
 # define MENU_HPP_
 
+# include <map>
+# include <sstream>
 # include <Clock.hh>
 
 # include "Game.hpp"
@@ -21,7 +23,8 @@ public:
 private:
   void init();
   Menu(const Menu& m);
-
+  std::string getAscii(gdl::Input &) const;
+  bool validNames();
 private:
   int _numberPlayer;
   int _numberIa;
@@ -34,6 +37,7 @@ private:
   enum state {
     Running,
     Option,
+    Name,
     Finished
   } _state;
   enum selected {
@@ -44,7 +48,10 @@ private:
     Ia,
     IaFile,
     MapFile,
-    Return
+    Return,
+    Player1,
+    Player2,
+    Starting
   } _select;
   enum level {
     Easy = 0,
@@ -54,6 +61,10 @@ private:
   int _map;
   std::map<level, std::string> _levelFile;
   std::vector<std::string> _mapFile;
+  std::string _names[2];
+  // std::string _name1;
+  // std::string _name2;
+  std::map<int, char> _keyToChar;
 };
 
 #endif

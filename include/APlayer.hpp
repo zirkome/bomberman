@@ -72,6 +72,8 @@ protected:
   std::map<int, movementCoef*> _moveConf;
   glm::vec4 _color;
   std::vector<ABonus *>		_bonus;
+  std::string _name;
+  int _scores;
 
 public:
   template<class Archive>
@@ -90,7 +92,7 @@ public:
   }
 
 protected:
-  APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color);
+  APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const std::string &name);
 
 public:
   virtual ~APlayer();
@@ -117,6 +119,9 @@ public:
   bool	       getBombPass() const;
   void	       setFlammePass(bool);
   bool	       getFlammePass() const;
+  void	       increaseScores(int number);
+  int	       getScores() const;
+  std::string  getName() const;
   const std::vector<ABonus *>& getBonus() const;
 
 protected:
