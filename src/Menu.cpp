@@ -85,20 +85,21 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
     {
       if (input.getKey(SDLK_RETURN, true))
         {
-          if (_select == Start)
+	  switch (_select)
 	    {
+	    case Start:
 	      _state = Name;
 	      _select = Player1;
 	      return true;
-	    }
-          else if (_select == Exit)
-            return false;
-          else if (_select == Options)
-            {
-              _select = Player;
+	    case Load:
+	    case Options:
               _state = Option;
+              _select = Player;
               return true;
-            }
+	    case Exit:
+	    default:
+	      return false;
+	    }
         }
       else if (input.getKey(SDLK_UP, true))
         {
@@ -110,9 +111,9 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
           _select = (selected)(_select + 1);
           SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
         }
-      if (_select < 0)
+      if (_select < Start)
         _select = Exit;
-      if (_select > 2)
+      if (_select > Exit)
         _select = Start;
     }
   else if (_state == Option)
@@ -163,9 +164,9 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
           if (sound)
             SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
         }
-      if (_select < 3)
+      if (_select < Player)
         _select = Return;
-      if (_select > 7)
+      if (_select > Return)
         _select = Player;
     }
   else if (_state == Name)
@@ -196,9 +197,9 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	  else
 	    _names[1] += getAscii(input);
 	}
-      if (_select < 8)
+      if (_select < Player1)
         _select = Starting;
-      if (_select > 10)
+      if (_select > Starting)
         _select = Player1;
       if (_select == Player2 && _numberPlayer != 2)
 	_select = Starting;
@@ -215,13 +216,16 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
   hudshader->setUniform("projection", glm::mat4(1));
   if (_state == Running)
     {
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.59, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.60, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.5, 0.0));
       _font->displayText(std::string("Start"), _select == Start ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.39, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.50, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
+      _font->displayText(std::string("Load"), _select == Load ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.40, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
       _font->displayText(std::string("Options"), _select == Options ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.19, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.30, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
       _font->displayText(std::string("Exit"), _select == Exit ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
     }

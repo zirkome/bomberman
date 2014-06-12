@@ -42,6 +42,7 @@ private:
   } _state;
   enum selected {
     Start = 0,
+    Load,
     Options,
     Exit,
     Player,
