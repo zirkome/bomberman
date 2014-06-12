@@ -69,7 +69,7 @@ void Menu::init()
 Game *Menu::getGame(const glm::ivec2& dim)
 {
   _state = Running;
-  return new ::Game(dim, _numberPlayer, 1, _levelFile[Easy], _names, _mapFile[_map]);
+  return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _names, _mapFile[_map]);
 }
 
 bool Menu::finish() const
@@ -79,37 +79,49 @@ bool Menu::finish() const
   return false;
 }
 
+bool Menu::key_return()
+{
+  if (_select == Start)
+    {
+      _state = Name;
+      _select = Player1;
+    }
+  else if (_select == Options)
+    {
+      _select = Player;
+      _state = Option;
+    }
+  else if (_select == Return)
+    {
+      _select = Options;
+      _state = Running;
+    }
+  else if (_select == Starting && validNames())
+    _state = Finished;
+  else if (_select == Exit)
+    return false;
+  return true;
+}
+
 bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 {
+  if (_state != Finished)
+    {
+      if (input.getKey(SDLK_UP, true))
+	{
+	  _select = (selected)(_select - (_state == Name && _numberPlayer != 2 ? 2 : 1));
+	  SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+      }
+    else if (input.getKey(SDLK_DOWN, true))
+      {
+	_select = (selected)(_select + 1);
+	SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
+      }
+    }
+  if (input.getKey(SDLK_RETURN, true))
+    return key_return();
   if (_state == Running)
     {
-      if (input.getKey(SDLK_RETURN, true))
-        {
-          if (_select == Start)
-	    {
-	      _state = Name;
-	      _select = Player1;
-	      return true;
-	    }
-          else if (_select == Exit)
-            return false;
-          else if (_select == Options)
-            {
-              _select = Player;
-              _state = Option;
-              return true;
-            }
-        }
-      else if (input.getKey(SDLK_UP, true))
-        {
-          _select = (selected)(_select - 1);
-          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-        }
-      else if (input.getKey(SDLK_DOWN, true))
-        {
-          _select = (selected)(_select + 1);
-          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-        }
       if (_select < 0)
         _select = Exit;
       if (_select > 2)
@@ -117,23 +129,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
     }
   else if (_state == Option)
     {
-      if (input.getKey(SDLK_RETURN, true) && _select == Return)
-        {
-          _select = Options;
-          _state = Running;
-          return true;
-        }
-      else if (input.getKey(SDLK_UP, true))
-        {
-          _select = static_cast<selected>(_select - 1);
-          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-        }
-      else if (input.getKey(SDLK_DOWN, true))
-        {
-          _select = static_cast<selected>(_select + 1);
-          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-        }
-      else if (input.getKey(SDLK_RIGHT, true))
+      if (input.getKey(SDLK_RIGHT, true))
         {
           bool sound = false;
 
@@ -154,7 +150,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 
           if (_select == Player && _numberPlayer > 1 && (sound = true))
             _numberPlayer--;
-          if (_select == Ia && _numberIa > 0 && (sound = true))
+          if (_select == Ia && _numberIa > 1 && (sound = true))
             _numberIa--;
           if (_select == IaFile && _level > 0 && (sound = true))
             _level = static_cast<level>(_level - 1);
@@ -170,19 +166,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
     }
   else if (_state == Name)
     {
-      if (input.getKey(SDLK_RETURN, true) && _select == Starting && validNames())
-	_state = Finished;
-      else if (input.getKey(SDLK_UP, true))
-        {
-          _select = static_cast<selected>(_select - (_numberPlayer != 2 ? 2 : 1));
-          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-        }
-      else if (input.getKey(SDLK_DOWN, true))
-        {
-          _select = static_cast<selected>(_select + 1);
-          SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
-        }
-      else if (_select == Player1 && _names[0].size() < 10)
+      if (_select == Player1 && _names[0].size() < 10)
 	{
 	  if (input.getKey(SDLK_BACKSPACE, true) && _names[0].size() > 0)
 	    _names[0] = _names[0].substr(0, _names[0].size() - 1);
