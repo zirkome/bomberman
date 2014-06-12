@@ -8,8 +8,6 @@
 Map::Map(const int x, const int y)
   : _dim(x, y)
 {
-  srand(time(NULL));
-
   _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
   _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
   _charToIEntity[IEntity::S_NONE] = IEntity::NONE;
