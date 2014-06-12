@@ -46,7 +46,7 @@ private:
 private:
   std::vector<Ia *> _listIA;
   std::vector<PlayerManager*> _players;
-  Pause *_pause;
+  Pause _pause;
   Map *_currentMap;
   GameGraphics _ogl;
   SharedPointer<Texture> _groundTex;
