@@ -135,7 +135,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 
           if (_select == Player && _numberPlayer < 2 && (sound = true))
             _numberPlayer++;
-          if (_select == Ia && (sound = true))
+          if (_select == Ia && (sound = true) && _numberIa < 100)
             _numberIa++;
           if (_select == IaFile && _level < 2 && (sound = true))
             _level = static_cast<level>(_level + 1);
