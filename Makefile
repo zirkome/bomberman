@@ -78,7 +78,7 @@ INCDIR		=	include/
 
 CFLAGS		+=	-I$(INCDIR) -Ilib/include/
 CFLAGS		+=	-Wall -Wextra -Winit-self
-CFLAGS		+=	-Wunused-function -pipe -O2 -g
+CFLAGS		+=	-Wunused-function -pipe -O2
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
@@ -118,8 +118,10 @@ ifneq ("$(shell tty)", "not a tty")
 		@echo -e "Linking $@ { $(LDFLAGS) }" | sed 's/^-e //' \
 		| sed 's/[-a-zA-Z]\+/\x1B[34m&\x1B[0m/g'
 		@$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
+		@strip $(NAME)
 else
 		$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
+		@strip $(NAME)
 endif
 
 -include $(DEPS)
