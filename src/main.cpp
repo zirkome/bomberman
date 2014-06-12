@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <stdlib.h>
 #include <time.h>
-
+#include "LeaderScores.hpp"
 #include "GameEngine.hpp"
 
 int main()
@@ -11,6 +11,10 @@ int main()
   try
     {
       GameEngine game;
+
+      LeaderScores leader("scores.txt");
+      leader.pushLeader("Delafuck", 90);
+      leader.writeLeader();
 
       srand(time(NULL));
       if (game.initialize() == false)
