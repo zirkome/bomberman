@@ -1,3 +1,4 @@
+#include <sstream>
 #include "PlayerManager.hpp"
 
 #include "BasicCam.hpp"
@@ -63,10 +64,14 @@ void	PlayerManager::displayInfo(const FontText& font, const gdl::Clock &clock, g
   double line = 0.0f;
   SharedPointer<Texture> texture;
 
-  textMat = glm::translate(glm::mat4(1), glm::vec3(0 + (_first ? 0 : 0.5), 0.98, 0));
+  textMat = glm::translate(glm::mat4(1), glm::vec3(0 + (_first ? 0 : 0.5), 0.97, 0));
   textMat = glm::scale(textMat, glm::vec3(0.35, 0.45, 0.0));
 
-  font.displayText("Active bonus:", glm::vec4(0.0f, 1.0, 0.0f, 0.8f), textMat, shader);
+  std::stringstream ss("");
+  ss << _player.getName() << ": " << _player.getScores() << " P";
+
+  font.displayText(ss.str().c_str(), glm::vec4(0.0f, 1.0, 0.0f, 0.8f), textMat, shader);
+
 
   ++line;
 

@@ -69,7 +69,7 @@ void Menu::init()
 Game *Menu::getGame(const glm::ivec2& dim)
 {
   _state = Running;
-  return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _names, _mapFile[_map]);
+  return new ::Game(dim, _numberPlayer, 1, _levelFile[Easy], _names, _mapFile[_map]);
 }
 
 bool Menu::finish() const

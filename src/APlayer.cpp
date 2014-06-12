@@ -2,7 +2,7 @@
 # include "Bomb.hpp"
 
 APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const std::string &name)
-  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name)
+  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name), _scores(0)
 {
   _max_bomb = 1;
 
@@ -276,4 +276,19 @@ void	APlayer::setFlammePass(bool val)
 bool	APlayer::getFlammePass() const
 {
   return _flammePass;
+}
+
+void	APlayer::increaseScores(int number)
+{
+  _scores += number;
+}
+
+int	APlayer::getScores() const
+{
+  return _scores;
+}
+
+std::string APlayer::getName() const
+{
+  return _name;
 }

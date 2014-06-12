@@ -7,13 +7,14 @@ BonusFactory::BonusFactory()
   _bonus.push_back(&BonusFactory::instanciateBonus<BonusRange>);
   _bonus.push_back(&BonusFactory::instanciateBonus<BonusFlammePass>);
   _bonus.push_back(&BonusFactory::instanciateBonus<BonusBombPass>);
+  _bonus.push_back(&BonusFactory::instanciateBonus<BonusCoin>);
 }
 
 BonusFactory::~BonusFactory()
 {
 }
 
-ABonus	*BonusFactory::createBonus(const glm::vec2 &pos, int nbBonus)
+ABonus	*BonusFactory::createBonus(const glm::vec2 &pos)
 {
-  return (this->*(_bonus[rand() % nbBonus]))(pos);
+  return (this->*(_bonus[rand() % _bonus.size()]))(pos);
 }

@@ -10,6 +10,7 @@ ABonus::ABonus(BonusType type, const glm::vec2 &pos, double effectTime)
   _bonusImg[FLAMME_PASS] = "bonus_flame_pass.tga";
   _bonusImg[BOMB_RANGE] = "bonus_bomb_range.tga";
   _bonusImg[BOMB_PASS] = "bonus_bomb_pass.tga";
+  _bonusImg[COIN] = "bonus_coin_texture.tga";
 
   std::string path = std::string(RES_TEXTURE) + _bonusImg.at(type);
   _texture = ResourceManager::getInstance()->get<Texture>(path);

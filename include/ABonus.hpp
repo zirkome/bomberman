@@ -33,6 +33,7 @@ protected:
       BOMB_RANGE,
       FLAMME_PASS,
       BOMB_PASS,
+      COIN,
     };
 
 private:

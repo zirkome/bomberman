@@ -78,24 +78,28 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos)
   for (std::vector<APlayer *>::iterator it = players.begin(); it != players.end(); ++it)
     {
       if ((*it)->getFlammePass() == false)
-      	(*it)->setStatus(DESTROY);
+	{
+	  (*it)->setStatus(DESTROY);
+	  _player->increaseScores(10);
+	}
     }
   entity = _map->getEntityAt(pos.x, pos.y);
   if (entity == NULL)
-    return 1;
+    return true;
   if (entity->getType() == WALL)
-    return 0;
+    return false;
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
   if (entity->getType() == BOX)
     {
       _fireList.push_back(new Fire(entity->getPos()));
       if (rand() % 2)
-	_generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos, 4));
+	_generatedBonus.push_back(BonusFactory::getInstance()->createBonus(pos));
       entity->setStatus(DESTROY);
+      _player->increaseScores(1);
       return false;
     }
-  return 1;
+  return true;
 }
 
 bool	Bomb::spread()
