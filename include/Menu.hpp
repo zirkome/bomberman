@@ -10,6 +10,7 @@
 # include "ACamera.hpp"
 # include "PivotingCam.hpp"
 # include "Graphics.hpp"
+# include "LeaderScores.hpp"
 
 class Menu
 {
@@ -33,6 +34,7 @@ private:
   Game *_game;
   PivotingCam *_cam;
   FontText *_font;
+  LeaderScores *_leaderboard;
   glm::vec3 _pos;
   glm::mat4 _ortho;
   enum state {
@@ -40,11 +42,13 @@ private:
     Loading,
     Option,
     Name,
+    Leaderboard,
     Finished
   } _state;
   enum selected {
     Start = 0,
     Load,
+    Score,
     Options,
     Exit,
     Player,
@@ -55,7 +59,7 @@ private:
     Player1,
     Player2,
     Starting,
-    Subload
+    Subload,
   } _select;
   enum level {
     Easy = 0,

@@ -13,16 +13,12 @@ LeaderScores::LeaderScores(const std::string &file)
       while (getline(fin, line))
 	{
 	  std::string name, scores;
-	  int score_int;
 	  std::stringstream iss(line);
 
 	  getline(iss, name, ':');
 	  getline(iss, scores, '\n');
 
-	  std::stringstream ss;
-	  ss << scores;
-	  ss >> score_int;
-	  _leaders.push_back(Leader(name, score_int));
+	  _leaders.push_back(Leader(name, scores));
 	}
       _leaders.sort(LeaderScores::compare);
       fin.close();
@@ -35,6 +31,9 @@ LeaderScores::~LeaderScores()
 
 void LeaderScores::pushLeader(const std::string &name, int score)
 {
+  std::stringstream iss("");
+
+  iss << score;
   for (std::list<Leader>::iterator it = _leaders.begin(); it != _leaders.end(); ++it)
     {
       if ((*it)._name == name)
@@ -42,11 +41,12 @@ void LeaderScores::pushLeader(const std::string &name, int score)
 	  _leaders.erase(it);
 	}
     }
-  _leaders.push_back(Leader(name, score));
+  std::string score_str = iss.str();
+  _leaders.push_back(Leader(name, score_str));
   _leaders.sort(LeaderScores::compare);
 }
 
-const std::list<Leader> LeaderScores::getLeader() const
+const std::list<Leader> &LeaderScores::getLeader() const
 {
   return _leaders;
 }
@@ -70,7 +70,13 @@ bool LeaderScores::writeLeader() const
 
 bool LeaderScores::compare(const Leader &a, const Leader &b)
 {
-  return a._score > b._score;
+  std::istringstream buffer(a._score);
+  int value;
+  buffer >> value;
+  std::istringstream buffer2(b._score);
+  int value2;
+  buffer2 >> value2;
+  return value > value2;
 }
 
 void LeaderScores::display() const

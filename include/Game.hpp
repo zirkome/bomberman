@@ -27,6 +27,7 @@
 # include "Placement.hpp"
 # include "SkyBox.hpp"
 # include "Pause.hpp"
+# include "LeaderScores.hpp"
 
 class Game
 {
@@ -39,6 +40,7 @@ public:
        int numberIA,
        const std::string &algoFileName,
        const std::string names[2],
+       LeaderScores *leaderScores,
        const std::string &mapName = "");
   ~Game();
 

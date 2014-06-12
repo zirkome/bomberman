@@ -8,12 +8,12 @@
 
 struct Leader
 {
-  Leader(const std::string &name, int score) {
+  Leader(const std::string &name, std::string &score) {
     _name = name;
     _score = score;
   }
   std::string _name;
-  int _score;
+  std::string _score;
 };
 
 class LeaderScores
@@ -25,7 +25,7 @@ public:
   LeaderScores(const std::string &file);
   virtual ~LeaderScores();
   void pushLeader(const std::string &name, int score);
-  const std::list<Leader> getLeader() const;
+  const std::list<Leader> &getLeader() const;
   bool writeLeader() const;
   void display() const;
 private:

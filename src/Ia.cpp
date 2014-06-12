@@ -179,7 +179,6 @@ int Ia::getMap(const int x, const int y) const
   elem = _map->getTypeAt(x, y);
   if (elem != IEntity::BOMB && _map->getPlayersAt(x, y).size() != 0)
     return 7;
-
   return (static_cast<int> (elem));
 }
 

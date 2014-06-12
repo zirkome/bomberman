@@ -26,7 +26,7 @@ Game::Game(const glm::ivec2& win, std::string const &saveGame)
 }
 
 Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string const & algoFileName,
-           const std::string names[2], std::string const &mapName)
+           const std::string names[2], UNUSED LeaderScores *leaderScores, std::string const &mapName)
   : _isPaused(false)
 {
   int i;

@@ -7,7 +7,8 @@ Menu::Menu(PivotingCam *cam)
 
   _names[0] = "";
   _names[1] = "";
-
+  _leaderboard = new LeaderScores("res/assets/scores.txt");
+  _leaderboard->display();
   _levelFile[Easy] = std::string("script/easy.lua");
   _levelFile[Medium] = std::string("script/medium.lua");
   _levelFile[Hard] = std::string("script/hard.lua");
@@ -69,7 +70,7 @@ void Menu::init()
 Game *Menu::getGame(const glm::ivec2& dim)
 {
   _state = Running;
-  return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _names, _mapFile[_map]);
+  return new ::Game(dim, _numberPlayer, _numberIa, _levelFile[_level], _names, _leaderboard, _mapFile[_map]);
 }
 
 bool Menu::finish() const
@@ -98,8 +99,13 @@ bool Menu::key_return()
     }
   else if (_select == Return)
     {
-      _select = Options;
+      _select = (_state == Leaderboard ? Score : Options);
       _state = Running;
+    }
+  else if (_select == Score)
+    {
+      _select = Return;
+      _state = Leaderboard;
     }
   else if (_select == Starting && validNames())
     _state = Finished;
@@ -110,7 +116,7 @@ bool Menu::key_return()
 
 bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 {
-  if (_state != Finished && _state != Loading)
+  if (_state != Finished && _state != Loading && _state != Leaderboard)
     {
       if (input.getKey(SDLK_UP, true))
 	{
@@ -211,17 +217,20 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
   hudshader->setUniform("projection", glm::mat4(1));
   if (_state == Running)
     {
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.60, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.60, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.5, 0.0));
       _font->displayText(std::string("Start"), _select == Start ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.50, 0.0));
-      textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.50, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
       _font->displayText(std::string("Load"), _select == Load ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.40, 0.0));
-      textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.40, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
+      _font->displayText(std::string("Leaderboard"), _select == Score ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.30, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
       _font->displayText(std::string("Options"), _select == Options ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.30, 0.0));
-      textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.20, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
       _font->displayText(std::string("Exit"), _select == Exit ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
     }
   else if (_state == Option)
@@ -270,7 +279,29 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
       textMat = glm::scale(textMat, glm::vec3(0.5, 1.0, 0.0));
       _font->displayText(std::string("Start"), _select == Starting ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
     }
-  /* TODO : draw the curent menu */
+  else if (_state == Leaderboard)
+    {
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.01, 0.59, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(0.6, 1.5, 0.0));
+      _font->displayText(std::string("Leaderboard") + _names[0], glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+      std::list<Leader> scores = _leaderboard->getLeader();
+      int i = 0;
+      for (std::list<Leader>::const_iterator it = scores.begin(); it != scores.end(); ++it)
+	{
+	  ss.str("");
+	  ss << i+1;
+	  textMat = glm::translate(glm::mat4(1), glm::vec3(0.31, 0.52 - (i /20.0), 0.0));
+	  textMat = glm::scale(textMat, glm::vec3(0.4, 0.8, 0.0));
+	  _font->displayText(ss.str()+ "-" + (*it)._name, glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+	  textMat = glm::translate(glm::mat4(1), glm::vec3(0.71, 0.52 - (i /20.0), 0.0));
+	  textMat = glm::scale(textMat, glm::vec3(0.4, 0.8, 0.0));
+	  _font->displayText((*it)._score, glm::vec4(0.3f, 1.0f, 0.0f, 0.8f), textMat, hudshader);
+	  i++;
+	}
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.31, 0.02, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(0.4, 0.8, 0.0));
+      _font->displayText(std::string("Return"), _select == Return ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+    }
 }
 
 std::string Menu::getAscii(gdl::Input &input) const
