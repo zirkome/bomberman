@@ -81,6 +81,7 @@ bool GameEngine::update()
         {
           SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
           SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
+	  delete _game;
 	  _intro->rinit();
           _state = Intro;
         }

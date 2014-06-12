@@ -43,7 +43,7 @@ int Pause::update(gdl::Input &input)
   return -1;
 }
 
-void Pause::draw(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader)
+void Pause::draw(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader) const
 {
   glm::mat4 textMat;
   double line = 0.0f;
@@ -56,7 +56,7 @@ void Pause::draw(const FontText &font, const gdl::Clock &clock, gdl::AShader *sh
 
   font.displayText("PAUSE", _color, textMat, shader);
 
-  for (std::vector<std::string>::iterator it = _text.begin(); it != _text.end(); ++it)
+  for (std::vector<std::string>::const_iterator it = _text.begin(); it != _text.end(); ++it)
     {
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.35, 0.51f - line / 15.f - 0.04f, 0));
       textMat = glm::scale(textMat, glm::vec3(0.35, 0.55, 1.0));

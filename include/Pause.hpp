@@ -13,7 +13,7 @@ public:
   Pause();
   virtual ~Pause();
   int update(gdl::Input &input);
-  void draw(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader);
+  void draw(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader) const;
 private:
   int _selected;
   int _nbLine;

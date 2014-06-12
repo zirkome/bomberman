@@ -70,7 +70,6 @@ void Game::init(const glm::ivec2& win)
 {
   glm::vec2 mapDim = _currentMap->getDimension();
   _ogl.init(win, glm::ivec2(mapDim.x, mapDim.y), (_players.size() == 2));
-  _pause = new Pause;
 }
 
 Game::~Game()
@@ -93,7 +92,7 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   if (_isPaused)
     {
-      int ret = _pause->update(input);
+      int ret = _pause.update(input);
 
       switch (ret)
         {
@@ -187,5 +186,5 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
     (*it)->displayInfo(font, clock, shader);
 
   if (_isPaused)
-    _pause->draw(font, clock, shader);
+    _pause.draw(font, clock, shader);
 }
