@@ -1,14 +1,16 @@
 #include <iostream>
 #include <exception>
 #include <stdexcept>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
+
 #include "GameEngine.hpp"
 
 int main()
 {
   try
     {
+      srand(time(NULL));
       GameEngine game;
 
       srand(time(NULL));
