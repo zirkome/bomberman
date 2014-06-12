@@ -17,19 +17,14 @@ thisptr is already define at the start of the script in the global scope
 
 object id : 0 = box
        	    1 = bonus
-	    2 = wall
-	    3 = bomb
-	    4 = ground
-	    5 = fire
-	    6 = model
-	    7 = player
-	    8 = skybox
-	    9 = logo
-	    10 = none
+		    2 = wall
+		    3 = bomb
+		    7 = player
+		    10 = none
 
 action id : 0 = nothing
        	    1 = forward
-	    2 = backward
-	    4 = left
-	    5 = right
-	    5 = bomb
+		    2 = backward
+		    3 = right
+		    4 = left
+		    5 = bomb
