@@ -92,12 +92,24 @@ printMap = function ()
   while i < yMap + 1 do
     j = 1
     while j < xMap do
-      if map[i][j] == "D" then
-        io.write("\27[0;32m" .. map[i][j] .. "\27[0;0m |");
-      elseif map[i][j] < 10 then
-        io.write(map[i][j] .. " |");
-      else
+      if map[i][j] == 2 then
+        io.write("\27[0;32m" .. map[i][j] .. "\27[0;0m  |");
+      elseif map[i][j] == 0 then
+        io.write("\27[0;31m" .. map[i][j] .. "\27[0;0m  |");
+      elseif map[i][j] == 7 then
+        io.write("\27[0;33m" .. map[i][j] .. "\27[0;0m  |");
+      elseif map[i][j] == 1 then
+        io.write("\27[0;34m" .. map[i][j] .. "\27[0;0m  |");
+      elseif map[i][j] == 10 then
+        io.write("\27[0;35m" .. map[i][j] .. "\27[0;0m |");
+      elseif map[i][j] == "D" then
+        io.write("\27[0;36m" .. map[i][j] .. "\27[0;0m  |");
+      elseif map[i][j] < 0 and map[i][j] > -10 then
+        io.write(map[i][j] .. " |")
+      elseif map[i][j] < 0 and map[i][j] <= -10 then
         io.write(map[i][j] .. "|")
+      else
+        io.write(map[i][j] .. "|")  
       end
       j = j + 1
     end
@@ -238,7 +250,6 @@ escapeDanger = function (x, y)
     square = getRight(x, y)
     if square == 10 or square == 7 then return right() end
 
-    print("here")
     moves[math.random(1, 4)]()
 
     x, y = roundCoord(iaGetPos(thisptr))
@@ -267,10 +278,10 @@ end
 addPonderation = function (x, y, toFind, pond)
   local square = getSquare(x, y)
 
-  if square == -1 or square == 2 or (square == toFind and pond ~= -1) then return end
+  if square == -1 or square == 2 or square == 0 or (square == toFind and pond ~= -1) then return end
 
-  if map[y][x] < pond or map[y][x] > 0 then
-    map[y][x] = pond
+  if square < pond or square > 0 then
+    map[y + 1][x + 1] = pond
     addPonderation(x, y + 1, toFind, pond - 1)
     addPonderation(x, y - 1, toFind, pond - 1)
     addPonderation(x + 1, y, toFind, pond - 1)
@@ -282,13 +293,14 @@ end
 
 -- return the minimum ponderation arround a point
 
+
 findMinAdj = function (adj)
   local i = 1
   local min = 0
 
-  while i <= 4 do
+  while i <= #adj do
     if adj[i] < 0 then
-      if adj[i] < min or min == 0  then
+      if adj[i] > min or min == 0 then
         min = adj[i]
       end 
     end
@@ -301,13 +313,12 @@ end
 
 findLittlePonderation = function (toFind)
   local i, j = 0, 0
-  local square, min, x, y, pond = 0, -1, -1, -1, -1
+  local min, x, y, pond = 0, -1, -1, -9
 
   while i < yMap do
     j = 0
     while j < xMap do
-      square = getSquare(j, i)
-      if square == toFind then
+      if getSquare(j, i) == toFind then
         local minAdj
         adj = { }
 
@@ -317,7 +328,7 @@ findLittlePonderation = function (toFind)
         adj[4] = getSquare(j, i - 1)
 
         minAdj = findMinAdj(adj)
-        if minAdj < min or min == 0 then
+        if minAdj > min or min == 0 then
           min, x, y, pond = minAdj, j, i, minAdj
         end
       end
@@ -326,6 +337,32 @@ findLittlePonderation = function (toFind)
     i = i + 1
   end
   return x, y, pond
+end
+
+-- forme the instruction list
+
+formInstrList = function (x, y, pond)
+  local list, i, square = { }, 1, -1
+  
+  while pond <= -1 do
+    if getSquare(x - 1, y) == pond then
+      x = x - 1
+      list[i] = 3  -- "droite"
+    elseif getSquare(x + 1, y) == pond then
+      x = x + 1
+      list[i] = 4 -- "gauche"
+    elseif getSquare(x, y - 1) == pond then
+      y = y - 1
+      list[i] = 2 -- "bas"
+    elseif getSquare(x, y + 1) == pond then
+      y = y + 1
+      list[i] = 1 -- "haut"
+    end
+    i = i + 1
+    pond = pond + 1
+  end
+  updateMap() -- reset the map
+  return list
 end
 
 
@@ -338,18 +375,30 @@ print('Map is : ')
 updateMap()
 printMap()
 
--- FindShortWay(to_find) => retourne une table avec les deplacements a faire pour atteindre le point
--- Si on est dans une zone de danger, escapeDanger avec FindShortSafePlace
--- Ensuite trouver L'ennemi le plus proche || ou le bonus le plus proche (% 2 ?)
--- Aller voir l'ennemi et lui coller des bombes dessus + s'échapper
+iaX, iaY = roundCoord(iaGetPos(thisptr))
 
--- Si y a pas de chemin = deplacement random + pose de bombe + s'échapper
+print("Je suis en : (" .. iaX .. "/" .. iaY .. ")")
+addPonderation(iaX, iaY, 7, -1)
+printMap()
 
-while 1 do
-  local x, y = roundCoord(iaGetPos(thisptr))
-  local dir
+xFind, yFind, pond = findLittlePonderation(7)
+print("Je suis en : (" .. iaX .. "/" .. iaY .. ")")
+print("Le joueur le plus proche (" .. xFind .. "/" .. yFind .. ")" .. " pond => " .. pond)
 
-  updateMap()
+if pond < 0 and xFind ~= -1 and yFind ~= -1 then
+  list = formInstrList(xFind, yFind, pond)
 
-  moves[math.random(1, 4)]()
+  it = #list
+  while it >= 1 do
+    print("list[" .. it .. "] = " .. list[it])
+    
+    moves[list[it]]()
+    it = it - 1
+  end
 end
+
+-- Si on est dans une zone de danger findWay(10 || 7) + se tirer
+-- Trouver le bonus le plus proche le prendre tant qu'il y a des bonus
+-- Trouver l'enemi le plus proche, le rejoindre + lui lache une bombe + s'echapper
+-- Si y a pas de chemin = trouver la caisse la plus proche + pose de bombe + s'échapper
+
