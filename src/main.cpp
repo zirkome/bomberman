@@ -12,10 +12,6 @@ int main()
     {
       GameEngine game;
 
-      LeaderScores leader("scores.txt");
-      leader.pushLeader("Delafuck", 90);
-      leader.writeLeader();
-
       srand(time(NULL));
       if (game.initialize() == false)
         throw std::runtime_error("Game initialization failed.");
