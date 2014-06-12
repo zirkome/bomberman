@@ -9,6 +9,7 @@
 # include "ACamera.hpp"
 # include "Player.hpp"
 # include "FontText.hpp"
+# include "LeaderScores.hpp"
 
 class PlayerManager
 {
@@ -23,7 +24,7 @@ public:
   void update(const Map& map, const gdl::Clock &clock);
   void displayInfo(const FontText &font, const gdl::Clock &clock, gdl::AShader *shader) const;
   const std::list<IEntity*>& getNearList() const {return _nearEntity;};
-  bool getDead() const;
+  bool getDead(LeaderScores *) const;
   void setWin();
 private:
   PlayerManager(const PlayerManager& p);
