@@ -7,10 +7,10 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const s
   _max_bomb = 1;
 
   _stock_bomb = _max_bomb;
-  _bomb_range = 2;
+  _bomb_range = 3;
 
   _obj = new GameModel(RES_MODEL "marvin.fbx");
-  (*_obj)->setCurrentSubAnim("standby");
+  (*_obj)->setCurrentSubAnim("walk");
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 

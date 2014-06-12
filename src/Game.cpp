@@ -96,15 +96,15 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
       int ret = _pause->update(input);
 
       switch (ret)
-	{
-	case 0:
-	  _isPaused = false;
-	  return true;
-	case 1:
-	  return false;
-	default:
-	  return true;
-	}
+        {
+        case 0:
+          _isPaused = false;
+          return true;
+        case 1:
+          return false;
+        default:
+          return true;
+        }
     }
 
   std::list<Map::iterator> listMapToDelete;
@@ -116,19 +116,19 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
 
   Map::LMap playerList = _currentMap->getPlayerList();
   for (Map::iterator it = playerList.begin(); it !=  playerList.end(); ++it) {
-    if ((*it)->getStatus() != IEntity::DESTROY)
-      {
-      live_players++;
-      (*it)->update(input, clock);
-      }
-  }
+      if ((*it)->getStatus() != IEntity::DESTROY)
+        {
+          live_players++;
+          (*it)->update(input, clock);
+        }
+    }
   if (live_players <= 1)
     {
-      for (std::vector<PlayerManager*>::iterator it = _players.begin();it != _players.end(); ++it)
-	{
-	  (*it)->setWin();
-	  (*it)->getPlayer().setStatus(IEntity::DESTROY);
-	}
+      for (std::vector<PlayerManager*>::iterator it = _players.begin(); it != _players.end(); ++it)
+        {
+          (*it)->setWin();
+          (*it)->getPlayer().setStatus(IEntity::DESTROY);
+        }
     }
 
   live_players = 0;
@@ -169,7 +169,7 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
 
   const FontText& font = _ogl.getTextWriter();
   glm::mat4 textMat;
-
+  glDisable(GL_DEPTH_TEST);
   std::stringstream ss;
   static double elapsed = 0.0;
   static unsigned int k = 0;

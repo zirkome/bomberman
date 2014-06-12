@@ -25,6 +25,7 @@ private:
   Menu(const Menu& m);
   std::string getAscii(gdl::Input &) const;
   bool validNames();
+  bool key_return();
 private:
   int _numberPlayer;
   int _numberIa;
