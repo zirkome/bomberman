@@ -89,6 +89,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	    {
 	      _state = Name;
 	      _select = Player1;
+	      return true;
 	    }
           else if (_select == Exit)
             return false;
