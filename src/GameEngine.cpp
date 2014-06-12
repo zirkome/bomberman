@@ -75,8 +75,7 @@ bool GameEngine::update()
         {
           SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
           SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
-	  glClearDepth(1.0f);
-	  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	  _intro->rinit();
           _state = Intro;
         }
     }

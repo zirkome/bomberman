@@ -69,6 +69,28 @@ void Intro::init(const glm::ivec2& win)
 
 }
 
+void Intro::rinit()
+{
+  delete _shader;
+  _shader = new BasicShader();
+
+  if (!_shader->load(RES_SHADERS "menu.fp", GL_FRAGMENT_SHADER)
+      || !_shader->load(RES_SHADERS "menu.vp", GL_VERTEX_SHADER)
+      || !_shader->build())
+    {
+      throw std::runtime_error("Load shader fail");
+    }
+
+  glEnable(GL_DEPTH_TEST);
+  glClearDepth(1.0f);
+  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
+  glEnable(GL_CULL_FACE);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
 Game *Intro::getGame(const glm::ivec2& dim)
 {
   _state = Menu;
