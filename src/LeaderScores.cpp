@@ -8,26 +8,25 @@ LeaderScores::LeaderScores(const std::string &file)
   std::string	line;
 
   fin.open(file.c_str());
-  if (!fin.good())
+  if (fin.good())
     {
-      throw nFault("Error while loading scores from file : " + file);
-    }
-  while (getline(fin, line))
-    {
-      std::string name, scores;
-      int score_int;
-      std::stringstream iss(line);
+      while (getline(fin, line))
+	{
+	  std::string name, scores;
+	  int score_int;
+	  std::stringstream iss(line);
 
-      getline(iss, name, ':');
-      getline(iss, scores, '\n');
+	  getline(iss, name, ':');
+	  getline(iss, scores, '\n');
 
-      std::stringstream ss;
-      ss << scores;
-      ss >> score_int;
-      _leaders.push_back(Leader(name, score_int));
+	  std::stringstream ss;
+	  ss << scores;
+	  ss >> score_int;
+	  _leaders.push_back(Leader(name, score_int));
+	}
+      _leaders.sort(LeaderScores::compare);
+      fin.close();
     }
-  _leaders.sort(LeaderScores::compare);
-  fin.close();
 }
 
 LeaderScores::~LeaderScores()
@@ -52,20 +51,21 @@ const std::list<Leader> LeaderScores::getLeader() const
   return _leaders;
 }
 
-void LeaderScores::writeLeader() const
+bool LeaderScores::writeLeader() const
 {
   std::ofstream fout;
 
   fout.open(_file.c_str(), std::ofstream::trunc);
   if (!fout.good())
     {
-      throw nFault("Error while writing scores in file : " + _file);
+      return false;
     }
   for (std::list<Leader>::const_iterator it = _leaders.begin(); it != _leaders.end(); ++it)
     {
       fout << (*it)._name << ":" << (*it)._score << "\n";
     }
   fout.close();
+  return true;
 }
 
 bool LeaderScores::compare(const Leader &a, const Leader &b)

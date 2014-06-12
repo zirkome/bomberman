@@ -5,7 +5,6 @@
 #include <list>
 #include <sstream>
 #include <fstream>
-#include "Fault.hpp"
 
 struct Leader
 {
@@ -27,7 +26,7 @@ public:
   virtual ~LeaderScores();
   void pushLeader(const std::string &name, int score);
   const std::list<Leader> getLeader() const;
-  void writeLeader() const;
+  bool writeLeader() const;
   void display() const;
 private:
   static bool compare(const Leader &a, const Leader &b);

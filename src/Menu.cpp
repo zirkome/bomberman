@@ -86,6 +86,11 @@ bool Menu::key_return()
       _state = Name;
       _select = Player1;
     }
+  else if (_select == Load)
+    {
+      _select = Load;
+      _state = Loading;
+    }
   else if (_select == Options)
     {
       _select = Player;
@@ -105,7 +110,7 @@ bool Menu::key_return()
 
 bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 {
-  if (_state != Finished)
+  if (_state != Finished && _state != Loading)
     {
       if (input.getKey(SDLK_UP, true))
 	{
@@ -122,10 +127,17 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
     return key_return();
   if (_state == Running)
     {
-      if (_select < 0)
+      if (_select < Start)
         _select = Exit;
       if (_select > Exit)
         _select = Start;
+    }
+  else if (_state == Loading)
+    {
+      if (_select < Subload)
+        _select = Subload;
+      if (_select > Subload)
+        _select = Subload;
     }
   else if (_state == Option)
     {
@@ -199,13 +211,16 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
   hudshader->setUniform("projection", glm::mat4(1));
   if (_state == Running)
     {
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.59, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.60, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.5, 0.0));
       _font->displayText(std::string("Start"), _select == Start ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.39, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.50, 0.0));
+      textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
+      _font->displayText(std::string("Load"), _select == Load ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.40, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
       _font->displayText(std::string("Options"), _select == Options ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.19, 0.0));
+      textMat = glm::translate(glm::mat4(1), glm::vec3(0.3, 0.30, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.0, 0.0));
       _font->displayText(std::string("Exit"), _select == Exit ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
     }

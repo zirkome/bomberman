@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <stdlib.h>
 #include <time.h>
-#include "LeaderScores.hpp"
 #include "GameEngine.hpp"
 
 int main()
