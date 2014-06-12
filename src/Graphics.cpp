@@ -114,8 +114,6 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const std::vector<PlayerMan
       glDisable(GL_CULL_FACE);
 
       _groundTex->bind();
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       _ground->draw(_shader, clock);
       ++i;
     }
