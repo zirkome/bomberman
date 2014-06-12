@@ -182,18 +182,18 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
           _select = static_cast<selected>(_select + 1);
           SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
         }
-      else if (_select == Player1 && _names[0].size() < 10)
+      else if (_select == Player1)
 	{
 	  if (input.getKey(SDLK_BACKSPACE, true) && _names[0].size() > 0)
 	    _names[0] = _names[0].substr(0, _names[0].size() - 1);
-	  else
+	  else if (_names[0].size() < 10)
 	    _names[0] += getAscii(input);
 	}
-      else if (_select == Player2 && _names[1].size() < 10)
+      else if (_select == Player2)
 	{
 	  if (input.getKey(SDLK_BACKSPACE, true) && _names[1].size() > 0)
 	    _names[1] = _names[1].substr(0, _names[1].size() - 1);
-	  else
+	  else if (_names[0].size() < 10)
 	    _names[1] += getAscii(input);
 	}
       if (_select < 8)
