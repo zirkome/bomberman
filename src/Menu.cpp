@@ -124,7 +124,7 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
     {
       if (_select < 0)
         _select = Exit;
-      if (_select > 2)
+      if (_select > Exit)
         _select = Start;
     }
   else if (_state == Option)
@@ -159,9 +159,9 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
           if (sound)
             SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
         }
-      if (_select < 3)
+      if (_select < Player)
         _select = Return;
-      if (_select > 7)
+      if (_select > Return)
         _select = Player;
     }
   else if (_state == Name)
@@ -180,9 +180,9 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	  else
 	    _names[1] += getAscii(input);
 	}
-      if (_select < 8)
+      if (_select < Player1)
         _select = Starting;
-      if (_select > 10)
+      if (_select > Starting)
         _select = Player1;
       if (_select == Player2 && _numberPlayer != 2)
 	_select = Starting;
