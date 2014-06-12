@@ -39,6 +39,7 @@ void LeaderScores::pushLeader(const std::string &name, int score)
       if ((*it)._name == name)
 	{
 	  _leaders.erase(it);
+	  break;
 	}
     }
   std::string score_str = iss.str();
