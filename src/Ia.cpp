@@ -93,8 +93,11 @@ void *iaStart(void *ptr)
 }
 
 Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec4& color)
-  : APlayer::APlayer(pos, currentMap, color, "IA"), _condAct(_mutex), _thread(iaStart, this)
+  : APlayer::APlayer(pos, currentMap, color, "IA")
 {
+  _thread = new PThread(iaStart, this);
+  _mutex = new PMutex;
+  _condAct = new PCondVar(*_mutex);
   _statusOfObject = OK;
   _running = false;
   _dead = false;
@@ -147,14 +150,17 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const
   lua_pushlightuserdata(_L, this);
   lua_setglobal(_L, "thisptr");
 
-  _thread.start();
+  _thread->start();
 }
 
 Ia::~Ia()
 {
   _dead = true;
-  _condAct.notifyAll();
+  _condAct->notifyAll();
   lua_close(_L);
+  delete _thread;
+  delete _mutex;
+  delete _condAct;
 }
 
 void *Ia::init()
@@ -186,9 +192,9 @@ int Ia::exec()
 {
   if (_running)
     {
-      _mutex.lock();
-      _condAct.notifyAll();
-      _mutex.unlock();
+      _mutex->lock();
+      _condAct->notifyAll();
+      _mutex->unlock();
     }
   return _act;
 }
@@ -196,9 +202,9 @@ int Ia::exec()
 void Ia::action(int act)
 {
   _act = act;
-  _mutex.lock();
-  _condAct.wait();
-  _mutex.unlock();
+  _mutex->lock();
+  _condAct->wait();
+  _mutex->unlock();
   if (_dead)
     {
       _running = false;
