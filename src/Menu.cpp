@@ -286,7 +286,7 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
       _font->displayText(std::string("Leaderboard") + _names[0], glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
       std::list<Leader> scores = _leaderboard->getLeader();
       int i = 0;
-      for (std::list<Leader>::const_iterator it = scores.begin(); it != scores.end(); ++it)
+      for (std::list<Leader>::const_iterator it = scores.begin(); it != scores.end() && i != 10; ++it)
 	{
 	  ss.str("");
 	  ss << i+1;
