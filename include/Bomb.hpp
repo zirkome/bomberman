@@ -15,8 +15,7 @@
 # include "SoundManager.hpp"
 # include "SharedPointer.hpp"
 # include "ResourceManager.hpp"
-
-#include "BonusFactory.hpp"
+# include "BonusFactory.hpp"
 
 class Bomb : public IEntity
 {

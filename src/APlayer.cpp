@@ -1,8 +1,10 @@
 #include "APlayer.hpp"
-# include "Bomb.hpp"
+#include "Bomb.hpp"
+#include "BonusFireBall.hpp"
 
 APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const std::string &name)
-  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name), _scores(0)
+  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name),
+    _scores(0), _ammo(0 + 500), _reload(0)
 {
   _max_bomb = 1;
 
@@ -21,6 +23,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const s
   _status = STANDBY;
   _speed = 4;
   _way = UP;
+  _mcoef = NULL;
   _size = 0.7;
   _lvl = 1;
 }
@@ -158,6 +161,17 @@ bool APlayer::bomb()
     {
       _map->addEntity(new Bomb(this, glm::vec2(x, y), _bomb_range, _map));
       _stock_bomb--;
+    }
+  return false;
+}
+
+bool APlayer::fireBall()
+{
+  if (_ammo > 0 && _reload.getRemainingTime() < 0 && _mcoef)
+    {
+      _map->addEntity(new BonusFireBall(_pos, _mcoef, _map, this));
+      --_ammo;
+      _reload.reset(0.5);
     }
   return false;
 }

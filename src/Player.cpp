@@ -10,6 +10,7 @@ Player::Player(const glm::vec2& pos, Map *map, bool first, const glm::vec4& colo
       _moveKey.push_back(SDLK_d);
       _moveKey.push_back(SDLK_q);
       _actionPtr[SDLK_TAB] = &Player::bomb;
+      _actionPtr[SDLK_a] = &Player::fireBall;
     }
   else {
       _moveKey.push_back(SDLK_UP);
@@ -17,6 +18,7 @@ Player::Player(const glm::vec2& pos, Map *map, bool first, const glm::vec4& colo
       _moveKey.push_back(SDLK_RIGHT);
       _moveKey.push_back(SDLK_LEFT);
       _actionPtr[SDLK_SPACE] = &Player::bomb;
+      _actionPtr[SDLK_p] = &Player::fireBall;
     }
 
   std::vector<int>::const_iterator it = _moveKey.begin();
@@ -57,12 +59,15 @@ void	Player::update(gdl::Input &input, gdl::Clock const &clock)
   if (distance > 1.0)
     distance = 1.0;
   updateBonus(clock);
+  _reload.update(clock.getElapsed());
+
   for (std::vector<int>::iterator it = _moveKey.begin(); it != _moveKey.end(); ++it)
     {
       if (input.getKey(*it))
         {
           hasMoved = this->movePlayer(_moveConf[*it], distance);
           validKey = true;
+          _mcoef = _moveConf[*it];
           break;
         }
     }

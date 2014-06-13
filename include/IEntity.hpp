@@ -16,6 +16,7 @@ public:
       BOMB,
       GROUND,
       FIRE,
+      FIREBALL,
       MODEL,
       PLAYER,
       SKYBOX,

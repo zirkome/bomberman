@@ -180,7 +180,7 @@ const glm::vec2 &Map::getDimension() const
 IEntity		*Map::getEntityAt(const int x, const int y) const
 {
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
-    if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y)
+    if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y && (*it)->getType() != IEntity::FIREBALL)
       return *it;
   return NULL;
 }
@@ -215,7 +215,7 @@ IEntity::Type	Map::getTypeAt(const int x, const int y) const
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if (static_cast<int>((*(*it)).getPos().x) == x && static_cast<int>((*(*it)).getPos().y) == y) {
         type = (*it)->getType();
-        if (type == IEntity::PLAYER)
+        if (type == IEntity::PLAYER || type == IEntity::FIREBALL)
           type = IEntity::NONE;
         if (type != IEntity::NONE)
           return type;
@@ -239,7 +239,7 @@ bool		Map::addEntity(IEntity *entity)
   if (entity->getType() == IEntity::PLAYER) {
       _playerList.push_back(entity);
     }
-  else if (entity->getType() != IEntity::WALL)
+  else if (entity->getType() != IEntity::WALL && entity->getType() != IEntity::BOX)
     _updateList.push_back(entity);
   return true;
 }

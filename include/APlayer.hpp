@@ -60,6 +60,7 @@ protected:
   double _speed;
   double _size;
   Way _way;
+  const movementCoef *_mcoef;
   Status _status;
   int _stock_bomb, _max_bomb;
   double _bomb_range;
@@ -74,6 +75,8 @@ protected:
   std::vector<ABonus *>		_bonus;
   std::string _name;
   int _scores;
+  int _ammo;
+  Timer _reload;
 
 public:
   template<class Archive>
@@ -127,6 +130,7 @@ public:
 protected:
   virtual bool	movePlayer(const movementCoef *mcoef, float const distance);
   virtual bool	bomb();
+  virtual bool	fireBall();
   virtual void	updateAnim(bool hasMoved, bool keyPressed = true);
   void		updateBonus(const gdl::Clock &clock);
 };
