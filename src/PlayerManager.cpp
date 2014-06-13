@@ -103,10 +103,13 @@ void	PlayerManager::displayInfo(const FontText& font, const gdl::Clock &clock, g
     }
 }
 
-bool PlayerManager::getDead() const
+bool PlayerManager::getDead(LeaderScores *scores) const
 {
   if (_timer <= 0.0)
-    return true;
+    {
+      scores->pushLeader(_player.getName(), _player.getScores());
+      return true;
+    }
   return false;
 }
 

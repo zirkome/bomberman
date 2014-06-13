@@ -72,6 +72,7 @@ private:
   Pause _pause;
   Map *_currentMap;
   GameGraphics _ogl;
+  LeaderScores *_leader;
   SharedPointer<Texture> _groundTex;
   bool _isPaused;
 };

@@ -79,8 +79,9 @@ bool	Bomb::destroyEntity(const glm::vec2 &pos)
     {
       if ((*it)->getFlammePass() == false)
 	{
+	  if (*it != _player && (*it)->getStatus() != IEntity::DESTROY)
+	    _player->increaseScores(10);
 	  (*it)->setStatus(DESTROY);
-	  _player->increaseScores(10);
 	}
     }
   entity = _map->getEntityAt(pos.x, pos.y);

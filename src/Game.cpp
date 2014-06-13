@@ -26,8 +26,8 @@ Game::Game(const glm::ivec2& win, std::string const &saveGame)
 }
 
 Game::Game(const glm::ivec2& win, int numberPlayer, int numberIA, std::string const & algoFileName,
-           const std::string names[2], UNUSED LeaderScores *leaderScores, std::string const &mapName)
-  : _isPaused(false)
+           const std::string names[2], LeaderScores *leaderScores, std::string const &mapName)
+  : _leader(leaderScores), _isPaused(false)
 {
   int i;
 
@@ -133,10 +133,13 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
   live_players = 0;
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)
-    if ((*it)->getDead() == false)
+    if ((*it)->getDead(_leader) == false)
       live_players++;
   if (live_players == 0)
-    return false;
+    {
+      _leader->writeLeader();
+      return false;
+    }
   //Delete every elements which are DESTROYs
   while (!listMapToDelete.empty()) {
       //create bonus id box is destroyed
