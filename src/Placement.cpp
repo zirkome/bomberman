@@ -37,25 +37,25 @@ glm::ivec2 Placement::foundCloserGoodPlace(glm::ivec2 const &pos)
 {
   int rayon = 1;
 
-  if (checkSpace(pos, pos, 2) == true)
+  if (checkSpace(pos, pos, 3) == true)
     return pos;
   while (rayon < _mapSize.x || rayon < _mapSize.y)
     {
-      if (checkSpace(glm::ivec2(pos.x - rayon, pos.y - rayon), glm::ivec2(pos.x - rayon, pos.y - rayon), 2))
+      if (checkSpace(glm::ivec2(pos.x - rayon, pos.y - rayon), glm::ivec2(pos.x - rayon, pos.y - rayon), 3))
         return glm::ivec2(pos.x - rayon, pos.y - rayon);
-      if (checkSpace(glm::ivec2(pos.x, pos.y - rayon), glm::ivec2(pos.x, pos.y - rayon), 2))
+      if (checkSpace(glm::ivec2(pos.x, pos.y - rayon), glm::ivec2(pos.x, pos.y - rayon), 3))
         return glm::ivec2(pos.x, pos.y - rayon);
-      if (checkSpace(glm::ivec2(pos.x + rayon, pos.y - rayon), glm::ivec2(pos.x + rayon, pos.y - rayon), 2))
+      if (checkSpace(glm::ivec2(pos.x + rayon, pos.y - rayon), glm::ivec2(pos.x + rayon, pos.y - rayon), 3))
         return glm::ivec2(pos.x + rayon, pos.y - rayon);
-      if (checkSpace(glm::ivec2(pos.x - rayon, pos.y), glm::ivec2(pos.x - rayon, pos.y), 2))
+      if (checkSpace(glm::ivec2(pos.x - rayon, pos.y), glm::ivec2(pos.x - rayon, pos.y), 3))
         return glm::ivec2(pos.x - rayon, pos.y);
-      if (checkSpace(glm::ivec2(pos.x + rayon, pos.y), glm::ivec2(pos.x + rayon, pos.y), 2))
+      if (checkSpace(glm::ivec2(pos.x + rayon, pos.y), glm::ivec2(pos.x + rayon, pos.y), 3))
         return glm::ivec2(pos.x + rayon, pos.y);
-      if (checkSpace(glm::ivec2(pos.x - rayon, pos.y + rayon), glm::ivec2(pos.x - rayon, pos.y + rayon), 2))
+      if (checkSpace(glm::ivec2(pos.x - rayon, pos.y + rayon), glm::ivec2(pos.x - rayon, pos.y + rayon), 3))
         return glm::ivec2(pos.x - rayon, pos.y + rayon);
-      if (checkSpace(glm::ivec2(pos.x, pos.y + rayon), glm::ivec2(pos.x, pos.y + rayon), 2))
+      if (checkSpace(glm::ivec2(pos.x, pos.y + rayon), glm::ivec2(pos.x, pos.y + rayon), 3))
         return glm::ivec2(pos.x, pos.y + rayon);
-      if (checkSpace(glm::ivec2(pos.x + rayon, pos.y + rayon), glm::ivec2(pos.x + rayon, pos.y + rayon), 2))
+      if (checkSpace(glm::ivec2(pos.x + rayon, pos.y + rayon), glm::ivec2(pos.x + rayon, pos.y + rayon), 3))
         return glm::ivec2(pos.x + rayon, pos.y + rayon);
       rayon++;
     }
