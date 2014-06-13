@@ -4,8 +4,6 @@ xMap, yMap = iaGetSizeMap(thisptr)
 map = { }
 bombRange = 2
 
-print(xMap .. "/" .. yMap);
-
 round = function (num, dec)
   local mult = 10^(dec or 0)
   return math.floor(num * mult + 0.5) / mult
@@ -359,13 +357,7 @@ end
 
 -- Init the IA
 
-print('[Lua] Hello i\'m  in (' .. iaX .. ', ' .. iaY .. ')')
-print('Map size is : ' .. xMap .. "/" .. yMap)
-print('Map is : ')
-
 updateMap()
-printMap()
-
 dropBomb()
 while true do
   iaX, iaY = roundCoord(iaGetPos(thisptr))
@@ -373,15 +365,7 @@ while true do
   if isInDanger(iaX, iaY) then
     goToFirst(10, iaX, iaY)
   elseif goToFirst(1, iaX, iaY) == -1 then
-    if goToFirst(7, iaX, iaY) ~= -1 then
-      dropBomb()
-    else
-
-      repeat
-        dir = math.random(1, 4);
-      until squares[dir] ~= 11
-      moves[dir]()
-      dropBomb()
-    end
+    goToFirst(7, iaX, iaY)
+    dropBomb()
   end
 end
