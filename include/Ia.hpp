@@ -60,7 +60,8 @@ public:
 public:
   Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec4& color);
   ~Ia();
-  int exec(); /*!BLOQUANT! call it when the ia can make one action */
+
+  int exec(); /*!BLOKING!, call when the ia can make one action */
 };
 
 #endif

@@ -6,6 +6,7 @@ Hugues:1000
 Etienne:100
 toto:60
 Jean:20
+ze:4
 Theo:1
 John:-10
 Luc:-100

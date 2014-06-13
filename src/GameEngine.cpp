@@ -41,7 +41,7 @@ bool GameEngine::initialize()
 {
   if (!_context->start(_screenSize.x, _screenSize.y, "Bomberman", SDL_INIT_VIDEO, /*SDL_WINDOW_FULLSCREEN |*/ SDL_WINDOW_OPENGL))
     return false;
-  SDL_SetRelativeMouseMode(SDL_TRUE);
+  //SDL_SetRelativeMouseMode(SDL_TRUE);
   _init = true;
   std::vector<std::string> tmp;
   tmp.push_back("sdf");
@@ -81,8 +81,9 @@ bool GameEngine::update()
         {
           SoundManager::getInstance()->manageSound(SoundManager::GAME, SoundManager::STOP);
           SoundManager::getInstance()->manageSound(SoundManager::INTRO, SoundManager::PLAY);
-	  delete _game;
-	  _intro->rinit();
+          delete _game;
+          _game = NULL;
+          _intro->rinit();
           _state = Intro;
         }
     }
