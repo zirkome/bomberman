@@ -2,7 +2,7 @@ iaLaunch(thisptr)
 iaX,iaY = iaGetPos(thisptr)
 xMap, yMap = iaGetSizeMap(thisptr)
 map = { }
-bombRange = 1
+bombRange = 2
 
 print(xMap .. "/" .. yMap);
 
