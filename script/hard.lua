@@ -333,11 +333,10 @@ goToFirst = function (toFind, xBeg, yBeg)
     it = #list
     while it >= 1 do
       iaX, iaY = roundCoord(iaGetPos(thisptr))
-      
-      if squares[list[it]] == 11 and isInDanger(xBeg, yBeg) == 0 or squares[list[it]] == 3 then
+      updateMap()
+      if (squares[list[it]](iaX, iaY) == 11 and isInDanger(xBeg, yBeg) == 0) or squares[list[it]](iaX, iaY) == 3 then
         return false
       end
-
       moves[list[it]]()
       it = it - 1
     end
@@ -361,6 +360,7 @@ updateMap()
 dropBomb()
 while true do
   iaX, iaY = roundCoord(iaGetPos(thisptr))
+  updateMap()
 
   if isInDanger(iaX, iaY) then
     goToFirst(10, iaX, iaY)
@@ -368,10 +368,10 @@ while true do
     if goToFirst(7, iaX, iaY) ~= -1 then
       dropBomb()
     else
-
+      iaX, iaY = roundCoord(iaGetPos(thisptr))
       repeat
         dir = math.random(1, 4);
-      until squares[dir] ~= 11
+      until squares[dir](iaX, iaY) ~= 11 and squares[dir](iaX, iaY) ~= 3
       moves[dir]()
       dropBomb()
     end

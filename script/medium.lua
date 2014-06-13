@@ -333,8 +333,8 @@ goToFirst = function (toFind, xBeg, yBeg)
     it = #list
     while it >= 1 do
       iaX, iaY = roundCoord(iaGetPos(thisptr))
-      
-      if squares[list[it]] == 11 and isInDanger(xBeg, yBeg) == 0 or squares[list[it]] == 3 then
+      updateMap()
+      if (squares[list[it]](iaX, iaY) == 11 and isInDanger(xBeg, yBeg) == 0) or squares[list[it]](iaX, iaY) == 3 then
         return false
       end
 
@@ -361,6 +361,7 @@ updateMap()
 dropBomb()
 while true do
   iaX, iaY = roundCoord(iaGetPos(thisptr))
+  updateMap()
 
   if isInDanger(iaX, iaY) then
     goToFirst(10, iaX, iaY)
