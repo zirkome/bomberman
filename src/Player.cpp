@@ -18,7 +18,7 @@ Player::Player(const glm::vec2& pos, Map *map, bool first, const glm::vec4& colo
       _moveKey.push_back(SDLK_RIGHT);
       _moveKey.push_back(SDLK_LEFT);
       _actionPtr[SDLK_SPACE] = &Player::bomb;
-      _actionPtr[SDLK_p] = &Player::fireBall;
+      _actionPtr[SDLK_m] = &Player::fireBall;
     }
 
   std::vector<int>::const_iterator it = _moveKey.begin();
