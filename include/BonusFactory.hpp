@@ -9,6 +9,7 @@
 # include "BonusFlammePass.hpp"
 # include "BonusBombPass.hpp"
 # include "BonusCoin.hpp"
+# include "BonusFireBall.hpp"
 
 class BonusFactory : public Singleton<BonusFactory>
 {

@@ -8,6 +8,7 @@ BonusFactory::BonusFactory()
   _bonus.push_back(&BonusFactory::instanciateBonus<BonusFlammePass>);
   _bonus.push_back(&BonusFactory::instanciateBonus<BonusBombPass>);
   _bonus.push_back(&BonusFactory::instanciateBonus<BonusCoin>);
+  _bonus.push_back(&BonusFactory::instanciateBonus<BonusFireBall>);
 }
 
 BonusFactory::~BonusFactory()

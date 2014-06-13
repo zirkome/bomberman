@@ -1,10 +1,10 @@
 #include "APlayer.hpp"
 #include "Bomb.hpp"
-#include "BonusFireBall.hpp"
+#include "FireBall.hpp"
 
 APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const std::string &name)
   : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name),
-    _scores(0), _ammo(0 + 500), _reload(0)
+    _scores(0), _ammo(0), _reload(0)
 {
   _max_bomb = 1;
 
@@ -97,8 +97,6 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
       ABonus *bonus = static_cast<ABonus *>(left);
 
       addBonus(bonus);
-      // bonus->start(this);
-      // _bonus.push_back(bonus);
       hasMoved = true;
       isBonus = true;
     }
@@ -109,8 +107,6 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
       ABonus *bonus = static_cast<ABonus *>(right);
 
       addBonus(bonus);
-      // bonus->start(this);
-      // _bonus.push_back(bonus);
       hasMoved = true;
       isBonus = true;
     }
@@ -169,7 +165,7 @@ bool APlayer::fireBall()
 {
   if (_ammo > 0 && _reload.getRemainingTime() < 0 && _mcoef)
     {
-      _map->addEntity(new BonusFireBall(_pos, _mcoef, _map, this));
+      _map->addEntity(new FireBall(_pos, _mcoef, _map, this));
       --_ammo;
       _reload.reset(0.5);
     }
@@ -270,6 +266,16 @@ double APlayer::getBombRange() const
 void	APlayer::setBombRange(double newRange)
 {
   _bomb_range = newRange;
+}
+
+int	APlayer::getAmmo() const
+{
+  return _ammo;
+}
+
+void	APlayer::setAmmo(int ammo)
+{
+  _ammo = ammo;
 }
 
 void	APlayer::setBombPass(bool val)

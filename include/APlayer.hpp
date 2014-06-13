@@ -118,6 +118,8 @@ public:
   void	       setMaxBomb(int);
   double       getBombRange() const;
   void	       setBombRange(double);
+  void	       setAmmo(int);
+  int	       getAmmo() const;
   void	       setBombPass(bool);
   bool	       getBombPass() const;
   void	       setFlammePass(bool);

@@ -34,6 +34,7 @@ protected:
       FLAMME_PASS,
       BOMB_PASS,
       COIN,
+      FIREBALL,
     };
 
 private:

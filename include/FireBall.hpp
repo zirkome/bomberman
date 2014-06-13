@@ -1,5 +1,5 @@
-#ifndef BONUSFIREBALL_HPP_
-# define BONUSFIREBALL_HPP_
+#ifndef FIREBALL_HPP_
+# define FIREBALL_HPP_
 
 # include "SharedPointer.hpp"
 # include "Texture.hpp"
@@ -9,11 +9,11 @@
 # include "ResourceManager.hpp"
 # include "BonusFactory.hpp"
 
-class BonusFireBall : public IEntity
+class FireBall : public IEntity
 {
 public:
-  BonusFireBall(const glm::vec2 &pos, const movementCoef *mcoef, Map *map, APlayer *player);
-  virtual ~BonusFireBall();
+  FireBall(const glm::vec2 &pos, const movementCoef *mcoef, Map *map, APlayer *player);
+  virtual ~FireBall();
   virtual const glm::vec2 &getPos() const;
   virtual void	setPos(const glm::vec2 &new_pos);
   virtual void update(gdl::Input &input, gdl::Clock const &clock);
@@ -36,4 +36,4 @@ private:
   APlayer *_player;
 };
 
-#endif /* !BONUSFIREBALL_HPP_ */
+#endif /* !FIREBALL_HPP_ */

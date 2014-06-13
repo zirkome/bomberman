@@ -51,6 +51,7 @@ SRC		=	main.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
 			Fire.cpp \
+			FireBall.cpp \
 			BonusFireBall.cpp \
 			BonusFactory.cpp \
 			BonusBomb.cpp \
