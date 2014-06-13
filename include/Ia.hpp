@@ -28,9 +28,9 @@ class Ia : public APlayer
 private:
   lua_State *_L;
   int _act;
-  PMutex _mutex;
-  PCondVar _condAct;
-  PThread _thread;
+  IThread *_thread;
+  IMutex *_mutex;
+  ICondVar *_condAct;
   bool _dead;
   bool _running;
   std::string _fileName;
