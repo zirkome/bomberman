@@ -16,12 +16,12 @@ public:
       BOMB,
       GROUND,
       FIRE,
-      FIREBALL,
       MODEL,
       PLAYER,
       SKYBOX,
       LOGO,
-      NONE
+      NONE,
+      FIREBALL
     };
 
   enum Symbol
