@@ -10,9 +10,11 @@ Intro::Intro(const glm::ivec2& win, bool menu)
 
   _bomb = new GameModel(ResourceManager::getInstance()->get<Model>(RES_MODEL "bomb.fbx"));
   _player = new GameModel(ResourceManager::getInstance()->get<Model>(RES_MODEL "marvin.fbx"));
+  usleep(500);
   (*_player)->createSubAnim(0, "standby", 0, 0);
   (*_player)->createSubAnim(0, "walk", 0, 30);
   (*_player)->createSubAnim(0, "stop_walking", 30, 60);
+  usleep(500);
   (*_player)->setCurrentSubAnim("walk");
   _player->translate(glm::vec3(20.0, -0.5f, 0.0));
   _player->rotate(glm::vec3(0, 1, 0), -90.0);
@@ -123,7 +125,7 @@ bool Intro::updateIntro(UNUSED gdl::Input &input, const gdl::Clock &clock)
         }
       else
         {
-	  _player->translate(glm::vec3(0.0, 0.5f, 0.0));
+          _player->translate(glm::vec3(0.0, 0.5f, 0.0));
           //          _logo->translate(glm::vec3(0, 5, 0));
           _state = Menu;
           _menu = new ::Menu(_cam);

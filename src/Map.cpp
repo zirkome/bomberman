@@ -1,6 +1,7 @@
 #include "EntitiesFactory.hpp"
 #include "Map.hpp"
 #include "Bomb.hpp"
+#include "PMutex.hpp"
 
 /*
 ** constructor random map
@@ -8,6 +9,7 @@
 Map::Map(const int x, const int y)
   : _dim(x, y)
 {
+  _mut = new PMutex;
   _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
   _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
   _charToIEntity[IEntity::S_NONE] = IEntity::NONE;
@@ -20,6 +22,7 @@ Map::Map(const int x, const int y)
 Map::Map(std::string const &mapFileName)
   : _dim(0, 0)
 {
+  _mut = new PMutex;
   _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
   _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
   _charToIEntity[IEntity::S_NONE] = IEntity::NONE;
@@ -35,6 +38,7 @@ Map::~Map()
       delete entity;
       _map.pop_front();
     }
+  delete _mut;
 }
 
 /*
@@ -42,6 +46,7 @@ Map::~Map()
 */
 IEntity::Type	Map::getType(const char c) const
 {
+  ScopeLock sl(*_mut);
   IEntity::Type type = IEntity::NONE;
 
   try
@@ -105,6 +110,7 @@ void		Map::loadRandomMap()
 
 IEntity		*Map::getEntityForMap(const int x, const int y, const IEntity::Type i) const
 {
+  ScopeLock sl(*_mut);
   IEntity	*entity = NULL;
 
   if (i != IEntity::NONE)
@@ -179,6 +185,7 @@ const glm::vec2 &Map::getDimension() const
 
 IEntity		*Map::getEntityAt(const int x, const int y) const
 {
+  ScopeLock sl(*_mut);
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
     if ((*(*it)).getPos().x == x && (*(*it)).getPos().y == y && (*it)->getType() != IEntity::FIREBALL)
       return *it;
@@ -187,6 +194,7 @@ IEntity		*Map::getEntityAt(const int x, const int y) const
 
 std::vector<APlayer *> const Map::getPlayersAt(const int x, const int y) const
 {
+  ScopeLock sl(*_mut);
   int x1, y1;
   std::vector<APlayer *> entity;
 
@@ -195,11 +203,11 @@ std::vector<APlayer *> const Map::getPlayersAt(const int x, const int y) const
       x1 = (*it)->getPos().x + 0.7;
       y1 = (*it)->getPos().y + 0.7;
       if (x1 == x && y1 == y)
-	entity.push_back(static_cast<APlayer *>(*it));
+        entity.push_back(static_cast<APlayer *>(*it));
       x1 = (*it)->getPos().x + 0.3;
       y1 = (*it)->getPos().y + 0.3;
       if (x1 == x && y1 == y)
-	entity.push_back(static_cast<APlayer *>(*it));
+        entity.push_back(static_cast<APlayer *>(*it));
     }
   return entity;
 }
@@ -210,16 +218,20 @@ std::vector<APlayer *> const Map::getPlayersAt(const int x, const int y) const
 
 IEntity::Type	Map::getTypeAt(const int x, const int y) const
 {
+  ScopeLock sl(*_mut);
   IEntity::Type type = IEntity::NONE;
 
   for (LMap::const_iterator it = _map.begin(), end = _map.end(); it != end; ++it)
-    if (static_cast<int>((*(*it)).getPos().x) == x && static_cast<int>((*(*it)).getPos().y) == y) {
-        type = (*it)->getType();
-        if (type == IEntity::PLAYER || type == IEntity::FIREBALL)
-          type = IEntity::NONE;
-        if (type != IEntity::NONE)
-          return type;
-      }
+    {
+      IEntity* ent = (*it);
+      if (static_cast<int>(ent->getPos().x) == x && static_cast<int>(ent->getPos().y) == y) {
+          type = ent->getType();
+          if (type == IEntity::PLAYER || type == IEntity::FIREBALL)
+            type = IEntity::NONE;
+          if (type != IEntity::NONE)
+            return type;
+        }
+    }
   return type;
 }
 
@@ -234,6 +246,7 @@ Map::LMap		&Map::getPlayerList()
 
 bool		Map::addEntity(IEntity *entity)
 {
+  ScopeLock sl(*_mut);
   if (entity->getType() != IEntity::PLAYER)
     _map.push_back(entity);
   if (entity->getType() == IEntity::PLAYER) {
@@ -250,6 +263,7 @@ bool		Map::addEntity(IEntity *entity)
 
 bool	Map::deleteEntityAt(const int x, const int y)
 {
+  ScopeLock sl(*_mut);
   IEntity	*entity;
 
   for (LMap::iterator it = _map.begin(); it != _map.end(); ++it)
