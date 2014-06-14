@@ -77,6 +77,11 @@ Game::~Game()
   for (std::vector<Ia*>::iterator it = _listIA.begin();
        it != _listIA.end(); ++it)
     {
+      (*it)->destroy();
+    }
+  for (std::vector<Ia*>::iterator it = _listIA.begin();
+       it != _listIA.end(); ++it)
+    {
       delete *it;
     }
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
@@ -186,4 +191,3 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
   if (_isPaused)
     _pause.draw(font, clock, shader);
 }
-

@@ -155,6 +155,25 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const
 
 Ia::~Ia()
 {
+  /*  _dead = true;
+  _mutex->lock();
+  _condAct->notifyAll();
+  _mutex->unlock();
+  try
+    {
+      delete _thread;
+    }
+  catch (std::exception& e)
+    {
+      std::cout << e.what() << std::endl;
+    }
+  lua_close(_L);
+  delete _mutex;
+  delete _condAct;*/
+}
+
+void Ia::destroy()
+{
   _dead = true;
   _mutex->lock();
   _condAct->notifyAll();

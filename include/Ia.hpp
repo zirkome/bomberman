@@ -45,7 +45,7 @@ public:
   void *init();
   bool nothing(UNUSED double const distance);
   const glm::vec2& getMapDimension() const;
-
+  void destroy();
 public:
   template<class Archive>
   void serialize(Archive & ar, UNUSED const unsigned int version)
