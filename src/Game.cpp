@@ -178,17 +178,6 @@ void Game::drawHud(gdl::AShader* shader, gdl::Clock const &clock) const
   const FontText& font = _ogl.getTextWriter();
   glm::mat4 textMat;
   glDisable(GL_DEPTH_TEST);
-  std::stringstream ss;
-  static double elapsed = 0.0;
-  static unsigned int k = 0;
-  ++k;
-  if (k % 20 == 0)
-    elapsed = clock.getElapsed();
-  ss << std::setprecision(2) << 1.0 / elapsed << " FPS";
-
-  textMat = glm::translate(glm::mat4(1), glm::vec3(0.8, 0.97, 0.0));
-  textMat = glm::scale(textMat, glm::vec3(0.5, 0.5, 0.0));
-  font.displayText(ss.str(), (elapsed <= 0.017) ? glm::vec4(0.0f, 1.0f, 0.0f, 0.8f) : glm::vec4(1.0f, 0.0f, 0.0f, 0.8f), textMat, shader);
 
   for (std::vector<PlayerManager*>::const_iterator it = _players.begin();
        it != _players.end(); ++it)
