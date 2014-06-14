@@ -3,7 +3,7 @@
 
 FireBall::FireBall(const glm::vec2 &pos, const movementCoef *mcoef, Map *map,
     APlayer *player)
-: _pos(pos), _mcoef(mcoef), _map(map), _speed(4), _player(player)
+: _pos(pos), _mcoef(mcoef), _map(map), _speed(10), _player(player)
 {
   _status = OK;
   _obj = new GameGeometry(ResourceManager::getInstance()->get<AGeometry>("cube.geo"));
@@ -57,18 +57,21 @@ void	FireBall::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
   if (!playersLeft.empty())
     left = *(playersLeft.begin());
   if (!playersRight.empty())
-      right = *(playersRight.begin());
+    right = *(playersRight.begin());
 
-  if ((!left && !right) || (left->getType() == BONUS && right->getType() == BONUS)) {
+  if ((!left && !right) ||
+      (left && right && left->getType() == BONUS && right->getType() == BONUS)) {
       _pos += _mcoef->dir * distance;
       _obj->translate(_mcoef->translate * distance);
   }
   else {
+    _pos += _mcoef->dir * distance;
+    _obj->translate(_mcoef->translate * distance);
     _status = DESTROY;
     if (left)
       destroyEntity(left);
     else if (right)
-      destroyEntity(left);
+      destroyEntity(right);
   }
 }
 
@@ -80,6 +83,10 @@ void	FireBall::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 
 void	FireBall::destroyEntity(IEntity *entity)
 {
+  if (entity == _player) {
+    _status = OK;
+    return ;
+  }
   if (entity->getType() == BOMB && entity->getStatus() == OK)
     entity->setStatus(BURNING);
   if (entity->getType() == BOX)
