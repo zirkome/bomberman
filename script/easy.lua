@@ -358,7 +358,6 @@ end
 -- Init the IA
 
 updateMap()
-dropBomb()
 it = 1
 while true do
   iaX, iaY = roundCoord(iaGetPos(thisptr))
