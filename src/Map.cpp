@@ -33,11 +33,14 @@ Map::~Map()
 {
   IEntity	*entity;
 
-  while (!_map.empty()) {
-      entity = *(_map.begin());
-      delete entity;
-      _map.pop_front();
-    }
+  {
+    ScopeLock sc(*_mut);
+    while (!_map.empty()) {
+        entity = *(_map.begin());
+        delete entity;
+        _map.pop_front();
+      }
+  }
   delete _mut;
 }
 

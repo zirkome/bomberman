@@ -74,11 +74,11 @@ void Game::init(const glm::ivec2& win)
 
 Game::~Game()
 {
-//  for (std::vector<Ia*>::iterator it = _listIA.begin();
-//       it != _listIA.end(); ++it)
-//    {
-//      delete *it;
-//    }
+  for (std::vector<Ia*>::iterator it = _listIA.begin();
+       it != _listIA.end(); ++it)
+    {
+      delete *it;
+    }
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)
     delete *it;
@@ -142,16 +142,20 @@ bool Game::updateGame(gdl::Input &input, const gdl::Clock &clock)
       _leader->writeLeader();
       return false;
     }
-  //Delete every elements which are DESTROYs
-  while (!listMapToDelete.empty()) {
-      //create bonus id box is destroyed
-      std::list<IEntity *>::iterator it = listMapToDelete.front();
 
-      if ((*it)->getStatus() == IEntity::DESTROY)
-        delete *it;
-      _currentMap->getMap().erase(it);
-      listMapToDelete.pop_front();
-    }
+  {
+    ScopeLock sc(*_currentMap->getMutex());
+    //Delete every elements which are DESTROYs
+    while (!listMapToDelete.empty()) {
+        //create bonus id box is destroyed
+        std::list<IEntity *>::iterator it = listMapToDelete.front();
+
+        if ((*it)->getStatus() == IEntity::DESTROY)
+          delete *it;
+        _currentMap->getMap().erase(it);
+        listMapToDelete.pop_front();
+      }
+  }
 
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)

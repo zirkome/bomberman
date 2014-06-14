@@ -47,6 +47,8 @@ public:
   Map(const int x, const int y);
   Map(std::string const &mapFileName);
   ~Map();
+
+  IMutex* getMutex() const {return _mut;};
   Map::LMap	&getMap();
   Map::LMap	&getUpdateMap();
   const glm::vec2 &getDimension() const;
