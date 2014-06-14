@@ -187,10 +187,15 @@ void *Ia::init()
   return NULL;
 }
 
-int Ia::getMap(const int x, const int y) const
+int Ia::getMap(const int x, const int y)
 {
   IEntity::Type elem;
 
+  if (_dead)
+    {
+      _running = false;
+      pthread_exit(&_act);
+    }
   elem = _map->getTypeAt(x, y);
   if (elem != IEntity::BOMB && _map->getPlayersAt(x, y).size() != 0)
     return 7;

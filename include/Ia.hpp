@@ -37,7 +37,7 @@ private:
   std::map<int, int> _actToSdlKey;
 
 public:
-  int getMap(int x, int y) const;
+  int getMap(int x, int y);
   const glm::vec2& getPos() const;
 
   void update(gdl::Input &input, gdl::Clock const &clock);
