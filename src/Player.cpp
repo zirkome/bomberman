@@ -4,7 +4,7 @@
 Player::Player(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color, const std::string &name)
   : APlayer::APlayer(pos, map, color, name)
 {
-  if (!first) {
+  if (first) {
       _moveKey.push_back(SDLK_z);
       _moveKey.push_back(SDLK_s);
       _moveKey.push_back(SDLK_d);
