@@ -11,7 +11,7 @@
 class TextureLoader : public ILoader<Texture>
 {
 public:
-  virtual Texture* loadFromFile(const std::string& filename);
+  virtual Texture* loadFromFile(const std::string& filename) const;
 };
 
 

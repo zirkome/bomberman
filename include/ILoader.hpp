@@ -10,7 +10,7 @@ public:
   virtual ~ILoader() {}
 
 public:
-  virtual T* loadFromFile(const std::string& filename) = 0;
+  virtual T* loadFromFile(const std::string& filename) const = 0;
 //    virtual void saveToFile(const T* object, const std::string& filename) = 0;
 };
 

@@ -4,14 +4,14 @@
 # include "SharedPointer.hpp"
 # include "Texture.hpp"
 # include "IEntity.hpp"
-# include "Cube.hpp"
+# include "GameGeometry.hpp"
 # include "ResourceManager.hpp"
 
 class Fire : public IEntity
 {
 private:
-  glm::vec2	_vec;
-  AObject	*_obj;
+  glm::vec2 _vec;
+  GameGeometry* _obj;
   IEntity::Status _status;
   SharedPointer<Texture> _texture;
 

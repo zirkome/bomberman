@@ -12,10 +12,11 @@
 # include "Helper.hpp"
 # include "ILoader.hpp"
 # include "Model.hpp"
+# include "Texture.hpp"
+# include "AGeometry.hpp"
 # include "ScatteredHierarchy.hpp"
 # include "SharedPointer.hpp"
 # include "Singleton.hpp"
-# include "Texture.hpp"
 # include "TypeList.hpp"
 
 class Model;
@@ -27,9 +28,9 @@ struct MediaHolder
   LoadersMap _loaders;
 };
 
-typedef TYPELIST_2(Texture, Model) Medias;
+typedef TYPELIST_3(Texture, Model, AGeometry) Medias;
 
-class MediaManager: public Singleton<MediaManager>,
+class MediaManager : public Singleton<MediaManager>,
   public ScatteredHierarchy<Medias, MediaHolder>
 {
   friend MediaManager* Singleton<MediaManager>::getInstance();
@@ -78,8 +79,8 @@ inline void MediaManager::registerLoader(ILoader<T>* loader,
   split(extensions, " /\\*.,;|-_\t\n'\"", ext);
 
   SharedPointer<ILoader<T> > ptr = loader;
-  for (std::vector<std::string>::iterator i = ext.begin(), end =
-         ext.end(); i != end; ++i)
+  for (std::vector<std::string>::iterator i = ext.begin();
+       i != ext.end(); ++i)
     {
       std::transform(i->begin(), i->end(), i->begin(), ::tolower);
       MediaHolder<T>::_loaders[*i] = ptr;

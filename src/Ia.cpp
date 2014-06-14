@@ -9,7 +9,7 @@ int iaGetPos(lua_State *L)
     throw nFault("iaGetPos need 1 argument (thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   const glm::vec2& pos = ptr->getPos();
   lua_pop(L, 1);
   lua_pushnumber(L, pos.x);
@@ -26,7 +26,7 @@ int iaGetSizeMap(lua_State *L)
     throw nFault("iaGetSizeMap need 1 argument (thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   const glm::vec2& mapDim = ptr->getMapDimension();
   lua_pop(L, 1);
   lua_pushnumber(L, mapDim.x);
@@ -44,7 +44,7 @@ int iaGetMap(lua_State *L)
     throw nFault("iaGetMap need 3 arguments (x, y, thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   lua_pop(L, 1);
   y = lua_tonumber(L, lua_gettop(L)); //the order of args is inverse
   lua_pop(L, 1);
@@ -64,7 +64,7 @@ int iaAction(lua_State *L)
     throw nFault("iaAction need 2 arguments (act, thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   lua_pop(L, 1);
   act = lua_tonumber(L, lua_gettop(L));
   lua_pop(L, 1);
@@ -81,7 +81,7 @@ int iaLaunch(lua_State *L)
     throw nFault("iaLaunch need 1 arguments (thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   lua_pop(L, 1);
   ptr->action(-1);
   return 0;
@@ -92,9 +92,12 @@ void *iaStart(void *ptr)
   return (static_cast<Ia *> (ptr))->init();
 }
 
-Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
-  : APlayer(pos, currentMap), _condAct(_mutex), _thread(iaStart, this)
+Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName, const glm::vec4& color)
+  : APlayer::APlayer(pos, currentMap, color, "IA")
 {
+  _thread = new PThread(iaStart, this);
+  _mutex = new PMutex;
+  _condAct = new PCondVar(*_mutex);
   _statusOfObject = OK;
   _running = false;
   _dead = false;
@@ -106,6 +109,25 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   _actToSdlKey[3] = SDLK_LEFT;
   _actToSdlKey[4] = SDLK_RIGHT;
   _actToSdlKey[5] = SDLK_SPACE;
+
+  _actionPtr[SDLK_SPACE] = &Ia::bomb;
+  _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
+                                        glm::vec3(0, 0, 1),
+                                        glm::vec2(0.7, 0.7),
+                                        glm::vec2(0.2, 0.7));
+  _moveConf[SDLK_DOWN] = new movementCoef(180, glm::vec2(0.0, -1.0),
+                                          glm::vec3(0, 0, -1),
+                                          glm::vec2(0.7, 0.2),
+                                          glm::vec2(0.2, 0.2));
+  _moveConf[SDLK_LEFT] = new movementCoef(-90, glm::vec2(-1.0, 0.0),
+                                          glm::vec3(-1, 0, 0),
+                                          glm::vec2(0.2, 0.7),
+                                          glm::vec2(0.2, 0.2));
+
+  _moveConf[SDLK_RIGHT] = new movementCoef(90, glm::vec2(1.0, 0.0),
+      glm::vec3(1, 0, 0),
+      glm::vec2(0.7, 0.7),
+      glm::vec2(0.7, 0.2));
 
   _L = luaL_newstate();
   if (_L == NULL)
@@ -128,14 +150,45 @@ Ia::Ia(Map *currentMap, glm::vec2 const &pos, std::string const &fileName)
   lua_pushlightuserdata(_L, this);
   lua_setglobal(_L, "thisptr");
 
-  _thread.start();
+  _thread->start();
 }
 
 Ia::~Ia()
 {
-  _dead = true;
-  _condAct.notifyAll();
+  /*  _dead = true;
+  _mutex->lock();
+  _condAct->notifyAll();
+  _mutex->unlock();
+  try
+    {
+      delete _thread;
+    }
+  catch (std::exception& e)
+    {
+      std::cout << e.what() << std::endl;
+    }
   lua_close(_L);
+  delete _mutex;
+  delete _condAct;*/
+}
+
+void Ia::destroy()
+{
+  _dead = true;
+  _mutex->lock();
+  _condAct->notifyAll();
+  _mutex->unlock();
+  try
+    {
+      delete _thread;
+    }
+  catch (std::exception& e)
+    {
+      std::cout << e.what() << std::endl;
+    }
+  lua_close(_L);
+  delete _mutex;
+  delete _condAct;
 }
 
 void *Ia::init()
@@ -153,11 +206,18 @@ void *Ia::init()
   return NULL;
 }
 
-int Ia::getMap(const int x, const int y) const
+int Ia::getMap(const int x, const int y)
 {
   IEntity::Type elem;
 
+  if (_dead)
+    {
+      _running = false;
+      pthread_exit(&_act);
+    }
   elem = _map->getTypeAt(x, y);
+  if (elem != IEntity::BOMB && _map->getPlayersAt(x, y).size() != 0)
+    return 7;
   return (static_cast<int> (elem));
 }
 
@@ -165,9 +225,9 @@ int Ia::exec()
 {
   if (_running)
     {
-      _mutex.lock();
-      _condAct.notifyAll();
-      _mutex.unlock();
+      _mutex->lock();
+      _condAct->notifyAll();
+      _mutex->unlock();
     }
   return _act;
 }
@@ -175,9 +235,14 @@ int Ia::exec()
 void Ia::action(int act)
 {
   _act = act;
-  _mutex.lock();
-  _condAct.wait();
-  _mutex.unlock();
+  if (_dead)
+    {
+      _running = false;
+      pthread_exit(&act);
+    }
+  _mutex->lock();
+  _condAct->wait();
+  _mutex->unlock();
   if (_dead)
     {
       _running = false;
@@ -240,7 +305,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 bool Ia::nothing(UNUSED double const distance)
 {
   if (_status != STOP_WALK)
-    _obj->setCurrentSubAnim("stop_walk");
+    (*_obj)->setCurrentAnim(59, false);
   _status = STOP_WALK;
   return true;
 }

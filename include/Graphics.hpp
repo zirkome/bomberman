@@ -51,7 +51,7 @@ protected:
 
   glm::mat4 _proj;
   gdl::AShader* _shader;
-  Pan *_ground;
+  GameGeometry *_ground;
   SkyBox _skybox;
   FontText *_font;
   glm::mat4 _ortho;

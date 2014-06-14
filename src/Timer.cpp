@@ -1,8 +1,8 @@
 #include "Timer.hpp"
+#include <iostream>
 
-Timer::Timer(double time) : _time(time)
+Timer::Timer(double time) : _time(time), _startTime(time)
 {
-
 }
 
 Timer::~Timer()
@@ -21,4 +21,19 @@ bool Timer::update(double clock)
 void Timer::reset(double time)
 {
   _time = time;
+}
+
+double Timer::getTime() const
+{
+  return _startTime;
+}
+
+void	Timer::addTime(double time)
+{
+  _time += time;
+}
+
+double Timer::getRemainingTime() const
+{
+  return _time;
 }

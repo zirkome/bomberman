@@ -1,6 +1,8 @@
 #ifndef MENU_HPP_
 # define MENU_HPP_
 
+# include <map>
+# include <sstream>
 # include <Clock.hh>
 
 # include "Game.hpp"
@@ -8,6 +10,7 @@
 # include "ACamera.hpp"
 # include "PivotingCam.hpp"
 # include "Graphics.hpp"
+# include "LeaderScores.hpp"
 
 class Menu
 {
@@ -16,10 +19,14 @@ public:
   ~Menu();
   bool updateMenu(gdl::Input &input, const gdl::Clock &clock);
   void drawMenu(const gdl::Clock &clock, gdl::AShader* hudshader) const;
-  Game *getGame();
+  Game *getGame(const glm::ivec2& dim);
   bool finish() const;
 private:
   void init();
+  Menu(const Menu& m);
+  std::string getAscii(gdl::Input &) const;
+  bool validNames();
+  bool key_return();
 private:
   int _numberPlayer;
   int _numberIa;
@@ -27,22 +34,32 @@ private:
   Game *_game;
   PivotingCam *_cam;
   FontText *_font;
+  LeaderScores *_leaderboard;
   glm::vec3 _pos;
   glm::mat4 _ortho;
   enum state {
     Running,
+    Loading,
     Option,
+    Name,
+    Leaderboard,
     Finished
   } _state;
   enum selected {
     Start = 0,
+    Load,
+    Score,
     Options,
     Exit,
     Player,
     Ia,
     IaFile,
     MapFile,
-    Return
+    Return,
+    Player1,
+    Player2,
+    Starting,
+    Subload,
   } _select;
   enum level {
     Easy = 0,
@@ -52,6 +69,10 @@ private:
   int _map;
   std::map<level, std::string> _levelFile;
   std::vector<std::string> _mapFile;
+  std::string _names[2];
+  // std::string _name1;
+  // std::string _name2;
+  std::map<int, char> _keyToChar;
 };
 
 #endif

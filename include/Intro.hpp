@@ -24,20 +24,21 @@ public:
   bool updateIntro(gdl::Input &input, const gdl::Clock &clock);
   void drawIntro(gdl::Clock const &clock) const;
   bool finish() const;
-  Game *getGame();
+  Game *getGame(const glm::ivec2& dim);
+  void rinit();
 private:
+  Intro(const Intro& i);
   void init(const glm::ivec2& win);
 
 private:
   ::Menu *_menu;
   PivotingCam *_cam;
-  Model *_player;
-  Model *_bomb;
   AObject *_logo;
   glm::mat4 _proj;
   SharedPointer<Texture> _texture;
   gdl::AShader *_shader;
   int _speed;
+  bool _skipMenu;
   glm::vec3 _pos;
   glm::vec3 _pos2;
   enum {
@@ -45,6 +46,8 @@ private:
     Menu,
     Finished
   } _state;
+  GameModel* _bomb;
+  GameModel* _player;
 };
 
 #endif /* _INTRO_H_ */

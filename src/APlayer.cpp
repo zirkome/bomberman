@@ -1,54 +1,31 @@
 #include "APlayer.hpp"
-# include "Bomb.hpp"
+#include "Bomb.hpp"
+#include "FireBall.hpp"
 
-APlayer::APlayer(const glm::vec2 &pos, Map *map)
-  : _pos(pos), _map(map), _time(2)
+APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const std::string &name)
+  : _pos(pos), _map(map), _flammePass(false), _bombPass(false), _color(color), _name(name),
+    _scores(0), _ammo(0), _reload(0)
 {
-  _stock = 1;
+  _max_bomb = 1;
 
-  _obj = new Model(RES_MODEL "marvin.fbx");
+  _stock_bomb = _max_bomb;
+  _bomb_range = 3;
 
+  _obj = new GameModel(RES_MODEL "marvin.fbx");
+  //(*_obj)->setCurrentAnim(0);
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
+  _colorTexture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "marvin_color.tga");
+  _defaultColorTexture = ResourceManager::getInstance()->get<Texture>(RES_TEXTURE "dcolor.tga");
+
   _statusOfObject = OK;
   _status = STANDBY;
-  _speed = 3;
+  _speed = 4;
   _way = UP;
+  _mcoef = NULL;
   _size = 0.7;
   _lvl = 1;
-
-  _obj->createSubAnim(0, "standby", 0, 0);
-  _obj->createSubAnim(0, "walk", 0, 30);
-  _obj->createSubAnim(0, "stop_walking", 30, 60);
-  _obj->setCurrentSubAnim("standby");
-
-  _moveKey.push_back(SDLK_UP);
-  _moveKey.push_back(SDLK_DOWN);
-  _moveKey.push_back(SDLK_LEFT);
-  _moveKey.push_back(SDLK_RIGHT);
-
-  _actionPtr[SDLK_SPACE] = &APlayer::bomb;
-
-  _moveConf[SDLK_UP] = new movementCoef(0, glm::vec2(0.0, 1.0),
-                                        glm::vec3(0, 0, 1),
-                                        glm::vec2(0.7, 0.7),
-                                        glm::vec2(0.2, 0.7));
-
-  _moveConf[SDLK_DOWN] = new movementCoef(180, glm::vec2(0.0, -1.0),
-                                          glm::vec3(0, 0, -1),
-                                          glm::vec2(0.7, 0.2),
-                                          glm::vec2(0.2, 0.2));
-
-  _moveConf[SDLK_RIGHT] = new movementCoef(-90, glm::vec2(-1.0, 0.0),
-      glm::vec3(-1, 0, 0),
-      glm::vec2(0.2, 0.7),
-      glm::vec2(0.2, 0.2));
-
-  _moveConf[SDLK_LEFT] = new movementCoef(90, glm::vec2(1.0, 0.0),
-                                          glm::vec3(1, 0, 0),
-                                          glm::vec2(0.7, 0.7),
-                                          glm::vec2(0.7, 0.2));
 }
 
 APlayer::~APlayer()
@@ -73,7 +50,16 @@ void	APlayer::setPos(const glm::vec2 &new_pos)
 
 void	APlayer::draw(gdl::AShader *shader, const gdl::Clock& clock) const
 {
+  glActiveTexture(GL_TEXTURE1);
+  _colorTexture->bind();
+  shader->setUniform("fTexture1", 1);
+  shader->setUniform("gColor", _color);
+  glActiveTexture(GL_TEXTURE0);
   _obj->draw(shader, clock);
+  glActiveTexture(GL_TEXTURE1);
+  _defaultColorTexture->bind();
+  shader->setUniform("gColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+  glActiveTexture(GL_TEXTURE0);
 }
 
 bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
@@ -81,6 +67,7 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   glm::vec2	toGoLeft;
   glm::vec2	toGoRight;
   bool	hasMoved = false;
+  bool	isBonus = false;
 
   // reset rotation
   _obj->setRotation(glm::vec3(0, 0, 0));
@@ -94,9 +81,40 @@ bool	APlayer::movePlayer(const movementCoef *mcoef, float const distance)
   // if the type to go is free --> move
 
   if ((glm::ivec2(toGoLeft) == glm::ivec2(_pos + mcoef->distLeft) &&
-       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)) ||
-      (_map->getTypeAt(toGoLeft.x, toGoLeft.y) == NONE &&
-       _map->getTypeAt(toGoRight.x, toGoRight.y) == NONE))
+       glm::ivec2(toGoRight) == glm::ivec2(_pos + mcoef->distRight)))
+    {
+      _pos += mcoef->dir * distance;
+      _obj->translate(mcoef->translate * distance);
+      return true;
+    }
+  IEntity *left = _map->getEntityAt(toGoLeft.x, toGoLeft.y);
+  IEntity *right = _map->getEntityAt(toGoRight.x, toGoRight.y);
+
+  if (left && left->getType() == IEntity::BONUS
+      && left->getStatus() != IEntity::REMOVE
+      && left->getStatus() != IEntity::DESTROY)
+    {
+      ABonus *bonus = static_cast<ABonus *>(left);
+
+      addBonus(bonus);
+      hasMoved = true;
+      isBonus = true;
+    }
+  if (right && right->getType() == IEntity::BONUS
+      && right->getStatus() != IEntity::REMOVE
+      && right->getStatus() != IEntity::DESTROY)
+    {
+      ABonus *bonus = static_cast<ABonus *>(right);
+
+      addBonus(bonus);
+      hasMoved = true;
+      isBonus = true;
+    }
+
+  // check if _bompass activated
+  if ((!left && !right) || isBonus ||
+      ((!left || (left->getType() == IEntity::BOMB)) &&
+       (!right || (right->getType() == IEntity::BOMB)) && _bombPass))
     {
       _pos += mcoef->dir * distance;
       _obj->translate(mcoef->translate * distance);
@@ -111,7 +129,7 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
     {
       if (_status == WALK)
         {
-          _obj->setCurrentSubAnim("stop_walking", false);
+          (*_obj)->setCurrentAnim(59, false);
           _status = STOP_WALK;
         }
       return;
@@ -119,18 +137,13 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
   if (_status != WALK && hasMoved)
     {
       _status = WALK;
-      _obj->setCurrentSubAnim("walk");
+      (*_obj)->setCurrentAnim(0);
     }
   else if (_status == WALK && !hasMoved)
     {
-      _obj->setCurrentSubAnim("stop_walking", false);
+      (*_obj)->setCurrentAnim(59, false);
       _status = STOP_WALK;
     }
-}
-
-void APlayer::createBomb()
-{
-  _bombList.push_back(_lvl);
 }
 
 bool APlayer::bomb()
@@ -140,11 +153,58 @@ bool APlayer::bomb()
 
   if (_map->getTypeAt(x, y) != NONE)
     return false;
-  if (!_bombList.empty()) {
-      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bombList.front(), _map));
-      _bombList.pop_front();
+  if (_stock_bomb > 0)
+    {
+      _map->addEntity(new Bomb(this, glm::vec2(x, y), _bomb_range, _map));
+      _stock_bomb--;
     }
   return false;
+}
+
+bool APlayer::fireBall()
+{
+  if (_ammo > 0 && _reload.getRemainingTime() < 0 && _mcoef)
+    {
+      _map->addEntity(new FireBall(_pos, _mcoef, _map, this));
+      --_ammo;
+      _reload.reset(0.5);
+    }
+  return false;
+}
+
+void	APlayer::updateBonus(const gdl::Clock &clock)
+{
+  for (std::vector<ABonus *>::iterator it = _bonus.begin(); it != _bonus.end(); ++it)
+    {
+      (*it)->update(this, clock);
+      if ((*it)->getStatus() == IEntity::DESTROY)
+        {
+          delete (*it);
+          _bonus.erase(it--);
+        }
+    }
+}
+
+void	APlayer::addBonus(ABonus *bonus)
+{
+  for (std::vector<ABonus *>::iterator it = _bonus.begin();
+       it != _bonus.end(); ++it)
+    {
+      if (*bonus == *(*it) && (*it)->getStatus() != IEntity::DESTROY)
+        {
+          (*it)->takeAnother(this);
+          bonus->setStatus(IEntity::DESTROY);
+          return;
+        }
+    }
+  bonus->start(this);
+  bonus->setStatus(IEntity::REMOVE);
+  _bonus.push_back(bonus);
+}
+
+const std::vector<ABonus *>& APlayer::getBonus() const
+{
+  return _bonus;
 }
 
 IEntity::Type APlayer::getType() const
@@ -167,3 +227,88 @@ void APlayer::setStatus(IEntity::Status status)
   _statusOfObject = status;
 }
 
+double APlayer::getSpeed() const
+{
+  return _speed;
+}
+
+void	APlayer::setSpeed(double speed)
+{
+  _speed = speed;
+}
+
+int APlayer::getStockBomb() const
+{
+  return _stock_bomb;
+}
+
+void	APlayer::setStockBomb(int nbBomb)
+{
+  if (nbBomb <= _max_bomb)
+    _stock_bomb = nbBomb;
+}
+
+int APlayer::getMaxBomb() const
+{
+  return _max_bomb;
+}
+
+void	APlayer::setMaxBomb(int maxBomb)
+{
+  _max_bomb = maxBomb;
+}
+
+double APlayer::getBombRange() const
+{
+  return _bomb_range;
+}
+
+void	APlayer::setBombRange(double newRange)
+{
+  _bomb_range = newRange;
+}
+
+int	APlayer::getAmmo() const
+{
+  return _ammo;
+}
+
+void	APlayer::setAmmo(int ammo)
+{
+  _ammo = ammo;
+}
+
+void	APlayer::setBombPass(bool val)
+{
+  _bombPass = val;
+}
+
+bool	APlayer::getBombPass() const
+{
+  return _bombPass;
+}
+
+void	APlayer::setFlammePass(bool val)
+{
+  _flammePass = val;
+}
+
+bool	APlayer::getFlammePass() const
+{
+  return _flammePass;
+}
+
+void	APlayer::increaseScores(int number)
+{
+  _scores += number;
+}
+
+int	APlayer::getScores() const
+{
+  return _scores;
+}
+
+std::string APlayer::getName() const
+{
+  return _name;
+}

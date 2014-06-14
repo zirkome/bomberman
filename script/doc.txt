@@ -1,33 +1,30 @@
-iaGetPos get the current pos of player
-	 need thisptr in arg
-	 return x and y
+- x,y = iaGetPos(thisptr)
+  => get the current pos of player
 
-iaGetPos get size of the map
-	 need thisptr in arg
-	 return x and y
+- x,y = iaGetSizeMap(thisptr)
+  =>  get size of the map
 
-iaGetMap get an object on a case of the map in args
-	 need x, y and thisptr
-	 return the id of the object on x and y
+- id = iaGetMap(x, y, thisptr)
+  => get an object on a case of the map in args
 
-iaAction do an action
-	 need the id of the action and thisptr in args
-	 return nothing
+- void = iaAction(id_action, thisptr)
+  => do an action
 
-iaLaunch initialize the environement, need to be call before all other functions
-	 need thisptr in arg
-	 return nothing
+- void = iaLaunch(thisptr)
+  => initialize the environement, need to be call before all other functions
 
-thisprt is already define at the start of the script in the global scope
+thisptr is already define at the start of the script in the global scope
 
-
-object id : 0 = nothing
-       	    1 =
+object id : 0 = box
+       	    1 = bonus
+		    2 = wall
+		    3 = bomb
+		    7 = player
+		    10 = none
 
 action id : 0 = nothing
        	    1 = forward
-	    2 = backward
-	    3 = left
-	    4 = right
-	    5 = bomb
-	    6 =
+		    2 = backward
+		    3 = right
+		    4 = left
+		    5 = bomb

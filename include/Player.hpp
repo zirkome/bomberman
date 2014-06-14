@@ -11,7 +11,7 @@
 class Player : public APlayer
 {
 public:
-  Player(const glm::vec2& pos, Map *map);
+  Player(const glm::vec2& pos, Map *map, bool first, const glm::vec4& color, const std::string &name);
   ~Player();
   virtual void	update(gdl::Input &input, gdl::Clock const &clock);
 };

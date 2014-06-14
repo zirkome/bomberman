@@ -7,7 +7,6 @@
 class Placement
 {
 private:
-  int _numberPlayer;
   int _div;
   glm::ivec2 _mapSize;
   Map *_map;

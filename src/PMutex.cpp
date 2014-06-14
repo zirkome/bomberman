@@ -10,8 +10,7 @@ PMutex::PMutex(const pthread_mutexattr_t *attr)
 
 PMutex::~PMutex()
 {
-  if (pthread_mutex_destroy(&mutex) != 0)
-    throw std::runtime_error("pthread_mutex_destroy");
+  pthread_mutex_destroy(&mutex);
 }
 
 void PMutex::lock()

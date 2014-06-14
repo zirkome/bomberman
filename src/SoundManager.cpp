@@ -22,12 +22,12 @@ SoundManager::~SoundManager()
 {
   if (_init)
     {
-      FMOD_System_Close(_system);
-      FMOD_System_Release(_system);
-      for (std::map<Sample, Sound *>::iterator it = _music.begin(); it !=  _music.end(); it++)
+      for (std::map<Sample, Sound *>::iterator it = _music.begin(); it !=  _music.end(); ++it)
         {
           delete it->second;
         }
+      FMOD_System_Close(_system);
+      FMOD_System_Release(_system);
     }
 }
 
@@ -44,6 +44,8 @@ bool	SoundManager::loadSounds()
           _music[BOMB_EXPLOSION] = new Sound(_system, RES_SOUND "bomb.wav",
                                              FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
           _music[SWITCH_MENU] = new Sound(_system, RES_SOUND "switch_menu.wav",
+                                          FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
+          _music[GET_ITEM] = new Sound(_system, RES_SOUND "piece.wav",
                                           FMOD_CREATESAMPLE | FMOD_LOOP_NORMAL);
         }
       catch (std::exception& e)

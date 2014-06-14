@@ -1,4 +1,3 @@
-
 SRC		=	main.cpp \
 			Game.cpp \
 			Intro.cpp \
@@ -29,7 +28,6 @@ SRC		=	main.cpp \
 			FontText.cpp \
 			EntitiesFactory.cpp \
 			Pan.cpp \
-			Ground.cpp \
 			Placement.cpp \
 			APlayer.cpp \
 			PlayerManager.cpp \
@@ -42,6 +40,8 @@ SRC		=	main.cpp \
 			Sound.cpp \
 			SharedPointer.cpp \
 			Timer.cpp \
+			ABonus.cpp \
+			BonusWalk.cpp \
 			TextureLoader.cpp \
 			ModelLoader.cpp \
 			ReferenceCounter.cpp \
@@ -51,7 +51,20 @@ SRC		=	main.cpp \
 			MediaManager.cpp \
 			ResourceManager.cpp \
 			Fire.cpp \
-			PreLoader.cpp
+			FireBall.cpp \
+			BonusFireBall.cpp \
+			BonusFactory.cpp \
+			BonusBomb.cpp \
+			AGeometry.cpp \
+			GameGeometry.cpp \
+			GeometryLoader.cpp \
+			ColorManager.cpp \
+			BonusRange.cpp \
+			BonusFlammePass.cpp \
+			BonusBombPass.cpp \
+			BonusCoin.cpp \
+			Pause.cpp \
+			LeaderScores.cpp
 
 CC		=	g++
 
@@ -71,7 +84,8 @@ CFLAGS		+=	-Wunused-function -pipe -O2
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
-LDFLAGS		+=	-Llib -lgdl_gl -lGL -lpthread -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2 -lfmodex64
+LDFLAGS		+=	-Llib -lgdl_gl -lGL -lpthread -lGLEW -ldl -lrt -lfbxsdk
+LDFLAGS		+=	-lSDL2 -llua5.2 -lfmodex64 -lboost_serialization
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
 DEPS		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.d, $(SRC))

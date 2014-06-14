@@ -3,6 +3,13 @@
 GameGraphics::GameGraphics()
 {
   _init = false;
+  _fov = 60.0;
+  _splitScreen = false;
+  _proj = glm::mat4(1);
+  _ortho = glm::mat4(1);
+  _shader = NULL;
+  _font = NULL;
+  _ground = NULL;
 }
 
 GameGraphics::~GameGraphics()
@@ -18,7 +25,6 @@ GameGraphics::~GameGraphics()
 bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool splitScreen)
 {
 
-  _init = true;
   _fov = 60.0;
   _splitScreen = splitScreen;
 
@@ -33,6 +39,7 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
       || !_shader->load(RES_SHADERS "game.vp", GL_VERTEX_SHADER)
       || !_shader->build())
     {
+      delete _shader;
       throw std::runtime_error("Load shader fail");
     }
 
@@ -50,9 +57,8 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
   _win = win;
 
   glm::ivec2 panSize = mapSize / glm::ivec2(4, 4);
-  _ground = new Pan(glm::vec2(panSize.x, panSize.y));
+  _ground = new GameGeometry(new Pan(glm::vec2(panSize.x, panSize.y)));
 
-  _ground->initialize();
   _ground->scale(glm::vec3(0.5f, 0.5f, 1.0f));
   _ground->translate(glm::vec3(-0.5f, 0, -0.5f));
   _ground->scale(glm::vec3(mapSize.x, mapSize.y, 1.0f));
@@ -65,6 +71,7 @@ bool GameGraphics::init(const glm::ivec2& win, const glm::ivec2& mapSize, bool s
   _groundTex =
     ResourceManager::getInstance()->get<Texture>(
       RES_TEXTURE "ground_texture.tga");
+  _init = true;
   return true;
 }
 
@@ -107,8 +114,6 @@ void GameGraphics::drawGame(gdl::Clock const& clock, const std::vector<PlayerMan
       glDisable(GL_CULL_FACE);
 
       _groundTex->bind();
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       _ground->draw(_shader, clock);
       ++i;
     }
