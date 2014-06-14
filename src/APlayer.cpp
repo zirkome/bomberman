@@ -12,7 +12,7 @@ APlayer::APlayer(const glm::vec2 &pos, Map *map, const glm::vec4& color, const s
   _bomb_range = 3;
 
   _obj = new GameModel(RES_MODEL "marvin.fbx");
-  (*_obj)->setCurrentSubAnim("walk");
+  //(*_obj)->setCurrentAnim(0);
   _obj->translate(glm::vec3(pos.x, -0.5, pos.y));
   _obj->scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
@@ -129,7 +129,7 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
     {
       if (_status == WALK)
         {
-          (*_obj)->setCurrentSubAnim("stop_walking", false);
+          (*_obj)->setCurrentAnim(59, false);
           _status = STOP_WALK;
         }
       return;
@@ -137,11 +137,11 @@ void	APlayer::updateAnim(bool hasMoved, bool keyPressed)
   if (_status != WALK && hasMoved)
     {
       _status = WALK;
-      (*_obj)->setCurrentSubAnim("walk");
+      (*_obj)->setCurrentAnim(0);
     }
   else if (_status == WALK && !hasMoved)
     {
-      (*_obj)->setCurrentSubAnim("stop_walking", false);
+      (*_obj)->setCurrentAnim(59, false);
       _status = STOP_WALK;
     }
 }

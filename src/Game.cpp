@@ -74,11 +74,11 @@ void Game::init(const glm::ivec2& win)
 
 Game::~Game()
 {
-  for (std::vector<Ia*>::iterator it = _listIA.begin();
-       it != _listIA.end(); ++it)
-    {
-      delete *it;
-    }
+//  for (std::vector<Ia*>::iterator it = _listIA.begin();
+//       it != _listIA.end(); ++it)
+//    {
+//      delete *it;
+//    }
   for (std::vector<PlayerManager*>::iterator it = _players.begin();
        it != _players.end(); ++it)
     delete *it;

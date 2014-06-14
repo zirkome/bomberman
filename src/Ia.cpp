@@ -9,7 +9,7 @@ int iaGetPos(lua_State *L)
     throw nFault("iaGetPos need 1 argument (thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   const glm::vec2& pos = ptr->getPos();
   lua_pop(L, 1);
   lua_pushnumber(L, pos.x);
@@ -26,7 +26,7 @@ int iaGetSizeMap(lua_State *L)
     throw nFault("iaGetSizeMap need 1 argument (thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   const glm::vec2& mapDim = ptr->getMapDimension();
   lua_pop(L, 1);
   lua_pushnumber(L, mapDim.x);
@@ -44,7 +44,7 @@ int iaGetMap(lua_State *L)
     throw nFault("iaGetMap need 3 arguments (x, y, thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   lua_pop(L, 1);
   y = lua_tonumber(L, lua_gettop(L)); //the order of args is inverse
   lua_pop(L, 1);
@@ -64,7 +64,7 @@ int iaAction(lua_State *L)
     throw nFault("iaAction need 2 arguments (act, thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   lua_pop(L, 1);
   act = lua_tonumber(L, lua_gettop(L));
   lua_pop(L, 1);
@@ -81,7 +81,7 @@ int iaLaunch(lua_State *L)
     throw nFault("iaLaunch need 1 arguments (thisptr)");
   ptr = static_cast<Ia *> (lua_touserdata(L, lua_gettop(L)));
   if (ptr == NULL)
-    throw nFault("thisptr can't be null");
+    return 0;
   lua_pop(L, 1);
   ptr->action(-1);
   return 0;
@@ -211,6 +211,11 @@ int Ia::exec()
 void Ia::action(int act)
 {
   _act = act;
+  if (_dead)
+    {
+      _running = false;
+      pthread_exit(&act);
+    }
   _mutex->lock();
   _condAct->wait();
   _mutex->unlock();
@@ -276,7 +281,7 @@ void Ia::update(UNUSED gdl::Input &input, gdl::Clock const &clock)
 bool Ia::nothing(UNUSED double const distance)
 {
   if (_status != STOP_WALK)
-    (*_obj)->setCurrentSubAnim("stop_walk");
+    (*_obj)->setCurrentAnim(59, false);
   _status = STOP_WALK;
   return true;
 }
