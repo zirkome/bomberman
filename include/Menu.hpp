@@ -39,7 +39,6 @@ private:
   glm::mat4 _ortho;
   enum state {
     Running,
-    Loading,
     Option,
     Name,
     Leaderboard,
@@ -59,7 +58,7 @@ private:
     Player1,
     Player2,
     Starting,
-    Subload,
+    Subload
   } _select;
   enum level {
     Easy = 0,
