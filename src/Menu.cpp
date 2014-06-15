@@ -170,9 +170,9 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
           if (sound)
             SoundManager::getInstance()->manageSound(SoundManager::SWITCH_MENU, SoundManager::PLAY);
         }
-      if (_select < Player)
+      if (_select < 3)
         _select = Return;
-      if (_select > Return)
+      if (_select > 7)
         _select = Player;
     }
   else if (_state == Name)
@@ -191,9 +191,9 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 	  else if (_names[0].size() < 10)
 	    _names[1] += getAscii(input);
 	}
-      if (_select < Player1)
+      if (_select < 8)
         _select = Starting;
-      if (_select > Starting)
+      if (_select > 10)
         _select = Player1;
       if (_select == Player2 && _numberPlayer != 2)
 	_select = Starting;
@@ -214,9 +214,6 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.5, 0.0));
       _font->displayText(std::string("Start"), _select == Start ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.50, 0.0));
-      textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
-      _font->displayText(std::string("Load"), _select == Load ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.40, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
       _font->displayText(std::string("Leaderboard"), _select == Score ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.30, 0.0));
