@@ -1,6 +1,8 @@
 #ifndef _INTRO_H_
 # define _INTRO_H_
 
+# include <unistd.h>
+
 # include <Input.hh>
 # include <Clock.hh>
 

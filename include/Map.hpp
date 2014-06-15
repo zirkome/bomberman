@@ -10,12 +10,6 @@
 # include <map>
 # include <fstream>
 
-# include <boost/archive/binary_oarchive.hpp>
-# include <boost/archive/binary_iarchive.hpp>
-# include <boost/serialization/list.hpp>
-# include <boost/serialization/vector.hpp>
-
-# include "config.h"
 # include "IEntity.hpp"
 # include "Wall.hpp"
 # include "Box.hpp"
@@ -27,8 +21,6 @@ class APlayer;
 
 class Map
 {
-  friend class boost::serialization::access;
-
 public:
   typedef std::list<IEntity *> LMap;
   typedef std::list<IEntity *>::iterator iterator;
@@ -70,40 +62,6 @@ public:
   Map::const_iterator	playerEnd() const;
   Map::iterator	updateEnd();
   Map::const_iterator	updateEnd() const;
-
-public:
-  template<class Archive>
-  void serialize(Archive & ar, UNUSED const unsigned int version)
-  {
-    ar & _dim.x;
-    ar & _dim.y;
-    for (LMap::iterator it = _map.begin(), end = _map.end();
-         it != end; it++)
-      {
-        int type = static_cast<int>((*it)->getType());
-        int status = static_cast<int>((*it)->getStatus());
-        float x = ((*it)->getPos()).x;
-        float y = ((*it)->getPos()).y;
-
-        ar & x;
-        ar & y;
-        ar & type;
-        ar & status;
-      }
-    for (LMap::iterator it = _playerList.begin(), end = _playerList.end();
-         it != end; it++)
-      {
-        int type = static_cast<int>((*it)->getType());
-        int status = static_cast<int>((*it)->getStatus());
-        float x = ((*it)->getPos()).x;
-        float y = ((*it)->getPos()).y;
-
-        ar & x;
-        ar & y;
-        ar & type;
-        ar & status;
-      }
-  }
 
 private:
   bool		loadMapFromFile(std::string const &fileName);

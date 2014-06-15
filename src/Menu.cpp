@@ -87,10 +87,10 @@ bool Menu::key_return()
       _state = Name;
       _select = Player1;
     }
-  else if (_select == Load)
+  else if (_select == Options)
     {
-      _select = Load;
-      _state = Loading;
+      _select = Player;
+      _state = Option;
     }
   else if (_select == Options)
     {
@@ -116,7 +116,7 @@ bool Menu::key_return()
 
 bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
 {
-  if (_state != Finished && _state != Loading && _state != Leaderboard)
+  if (_state != Finished && _state != Leaderboard)
     {
       if (input.getKey(SDLK_UP, true))
 	{
@@ -137,13 +137,6 @@ bool Menu::updateMenu(gdl::Input &input, UNUSED const gdl::Clock &clock)
         _select = Exit;
       if (_select > Exit)
         _select = Start;
-    }
-  else if (_state == Loading)
-    {
-      if (_select < Subload)
-        _select = Subload;
-      if (_select > Subload)
-        _select = Subload;
     }
   else if (_state == Option)
     {
@@ -221,9 +214,6 @@ void Menu::drawMenu(UNUSED gdl::Clock const &clock, gdl::AShader* hudshader) con
       textMat = glm::scale(textMat, glm::vec3(1.5, 1.5, 0.0));
       _font->displayText(std::string("Start"), _select == Start ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.50, 0.0));
-      textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
-      _font->displayText(std::string("Load"), _select == Load ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
-      textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.40, 0.0));
       textMat = glm::scale(textMat, glm::vec3(1.0, 1.0, 0.0));
       _font->displayText(std::string("Leaderboard"), _select == Score ? glm::vec4(1.0f, 0.0f, 0.3f, 0.8f) : glm::vec4(0.3f, 0.0f, 1.0f, 0.8f), textMat, hudshader);
       textMat = glm::translate(glm::mat4(1), glm::vec3(0.2, 0.30, 0.0));
