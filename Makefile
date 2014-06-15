@@ -84,8 +84,7 @@ CFLAGS		+=	-Wunused-function -pipe -O2
 
 LDFLAGS		+=	-Wl,-O1
 LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
-LDFLAGS		+=	-Llib -lgdl_gl -lGL -lpthread -lGLEW -ldl -lrt -lfbxsdk
-LDFLAGS		+=	-lSDL2 -llua5.2 -lfmodex64 -lboost_serialization
+LDFLAGS		+=	-Llib -lgdl_gl -lGL -lpthread -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2 -lfmodex64
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
 DEPS		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.d, $(SRC))

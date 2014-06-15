@@ -10,12 +10,6 @@
 # include <map>
 # include <fstream>
 
-# include <boost/archive/text_oarchive.hpp>
-# include <boost/archive/text_iarchive.hpp>
-# include <boost/serialization/list.hpp>
-# include <boost/serialization/vector.hpp>
-
-# include "config.h"
 # include "IEntity.hpp"
 # include "Wall.hpp"
 # include "Box.hpp"
@@ -27,8 +21,6 @@ class APlayer;
 
 class Map
 {
-  friend class boost::serialization::access;
-
 public:
   typedef std::list<IEntity *> LMap;
   typedef std::list<IEntity *>::iterator iterator;
@@ -70,14 +62,6 @@ public:
   Map::const_iterator	playerEnd() const;
   Map::iterator	updateEnd();
   Map::const_iterator	updateEnd() const;
-
-public:
-  template<class Archive>
-  void serialize(Archive & ar, UNUSED const unsigned int version)
-  {
-    ar & _dim.x;
-    ar & _dim.y;
-  }
 
 private:
   bool		loadMapFromFile(std::string const &fileName);
