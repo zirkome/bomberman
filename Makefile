@@ -83,7 +83,7 @@ CFLAGS		+=	-Wall -Wextra -Winit-self
 CFLAGS		+=	-Wunused-function -pipe -O2
 
 LDFLAGS		+=	-Wl,-O1
-LDFLAGS		+=	-Wl,-rpath="`pwd`/lib"
+LDFLAGS		+=	-Wl,-rpath=./lib
 LDFLAGS		+=	-Llib -lgdl_gl -lGL -lpthread -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -llua5.2 -lfmodex64
 
 OBJ		=	$(patsubst %${FILETYPE}, ${OBJDIR}%.o, $(SRC))
