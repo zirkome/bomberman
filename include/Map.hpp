@@ -10,8 +10,8 @@
 # include <map>
 # include <fstream>
 
-# include <boost/archive/binary_oarchive.hpp>
-# include <boost/archive/binary_iarchive.hpp>
+# include <boost/archive/text_oarchive.hpp>
+# include <boost/archive/text_iarchive.hpp>
 # include <boost/serialization/list.hpp>
 # include <boost/serialization/vector.hpp>
 
@@ -77,32 +77,6 @@ public:
   {
     ar & _dim.x;
     ar & _dim.y;
-    for (LMap::iterator it = _map.begin(), end = _map.end();
-         it != end; it++)
-      {
-        int type = static_cast<int>((*it)->getType());
-        int status = static_cast<int>((*it)->getStatus());
-        float x = ((*it)->getPos()).x;
-        float y = ((*it)->getPos()).y;
-
-        ar & x;
-        ar & y;
-        ar & type;
-        ar & status;
-      }
-    for (LMap::iterator it = _playerList.begin(), end = _playerList.end();
-         it != end; it++)
-      {
-        int type = static_cast<int>((*it)->getType());
-        int status = static_cast<int>((*it)->getStatus());
-        float x = ((*it)->getPos()).x;
-        float y = ((*it)->getPos()).y;
-
-        ar & x;
-        ar & y;
-        ar & type;
-        ar & status;
-      }
   }
 
 private:

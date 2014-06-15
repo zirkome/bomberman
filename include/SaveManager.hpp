@@ -2,8 +2,8 @@
 # define _SAVEMANAGER_H_
 
 # include <fstream>
-# include <boost/archive/binary_oarchive.hpp>
-# include <boost/archive/binary_iarchive.hpp>
+# include <boost/archive/text_oarchive.hpp>
+# include <boost/archive/text_iarchive.hpp>
 
 # include "Game.hpp"
 
@@ -14,7 +14,7 @@ public:
   {
     std::ofstream ofs(std::string("save_" + getDate()).c_str());
 
-    boost::archive::binary_oarchive oa(ofs);
+    boost::archive::text_oarchive oa(ofs);
     oa << *game;
   }
 
@@ -22,7 +22,7 @@ public:
   {
     std::ifstream ifs(filename.c_str());
 
-    boost::archive::binary_iarchive ia(ifs);
+    boost::archive::text_iarchive ia(ifs);
     ia >> *game;
   }
 };
