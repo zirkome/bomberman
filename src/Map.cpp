@@ -10,6 +10,8 @@
 Map::Map(const int x, const int y)
   : _dim(x, y)
 {
+  if (x == 0 || y == 0)
+    throw nFault("Map too small");
   _mut = new PMutex;
   _charToIEntity[IEntity::S_BOX] = IEntity::BOX;
   _charToIEntity[IEntity::S_WALL] = IEntity::WALL;
@@ -90,6 +92,8 @@ bool		Map::loadMapFromFile(std::string const &fileName)
         }
       ++x;
     }
+  if (x == 0 || y == 0)
+    throw nFault("Map too small");
   _dim.y = y;
   _dim.x = x;
   file.close();
