@@ -12,9 +12,9 @@ Some screenshots:
 
 Contributors
 ===
-* Guillaume Fillon (@kokaz)
-* Hugues Morisset (@izissise)
-* Maxime Lavandier (@maxime94)
-* Étienne Debas (@debase)
-* Fabien Linardon (@KingsArthur)
-* Nicolas Bridoux (@Bridouille)
+* Guillaume Fillon ([@kokaz](https://github.com/kokaz))
+* Hugues Morisset ([@izissise](https://github.com/izissise))
+* Maxime Lavandier ([@maxime94](https://github.com/maxime94))
+* Étienne Debas ([@debase](https://github.com/debase))
+* Fabien Linardon ([@KingsArthur](https://github.com/KingsArthur))
+* Nicolas Bridoux ([@Bridouille](https://github.com/Bridouille))
